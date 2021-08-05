@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.meco.sys.sysroleinfo.mapper.SysRoleInfoMapper">
+
+    <resultMap id="SysRoleInfo" type="com.liuxingyu.meco.sys.sysroleinfo.entity.SysRoleInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="sign" jdbcType="VARCHAR" property="sign"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+    </resultMap>
+
+
+    <select id="listXmSelectPojo" resultType="com.liuxingyu.meco.sys.sysroleinfo.entity.XmSelect">
+        SELECT
+            a.role_id AS `value`,
+            a.`name`,
+            ( CASE WHEN b.user_id IS NULL THEN 0 ELSE 1 END ) AS selected
+        FROM
+            sys_role_info a
+            LEFT JOIN sys_user_role b ON ( a.role_id = b.role_id AND b.user_id = #{userId} )
+        WHERE
+            a.del_flag = 0
+            AND a.`status` = 0
+    </select>
+
+    <!--查询所有角色-->
+    <select id="getSysRoleInfoList" resultMap="SysRoleInfo" parameterType="map">
+        select * from sys_role_info
+        where 1=1
+        and del_flag = 0
+        <if test="sign != null and sign != ''">
+            and sign like CONCAT('%',#{sign},'%')
+        </if>
+        <if test="name != null and name != ''">
+            and `name` like CONCAT('%',#{name},'%')
+        </if>
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by id asc
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--新增一个角色-->
+    <insert id="doAdd" parameterType="com.liuxingyu.meco.sys.sysroleinfo.entity.SysRoleInfo">
+        insert into sys_role_info (role_id,`name`,sign,descript,`status`,del_flag,create_user)
+        values (
+            #{roleId},
+            #{name},
+            #{sign},
+            #{descript},
+            #{status},
+            #{delFlag},
+            #{createUser}
+        )
+    </insert>
+
+    <!--逻辑删除一个角色-->
+    <update id="delete" parameterType="java.lang.Integer">
+        update sys_role_info set del_flag = 1 where id = #{_parameter}
+    </update>
+
+    <!--禁用一个角色-->
+    <update id="forbid" parameterType="java.lang.Integer">
+        update sys_role_info set `status` = 1 where id = #{_parameter}
+    </update>
+
+    <!--启用一个角色-->
+    <update id="enable" parameterType="java.lang.Integer">
+        update sys_role_info set `status` = 0 where id = #{_parameter}
+    </update>
+
+
+    <!--通过角色id获取一个角色-->
+    <select id="getOneRoleById" resultMap="SysRoleInfo" parameterType="java.lang.Integer">
+        select * from sys_role_info where id = #{_parameter}
+    </select>
+
+
+    <!--更新一个角色-->
+    <update id="doUpdate" parameterType="com.liuxingyu.meco.sys.sysroleinfo.entity.SysRoleInfo">
+        update sys_role_info
+        set `name` = #{name},
+        `sign` = #{sign},
+        `descript` = #{descript}
+        where id = #{id}
+    </update>
+
+</mapper>

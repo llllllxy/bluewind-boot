@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.wowo.sys.sysuserinfo.mapper.SysUserInfoMapper">
+
+    <resultMap id="SysUserInfo" type="com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="sex" jdbcType="TINYINT" property="sex"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+    </resultMap>
+
+    <select id="getOne" resultMap="SysUserInfo" parameterType="java.lang.String">
+        select * from sys_user_info where account = #{_parameter}
+    </select>
+
+
+    <!--查询所有用户-->
+    <select id="getSysUserInfoList" resultMap="SysUserInfo" parameterType="map">
+        select * from sys_user_info
+        where 1=1
+        <if test="account != null and account != ''">
+            and account like CONCAT('%',#{account},'%')
+        </if>
+        <if test="name != null and name != ''">
+            and `name` like CONCAT('%',#{name},'%')
+        </if>
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by id asc
+            </otherwise>
+        </choose>
+
+    </select>
+
+</mapper>

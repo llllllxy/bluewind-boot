@@ -1,0 +1,30 @@
+package com.liuxingyu.meco.sys.sysloginlog.service;
+
+import com.liuxingyu.meco.sys.sysloginlog.entity.SysLoginLog;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author liuxingyu01
+ * @date 2021-02-18-12:53
+ **/
+public interface SysLoginLogService {
+
+    /**
+     * 分页查询
+     */
+    List<SysLoginLog> list(Map map);
+
+    /**
+     * 保存登录日志
+     */
+    void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript);
+
+
+    /**
+     * 获取当前登陆用户记录
+     */
+    List<Map> onlineList(Map paraMap);
+}

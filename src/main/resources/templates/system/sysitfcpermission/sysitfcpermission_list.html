@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>服务权限列表</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/ztree/css/metroStyle/metroStyle.css}">
+    <style>
+        .layui-card {
+            border: 1px solid #f2f2f2;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header" id="service-authority-tree" style="cursor: pointer">
+                        服务权限树
+                    </div>
+                    <div class="layui-card-body">
+                        <div id="eleTree1" class="ztree"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md9">
+                <div class="layui-card" id="tablecard">
+                    <div class="layui-card-header">权限列表</div>
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+                    </div>
+                </div>
+
+                <div class="layui-card" id="editcard">
+                    <div class="layui-card-header" id="layui-card-header">权限修改</div>
+                    <div class="layui-card-body" id="insertbody">
+                        <div class="layui-form layuimini-form">
+                            <input type="hidden" name="permission_id" id="permission_id">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">类型：</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="type" value="0" title="模块" lay-filter="filter_type1">
+                                    <input type="radio" name="type" value="1" title="接口" lay-filter="filter_type2">
+                                </div>
+                            </div>
+                            <div class="layui-form-item" id="superior_div">
+                                <label class="layui-form-label required">上级：</label>
+                                <div class="layui-input-block">
+                                    <select name="superior" id="superior">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">名称：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="名称不能为空"
+                                           placeholder="请输入名称" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">资源值：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="sign" id="sign" lay-verify="required" lay-reqtext="资源值不能为空"
+                                           placeholder="请输入资源值" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">描述：</label>
+                                <div class="layui-input-block">
+                                    <textarea name="descript" id="descript" class="layui-textarea" placeholder="请输入描述"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn layui-btn-normal" id="saveBtn" lay-submit lay-filter="saveBtn"><i
+                                            class="layui-icon layui-icon-ok"></i>保存
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> <i class="layui-icon">&#xe654;</i>新增 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="edit"> <i class="layui-icon">&#xe642;</i>编辑 </button>
+            </div>
+        </script>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delFlag">删除</a>
+            <a class="layui-btn layui-btn-xs layui-btn-normal data-count-update" lay-event="update">编辑</a>
+        </script>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/ztree/jquery.ztree.all.min.js}"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'table'], function () {
+        var form = layui.form,
+            table = layui.table;
+
+        // 判断是新增还是修改
+        var ifEdit = false;
+        // 记录点击的父级目录
+        var signParent = '';
+        var tempTreeNode;
+
+        var ztree;
+        var setting = {
+            data : {
+                simpleData : {
+                    enable : true,
+                    idKey : "permission_id",
+                    pIdKey : "parent_id",
+                    rootPId : "0"
+                },
+                key : {
+                    url : "nourl"
+                }
+            },
+            callback : {
+                onClick : function(event, treeId, treeNode) {
+                    console.log(treeNode);
+                    if (treeNode.type === 0) {
+                        signParent = treeNode.permission_id;
+                        tempTreeNode = treeNode;
+                        $("#tablecard").show();
+                        $("#editcard").hide();
+                        table.reload('currentTableId', {
+                            page: {
+                                curr: 1 // 页码从1开始
+                            },
+                            where: {
+                                permissionId: treeNode.permission_id
+                            }
+                        }, 'data');
+                    } else {
+                        $("#tablecard").hide();
+                        $("#editcard").show();
+                        ifEdit = true;
+                        refreshEdit(treeNode);
+                    }
+                }
+            }
+        };
+
+        // 点击左边的card，刷新页面
+        $("#service-authority-tree").click(function () {
+            // 成功后的操作，刷新ztree
+            loadTree();
+            $("#tablecard").show();
+            $("#editcard").hide();
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1 // 页码从1开始
+                }
+            }, 'data');
+        });
+
+
+        // 先把表单部分隐藏了
+        $("#editcard").hide();
+
+        loadTree();
+
+        var currTable = table.render({
+            elem: '#currentTableId',
+            url: Util.ctx + 'sysitfcpermission/list',
+            method: 'get', //如果无需自定义HTTP类型，可不加该参数
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                [
+                    {
+                        field: '', width: '5%', title: '序号', type: 'numbers', align: 'center', templet: function (d) {
+                            return d.LAY_TABLE_INDEX + 1;
+                        }
+                    },
+                    {field: 'name', minWidth: 200, title: '名称'},
+                    {field: 'sign', title: '标识', align: 'center'},
+                    {field: 'type', title: '类型', align: 'center', templet: function (d) {
+                            if (0 == d.type) {
+                                return '<span class="layui-badge layui-bg-cyan">模块</span>';
+                            } else if (1 == d.type) {
+                                return '<span class="layui-badge layui-bg-blue">接口</span>';
+                            }
+                        }
+                    },
+                    {field: 'descript', title: '描述'},
+                    {field: 'status', title: '状态', align: 'center', templet: function (d) {
+                            if (0 == d.status) {
+                                return '正常';
+                            } else {
+                                return '禁用';
+                            }
+                        }
+                    },
+                    {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center", fixed: 'right'}
+                ]
+            ],
+            autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line', // 行边框风格
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.rows //解析数据列表
+                };
+            }
+        });
+
+
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {
+                $("#tablecard").hide();
+                $("#editcard").show();
+                ifEdit = false;
+                refreshAdd();
+
+                return false;
+            } else if (obj.event === 'edit') {
+                if (isEmpty(signParent)) {
+                    Message.warning('请选择一个模块进行编辑！', 1000);
+                } else {
+                    $("#tablecard").hide();
+                    $("#editcard").show();
+                    ifEdit = true;
+                    refreshParentEdit(tempTreeNode);
+                }
+
+                return false;
+            }
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'update') {
+                $("#tablecard").hide();
+                $("#editcard").show();
+                ifEdit = true;
+                var treeNode = {};
+                treeNode.name = data.name;
+                treeNode.sign = data.sign;
+                treeNode.permission_id = data.permissionId;
+                treeNode.descript = data.descript;
+                treeNode.parent_id = data.parentId;
+                treeNode.sign = data.sign;
+                refreshEdit(treeNode);
+                return false;
+            } else if (obj.event === 'delFlag') {
+                layer.confirm('确认删除该数据以及所有子级数据吗？', {
+                    title: '提示'
+                }, function() {
+                    var index = layer.load(0, {shade: 0.1});
+                    Util.get({
+                        url: Util.ctx + 'sysitfcpermission/delete/' + data.permissionId,
+                    }, function (res) {
+                        layer.close(index);
+                        if (0 === res.code) {
+                            layer.closeAll('dialog');
+                            Message.success(500, res.message, function () {
+                                // 成功后的操作，刷新ztree
+                                loadTree();
+                                $("#tablecard").show();
+                                $("#editcard").hide();
+                                table.reload('currentTableId', {
+                                    page: {
+                                        curr: 1 // 页码从1开始
+                                    }
+                                }, 'data');
+                            });
+                        } else {
+                            Message.error(res.message, 1000);
+                        }
+                    }, function (res) {
+                        layer.close(index);
+                        Message.error("服务器异常！", 1000);
+                    });
+                });
+                return false;
+            }
+        });
+
+
+        // 监听表单提交
+        form.on('submit(saveBtn)', function (data) {
+            // 如果类型是接口的话，则上级是必选的
+            if (data.field.type == '1') {
+                var superior = data.field.superior;
+                if (isEmpty(superior)) {
+                    Message.warning('请选择上级！', 1000);
+                    return;
+                }
+            }
+            data.field.ifEdit = ifEdit;
+            var index = layer.confirm('确认提交吗？', function () {
+                console.log("data.field = " + JSON.stringify(data.field));
+                var loading = layer.load(0, {shade: 0.1});
+                Util.post({
+                    url: Util.ctx + "sysitfcpermission/update",
+                    data: data.field,
+                }, function (res) {
+                    if (res.code === 0) {
+                        layer.close(index);
+                        layer.close(loading);
+                        Message.success(1500, res.message, function () {
+                            // 成功后的操作，刷新ztree
+                            loadTree();
+                            $("#tablecard").show();
+                            $("#editcard").hide();
+                            table.reload('currentTableId', {
+                                page: {
+                                    curr: 1 // 页码从1开始
+                                }
+                            }, 'data');
+                        });
+                    } else {
+                        layer.close(loading);
+                        Message.error(res.message, 1000);
+                    }
+                });
+            });
+            return false;
+        });
+
+
+        // 监听radio
+        form.on('radio(filter_type1)', function(data){
+            console.log(data.value); //被点击的radio的value值
+            $('#superior').val("");
+            $('#superior_div').hide();
+            form.render();
+        });
+        // 监听radio
+        form.on('radio(filter_type2)', function(data){
+            console.log(data.value); //被点击的radio的value值
+            $('#superior').val("");
+            $('#superior_div').show();
+            form.render();
+        });
+
+
+        function loadTree() {
+            var loading = layer.load(0, {shade: 0.1});
+            Util.get({
+                url: Util.ctx + "sysitfcpermission/listTree"
+            }, function (res) {
+                if (res.code === 0) {
+                    layer.close(loading);
+                    ztree = $.fn.zTree.init($("#eleTree1"), setting, res.data);
+
+                    var resdata = res.data;
+                    // 动态渲染select
+                    var add = document.getElementById("superior");
+                    $("#superior").empty();// 清空option
+
+                    var option = document.createElement("option");
+                    option.value = "";
+                    option.innerText = "请选择";
+                    add.append(option);
+
+                    for (var i = 0, len = resdata.length; i < len; i++) {
+                        if (resdata[i].type === 0) {
+                            var option2 = document.createElement("option");
+                            option2.value = resdata[i].permission_id;
+                            option2.innerText = resdata[i].name;
+                            add.append(option2);
+                        }
+                    }
+                    // 更新渲染
+                    form.render('select');
+                } else {
+                    layer.close(loading);
+                    Message.error(res.message, 1000);
+                }
+            });
+        }
+
+
+        function refreshEdit(treeNode) {
+            console.log("refreshEdit - treeNode = " + JSON.stringify(treeNode));
+            $('#layui-card-header').html("修改");
+
+            $('input[name="name"]').val(treeNode.name);
+            $('input[name="sign"]').val(treeNode.sign);
+            $('#descript').val(treeNode.descript);
+            $('input[name="permission_id"]').val(treeNode.permission_id);
+
+            // 控制radio的选中
+            $("input:radio[name='type'][value='1']").prop("checked", true);
+            $("input:radio[name='type'][value='0']").prop("checked", false);
+            $("input:radio[name='type'][value='0']").prop("disabled", true);
+            $("input:radio[name='type'][value='1']").prop("disabled", false);
+            // 控制select的显示和选中
+            $('#superior_div').show();
+            $('#superior').val(treeNode.parent_id);
+
+            form.render();
+        }
+
+
+        function refreshParentEdit(treeNode) {
+            console.log("refreshParentEdit - treeNode = " + JSON.stringify(treeNode));
+            $('#layui-card-header').html("修改");
+
+            $('input[name="name"]').val(treeNode.name);
+            $('input[name="sign"]').val(treeNode.sign);
+            $('#descript').val(treeNode.descript);
+            $('input[name="permission_id"]').val(treeNode.permission_id);
+
+            // 控制radio的选中
+            $("input:radio[name='type'][value='0']").prop("checked", true);
+            $("input:radio[name='type'][value='1']").prop("checked", false);
+            $("input:radio[name='type'][value='0']").prop("disabled", false);
+            $("input:radio[name='type'][value='1']").prop("disabled", true);
+            // 控制select的显示和选中
+            $('#superior_div').hide();
+            $('#superior').val("");
+
+            form.render();
+        }
+
+
+        function refreshAdd() {
+            $('#layui-card-header').html("新增");
+
+            $('input[name="name"]').val('');
+            $('input[name="sign"]').val('');
+            $('#descript').val('');
+            $('input[name="permission_id"]').val('');
+
+            // 控制radio的选中
+            $("input:radio[name='type'][value='0']").prop("checked", true);
+            $("input:radio[name='type'][value='1']").prop("checked", false);
+            $("input:radio[name='type'][value='0']").prop("disabled", false);
+            $("input:radio[name='type'][value='1']").prop("disabled", false);
+            // 控制select的隐藏和选中
+            $('#superior_div').hide();
+            $('#superior').val("");
+
+            form.render();
+        }
+
+    });
+</script>
+
+</body>
+</html>

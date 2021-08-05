@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.meco.sys.sysidtable.mapper.SysIdTableMapper">
+
+    <resultMap id="SysIdTable" type="com.liuxingyu.meco.sys.sysidtable.entity.SysIdTable">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="id_id" jdbcType="VARCHAR" property="idId"/>
+        <result column="id_name" jdbcType="VARCHAR" property="idName"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="id_length" jdbcType="INTEGER" property="idLength"/>
+        <result column="id_value" jdbcType="INTEGER" property="idValue"/>
+        <result column="has_prefix" jdbcType="VARCHAR" property="hasPrefix"/>
+        <result column="id_prefix" jdbcType="VARCHAR" property="idPrefix"/>
+        <result column="has_suffix" jdbcType="VARCHAR" property="hasSuffix"/>
+        <result column="id_suffix" jdbcType="VARCHAR" property="idSuffix"/>
+        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+    </resultMap>
+
+
+    <!-- 查询所有操作日志 -->
+    <select id="getSysIdTableList" resultMap="SysIdTable" parameterType="map">
+        select * from `sys_id_table`
+        where 1=1
+        <if test="idId != null and idId != ''">
+            and `id_id` like CONCAT('%',#{idId},'%')
+        </if>
+        <if test="idName != null and idName != ''">
+            and `id_name` like CONCAT('%',#{idName},'%')
+        </if>
+        <if test="createTime != null and createTime != ''">
+            and `create_time` like CONCAT('%',#{createTime},'%')
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by id asc
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!-- 新增业务流水号 -->
+    <insert id="addOneIdTable" parameterType="com.liuxingyu.meco.sys.sysidtable.entity.SysIdTable">
+        insert into sys_id_table (
+            `id_id`,
+            `id_name`,
+            `id_length`,
+            `id_value`,
+            `has_prefix`,
+            `id_prefix`,
+            `has_suffix`,
+            `id_suffix`,
+            `create_user`,
+            `descript`
+        ) values (
+             #{idId},
+             #{idName},
+             #{idLength},
+             #{idValue},
+             #{hasPrefix},
+             #{idPrefix},
+             #{hasSuffix},
+             #{idSuffix},
+             #{createUser},
+             #{descript}
+        )
+    </insert>
+
+
+    <delete id="deleteOne" parameterType="java.lang.Integer">
+        delete from `sys_id_table` where `id` = #{_parameter}
+    </delete>
+
+
+    <select id="getOneIdTable" parameterType="java.lang.Integer" resultMap="SysIdTable">
+        select * from `sys_id_table` where `id` = #{_parameter}
+    </select>
+
+
+    <update id="updateIdTable" parameterType="com.liuxingyu.meco.sys.sysidtable.entity.SysIdTable">
+        update `sys_id_table`
+        set `id_name` = #{idName},
+        `id_length` =  #{idLength},
+        `id_value` = #{idValue},
+        `has_prefix` = #{hasPrefix},
+        `id_prefix` =  #{idPrefix},
+        `has_suffix` = #{hasSuffix},
+        `id_suffix` = #{idSuffix},
+        `update_user` = #{updateUser},
+        `descript` = #{descript}
+        where `id` = #{id}
+    </update>
+
+</mapper>

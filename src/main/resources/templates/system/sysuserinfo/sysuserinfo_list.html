@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        .avatar-show {
+            height: 32px;
+            width: 32px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息(<b style="color: #4BB2FF;cursor: pointer">收起-展开</b>)</legend>
+            <div id="search-div" style="margin: 10px 10px 10px 10px">
+                <form class="layui-form" action="" lay-filter="search-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">账号：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="account" name="account" autocomplete="off" class="layui-input"
+                                       placeholder="请输入用户ID">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" id="name" autocomplete="off" class="layui-input" placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">账户状态：</label>
+                            <div class="layui-input-inline">
+                                <select name="status" id="status" lay-filter="status">
+                                    <option value="">所有</option>
+                                    <option th:each="item:${baseDictList}" th:text="${item.name}"
+                                            th:value="${item.code}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn"><i class="layui-icon layui-icon-refresh"></i> 重 置 </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"
+                        shiro:hasPermission="system:user:add"><i class="layui-icon layui-icon-addition"
+                                                                 style="font-size: 10px;"></i> 添加
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"
+                        shiro:hasPermission="system:user:delete"><i class="layui-icon layui-icon-subtraction"
+                                                                    style="font-size: 10px;"></i>删除
+                </button>
+                <button class="layui-btn layui-btn-sm" lay-event="downloadPdf"
+                        shiro:hasPermission="system:user:downloadPdf"><i class="layui-icon layui-icon-download-circle"
+                                                                         style="font-size: 10px;"></i>导出pdf
+                </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit" shiro:hasPermission="system:user:edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete" shiro:hasPermission="system:user:delete">删除</a>
+            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-delete" lay-event="authorize" shiro:hasPermission="system:user:authorize">角色</a>
+            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-delete" lay-event="editpassword" shiro:hasPermission="system:user:editpassword">修改密码</a>
+        </script>
+
+        <script type="text/html" id="statusTpl">
+            {{#  if(d.status == 0){ }}
+            <span class="layui-badge layui-bg-blue">正常</span>
+            {{#  } else { }}
+            <span class="layui-badge layui-bg-orange">锁定</span>
+            {{#  } }}
+        </script>
+
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/md5/md5.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'table'], function () {
+        var form = layui.form,
+            table = layui.table;
+
+        var currTable = table.render({
+            elem: '#currentTableId',
+            url: Util.ctx + 'sysuser/getSysUserInfoList',
+            method: 'post', //如果无需自定义HTTP类型，可不加该参数
+            where: {sortName:'id', sortOrder:'asc'}, // 初始化时带的参数
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                [
+                    {type: "checkbox", width: '5%'},
+                    {
+                        field: '', width: '5%', title: '序号', type: 'numbers', templet: function (d) {
+                            return d.LAY_TABLE_INDEX + 1;
+                        }
+                    },
+                    {field: 'account', width: '10%', title: '账户', sort: true},
+                    {field: 'name', width: '10%', title: '用户名', sort: true},
+                    {
+                        field: 'avatar', title: '头像', width: '6%', templet: function (d) {
+                            if (!!d.avatar) {
+                                return '<img src="' + d.avatar + '" class="avatar-show" lay-event="avatar"> ';
+                            } else {
+                                return '';
+                            }
+                        }
+                    },
+                    {field: 'phone', width: '10%', title: '电话', minWidth: 80},
+                    {field: 'status', width: '8%', title: '账户状态', templet: '#statusTpl', sort: true},
+                    {field: 'createTime', width: '12%', title: '创建时间', sort: true},
+                    {field: 'updateTime', width: '12%', title: '更新时间', sort: true},
+                    {title: '操作', width: '22%', toolbar: '#currentTableBar', align: "center"}
+                ]
+            ],
+            autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line', // 行边框风格
+            done: function(res, curr, count){ // done为数据渲染完的回调
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                console.log(res);
+                //得到当前页码
+                console.log(curr);
+                //得到数据总量
+                console.log(count);
+            },
+            parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.rows //解析数据列表
+                };
+            }
+
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1 // 页码从1开始
+                },
+                where: {
+                    account: data.field.account,
+                    name: data.field.name,
+                    status: data.field.status
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        // 监听重置操作
+        form.on('submit(data-reset-btn)', function (data) {
+            form.val("search-form", {
+                "name": '',
+                "account": '',
+                "status": ''
+            });
+            // 执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                },
+                where: form.val("search-form")
+            }, 'data');
+            return false;
+        });
+
+        // 监听排序事件
+        table.on('sort(currentTableFilter)', function(obj){ //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            console.log(obj.field); //当前排序的字段名
+            console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+            console.log(this); //当前排序的 th 对象
+
+            //尽管我们的 table 自带排序功能，但并没有请求服务端。
+            //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+            table.reload('currentTableId', {
+                initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    sortName: toLine(obj.field), //排序字段
+                    sortOrder: toLine(obj.type) //排序方式
+                }
+            });
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '添加用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: Util.ctx + 'sysuser/add',
+                    end: function (index) {
+                        // 重载表格
+                        currTable.reload();
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'delete') {  // 监听删除操作
+                var checkStatus = table.checkStatus('currentTableId')
+                    ,data = checkStatus.data;
+                if (data == null || data.length === 0) {
+                    Message.warning("请选择用户！", 1000);
+                    return;
+                }
+                layer.confirm('确定批量删除用户吗？', function (index) {
+                    layer.close(index);
+                    Util.post({
+                        url: Util.ctx + "sysuser/batchDelete",
+                        contentType: "application/json", // 默认是："application/x-www-form-urlencoded"
+                        data: JSON.stringify(data),
+                    }, function (res) {
+                        if (res.code === 0) {
+                            Message.success(1500, res.message, function () {
+                                // 重载表格
+                                currTable.reload();
+                            });
+                        } else {
+                            Message.error(res.message, 1000);
+                        }
+                    });
+
+                });
+
+                // layer.alert(JSON.stringify(data));
+            } else if (obj.event === 'downloadPdf') {
+                console.log("点击下载pdf");
+                let a = document.createElement('a');
+                a.href = Util.ctx + 'sysuser/downloadPdf';
+                a.click()
+            }
+        });
+
+        // 监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        // 监听行工具事件
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            console.log(data);
+            if (obj.event === 'edit') {
+
+                var index = layer.open({
+                    title: '编辑用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: Util.ctx + 'sysuser/update/' + data.id,
+                    end: function (index) {
+                        // 重载表格
+                        currTable.reload();
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除该用户吗？', function (index) {
+                    layer.close(index);
+                    Util.get({
+                        url: Util.ctx + "sysuser/delete/" + data.id,
+                    }, function (res) {
+                        if (res.code === 0) {
+                            Message.success(1500, res.message, function () {
+                                // 重载表格
+                                currTable.reload();
+                            });
+                        } else {
+                            Message.error(res.message, 1000);
+                        }
+                    });
+
+                });
+            } else if (obj.event === 'authorize') {
+                var index = layer.open({
+                    title: '用户授权',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: Util.ctx + 'sysuser/authorize/' + data.id,
+                    end: function (index) {
+                        // 重载表格
+                        currTable.reload();
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'editpassword') {
+                layer.prompt({
+                    formType: 0,
+                    value: '123456',
+                    title: '请输入密码'
+                }, function(value, prompt, elem) {
+                    if (isEmpty(value)) {
+                        layer.msg('请输入新密码！', {icon: 5});
+                        return;
+                    }
+                    var pwdRegex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}');
+                    if(!pwdRegex.test(value)){
+                        layer.msg("新密码复杂度过低（密码中必须包含字母、数字、特殊字符）！", {icon: 5});
+                        return;
+                    }
+
+                    var index = layer.load(0, {shade: 0.1});
+                    value = md5('' + value);
+                    Util.get({
+                        url: Util.ctx + 'sysuser/updatePassword/' + data.id + "/" + value,
+                    }, function (res) {
+                        if (0 === res.code) {
+                            layer.closeAll('dialog');
+                            layer.close(index);
+                            Message.success(res.message, 1000);
+                        } else {
+                            Message.warning(res.message, 1000);
+                        }
+                    }, function (res) {
+                        layer.close(index);
+                        Message.error(res.message, 1000);
+                    });
+
+                    layer.close(prompt);
+                });
+                return false;
+            } else if (obj.event === 'avatar') {
+                // 头像放大展示
+                var url = data.avatar;
+                if (url) {
+                    var r = '';
+                    r += '<div style="width: 100%; height: 100%; position: relative;">';
+                    r += '<img src="' + url + '" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; max-height: 100%; max-width: 100%; margin: auto;">';
+                    r += '</div>';
+                    layer.open({
+                        type: 1,
+                        title: '图片预览',
+                        area: ['400px', '600px'],
+                        content: r,
+                        shadeClose: true
+                    });
+                }
+            }
+        });
+
+    });
+
+
+</script>
+
+</body>
+</html>

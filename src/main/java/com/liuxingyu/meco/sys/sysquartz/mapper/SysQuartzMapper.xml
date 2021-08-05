@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.meco.sys.sysquartz.mapper.SysQuartzMapper">
+
+    <resultMap id="SysQuartz" type="com.liuxingyu.meco.sys.sysquartz.entity.SysQuartz">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="class_name" jdbcType="VARCHAR" property="className"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression"/>
+        <result column="param" jdbcType="VARCHAR" property="param"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="quartz_status" jdbcType="TINYINT" property="quartzStatus"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+    </resultMap>
+
+    <select id="getDefaultList" resultMap="SysQuartz"
+            parameterType="com.liuxingyu.meco.sys.sysquartz.entity.SysQuartz">
+        select * from sys_quartz
+        where `status` = #{status}
+        and quartz_status = #{quartzStatus}
+    </select>
+
+
+    <!-- 查询定时任务分页列表 -->
+    <select id="list" resultMap="SysQuartz" parameterType="map">
+        select * from `sys_quartz`
+        where 1=1
+        and `del_flag` = 0
+        <if test="className != null and className != ''">
+            and `className` like CONCAT('%',#{className},'%')
+        </if>
+        <if test="name != null and name != ''">
+            and `name` like CONCAT('%',#{name},'%')
+        </if>
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <if test="quartzStatus != null and quartzStatus != ''">
+            and `quartz_status` = #{quartzStatus}
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by `id` asc
+            </otherwise>
+        </choose>
+
+    </select>
+
+
+    <select id="getOneQuqrtz" resultMap="SysQuartz" parameterType="java.lang.Integer">
+        select * from `sys_quartz`
+        where `id` = #{_parameter}
+    </select>
+
+
+    <update id="stopQuqrtzStatus" parameterType="java.lang.Integer">
+        update `sys_quartz` set `quartz_status` = 1 where `id` = #{_parameter}
+    </update>
+
+    <update id="startQuqrtzStatus" parameterType="java.lang.Integer">
+        update `sys_quartz` set `quartz_status` = 0 where `id` = #{_parameter}
+    </update>
+
+
+    <insert id="addOneQuartz" parameterType="com.liuxingyu.meco.sys.sysquartz.entity.SysQuartz">
+        insert into `sys_quartz` (
+            `name`,
+            `class_name`,
+            `cron_expression`,
+            `param`,
+            `descript`,
+            `quartz_status`,
+            `status`,
+            `del_flag`,
+            `create_user`
+        ) values (
+            #{name},
+            #{className},
+            #{cronExpression},
+            #{param},
+            #{descript},
+            1,
+            0,
+            0,
+            #{createUser}
+        )
+    </insert>
+
+
+    <update id="deleteOneById" parameterType="java.lang.Integer">
+        update `sys_quartz` set `del_flag` = 1 where `id` = #{_parameter}
+    </update>
+
+
+    <update id="updateOneQuartz" parameterType="com.liuxingyu.meco.sys.sysquartz.entity.SysQuartz">
+        update `sys_quartz`
+        set `class_name` = #{className},
+        `name` = #{name},
+        `cron_expression` = #{cronExpression},
+        `param` = #{param},
+        `descript` = #{descript},
+        `status` = #{status}
+        where `id` = #{id}
+    </update>
+
+</mapper>

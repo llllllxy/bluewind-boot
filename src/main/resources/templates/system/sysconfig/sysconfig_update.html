@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>系统配置</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;
+            padding-right: 10px;
+            line-height: 38px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <form class="layui-form" action="" lay-filter="formDemo">
+            <div class="layui-form layuimini-form">
+                <input type="hidden" name="id">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="websiteTitle" placeholder="请输入" class="layui-input">
+                        <tip>浏览器tab栏的标题，关键词放最前面，网站名称放后面，用英文“-”隔开</tip>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站图标</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="websiteIcon">
+                        <div style="height: 100px;width: 100px;position: relative;">
+                            <input type="file" accept="image/*" id="pic-input1"
+                                   style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
+                            <img th:src="${sysConfig.websiteIcon}" alt="" id="pic-img1"
+                                 style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
+                        </div>
+                        <tip>浏览器tab栏的图标，一般为.ico文件</tip>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">META关键字</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="websiteKeywords" placeholder="请输入" class="layui-input">
+                        <tip>搜索引擎用于排名，重要的放在前面，用英文“,”隔开</tip>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">META描述</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="websiteDescription" placeholder="请输入" class="layui-input">
+                        <tip>网页的简要内容概况，应为完整的一句话</tip>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站备案号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="recordNo" placeholder="请输入" class="layui-input">
+                        <tip>网站备案管理系统颁发的网络信息许可证号码</tip>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">版权信息</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="copyright" placeholder="请输入" class="layui-input">
+                        <tip>网站的版权信息，一般放于网页底部，例：Copyright© 2020 XXX版权所有</tip>
+                    </div>
+                </div>
+                <hr style="background-color: #1890ff">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统名称(简称)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="systemName" placeholder="请输入" maxlength="10" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统名称(全称)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="systemFullName" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统首页链接</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="homepageHref" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">系统LOGO</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="systemLogo">
+                        <div style="height: 100px;width: 100px;position: relative;">
+                            <input type="file" accept="image/*" id="pic-input"
+                                   style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
+                            <img th:src="${sysConfig.systemLogo}" alt="" id="pic-img"
+                                 style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登录页背景图</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="loginBackImg">
+                        <div style="height: 100px;width: 200px;position: relative;">
+                            <input type="file" accept="image/*" id="pic-input2"
+                                   style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
+                            <img th:src="${sysConfig.loginBackImg}" alt="" id="pic-img2"
+                                 style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"
+                                shiro:hasPermission="system:config:save"><i
+                                class="layui-icon layui-icon-ok"></i>保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        form.val("formDemo", [[${sysConfig}]]);
+
+        $('#pic-input').change(function () {
+            var formData = new FormData();
+            formData.append("files", $("#pic-input")[0].files[0]);
+            var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+            Util.upload({
+                url: Util.ctx + 'fileupload/uploadFileAjax',
+                data: formData,
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    $("input[name='systemLogo']").val(res.data);
+                    $('#pic-img').attr('src', res.data);
+                    Message.success(res.message, 1000);
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            }, function (res) {
+                layer.close(index);
+                Message.error("服务器异常！", 1000);
+            });
+
+        });
+
+        $('#pic-input1').change(function () {
+            var formData = new FormData();
+            formData.append("files", $("#pic-input1")[0].files[0]);
+            var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+            Util.upload({
+                url: Util.ctx + 'fileupload/uploadFileAjax',
+                data: formData,
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    $("input[name='websiteIcon']").val(res.data);
+                    $('#pic-img1').attr('src', res.data);
+
+                    Message.success(res.message, 1000);
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            }, function (res) {
+                layer.close(index);
+                Message.error("服务器异常！", 1000);
+            });
+
+        });
+
+        $('#pic-input2').change(function () {
+            var formData = new FormData();
+            formData.append("files", $("#pic-input2")[0].files[0]);
+            var index = layer.load(0, {shade: 0.1});
+            Util.upload({
+                url: Util.ctx + 'fileupload/uploadFileAjax',
+                data: formData,
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    $("input[name='loginBackImg']").val(res.data);
+                    $('#pic-img2').attr('src', res.data);
+                    Message.success(res.message, 1000);
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            }, function (res){
+                layer.close(index);
+                Message.error("服务器异常！", 1000);
+            });
+
+        });
+
+
+        // 监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.confirm('确认提交吗？', function () {
+                layer.close(index);
+                var loading = layer.load(0, {shade: 0.1});
+                Util.post({
+                    contentType: "application/json",
+                    url: Util.ctx + "sysconfig/update",
+                    data: JSON.stringify(data.field),
+                }, function (res) {
+                    if (res.code === 0) {
+                        layer.close(loading);
+                        Message.success(res.message, 1000);
+                    } else {
+                        layer.close(loading);
+                        Message.error(res.message, 1000);
+                    }
+                }, function (res) {
+                    layer.close(loading);
+                    Message.error("服务器异常！", 1000);
+                });
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

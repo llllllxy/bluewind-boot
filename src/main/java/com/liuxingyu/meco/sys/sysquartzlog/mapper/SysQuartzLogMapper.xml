@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.meco.sys.sysquartzlog.mapper.SysQuartzLogMapper">
+
+    <resultMap id="SysQuartzLog" type="com.liuxingyu.meco.sys.sysquartzlog.entity.SysQuartzLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="quartz_id" jdbcType="INTEGER" property="quartzId"/>
+        <result column="error_log" jdbcType="VARCHAR" property="errorLog"/>
+        <result column="start_time" jdbcType="VARCHAR" property="startTime"/>
+        <result column="end_time" jdbcType="VARCHAR" property="endTime"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+    </resultMap>
+
+
+    <insert id="insertQuartzLog" parameterType="com.liuxingyu.meco.sys.sysquartzlog.entity.SysQuartzLog">
+        insert into `sys_quartz_log` (
+            `name`,
+            `quartz_id`,
+            `error_log`,
+            `start_time`,
+            `end_time`,
+            `status`
+        ) values (
+            #{name},
+            #{quartzId},
+            #{errorLog},
+            #{startTime},
+            #{endTime},
+            #{status}
+        )
+    </insert>
+
+
+    <select id="getAllLogByQuartzId" resultMap="SysQuartzLog" parameterType="java.lang.Integer">
+        select * from `sys_quartz_log` where quartz_id = #{_parameter} order by `start_time` desc
+    </select>
+
+</mapper>

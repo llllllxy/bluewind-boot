@@ -1,0 +1,78 @@
+/*锁屏*/
+.admin-header-lock {
+    width: 320px;
+    height: 170px;
+    padding: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.admin-header-lock-img {
+    margin: 0 auto;
+}
+
+.admin-header-lock-img img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgb(24, 144, 255);
+}
+
+.admin-header-lock-img img:hover {
+    transform: scale(1.2);
+}
+
+.admin-header-lock-name {
+    color: #009688;
+    margin: 8px 0 15px 0;
+}
+
+.input_btn {
+    overflow: hidden;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.admin-header-lock-input {
+    width: 170px;
+    float: left;
+    margin: 0 10px 0 40px;
+}
+
+.admin-header-lock-input::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.admin-header-lock-input::-moz-placeholder {
+    color: #fff;
+}
+
+.admin-header-lock-input:-ms-input-placeholder {
+    color: #fff;
+}
+
+.admin-header-lock-input:-moz-placeholder {
+    color: #fff;
+}
+
+.layui-btn {
+    height: 38px;
+    line-height: 38px;
+    background-color: rgb(24, 144, 255);
+}
+
+#unlock {
+    float: left;
+}
+
+#lock-box p {
+    color: #e60000;
+}
+
+.avatar-index {
+    display: block;
+    margin-left: 24px;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%
+}

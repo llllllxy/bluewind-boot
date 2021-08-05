@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>角色授权</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;padding-right: 10px;line-height: 38px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <form class="layui-form" action="" lay-filter="formDemo">
+            <div class="layui-form layuimini-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">角色名称</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="roleId" th:value="${sysRoleInfo.roleId}">
+                        <input type="text" name="name" lay-verify="required" class="layui-input" th:value="${sysRoleInfo.name}" disabled>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单列表</label>
+                    <div class="layui-input-block">
+                        <div id="test1" ></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn"> 保存 </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'layer', 'eleTree'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            eleTree = layui.eleTree;
+
+        var el = eleTree({
+            el: '#test1',
+            url: Util.ctx + 'sysrole/listPermissionForTree/' + $('input[name="roleId"]').val(),
+            method: 'get',      // 接口http请求类型
+            highlightCurrent: true,
+            defaultExpandAll: false,
+            showCheckbox: true,
+            isDefaultChangePstatus: true, // 在显示复选框并且父子关联的情况下，初始数据是否只是子节点影响父节点，默认false，即父子关联
+            checkOnClickNode: true,
+            showLine: true,      // 是否显示连线，默认true
+            request: {          // 对于后台数据重新定义名字，后面对应的是后台返回的数据
+                name: "title",
+                key: "id",
+                children: "children",
+                disabled: "disabled",       // 被禁用的节点不会影响父子节点的选中状态
+                checked: "checked",
+                isOpen: "spread", // 后台设置的始终都为true
+                isLeaf: "isLeaf",
+                parentId: "parentId",
+                permissionId: "permissionId"
+            },
+        });
+
+
+        /**
+         * 菜单树转数组list
+         * @params tree: 要转换的树结构数据
+         **/
+        function treeToList(tree){
+            var list = [];  //结果lsit
+            for(var i in tree){
+                var node = tree[i];
+
+                if (node.children != null && node.children.length !== 0) {  //遍历树的第一层,只有一个根结点
+                    //第一层加入到list中,因为根结点模块设置为虚拟结点,所以不用加入
+                    list.push({
+                        permissionId: node.permissionId,
+                        title: node.title,
+                        parentId:node.parentId
+                    });
+                    toListDF(node.children, list, node.permissionId);  //遍历子树,并加入到list中.
+                } else {
+                    list.push({
+                        permissionId: node.permissionId,
+                        title: node.title,
+                        parentId:node.parentId
+                    });
+                }
+            }
+            return list;
+        }
+
+        /**
+         * 深度优先遍历树
+         * 一个递归方法
+         * @params tree:要转换的树结构数据
+         * @params list:保存结果的列表结构数据，初始传list = []
+         * @params parentId:当前遍历节点的父级节点id，初始为null(因为根节点无parentId)
+         **/
+        function toListDF (tree, list, parentId) {
+            for (var i in tree) { //遍历最上层
+                //将当前树放入list中
+                var node = tree[i];
+                list.push({
+                    permissionId: node.permissionId,
+                    title: node.title,
+                    parentId: parentId
+                });
+                //如果有子结点,再遍历子结点
+                if (node.children != null && node.children.length !== 0) {
+                    toListDF(node.children, list, node.permissionId)  //递归
+                }
+            }
+        }
+
+
+        // 监听提交
+        form.on('submit(saveBtn)', function (res) {
+            // (leafOnly, includeHalfChecked)
+            // 1.是否只选中叶子节点，默认false
+            // 2.是否包括半选节点，默认false
+            var checkData = el.getChecked(false, true);
+            console.log("checkData=", checkData); // 这里默认获取到的就是list形式的，不需要再自己转了
+
+            if(null == checkData || 0 === checkData.length){
+                Message.error("请勾选权限信息！", 1000);
+                return false;
+            }
+
+            var treeList = checkData;
+            var permIds = [];
+            for(var i = 0,len = treeList.length;i < len;i++) {
+                permIds.push(treeList[i].permissionId);
+            }
+            console.log("permIds = " , permIds);
+            var data = res.field;
+            var index = layer.load(0, {shade: 0.1});
+            Util.post({
+                url:  Util.ctx + 'sysrole/doAuthorize',
+                data: {
+                    "roleId": data.roleId,
+                    "permIds": permIds.toString()
+                }
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    Message.success(1500, res.message, function () {
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                    });
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            }, function (res) {
+                layer.close(index);
+                Message.error("服务器错误！", 1000);
+            });
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

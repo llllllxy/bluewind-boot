@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>修改菜单</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;
+            padding-right: 10px;
+            line-height: 38px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <form class="layui-form" action="" lay-filter="formDemo">
+            <div class="layui-form layuimini-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">类型</label>
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 0}">
+                        <input type="radio" name="type" value="0" title="模块" lay-filter="type" checked>
+                        <input type="radio" name="type" value="1" title='目录' lay-filter="type" disabled>
+                        <input type="radio" name="type" value="2" title="功能" lay-filter="type" disabled>
+                        <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type" disabled>
+                    </div>
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 1}">
+                        <input type="radio" name="type" value="0" title="模块" lay-filter="type" disabled>
+                        <input type="radio" name="type" value="1" title='目录' lay-filter="type" checked>
+                        <input type="radio" name="type" value="2" title="功能" lay-filter="type" disabled>
+                        <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type" disabled>
+                    </div>
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 2}">
+                        <input type="radio" name="type" value="0" title="模块" lay-filter="type" disabled>
+                        <input type="radio" name="type" value="1" title='目录' lay-filter="type" disabled>
+                        <input type="radio" name="type" value="2" title="功能" lay-filter="type" checked>
+                        <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type" disabled>
+                    </div>
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 3}">
+                        <input type="radio" name="type" value="0" title="模块" lay-filter="type" disabled>
+                        <input type="radio" name="type" value="1" title='目录' lay-filter="type" disabled>
+                        <input type="radio" name="type" value="2" title="功能" lay-filter="type" disabled>
+                        <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type" checked>
+                    </div>
+                </div>
+
+                <input type="hidden" name="permissionId" id="permissionId" th:value="${sysPermissionInfo.permissionId}"/>
+
+                <div class="layui-form-item" id="uppermenu_div">
+                    <label class="layui-form-label">上级目录</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="uppermenuValue" id="uppermenuValue" class="layui-input" readonly th:value="${parentName}"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="name_div">
+                    <label class="layui-form-label required">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="请输入名称" placeholder="请输入" class="layui-input" th:value="${sysPermissionInfo.name}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="sign_div">
+                    <label class="layui-form-label required">标识</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sign" id="sign" lay-verify="required" lay-reqtext="请输入权限标识" placeholder="请输入" class="layui-input" th:value="${sysPermissionInfo.sign}">
+                        <tip>权限标识作为唯一标识，请输入全英文</tip>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="href_div">
+                    <label class="layui-form-label">路径</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="href" id="href" placeholder="请输入" class="layui-input" th:value="${sysPermissionInfo.href}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="target_div">
+                    <label class="layui-form-label required">打开方式</label>
+                    <div class="layui-input-block">
+                        <select name="target" id="target" th:value="${sysPermissionInfo.target}" lay-verify="required" lay-reqtext="请选择打开方式">
+                            <option th:each="item:${baseDictList}" th:text="${item.name}" th:value="${item.code}"
+                                    th:selected="(${sysPermissionInfo.target} == ${item.code})"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="icon_div">
+                    <label class="layui-form-label">图标</label>
+                    <div class="layui-input-block">
+                        <input type="text" placeholder="请选择" class="layui-input" id="iconPicker" lay-filter="iconPicker" th:value="${sysPermissionInfo.icon}">
+                        <input type="text" name="icon" id="icon" placeholder="请输入" class="layui-input" th:value="${sysPermissionInfo.icon}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="sort_div">
+                    <label class="layui-form-label required">排序</label>
+                    <div class="layui-input-block">
+                        <input type="number" min="0" name="sort" id="sort" lay-verify="required" lay-reqtext="请输入排序" placeholder="请输入" class="layui-input" th:value="${sysPermissionInfo.sort}">
+                        <tip>值越小，越靠前</tip>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="descript_div">
+                    <label class="layui-form-label">描述</label>
+                    <div class="layui-input-block">
+                        <textarea name="descript" id="descript" placeholder="请输入" class="layui-textarea" style="resize: none" th:text="${sysPermissionInfo.descript}"></textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"> 保存 </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/lib/xm-select-v1.2.2/xm-select.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'layer', 'iconPickerFa'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            iconPickerFa = layui.iconPickerFa;
+
+        //获取菜单类型
+        var type = [[${sysPermissionInfo.type}]];
+
+        if(0 == type){ // 模块
+            $('#uppermenu_div').hide(); // 隐藏上级菜单
+            $('#href_div').hide(); // 隐藏路径
+            $('#target_div').hide(); // 隐藏打开方式
+
+            $('#name_div').show(); // 显示名称
+            $('#sign_div').show(); // 显示标识
+            $('#icon_div').show(); // 显示图标
+            $('#sort_div').show(); // 显示排序
+            $('#descript_div').show(); // 显示描述
+
+        } else if (1 == type) { // 目录
+
+            $('#uppermenu_div').show();
+            $('#href_div').hide();
+            $('#target_div').hide();
+
+            $('#name_div').show();
+            $('#sign_div').show();
+            $('#icon_div').show();
+            $('#sort_div').show();
+            $('#descript_div').show();
+
+        } else if (2 == type) { // 功能
+
+            $('#uppermenu_div').show();
+            $('#href_div').show();
+            $('#target_div').show();
+
+            $('#name_div').show();
+            $('#sign_div').show();
+            $('#icon_div').show();
+            $('#sort_div').show();
+            $('#descript_div').show();
+
+
+        } else if (3 == type) { // 按钮权限
+
+            $('#uppermenu_div').show();
+            $('#href_div').hide();
+            $('#target_div').hide();
+            $('#icon_div').hide();
+
+            $('#name_div').show();
+            $('#sign_div').show();
+            $('#sort_div').show();
+            $('#descript_div').show();
+
+        }
+
+        // 渲染图标模块
+        iconPickerFa.render({
+            elem: '#iconPicker',
+            url: Util.ctx + "lib/font-awesome-4.7.0/less/variables.less",
+            search: true,
+            page: true,
+            limit: 20,
+            click: function (data) {
+                form.val("formDemo", {
+                    "icon": data.icon
+                });
+            }
+        });
+
+
+        // 监听提交
+        form.on('submit(saveBtn)', function (res) {
+            var data = res.field;
+            // 模块
+            if(0 == data.type) {
+
+            }
+            // 目录
+            else if(1 == data.type){
+                console.log("data.uppermenuValue = " + data.uppermenuValue);
+                if(!data.uppermenuValue){
+                    Message.warning("请选择上级菜单!", 500);
+                    return false;
+                }
+            }
+            // 功能
+            else if(2 == data.type){
+                if(!data.uppermenuValue){
+                    Message.warning("请选择上级菜单!", 500);
+                    return false;
+                }
+                if(!data.href){
+                    Message.warning("请输入菜单路径!", 500);
+                    return false;
+                }
+            }
+            // 按钮权限
+            else if(3 == data.type){
+                if(!data.uppermenuValue){
+                    Message.warning("请选择上级菜单!", 500);
+                    return false;
+                }
+            }
+
+            if (!!data.icon) {
+                data.icon = 'fa ' + data.icon;
+            } else {
+                data.icon = 'fa fa-home'; // 如果不选择，则设置为默认的
+            }
+
+            var index = layer.load(0, {shade: 0.1});
+            Util.post({
+                url: Util.ctx + "syspermission/doUpdate",
+                data: data,
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    Message.success(1000, res.message, function () {
+                        var windowIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(windowIndex);
+                    });
+                } else {
+                    Message.warning(res.message, 500);
+                }
+            }, function (res) {
+                layer.close(index);
+                Message.error("服务器异常！", 500);
+            });
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

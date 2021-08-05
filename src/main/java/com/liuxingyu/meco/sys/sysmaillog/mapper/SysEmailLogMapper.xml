@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.meco.sys.sysmaillog.mapper.SysEmailLogMapper">
+
+    <resultMap id="SysEmailLog" type="com.liuxingyu.meco.sys.sysmail.entity.SysEmailLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="subject" jdbcType="VARCHAR" property="subject"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+    </resultMap>
+
+
+    <!--查询所有日志-->
+    <select id="getLoginLoglist" resultMap="SysEmailLog" parameterType="map">
+        select * from sys_login_log
+        where 1=1
+        <if test="account != null and account != ''">
+            and account like CONCAT('%',#{account},'%')
+        </if>
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            and `create_time` like CONCAT('%',#{createTime},'%')
+        </if>
+
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by id asc
+            </otherwise>
+        </choose>
+
+    </select>
+
+
+    <!-- 新增登陆日志 -->
+    <insert id="saveSysEmailLog" parameterType="com.liuxingyu.meco.sys.sysmail.entity.SysEmailLog">
+        insert into sys_email_log (
+            `address`,
+            `subject`,
+            `type`,
+            `status`,
+            `create_user`,
+            `del_flag`
+        ) values (
+             #{address},
+             #{subject},
+             #{type},
+             #{status},
+             #{createUser},
+             0
+        )
+    </insert>
+
+</mapper>

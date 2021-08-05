@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>服务器监控</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <style>
+        .layui-badge{
+            background-color: #1890ff!important;
+        }
+
+        .message_box{
+            display: flex;
+            align-items: center;
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+            box-sizing: border-box;
+            padding: 8px 15px 8px 35px;
+            margin: 15px 2.5%;
+            border-radius: 4px
+        }
+
+        #update:hover{
+            opacity: .8;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div class="message_box">
+            <i class="fa fa-info-circle" style="color: #1890ff;"></i>
+            <p style="margin: 0 15px">上次更新时间：<span class="updateTime"></span></p>
+            <div style="color: #e8e8e8; margin-right: 15px">|</div>
+            <a style="color: #1890ff;cursor: pointer" onclick="getData()">立即更新</a>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+            <!-- CPU -->
+            <table class="layui-table" lay-skin="line" style="width: 45%; min-width: 500px;">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="layui-badge">CPU</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th>属性</th>
+                    <th>值</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>核心数</td>
+                    <td class="cpuNum"></td>
+                </tr>
+                <tr>
+                    <td>用户使用率</td>
+                    <td class="cpuUsed"></td>
+                </tr>
+                <tr>
+                    <td>系统使用率</td>
+                    <td class="cpuSys"></td>
+                </tr>
+                <tr>
+                    <td>当前空闲率</td>
+                    <td class="cpuFree"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 内存 -->
+            <table class="layui-table" lay-skin="line" style="width: 45%; min-width: 500px;">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="layui-badge layui-bg-green">内存</span></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th>属性</th>
+                    <th>内存</th>
+                    <th>JVM</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>总内存</td>
+                    <td class="memTotal"></td>
+                    <td class="jvmTotal"></td>
+                </tr>
+                <tr>
+                    <td>已用内存</td>
+                    <td class="memUsed"></td>
+                    <td class="jvmUsed"></td>
+                </tr>
+                <tr>
+                    <td>剩余内存</td>
+                    <td class="memFree"></td>
+                    <td class="jvmFree"></td>
+                </tr>
+                <tr>
+                    <td>使用率</td>
+                    <td class="memUsage"></td>
+                    <td class="jvmUsage"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 服务器信息 -->
+            <table class="layui-table" lay-skin="line" style="width: 45%; min-width: 500px;">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="layui-badge layui-bg-green">服务器信息</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th>属性</th>
+                    <th>值</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>服务器名称</td>
+                    <td class="computerName"></td>
+                </tr>
+                <tr>
+                    <td>服务器IP</td>
+                    <td class="computerIp"></td>
+                </tr>
+                <tr>
+                    <td>操作系统</td>
+                    <td class="osName"></td>
+                </tr>
+                <tr>
+                    <td>系统架构</td>
+                    <td class="osArch"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- Java虚拟机信息 -->
+            <table class="layui-table" lay-skin="line" style="width: 45%; min-width: 500px;">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="layui-badge layui-bg-green">Java虚拟机信息</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th>属性</th>
+                    <th>值</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Java名称</td>
+                    <td class="jvmName"></td>
+                </tr>
+                <tr>
+                    <td>Java版本</td>
+                    <td class="jvmVersion"></td>
+                </tr>
+                <tr>
+                    <td>安装路径</td>
+                    <td class="jvmHome"></td>
+                </tr>
+                <tr>
+                    <td>项目路径</td>
+                    <td class="sysUserDir"></td>
+                </tr>
+                <tr>
+                    <td>启动时间</td>
+                    <td class="jvmStartTime"></td>
+                </tr>
+                <tr>
+                    <td>运行时长</td>
+                    <td class="jvmRunTime"></td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 磁盘状态 -->
+            <table class="layui-table" lay-skin="line" style="width: 95%">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="layui-badge layui-bg-green">磁盘状态</span></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th>盘符路径</th>
+                    <th>文件系统</th>
+                    <th>盘符类型</th>
+                    <th>总大小</th>
+                    <th>可用大小</th>
+                    <th>已用大小</th>
+                    <th>已用百分比</th>
+                </tr>
+                </thead>
+                <tbody class="sysFiles">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'table'], function () {
+        var form = layui.form,
+            table = layui.table;
+        getData();
+    });
+
+    // 获取数据
+    function getData() {
+        var index = layer.load(0, {shade: 0.1});
+        Util.get({
+            url: Util.ctx + 'sysserverinfo/list',
+        }, function (res) {
+            layer.close(index);
+            if (0 === res.code) {
+                renderData(res.data);
+                Message.success("刷新成功！", 1000);
+            } else {
+                Message.error(res.message, 1000);
+            }
+        }, function (res) {
+            layer.close(index);
+            Message.error("服务器异常！", 1000);
+        });
+    }
+
+    // 渲染数据
+    function renderData(param) {
+        var data = param.data;
+        $('.updateTime').text(param.updateTime);
+        // CPU
+        $('.cpuNum').text(data.cpu.cpuNum);
+        $('.cpuUsed').text(data.cpu.used + '%');
+        $('.cpuSys').text(data.cpu.sys + '%');
+        $('.cpuFree').text(data.cpu.free + '%');
+        // 内存
+        $('.memTotal').text(data.mem.total + 'GB');
+        $('.jvmTotal').text(data.jvm.total + 'MB');
+        $('.memUsed').text(data.mem.used + 'GB');
+        $('.jvmUsed').text(data.jvm.used + 'MB');
+        $('.memFree').text(data.mem.free + 'GB');
+        $('.jvmFree').text(data.jvm.free + 'MB');
+        $('.memUsage').text(data.mem.usage + '%');
+        $('.jvmUsage').text(data.jvm.usage + '%');
+        // 服务器信息
+        $('.computerName').text(data.sys.computerName);
+        $('.computerIp').text(data.sys.computerIp);
+        $('.osName').text(data.sys.osName);
+        $('.osArch').text(data.sys.osArch);
+        // Java虚拟机信息
+        $('.jvmName').text(data.jvm.name);
+        $('.jvmVersion').text(data.jvm.version);
+        $('.jvmHome').text(data.jvm.home);
+        $('.sysUserDir').text(data.sys.userDir);
+        $('.jvmStartTime').text(data.jvm.startTime);
+        $('.jvmRunTime').text(data.jvm.runTime);
+        // 磁盘状态
+        var sysFiles = data.sysFiles;
+        $('.sysFiles').empty();
+        if(null != sysFiles && 0 < sysFiles.length){
+            var str = '';
+            for(var i = 0, len = sysFiles.length;i < len;i++){
+                str += '<tr>' +
+                    '<td>'+sysFiles[i].dirName+'</td>' +
+                    '<td>'+sysFiles[i].sysTypeName+'</td>' +
+                    '<td>'+sysFiles[i].typeName+'</td>' +
+                    '<td>'+sysFiles[i].total+'</td>' +
+                    '<td>'+sysFiles[i].free+'</td>' +
+                    '<td>'+sysFiles[i].used+'</td>' +
+                    '<td>'+sysFiles[i].usage+'%</td>' +
+                    '</tr>';
+            }
+            $('.sysFiles').html(str);
+        }
+    }
+</script>
+</body>
+</html>

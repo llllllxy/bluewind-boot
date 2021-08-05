@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>邮件发送</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;
+            padding-right: 10px;
+            line-height: 38px;
+        }
+
+        .template_div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .template_div label {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .template_div iframe {
+            height: 200px;
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">文本</li>
+                <li>HTML</li>
+                <li>图片</li>
+                <li>附件</li>
+                <li>模板</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form class="layui-form" action="" lay-filter="formDemo">
+                        <div class="layui-form layuimini-form">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">发件箱</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="from" lay-verify="required" lay-reqtext="请输入发件人"
+                                           placeholder="请输入" class="layui-input" th:value="${from}" disabled>
+                                    <tip>发件箱为系统邮箱地址，不可更改</tip>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">收件箱</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="address" lay-verify="required|email"
+                                           lay-reqtext="请输入收件人邮箱地址" placeholder="请输入" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">主题</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="subject" lay-verify="required" lay-reqtext="请输入用户姓名"
+                                           placeholder="请输入" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">内容</label>
+                                <div class="layui-input-block">
+                                    <textarea name="content" placeholder="请输入内容" class="layui-textarea"
+                                              style="resize: none"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit
+                                            lay-filter="saveBtn0"> 发送
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">
+                    <form class="layui-form" action="" lay-filter="formDemo">
+                        <div class="layui-form layuimini-form">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">发件箱</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="from" lay-verify="required" lay-reqtext="请输入发件人"
+                                           placeholder="请输入" class="layui-input" th:value="${from}" disabled>
+                                    <tip>发件箱为系统邮箱地址，不可更改</tip>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">收件箱</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="address" lay-verify="required|email"
+                                           lay-reqtext="请输入收件人邮箱地址" placeholder="请输入" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">主题</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="subject" lay-verify="required" lay-reqtext="请输入用户姓名"
+                                           placeholder="请输入" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">内容</label>
+                                <div class="layui-input-block">
+                                    <textarea id="content" style="display: none;"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit
+                                            lay-filter="saveBtn1"> 发送
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-tab-item">内容3</div>
+                <div class="layui-tab-item">内容4</div>
+                <div class="layui-tab-item">
+                    <form class="layui-form" action="" lay-filter="formDemo">
+                        <div class="layui-form layuimini-form">
+                            <div class="layui-form-item"
+                                 style="display: flex;justify-content: space-around;align-items: center">
+                                <div class="template_div">
+                                    <label>模板一</label>
+                                    <iframe th:src="@{/sysmail/email/template/1}"></iframe>
+                                </div>
+                                <div class="template_div">
+                                    <label>模板二</label>
+                                    <iframe th:src="@{/sysmail/email/template/2}"></iframe>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">发件箱</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="from" lay-verify="required" lay-reqtext="请输入发件人"
+                                           placeholder="请输入" class="layui-input" th:value="${from}" disabled>
+                                    <tip>发件箱为系统邮箱地址，不可更改</tip>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">收件箱</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="address" lay-verify="required|email"
+                                           lay-reqtext="请输入收件人邮箱地址" placeholder="请输入" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">主题</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="subject" lay-verify="required" lay-reqtext="请输入用户姓名"
+                                           placeholder="请输入" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">模板</label>
+                                <div class="layui-input-block">
+                                    <select name="template" lay-verify="required" lay-reqtext="请选择邮件模板">
+                                        <option value="">请选择</option>
+                                        <option value="mail/templates/template1">模板一</option>
+                                        <option value="mail/templates/template2">模板二</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label required">内容</label>
+                                <div class="layui-input-block">
+                                    <textarea name="content" placeholder="请输入内容" class="layui-textarea"
+                                              style="resize: none"></textarea>
+                                    <tip>参数必须为JSON数据格式，替换模板中的${}内容</tip>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit
+                                            lay-filter="saveBtn4"> 发送
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['element', 'form', 'layedit', 'layer'], function () {
+        var element = layui.element,
+            form = layui.form,
+            layer = layui.layer,
+            layedit = layui.layedit;
+
+        // 富文本编辑器
+        layedit.set({
+            uploadImage: {
+                type: 'post',
+                url: Util.ctx + 'fileupload/uploadEdit'
+            }
+        });
+
+        var editIndex = layedit.build('content', {
+            height: 400
+        });
+
+        // 监听提交
+        form.on('submit(saveBtn0)', function (res) {
+            // 加载层
+            let index = layer.load(0, {shade: 0.1});
+            var data = res.field;
+            Util.post({
+                url: Util.ctx + "sysmail/email/sendTextMail",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+            }, function (res) {
+                if (res.code === 0) {
+                    layer.close(index);
+                    Message.success(1500, res.message, function () {
+                        // 重载页面
+                        window.location.reload();
+                    });
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            });
+
+            return false;
+        });
+
+        // 监听提交
+        form.on('submit(saveBtn1)', function (res) {
+            var data = res.field;
+            var content = layedit.getContent(editIndex);
+            if (!content) {
+                layer.msg('请填写邮件内容');
+                return false;
+            }
+            // 加载层
+            let index = layer.load(0, {shade: 0.1});
+            data.content = content;
+            Util.post({
+                contentType: "application/json",
+                url: Util.ctx + "sysmail/email/sendHtmlMail",
+                data: JSON.stringify(data)
+            }, function (res) {
+                if (res.code === 0) {
+                    layer.close(index);
+                    Message.success(1500, res.message, function () {
+                        // 重载页面
+                        window.location.reload();
+                    });
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            });
+            return false;
+        });
+
+        // 监听提交
+        form.on('submit(saveBtn4)', function (res) {
+            let index = layer.load(0, {shade: 0.1});
+            var data = res.field;
+            Util.post({
+                contentType: "application/json", // 默认就是这个
+                url: Util.ctx + "sysmail/email/sendTemplateMail",
+                data: JSON.stringify(data),
+            }, function (res) {
+                if (res.code === 0) {
+                    layer.close(index);
+                    Message.success(1500, res.message, function () {
+                        // 重载页面
+                        window.location.reload();
+                    });
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

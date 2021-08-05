@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>服务密钥</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form" action="" lay-filter="search-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">key值：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="itfcKey" name="restKey" autocomplete="off" class="layui-input"
+                                       placeholder="请输入key值">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">使用方：</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="owner" id="owner" autocomplete="off" class="layui-input"
+                                       placeholder="请输入使用方">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态：</label>
+                            <div class="layui-input-inline">
+                                <select name="status" id="status" lay-filter="status">
+                                    <option value="">所有</option>
+                                    <option th:each="item:${dictList}" th:text="${item.name}"
+                                            th:value="${item.code}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
+                            </button>
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-reset-btn"><i class="layui-icon layui-icon-refresh"></i> 重 置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 新增
+                </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            {{#  if(d.status == 0){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-forbid" lay-event="forbid">停用</a>
+            {{#  } else { }}
+            <a class="layui-btn layui-btn-warm layui-btn-xs data-count-enable" lay-event="enable">启用</a>
+            {{#  } }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-authorize" lay-event="authorize">授权</a>
+        </script>
+
+        <script type="text/html" id="statusTpl">
+            {{#  if(d.status == 0){ }}
+            <span class="layui-badge layui-bg-blue">使用中</span>
+            {{#  } else { }}
+            <span class="layui-badge layui-bg-orange">已停用</span>
+            {{#  } }}
+        </script>
+
+        <script type="text/html" id="itfcKeyTpl">
+            <a href="javascript:;" class="layui-table-link" style="text-decoration:underline;" lay-event="detail">{{ d.itfcKey }}</a>
+        </script>
+
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        var currTable = table.render({
+            elem: '#currentTableId',
+            url: Util.ctx + 'sysitfckey/list',
+            method: 'post', //如果无需自定义HTTP类型，可不加该参数
+            where: {sortName: 'id', sortOrder: 'asc'}, // 初始化时带的参数
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [
+                [
+                    {
+                        field: '', width: '5%', title: '序号', type: 'numbers', align: 'center', templet: function (d) {
+                            return d.LAY_TABLE_INDEX + 1;
+                        }
+                    },
+                    {field: 'itfcKey', width: '15%', title: 'key', align: 'center', templet: '#itfcKeyTpl'},
+                    {field: 'owner', width: '10%', title: '使用方', sort: true, align: 'center'},
+                    {field: 'validPeriod', width: '10%', title: '有效期', sort: true, align: 'center'},
+                    {field: 'descript', width: '15%', title: '描述', minWidth: 80},
+                    {field: 'status', width: '10%', title: '状态', templet: '#statusTpl', sort: true, align: 'center'},
+                    {field: 'createTime', width: '15%', title: '创建时间', sort: true, align: 'center'},
+                    {title: '操作', width: '20%', toolbar: '#currentTableBar', align: "center"}
+                ]
+            ],
+            autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line', // 行边框风格
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.rows //解析数据列表
+                };
+            }
+
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1 // 页码从1开始
+                },
+                where: {
+                    restKey: data.field.restKey,
+                    owner: data.field.owner,
+                    status: data.field.status
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        // 监听重置操作
+        form.on('submit(data-reset-btn)', function (data) {
+            form.val("search-form", {
+                "itfcKey": '',
+                "owner": '',
+                "status": ''
+            });
+            // 执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                },
+                where: form.val("search-form")
+            }, 'data');
+            return false;
+        });
+
+
+        // 监听排序事件
+        table.on('sort(currentTableFilter)', function (obj) { //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            console.log(obj.field); //当前排序的字段名
+            console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+            console.log(this); //当前排序的 th 对象
+
+            //尽管我们的 table 自带排序功能，但并没有请求服务端。
+            //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+            table.reload('currentTableId', {
+                initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    sortName: toLine(obj.field), //排序字段
+                    sortOrder: toLine(obj.type) //排序方式
+                }
+            });
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '服务密钥新增',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: Util.ctx + 'sysitfckey/forAdd',
+                    end: function (index) {
+                        // 重载表格
+                        currTable.reload();
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            }
+        });
+
+
+        // 监听行工具事件
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            console.log(data);
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '编辑密钥',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: Util.ctx + 'sysitfckey/forUpdate/' + data.id,
+                    end: function (index) {
+                        // 重载表格
+                        currTable.reload();
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除该密钥吗？', function (index) {
+                    layer.close(index);
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: Util.ctx + "sysitfckey/delete/" + data.id + "/" + data.itfcKey,
+                        success: function (res) {
+                            // obj.del(); 删除该行
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        }
+                    });
+                });
+            } else if (obj.event === 'authorize') {
+
+                var index = layer.open({
+                    title: '密钥授权',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: Util.ctx + '/sysitfckey/forAuthorize/' + data.id,
+                    end: function (index) {
+                        // 重载表格
+                        currTable.reload();
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'forbid') {
+                layer.confirm('确定停用该密钥吗？', function (index) {
+                    layer.close(index);
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: Util.ctx + "/sysitfckey/forbid/" + data.id + "/" + data.itfcKey,
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        }
+                    });
+                });
+                return false;
+            } else if (obj.event === 'enable') {
+                layer.confirm('确定启用该密钥吗？', function (index) {
+                    layer.close(index);
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: Util.ctx + "/sysitfckey/enable/" + data.id + "/" + data.itfcKey + "/" + data.validPeriod,
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        }
+                    });
+                });
+                return false;
+            } else if (obj.event === 'detail') {
+                var str = '<div>';
+                str += '<p>密钥：' + data.itfcKey + '</p>';
+                str += '<p>使用方：' + data.owner + '</p>';
+                str += '<p>有效期：' + data.validPeriod + '</p>';
+                str += '<p>状态：<b>' + (data.status == 0 ? '使用中' : '停用') + '</b></p>';
+                str += '<p>创建时间：' + data.createTime + '</p>';
+                str += '<p>描述：' + data.descript + '</p>';
+                str += '</div>';
+
+
+                layer.alert(str, {
+                    title: '明细',
+                });
+                return false;
+            }
+        });
+
+    });
+
+
+</script>
+
+</body>
+</html>

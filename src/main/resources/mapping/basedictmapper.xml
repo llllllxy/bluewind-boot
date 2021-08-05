@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liuxingyu.industry.basedict.mapper.BaseDictMapper">
+
+    <!--查询一个枚举,公共方法-->
+    <select id="getBaseDictbyDictId" parameterType="string" resultType="map">
+        select sdd.*
+        from sys_dict sd
+        left join sys_dict_detail sdd on sdd.dict_code = sd.dict_code
+        where sd.dict_code = #{dictId}
+    </select>
+
+    <!--根据条件，查询所有枚举-->
+    <select id="getAllBaseDict" resultType="map" parameterType="map">
+        select dict_id,max(dict_desc) as dict_desc,max(dict_name) as dict_name from sm_base_dict
+        where 1=1
+        <if test="dictId != null and dictId != ''">
+            and dict_id like CONCAT('%',#{dictId},'%')
+        </if>
+        <if test="dictName != null and dictName != ''">
+            and dict_name like CONCAT('%',#{dictName},'%')
+        </if>
+        <if test="dictDesc != null and dictDesc != ''">
+            and dict_desc like CONCAT('%',#{dictDesc},'%')
+        </if>
+        <if test="isUsed != null and isUsed != ''">
+            and dict_status = #{isUsed}
+        </if>
+        group by dict_id
+    </select>
+
+    <delete id="deleteDict" parameterType="String">
+        delete from sm_base_dict where dict_id = #{_parameter}
+    </delete>
+
+</mapper>

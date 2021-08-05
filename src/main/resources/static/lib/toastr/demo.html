@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>toastr</title>
+  <link rel="stylesheet" href="css/toastr.min.css?v1.0">
+</head>
+<body>
+<style>
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+  body {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+  }
+
+  h2 {
+    margin: 10px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #d4d4d4;
+  }
+
+  h2 small {
+    margin-left: 10px;
+    font-size: 13px;
+    color: #999;
+  }
+
+  h2 small a {
+    margin-left: 5px;
+  }
+
+  .container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 1px solid #999;
+    width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  #msg {
+    width: 300px;
+  }
+
+  button {
+    outline: none;
+    border: none;
+    background-color: #2f96b4;
+    border-radius: 3px;
+    color: white;
+    padding: 5px 20px;
+  }
+</style>
+<div class="container">
+  <h2>Toastr
+    <small>用法请参阅
+      <a href="https://gitee.com/wispx/toastr/blob/master/README.md">README.md</a>
+      <a href="https://gitee.com/wispx/toastr">码云</a>
+      <a href="https://github.com/wisp-x/toastr" target="_blank">Github</a>
+    </small>
+  </h2>
+  <table>
+    <tbody>
+    <tr>
+      <td align="right">选择提示类型</td>
+      <td align="left">
+        <select id="type">
+          <option value="success">success</option>
+          <option value="info">info</option>
+          <option value="warning">warning</option>
+          <option value="error">error</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">位置</td>
+      <td align="left">
+        <select id="position">
+          <option value="top-left">top-left(左上)</option>
+          <option value="top-right">top-right(右上)</option>
+          <option value="right-bottom">right-bottom(右下)</option>
+          <option value="left-bottom">left-bottom(左下)</option>
+          <option value="top-center">top-center(中上)</option>
+          <option value="bottom-center">bottom-center(中下)</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">大小</td>
+      <td align="left">
+        <select id="size">
+          <option value="lg">大</option>
+          <option value=" " selected>正常</option>
+          <option value="sm">小</option>
+          <option value="xs">超小</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">关闭时间</td>
+      <td align="left">
+        <input type="number" id="time" placeholder="关闭时间(毫秒)" value="3000">毫秒
+      </td>
+    </tr>
+    <tr>
+      <td align="right">提示内容</td>
+      <td align="left">
+        <input type="text" id="msg" placeholder="输入提示内容" value="点击测试试试吧~">
+      </td>
+    </tr>
+    <tr>
+      <td align="right"></td>
+      <td align="left">
+        <button class="test">测试</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/toastr.min.js?v1.0"></script>
+<script>
+  $(function () {
+    $.toastr.config({
+      // 设置默认关闭时间为5秒
+      time: 5000
+    });
+    setTimeout(function () {
+      $.toastr.success('成功', {position: 'top-left'});
+      $.toastr.info('信息', {position: 'left-bottom'});
+      $.toastr.warning('警告', {position: 'top-right'});
+      $.toastr.error('失败', {position: 'right-bottom'});
+      $.toastr.info('中上', {position: 'top-center'});
+      $.toastr.info('中下', {position: 'bottom-center'});
+      $('.test').click(function () {
+        $.toastr[$('#type').val()]($('#msg').val(), {
+          position: $('#position').val(),
+          time: $('#time').val(),
+          size: $('#size').val()
+        });
+      });
+    }, 1000);
+  })
+</script>
+</html>

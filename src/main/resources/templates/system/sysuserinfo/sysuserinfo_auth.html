@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>用户授权</title>
+    <link rel="icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;padding-right: 10px;line-height: 38px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <form class="layui-form" action="" lay-filter="formDemo">
+            <div class="layui-form layuimini-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">账户</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="id" th:value="${sysUserInfo.id}">
+                        <input type="text" name="account" lay-verify="required" class="layui-input" th:value="${sysUserInfo.account}" disabled>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">角色</label>
+                    <div class="layui-input-block">
+                        <div id="demo1" class="xm-select-demo"></div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn"> 保存 </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/xm-select-v1.2.2/xm-select.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        redenXmSelect();
+
+        var demo1;
+        function redenXmSelect() {
+            var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+
+            Util.get({
+                url: Util.ctx + 'sysuser/listRoleForSelect/' + $('input[name="id"]').val(),
+            }, function (res) {
+                layer.close(index);
+                demo1 = xmSelect.render({
+                    el: '#demo1',
+                    data: res.data,
+                    theme: {
+                        color: '#1E9FFF'
+                    }
+                })
+            }, function (res) {
+                layer.close(index);
+                Message.error('获取角色信息失败！', 1000);
+            });
+
+        }
+
+        // 监听提交
+        form.on('submit(saveBtn)', function (res) {
+            var selectArr = demo1.getValue('valueStr');
+            console.log("selectArr = " + selectArr);
+            if (!selectArr) {
+                layer.msg('请选择角色信息');
+                return false;
+            }
+            var data = res.field;
+            var index = layer.load(0, {shade: 0.1});
+
+            Util.get({
+                url: Util.ctx + 'sysuser/doAuthorize/' + data.id + '/' + selectArr,
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    // 延迟一秒后，进入系统
+                    Message.success(1500, res.message, function () {
+                        // 重载表格
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                    });
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            }, function (res) {
+                layer.close(index);
+                Message.error('服务器异常！', 1000);
+            });
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

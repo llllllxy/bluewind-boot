@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.industry.sys.sysrolepermission.mapper.SysRolePermissionMapper">
+
+    <select id="listRolePermissionByUserId" resultType="java.lang.String">
+        SELECT
+            a.sign
+        FROM
+            sys_permission_info a
+        WHERE
+            a.del_flag = 0
+            AND a.`status` = 0
+            AND LENGTH( a.sign ) &gt; 0
+            AND EXISTS (
+            SELECT
+                rp.permission_id
+            FROM
+                sys_role_permission rp
+                LEFT JOIN sys_role_info ri ON ( rp.role_id = ri.id )
+            WHERE
+                ri.del_flag = 0
+                AND ri.`status` = 0
+                AND EXISTS ( SELECT ur.role_id FROM sys_user_role ur WHERE ur.user_id = ${userId} AND rp.role_id = ur.role_id )
+            AND a.id = rp.permission_id
+            )
+    </select>
+</mapper>

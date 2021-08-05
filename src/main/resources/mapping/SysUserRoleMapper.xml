@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.industry.sys.sysuserrole.mapper.SysUserRoleMapper">
+
+    <select id="listUserRoleByUserId" resultType="java.lang.String">
+        SELECT
+            a.sign
+        FROM
+            sys_role_info a
+        WHERE
+            a.del_flag = 0
+            AND a.`status` = 0
+            AND EXISTS ( SELECT b.id FROM sys_user_role b WHERE b.user_id = ${userId} AND a.id = b.role_id )
+    </select>
+
+
+    <delete id="deleteUserRoleByUserId" parameterType="java.lang.Integer">
+        delete from sys_user_role where user_id = #{userId}
+    </delete>
+
+    <insert id="batchSaveUserRole" parameterType="java.util.List">
+        insert into sys_user_role(user_id,role_id)
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            select
+            #{item.user_id, jdbcType=INTEGER},
+            #{item.role_id, jdbcType=INTEGER}
+            from dual
+        </foreach>
+    </insert>
+
+</mapper>

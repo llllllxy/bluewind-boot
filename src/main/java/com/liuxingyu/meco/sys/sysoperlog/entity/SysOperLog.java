@@ -1,0 +1,137 @@
+package com.liuxingyu.meco.sys.sysoperlog.entity;
+
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
+
+/**
+ * @author liuxingyu01
+ * @date 2021-03-05-13:35
+ **/
+public class SysOperLog implements Serializable {
+    private static final long serialVersionUID = -4516808988241959991L;
+
+    private Integer id;
+
+    private String model;
+
+    private String url;
+
+    private String method;
+
+    private String descript;
+
+    private String ip;
+
+    private String type;
+
+    private Integer spendTime;
+
+    private Integer createUser;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private String createTime;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getDescript() {
+        return descript;
+    }
+
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public Integer getSpendTime() {
+        return spendTime;
+    }
+
+    public void setSpendTime(Integer spendTime) {
+        this.spendTime = spendTime;
+    }
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "SysOperLog{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", url='" + url + '\'' +
+                ", method='" + method + '\'' +
+                ", descript='" + descript + '\'' +
+                ", ip='" + ip + '\'' +
+                ", type='" + type + '\'' +
+                ", spendTime=" + spendTime +
+                ", createUser=" + createUser +
+                ", createTime=" + createTime +
+                '}';
+    }
+}

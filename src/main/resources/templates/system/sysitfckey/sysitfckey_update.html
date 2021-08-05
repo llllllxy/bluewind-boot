@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>服务密钥修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+        .layui-icon-date {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            margin-top: -26px;
+            cursor: pointer;
+            font-size: 30px;
+            color: #1E9FFF;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">KEY：</label>
+        <div class="layui-input-block"><!-- 加上 style="border:none;" 是为了隐藏input输入框的边框-->
+            <input type="text" name="itfcKey" th:value="${sysItfcKey.itfcKey}" readonly="readonly" class="layui-input" style="border:none;">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <input type="hidden" name="id" th:value="${sysItfcKey.id}">
+        <label class="layui-form-label required">使用方：</label>
+        <div class="layui-input-block">
+            <input type="text" name="owner" lay-verify="required" lay-reqtext="使用方不能为空" th:value="${sysItfcKey.owner}"
+                   placeholder="请输入使用方，公司或者个人" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">有效期：</label>
+        <div class="layui-input-block">
+            <input type="text" name="validPeriod" id="validPeriod" lay-verify="required" lay-reqtext="有效期不能为空" th:value="${sysItfcKey.validPeriod}"
+                   placeholder="请输入有效期" value="" class="layui-input">
+            <i class="layui-icon layui-icon-date"></i>
+            <tip>此key在此之前可用</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述：</label>
+        <div class="layui-input-block">
+            <textarea name="descript" class="layui-textarea" placeholder="请输入描述" th:text="${sysItfcKey.descript}"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"><i
+                    class="layui-icon layui-icon-ok"></i>保存
+            </button>
+        </div>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var form = layui.form,
+            laydate = layui.laydate,
+            layer = layui.layer;
+
+        // 执行一个laydate实例
+        laydate.render({
+            elem: '#validPeriod' //指定元素
+            , eventElem: '.layui-icon-date'
+            , trigger: 'click'
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.confirm('确认提交吗？', function () {
+                var loading = layer.load(0, {shade: 0.1});
+                Util.post({
+                    url: Util.ctx + "sysitfckey/update",
+                    data: data.field,
+                }, function (res) {
+                    if (res.code === 0) {
+                        layer.close(index);
+                        layer.close(loading);
+                        Message.success(1500, res.message, function () {
+                            // 关闭该标签
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        });
+                    } else {
+                        layer.close(loading);
+                        Message.error(res.message, 1000);
+                    }
+                });
+            });
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

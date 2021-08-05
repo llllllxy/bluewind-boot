@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>基本资料</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;
+            padding-right: 10px;
+            line-height: 38px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <div class="layui-form layuimini-form">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">账号</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="id" th:value="${sysUserInfo.id}">
+                    <input type="hidden" name="status" th:value="${sysUserInfo.status}">
+                    <input type="text" name="account" lay-verify="required" lay-reqtext="账号不能为空" placeholder="请输入账号" th:value="${sysUserInfo.account}" class="layui-input" readonly>
+                    <tip>登陆账号不可修改</tip>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名" th:value="${sysUserInfo.name}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">性别</label>
+                <div class="layui-input-block" th:if="${sysUserInfo.sex == 1}">
+                    <input type="radio" name="sex" value="1" title="男" checked>
+                    <input type="radio" name="sex" value="2" title="女">
+                </div>
+                <div class="layui-input-block" th:if="${sysUserInfo.sex == 2}">
+                    <input type="radio" name="sex" value="1" title="男">
+                    <input type="radio" name="sex" value="2" title="女" checked>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label required">手机</label>
+                <div class="layui-input-block">
+                    <input type="phone" name="phone" lay-verify="required|phone" lay-reqtext="手机不能为空" placeholder="请输入手机"
+                           th:value="${sysUserInfo.phone}" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户头像</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="avatar" th:value="${sysUserInfo.avatar}">
+                    <div style="height: 100px;width: 100px;position: relative;">
+                        <input type="file" accept="image/*" id="pic-input"
+                               style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
+                        <img th:src="${sysUserInfo.avatar}" alt="" id="pic-img"
+                             style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注信息</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:text="${sysUserInfo.account}"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'miniTab', 'layer'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            miniTab = layui.miniTab;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+
+            var index = layer.confirm('确认提交吗？', function () {
+                var loading = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+                Util.post({
+                    url: Util.ctx + 'sysuser/doUpdate',
+                    data: data.field
+                }, function (res) {
+                    if (res.code === 0) {
+                        layer.close(index);
+                        layer.close(loading);
+                        Message.success(1500, "个人基本信息修改成功！", function () {
+                            // 关闭miniTab
+                            miniTab.deleteCurrentByIframe();
+                        });
+                    } else {
+                        layer.close(loading);
+                        Message.error("个人基本信息修改失败！", 1000);
+                    }
+                });
+
+            });
+
+            return false;
+        });
+
+
+        $('#pic-input').change(function () {
+            var formData = new FormData();
+            formData.append("files", $("#pic-input")[0].files[0]);
+            formData.append("files_name", $("#pic-input")[0].files[0].name); // 文件名字
+            var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+
+            Util.upload({
+                url: Util.ctx + 'fileupload/uploadFileAjax',
+                data: formData
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    $("input[name='avatar']").val(res.data);
+                    $('#pic-img').attr('src', res.data);
+                    Message.success(res.message, 1000);
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            }, function (res) {
+                layer.close(index);
+                Message.error("服务器异常，请联系系统管理员！", 1000);
+            });
+
+        });
+
+    });
+</script>
+</body>
+</html>

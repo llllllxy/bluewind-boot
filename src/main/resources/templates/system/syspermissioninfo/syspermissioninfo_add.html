@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增菜单</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;
+            padding-right: 10px;
+            line-height: 38px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <form class="layui-form" action="" lay-filter="formDemo">
+            <div class="layui-form layuimini-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label required">类型</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="type" value="0" title="模块" lay-filter="type" checked>
+                        <input type="radio" name="type" value="1" title='目录' lay-filter="type">
+                        <input type="radio" name="type" value="2" title="功能" lay-filter="type">
+                        <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item" id="uppermenu_div">
+                    <label class="layui-form-label">上级目录</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" name="uppermenuValue" id="uppermenuValue"/>
+                        <div id="demo1" class="xm-select-demo" style="display:none;"></div>
+                        <div id="demo2" class="xm-select-demo" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="name_div">
+                    <label class="layui-form-label required">名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="请输入名称" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="sign_div">
+                    <label class="layui-form-label required">标识</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sign" id="sign" lay-verify="required" lay-reqtext="请输入权限标识" placeholder="请输入" class="layui-input">
+                        <tip>权限标识作为唯一标识，请输入全英文</tip>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="href_div">
+                    <label class="layui-form-label">路径</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="href" id="href" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="target_div">
+                    <label class="layui-form-label required">打开方式</label>
+                    <div class="layui-input-block">
+                        <select name="target" id="target" lay-verify="required" lay-reqtext="请选择打开方式">
+                            <option value="_self" selected>内链</option>
+                            <option value="_blank">外链</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="icon_div">
+                    <label class="layui-form-label">图标</label>
+                    <div class="layui-input-block">
+                        <input type="text" placeholder="请选择" class="layui-input" id="iconPicker" lay-filter="iconPicker">
+                        <input type="text" name="icon" id="icon" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="sort_div">
+                    <label class="layui-form-label required">排序</label>
+                    <div class="layui-input-block">
+                        <input type="number" min="0" name="sort" id="sort" lay-verify="required" lay-reqtext="请输入排序" placeholder="请输入" class="layui-input" value="0">
+                        <tip>值越小，越靠前</tip>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="descript_div">
+                    <label class="layui-form-label">描述</label>
+                    <div class="layui-input-block">
+                        <textarea name="descript" id="descript" placeholder="请输入" class="layui-textarea" style="resize: none"></textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"> 保存 </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/lib/xm-select-v1.2.2/xm-select.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'iconPickerFa'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            iconPickerFa = layui.iconPickerFa;
+
+        // 一进来默认选择的是模块
+        $('#uppermenu_div').hide(); // 隐藏上级菜单
+        $('#href_div').hide(); // 隐藏路径
+        $('#target_div').hide(); // 隐藏打开方式
+
+        // 监听radio的切换
+        form.on('radio(type)', function(data) {
+            var value = data.value;
+
+            if(0 == value){ // 模块
+                $('#uppermenu_div').hide(); // 隐藏上级菜单
+                $('#href_div').hide(); // 隐藏路径
+                $('#target_div').hide(); // 隐藏打开方式
+
+                $('#name_div').show(); // 显示名称
+                $('#sign_div').show(); // 显示标识
+                $('#icon_div').show(); // 显示图标
+                $('#sort_div').show(); // 显示排序
+                $('#descript_div').show(); // 显示描述
+
+                // 把树隐藏
+                $("#demo1").hide();
+                $("#demo2").hide();
+
+            } else if (1 == value) { // 目录
+
+                $('#uppermenu_div').show();
+                $('#href_div').hide();
+                $('#target_div').hide();
+
+                $('#name_div').show();
+                $('#sign_div').show();
+                $('#icon_div').show();
+                $('#sort_div').show();
+                $('#descript_div').show();
+
+                // 把树隐藏
+                $("#demo1").show();
+                $("#demo2").hide();
+
+            } else if (2 == value) { // 功能
+
+                $('#uppermenu_div').show();
+                $('#href_div').show();
+                $('#target_div').show();
+
+                $('#name_div').show();
+                $('#sign_div').show();
+                $('#icon_div').show();
+                $('#sort_div').show();
+                $('#descript_div').show();
+
+                // 把树隐藏
+                $("#demo1").show();
+                $("#demo2").hide();
+
+            } else if (3 == value) { // 按钮权限
+
+                $('#uppermenu_div').show();
+                $('#href_div').hide();
+                $('#target_div').hide();
+                $('#icon_div').hide();
+
+                $('#name_div').show();
+                $('#sign_div').show();
+                $('#sort_div').show();
+                $('#descript_div').show();
+
+                // 把树隐藏
+                $("#demo1").hide();
+                $("#demo2").show();
+
+            }
+        });
+
+
+        var index = layer.load(0, {shade: 0.1});
+        Util.get({
+            url: Util.ctx + 'syspermission/listPermissionByType/' + '1',
+        }, function (res) {
+            layer.close(index);
+            demo1 = xmSelect.render({
+                el: '#demo1',
+                tips: '请选择上级菜单',
+                model: { label: { type: 'text' } },
+                clickClose: true,
+                height: 'auto',
+                data: res.data,
+                theme: {
+                    color:'#1E9FFF'
+                },
+                tree: {
+                    show: true,
+                    strict: false,
+                    expandedKeys: true, //默认展开节点
+                },
+                //处理方式
+                on: function(data){
+                    if(data.isAdd){
+                        console.log("选中：" + data.change.slice(0, 1)[0].value);
+                        // 赋值给上级菜单input框
+                        $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
+                        return data.change.slice(0, 1);
+                    }
+                },
+            });
+        }, function (res) {
+            layer.close(index);
+            Message.error('获取上级菜单信息失败！', 1000);
+        });
+
+
+        Util.get({
+            url: Util.ctx + 'syspermission/listPermissionByType/' + '2',
+        }, function (res) {
+            demo1 = xmSelect.render({
+                el: '#demo2',
+                tips: '请选择上级菜单',
+                model: { label: { type: 'text' } },
+                clickClose: true,
+                height: 'auto',
+                data: res.data,
+                theme: {
+                    color:'#1E9FFF'
+                },
+                tree: {
+                    show: true,
+                    strict: false,
+                    expandedKeys: true, //默认展开节点
+                },
+                //处理方式
+                on: function(data){
+                    if(data.isAdd){
+                        console.log("选中：" + data.change.slice(0, 1)[0].value);
+                        // 赋值给上级菜单input框
+                        $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
+                        return data.change.slice(0, 1);
+                    }
+                },
+            });
+        }, function (res) {
+            Message.error('获取上级菜单信息失败！', 1000);
+        });
+
+
+        // 渲染图标模块
+        iconPickerFa.render({
+            elem: '#iconPicker',
+            url: Util.ctx + "lib/font-awesome-4.7.0/less/variables.less",
+            search: true,
+            page: true,
+            limit: 20,
+            click: function (data) {
+                form.val("formDemo", {
+                    "icon": data.icon
+                });
+            }
+        });
+
+        // 监听提交
+        form.on('submit(saveBtn)', function (res) {
+            var data = res.field;
+            // 模块
+            if(0 == data.type) {
+
+            }
+            // 目录
+            else if(1 == data.type){
+                console.log("data.uppermenuValue = " + data.uppermenuValue);
+                if(!data.uppermenuValue){
+                    Message.warning("请选择上级菜单!", 500);
+                    return false;
+                }
+            }
+            // 功能
+            else if(2 == data.type){
+                if(!data.uppermenuValue){
+                    Message.warning("请选择上级菜单!", 500);
+                    return false;
+                }
+                if(!data.href){
+                    Message.warning("请输入菜单路径!", 500);
+                    return false;
+                }
+            }
+            // 按钮权限
+            else if(3 == data.type){
+                if(!data.uppermenuValue){
+                    Message.warning("请选择上级菜单!", 500);
+                    return false;
+                }
+            }
+
+            if(!!data.icon){
+                data.icon = 'fa ' + data.icon;
+            } else {
+                data.icon = 'fa fa-home'; // 如果不选择，则设置为默认的
+            }
+
+            var index = layer.load(0, {shade: 0.1});
+            Util.post({
+                url: Util.ctx + "syspermission/doAdd",
+                data: data,
+            }, function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    Message.success(1000, res.message, function () {
+                        var windowIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(windowIndex);
+                    });
+                } else {
+                    Message.warning(res.message, 500);
+                }
+            }, function (res) {
+                layer.close(index);
+                Message.error("服务器异常！", 500);
+            });
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
