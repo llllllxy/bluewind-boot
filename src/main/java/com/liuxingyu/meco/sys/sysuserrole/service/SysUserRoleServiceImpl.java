@@ -33,15 +33,15 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
     @Override
     public Set<String> listUserRoleByUserId(Integer userId) {
         logger.info("SysUserRoleServiceImpl -- listUserRoleByUserId -- userId = {}", userId);
-        String sessionId = UserTokenUtil.getToken();
+        String token = UserTokenUtil.getToken();
 
-        Object object = redisUtil.get(SystemConst.SYSTEM_USER_ROLE + ":" + sessionId);
+        Object object = redisUtil.get(SystemConst.SYSTEM_USER_ROLE + ":" + token);
         if (null != object) {
             logger.info("SysUserRoleServiceImpl -- listUserRoleByUserId -- object = {}", object);
             return (Set<String>) object;
         }
         Set<String> set = sysUserRoleMapper.listUserRoleByUserId(userId);
-        redisUtil.set(SystemConst.SYSTEM_USER_ROLE + ":" + sessionId, set, 1800);
+        redisUtil.set(SystemConst.SYSTEM_USER_ROLE + ":" + token, set, 1800);
 
         return set;
     }

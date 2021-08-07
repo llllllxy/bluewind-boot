@@ -33,15 +33,15 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
     @Override
     public Set<String> listRolePermissionByUserId(Integer userId) {
         logger.info("SysRolePermissionServiceImpl -- listRolePermissionByUserId -- userId = {}", userId);
-        String sessionId = UserTokenUtil.getToken();
+        String token = UserTokenUtil.getToken();
 
-        Object object = redisUtil.get(SystemConst.SYSTEM_USER_PERMISSION + ":" + sessionId);
+        Object object = redisUtil.get(SystemConst.SYSTEM_USER_PERMISSION + ":" + token);
         if (null != object) {
             logger.info("SysRolePermissionServiceImpl -- listRolePermissionByUserId -- object = {}", object);
             return (Set<String>) object;
         }
         Set<String> set = permissionMapper.listRolePermissionByUserId(userId);
-        redisUtil.set(SystemConst.SYSTEM_USER_PERMISSION + ":" + sessionId, set, 1800);
+        redisUtil.set(SystemConst.SYSTEM_USER_PERMISSION + ":" + token, set, 1800);
 
         return set;
     }

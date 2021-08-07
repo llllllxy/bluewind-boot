@@ -45,4 +45,12 @@ public abstract class BaseController {
         return UserTokenUtil.getSysUserAccount();
     }
 
+    /**
+     * 获取用户token
+     * @return
+     */
+    public String getToken() {
+        return UserTokenUtil.getToken();
+    }
+
 }

@@ -10,8 +10,10 @@ import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.login.service.LoginService;
 import com.liuxingyu.meco.sys.sysloginlog.service.SysLoginLogService;
 import com.liuxingyu.meco.common.base.BaseResult;
+import com.liuxingyu.meco.sys.sysrolepermission.service.SysRolePermissionService;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import com.liuxingyu.meco.sys.sysuserinfo.service.SysUserInfoService;
+import com.liuxingyu.meco.sys.sysuserrole.service.SysUserRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author liuxingyu01
  * @date 2020-03-18-13:45
+ * @description 系统登录控制器
  **/
 @Controller
 @RequestMapping("/admin")
@@ -45,6 +49,12 @@ public class LoginController {
 
     @Autowired
     SysLoginLogService sysLoginLogService;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private SysRolePermissionService sysRolePermissionService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -107,23 +117,30 @@ public class LoginController {
 
         if (localPassword.equals(password)) {
             logger.info("LoginController - doLogin - {}登陆成功！", username);
-            Map<String, String> resultMap = new HashMap<>();
+            Map<String, Object> resultMap = new HashMap<>();
             String token = IdGenerate.uuid();
             logger.info("LoginController - doLogin - token = {}", token);
-            resultMap.put("token", token);
+            resultMap.put(SystemConst.SYSTEM_USER_COOKIE, token);
             // 将token放在cookie中
-            CookieUtils.setCookie(response, "token", token);
+            CookieUtils.setCookie(response, SystemConst.SYSTEM_USER_COOKIE, token);
             // 存储用户信息到redis
-            redisUtil.set(token, userInfo, 3600);
+            redisUtil.set(SystemConst.SYSTEM_USER_TOKEN + ":" + token, userInfo, 3600);
             // 保存登录日志
             sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！");
+
+            // 获取用户角色信息
+            Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
+            // 获取用户权限列表
+            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
+            resultMap.put("roleSet", roleSet);
+            resultMap.put("permissionSet", permissionSet);
+
             return BaseResult.success("登录成功，欢迎回来！", resultMap);
         } else {
             sysLoginLogService.saveLoginlog(request, username, 1, "密码错误，请重新输入！");
             recordLoginTimes(username);
             return BaseResult.failure("密码错误，请重新输入！");
         }
-
     }
 
     /**

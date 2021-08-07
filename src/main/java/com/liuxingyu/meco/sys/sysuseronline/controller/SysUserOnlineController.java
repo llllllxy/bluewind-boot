@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.liuxingyu.meco.common.annotation.LogAround;
 import com.liuxingyu.meco.common.base.BaseController;
 import com.liuxingyu.meco.common.base.BaseResult;
+import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.sys.sysloginlog.service.SysLoginLogService;
 import io.swagger.annotations.ApiOperation;
@@ -66,7 +67,7 @@ public class SysUserOnlineController extends BaseController {
             logger.info("SysUserOnlineController -- list -- 页面大小：" + pageSize + "--页码:" + pageNum);
         }
 
-        Set<String> keysSet = redisUtil.keys( "shiro:session:");
+        Set<String> keysSet = redisUtil.keys( SystemConst.SYSTEM_USER_TOKEN + ":");
         List<String> keysList = new ArrayList<>();
         keysSet.forEach(item -> {
             String[] strs = item.split(":");
@@ -113,7 +114,7 @@ public class SysUserOnlineController extends BaseController {
     @GetMapping("/forceLogout/{session_id}")
     @ResponseBody
     public BaseResult forceLogout(@PathVariable String session_id) {
-        redisUtil.del("shiro:session:" + session_id);
+        redisUtil.del(SystemConst.SYSTEM_USER_TOKEN + ":" + session_id);
         return BaseResult.success();
     }
 

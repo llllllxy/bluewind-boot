@@ -9,8 +9,6 @@ import com.liuxingyu.meco.index.service.IndexService;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import com.liuxingyu.meco.sys.sysuserinfo.service.SysUserInfoService;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,17 +65,17 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "/menuInit", method = RequestMethod.GET)
     @ResponseBody
     public Object menuInit() {
-        String sessionId = UserTokenUtil.getToken();
+        String token = UserTokenUtil.getToken();
 
         // 先从redis里面拿出菜单信息，拿不到的话，再去手动查询
-        Object object = redisUtil.get(SystemConst.SYSTEM_USER_MENU + ":" + sessionId);
+        Object object = redisUtil.get(SystemConst.SYSTEM_USER_MENU + ":" + token);
         if (object != null) {
             logger.info("IndexController - menuInit - 从redis获取菜单信息成功！");
             return object;
         } else {
             Map<String, Object> map = indexService.menuInit();
             // 将用户菜单信息缓存到redis中
-            redisUtil.set(SystemConst.SYSTEM_USER_MENU + ":" + sessionId, map, 1800);
+            redisUtil.set(SystemConst.SYSTEM_USER_MENU + ":" + token, map, 1800);
             return map;
         }
     }
@@ -90,8 +88,9 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "/outLogin",method = RequestMethod.GET)
     public String outLogin() {
         logger.info("IndexController - outLogin - start");
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+        String token = getToken();
+        // 删除用户的会话信息，即强制退出登录
+        redisUtil.del(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
         //回到登陆页面
         return "redirect:admin/login";
     }

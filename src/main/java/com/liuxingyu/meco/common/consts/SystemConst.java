@@ -10,32 +10,37 @@ public final class SystemConst {
     /**
      * 项目名称
      */
-    public static final String SYSTEM_ITEM_NAME = "industry-mini";
+    public static final String SYSTEM_NAME = "meco-server";
 
     /**
-     * 登录用户session
+     * 登录用户token
      */
-    public static final String SYSTEM_USER_SESSION = "systemUserSession";
+    public static final String SYSTEM_USER_TOKEN = "meco:user:token";
 
     /**
-     * 用户权限菜单
+     * 登录用户cookie-key
      */
-    public static final String SYSTEM_USER_MENU = "system_user_menu";
+    public static final String SYSTEM_USER_COOKIE = "meco_token";
+
+    /**
+     * 用户菜单
+     */
+    public static final String SYSTEM_USER_MENU = "meco:user:menu";
 
     /**
      * 用户角色
      */
-    public static final String SYSTEM_USER_ROLE = "system_user_role";
+    public static final String SYSTEM_USER_ROLE = "meco:user:role";
 
     /**
      * 用户权限
      */
-    public static final String SYSTEM_USER_PERMISSION = "system_user_permission";
+    public static final String SYSTEM_USER_PERMISSION = "meco:user:permission";
 
     /**
      * 用户登陆次数
      */
-    public static final String SYSTEM_LOGIN_TIMES = "system_login_times";
+    public static final String SYSTEM_LOGIN_TIMES = "meco:logintimes";
 
 
 }

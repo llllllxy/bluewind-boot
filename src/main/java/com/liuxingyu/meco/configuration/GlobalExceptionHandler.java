@@ -1,7 +1,6 @@
 package com.liuxingyu.meco.configuration;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authz.AuthorizationException;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,18 +23,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
-    // 缺少权限异常
-    @ExceptionHandler(value = AuthorizationException.class)
-    public String handleAuthorizationException() {
-        return "error/403";
-    }
-
-
-    // 未登陆异常
-    @ExceptionHandler(value = AuthenticationException.class)
-    public String handleAuthenticationException() {
-        return "login/login";
-    }
+//    // 缺少权限异常
+//    @ExceptionHandler(value = AuthorizationException.class)
+//    public String handleAuthorizationException() {
+//        return "error/403";
+//    }
+//
+//
+//    // 未登陆异常
+//    @ExceptionHandler(value = AuthenticationException.class)
+//    public String handleAuthenticationException() {
+//        return "login/login";
+//    }
 
 
 }
