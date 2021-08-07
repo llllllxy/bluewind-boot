@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>角色管理</title>
@@ -52,8 +52,7 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"
-                        shiro:hasPermission="system:role:add"> 新增
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 新增
                 </button>
             </div>
         </script>
@@ -61,21 +60,16 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete"
-               shiro:hasPermission="system:role:delete">删除</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
 
             {{#  if(d.status == 0){ }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-forbid" lay-event="forbid"
-               shiro:hasPermission="system:role:enableordisable">禁用</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-forbid" lay-event="forbid">禁用</a>
             {{#  } else { }}
-            <a class="layui-btn layui-btn-warm layui-btn-xs data-count-enable" lay-event="enable"
-               shiro:hasPermission="system:role:enableordisable">启用</a>
+            <a class="layui-btn layui-btn-warm layui-btn-xs data-count-enable" lay-event="enable">启用</a>
             {{#  } }}
 
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit"
-               shiro:hasPermission="system:role:update">编辑</a>
-            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-authorize" lay-event="authorize"
-               shiro:hasPermission="system:role:auth">授权</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-authorize" lay-event="authorize">授权</a>
         </script>
 
         <script type="text/html" id="statusTpl">
