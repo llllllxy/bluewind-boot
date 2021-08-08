@@ -10,10 +10,8 @@ import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.login.service.LoginService;
 import com.liuxingyu.meco.sys.sysloginlog.service.SysLoginLogService;
 import com.liuxingyu.meco.common.base.BaseResult;
-import com.liuxingyu.meco.sys.sysrolepermission.service.SysRolePermissionService;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import com.liuxingyu.meco.sys.sysuserinfo.service.SysUserInfoService;
-import com.liuxingyu.meco.sys.sysuserrole.service.SysUserRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +47,6 @@ public class LoginController {
 
     @Autowired
     private SysLoginLogService sysLoginLogService;
-
-    @Autowired
-    private SysUserRoleService sysUserRoleService;
-
-    @Autowired
-    private SysRolePermissionService sysRolePermissionService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -127,13 +119,6 @@ public class LoginController {
             redisUtil.set(SystemConst.SYSTEM_USER_TOKEN + ":" + token, userInfo, 1800);
             // 保存登录日志
             sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！");
-
-            // 获取用户角色信息
-            Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
-            // 获取用户权限列表
-            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
-            resultMap.put("roleSet", roleSet);
-            resultMap.put("permissionSet", permissionSet);
 
             return BaseResult.success("登录成功，欢迎回来！", resultMap);
         } else {

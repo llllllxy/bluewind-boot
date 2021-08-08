@@ -4,6 +4,10 @@ import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.JsonTool;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.web.CookieUtils;
+import com.liuxingyu.meco.common.utils.web.ServletUtils;
+import com.liuxingyu.meco.sys.sysrolepermission.service.SysRolePermissionService;
+import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
+import com.liuxingyu.meco.sys.sysuserrole.service.SysUserRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author liuxingyu01
@@ -32,6 +35,12 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private SysRolePermissionService sysRolePermissionService;
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
@@ -85,7 +94,25 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        //System.out.println("执行了postHandle方法");
+        System.out.println("执行了postHandle方法");
+
+        // 从请求中获取token
+        String token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
+        if (StringUtils.isBlank(token)) {
+            token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
+        }
+        logger.info("AuthenticeInterceptor -- postHandle -- token = {}", token);
+        SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
+
+        // 获取用户角色信息
+        Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
+        // 获取用户权限列表
+        Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
+
+        if (!ServletUtils.isAjaxRequest(request) && modelAndView != null) {
+            modelAndView.addObject("roleSet", roleSet);
+            modelAndView.addObject("permissionSet", permissionSet);
+        }
     }
 
     /**

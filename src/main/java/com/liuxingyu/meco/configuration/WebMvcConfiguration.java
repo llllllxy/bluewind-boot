@@ -2,6 +2,7 @@ package com.liuxingyu.meco.configuration;
 
 import com.liuxingyu.meco.configuration.security.AuthenticeInterceptor;
 import com.liuxingyu.meco.configuration.security.PermissionInterceptor;
+import com.liuxingyu.meco.configuration.security.RoleInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -43,6 +44,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return new PermissionInterceptor();
     }
 
+    @Bean
+    public RoleInterceptor getRoleInterceptor() {
+        return new RoleInterceptor();
+    }
+
+
 
     /**
      * 自定义拦截器，添加拦截路径和排除拦截路径
@@ -76,6 +83,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(getPermissionInterceptor())
                 .addPathPatterns("/**");
 
+        // 注册角色拦截器
+        registry.addInterceptor(getRoleInterceptor())
+                .addPathPatterns("/**");
 
         // 注册itfc服务拦截器
         registry.addInterceptor(getItfcInterceptor())
