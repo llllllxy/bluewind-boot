@@ -250,7 +250,7 @@ public class SysUserInfoController extends BaseController {
         SysUserInfo sysUserInfo = new SysUserInfo();
         sysUserInfo.setId(id);
         // 再进行加密两次，才是正确密码
-        SHA256Utils.SHA256Encode(salt + password);
+        password = SHA256Utils.SHA256Encode(salt + password);
         sysUserInfo.setPassword(password);
         int num = sysUserInfoService.resetPass(sysUserInfo);
         if (num > 0) {

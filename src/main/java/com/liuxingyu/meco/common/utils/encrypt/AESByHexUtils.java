@@ -16,38 +16,15 @@ import java.nio.charset.StandardCharsets;
  * @date 2021-03-18-13:08
  * @description AES/CBC/PKCS5Padding加密与解密  使用Hex编码
  **/
-@Component
 public class AESByHexUtils {
     final static Logger logger = LoggerFactory.getLogger(AESByHexUtils.class);
 
     // 算法/加密模式/填充方式
     private static final String ALGORITHMSTR = "AES/CBC/PKCS5Padding";
     // 秘钥key（可以16或32字节）（128位密钥/256位密钥）
-    //private static final String KEY = "22DEA298B0D8A99C8E8E4C71EA1AC0FC";
+    private static final String KEY = "22DEA298B0D8A99C8E8E4C71EA1AC0FC";
     // 偏移量iv（必须16字节）
-    //private static final String IV = "B54480C3A296C33B";
-
-    @Value("${decrypt.key}")
-    private String KEY;
-
-    @Value("${decrypt.iv}")
-    private String IV;
-
-    public String getKEY() {
-        return this.KEY;
-    }
-
-    public void setKEY(String KEY) {
-        this.KEY = KEY;
-    }
-
-    public String getIV() {
-        return this.IV;
-    }
-
-    public void setIV(String IV) {
-        this.IV = IV;
-    }
+    private static final String IV = "B54480C3A296C33B";
 
     /**
      * 2020-08-13-14:07--liuxingyu01
@@ -56,7 +33,7 @@ public class AESByHexUtils {
      * @param content 要加密的字符串
      * @return 430301102072 / d086af4d68888097504e536e5cfe351c / Hex字符串展示
      */
-    public String encrypt(String content) {
+    public static String encrypt(String content) {
         try {
             byte[] raw = KEY.getBytes(StandardCharsets.UTF_8);
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
@@ -79,7 +56,7 @@ public class AESByHexUtils {
      * @return 解密后的结果
      * @throws Exception
      */
-    public String decrypt(String content) {
+    public static String decrypt(String content) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHMSTR);
             byte[] raw = KEY.getBytes(StandardCharsets.UTF_8);
@@ -157,20 +134,16 @@ public class AESByHexUtils {
      * @param args
      */
     public static void main(String[] args) {
-        AESByHexUtils aesByHexUtils = new AESByHexUtils();
-        aesByHexUtils.setIV("B54480C3A296C33B");
-        aesByHexUtils.setKEY("22DEA298B0D8A99C8E8E4C71EA1AC0FC");
-
         // 原文:
         String message = "system.sysconfig.sysconfig_update";
         System.out.println("Message: " + message);
 
         // 加密:
-        String encrypted = aesByHexUtils.encrypt(message);
+        String encrypted = AESByHexUtils.encrypt(message);
         System.out.println("Encrypted: " + encrypted);
 
         // 解密:
-        String decrypted = aesByHexUtils.decrypt(encrypted);
+        String decrypted = AESByHexUtils.decrypt(encrypted);
         System.out.println("Decrypted: " + decrypted);
     }
 
