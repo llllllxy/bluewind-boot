@@ -48,7 +48,7 @@ public class LoginController {
     private SysUserInfoService sysUserInfoService;
 
     @Autowired
-    SysLoginLogService sysLoginLogService;
+    private SysLoginLogService sysLoginLogService;
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
@@ -124,7 +124,7 @@ public class LoginController {
             // 将token放在cookie中
             CookieUtils.setCookie(response, SystemConst.SYSTEM_USER_COOKIE, token);
             // 存储用户信息到redis
-            redisUtil.set(SystemConst.SYSTEM_USER_TOKEN + ":" + token, userInfo, 3600);
+            redisUtil.set(SystemConst.SYSTEM_USER_TOKEN + ":" + token, userInfo, 1800);
             // 保存登录日志
             sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！");
 

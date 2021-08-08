@@ -48,7 +48,7 @@ public class UserTokenUtil {
             if (StringUtils.isBlank(token)) {
                 token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
             }
-            logger.info("getToken -- start -- token = {}", token);
+            logger.info("UserTokenUtil -- getToken -- token = {}", token);
         }
         return token;
     }

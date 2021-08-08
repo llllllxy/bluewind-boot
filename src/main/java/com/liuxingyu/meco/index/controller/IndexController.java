@@ -44,6 +44,9 @@ public class IndexController extends BaseController {
     @Value("${hash.salt}")
     private String salt;
 
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
+
     /**
      * index页面
      *
@@ -92,7 +95,7 @@ public class IndexController extends BaseController {
         // 删除用户的会话信息，即强制退出登录
         redisUtil.del(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
         //回到登陆页面
-        return "redirect:admin/login";
+        return "redirect:" + contextPath + "admin/login";
     }
 
 
