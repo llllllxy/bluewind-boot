@@ -3,7 +3,6 @@ package com.liuxingyu.meco.common.utils.mybatis.service;
 import com.liuxingyu.meco.common.utils.mybatis.mapper.MybatisSqlToolMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,6 @@ public class MybatisSqlToolServiceImpl implements MybatisSqlToolService {
      * @param value
      * @return
      */
-    @Transactional
     public int commonInsert(String value) {
         return mybatisSqlToolMapper.commonInsert(value);
     }
@@ -44,7 +42,6 @@ public class MybatisSqlToolServiceImpl implements MybatisSqlToolService {
      * @param value
      * @return
      */
-    @Transactional
     public int commonUpdate(String value) {
         return mybatisSqlToolMapper.commonUpdate(value);
     }
@@ -55,7 +52,6 @@ public class MybatisSqlToolServiceImpl implements MybatisSqlToolService {
      * @param value
      * @return
      */
-    @Transactional
     public int commonDelete(String value) {
         return mybatisSqlToolMapper.commonDelete(value);
     }
