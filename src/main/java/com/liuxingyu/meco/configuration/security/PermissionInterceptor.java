@@ -18,6 +18,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,12 +60,12 @@ public class PermissionInterceptor implements HandlerInterceptor {
 
         // 判断请求类型，如果是OPTIONS，直接返回
         String options = HttpMethod.OPTIONS.toString();
-        logger.info("PermissionInterceptor -- preHandle -- httpMethod=" + options);
         logger.info("PermissionInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
         if (options.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }
+        // 获取RequiresPermissions注解
         RequiresPermissions annotation = ((HandlerMethod) handler).getMethodAnnotation(RequiresPermissions.class);
         if (annotation == null) {
             annotation = ((HandlerMethod) handler).getBeanType().getAnnotation(RequiresPermissions.class);
@@ -116,6 +117,26 @@ public class PermissionInterceptor implements HandlerInterceptor {
         }
     }
 
+
+    /**
+     * 处理请求完成后视图渲染之前的处理操作
+     * 通过ModelAndView参数改变显示的视图，或发往视图的方法
+     */
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+        // System.out.println("执行了postHandle方法");
+    }
+
+
+    /**
+     * 视图渲染之后的操作
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3) throws Exception {
+        // System.out.println("执行到了afterCompletion方法");
+    }
+
+
     /**
      * 无权限时的返回
      *
@@ -132,6 +153,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             response.sendRedirect(contextPath + "/error/error403");
         }
     }
+
 
     /**
      * outWrite

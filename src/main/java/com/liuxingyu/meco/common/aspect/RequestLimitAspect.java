@@ -40,7 +40,7 @@ public class RequestLimitAspect {
 
 
     /**
-     * 定义拦截规则：拦截com.liuxingyu.industry包下面的所有类中，有@RequestLimit Annotation注解的方法。
+     * 定义拦截规则：拦截com.liuxingyu.meco包下面的所有类中，有@RequestLimit Annotation注解的方法。
      */
     @Around("execution(* com.liuxingyu.meco..*(..)) && @annotation(com.liuxingyu.meco.common.annotation.RequestLimit)")
     public Object method(ProceedingJoinPoint pjp) throws Throwable {

@@ -24,9 +24,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
 
     /**
-     * 我们在注册拦截器之前，先将Interceptor手动进行注入
+     * 在注册拦截器之前，先将Interceptor手动进行注入
      * 解决拦截器中无法注入bean的问题
-     *
      * @return ItfcInterceptor
      */
     @Bean
@@ -58,40 +57,47 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        List<String> list = new ArrayList<>();
-        list.add("/admin/login"); // 登陆页面
-        list.add("/admin/doLogin"); // 登录接口
-        list.add("/kaptcha/**");  // 开放获取验证码接口
-        list.add("/anon/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
-        list.add("/itfc/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
-        list.add("/static/**");//静态资源不拦截
+        List<String> excludePathList = new ArrayList<>();
+        excludePathList.add("/admin/login"); // 登陆页面
+        excludePathList.add("/admin/doLogin"); // 登录接口
+        excludePathList.add("/kaptcha/**");  // 开放获取验证码接口
+        excludePathList.add("/anon/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
+        excludePathList.add("/itfc/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
+        excludePathList.add("/static/**");//静态资源不拦截
 
         // 开放静态文件
-        list.add("/css/**");
-        list.add("/images/**");
-        list.add("/js/**");
-        list.add("/lib/**");
-        list.add("/api/**");
+        excludePathList.add("/css/**");
+        excludePathList.add("/images/**");
+        excludePathList.add("/js/**");
+        excludePathList.add("/lib/**");
+        excludePathList.add("/api/**");
 
         // 注册会话认证拦截器
         registry.addInterceptor(getAuthenticeInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns(list)
+                .excludePathPatterns(excludePathList)
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html", "/doc.html", "/service-worker.js");// 开放接口文档(swagger-ui)
 
         // 注册权限拦截器
         registry.addInterceptor(getPermissionInterceptor())
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns(excludePathList);
 
         // 注册角色拦截器
         registry.addInterceptor(getRoleInterceptor())
-                .addPathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns(excludePathList);
 
-        // 注册itfc服务拦截器
+        // 注册itfc服务拦截器，拦截itfc开头的url
         registry.addInterceptor(getItfcInterceptor())
-                .addPathPatterns("/itfc/**"); // 拦截itfc开头的url
+                .addPathPatterns("/itfc/**");
     }
 
+
+    /**
+     * 配置静态资源映射
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 配置静态资源不被拦截

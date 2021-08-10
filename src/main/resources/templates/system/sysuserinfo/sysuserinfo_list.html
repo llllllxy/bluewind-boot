@@ -49,8 +49,12 @@
                         </div>
 
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
-                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn"><i class="layui-icon layui-icon-refresh"></i> 重 置 </button>
+                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn">
+                                <i class="layui-icon"></i> 搜 索
+                            </button>
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn">
+                                <i class="layui-icon layui-icon-refresh"></i> 重 置
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -59,14 +63,14 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button th:if="${#sets.contains(permissionSet, 'system:user:add')}" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add"><i class="layui-icon layui-icon-addition"
-                                                                 style="font-size: 10px;"></i> 添加
+                <button th:if="${#sets.contains(permissionSet, 'system:user:add')}" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">
+                    <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>添加
                 </button>
-                <button th:if="${#sets.contains(permissionSet, 'system:user:delete')}" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete"><i class="layui-icon layui-icon-subtraction"
-                                                                    style="font-size: 10px;"></i>删除
+                <button th:if="${#sets.contains(permissionSet, 'system:user:delete')}" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">
+                    <i class="layui-icon layui-icon-subtraction" style="font-size: 10px;"></i>删除
                 </button>
-                <button th:if="${#sets.contains(permissionSet, 'system:user:downloadPdf')}" class="layui-btn layui-btn-sm" lay-event="downloadPdf"><i class="layui-icon layui-icon-download-circle"
-                                                                         style="font-size: 10px;"></i>导出pdf
+                <button th:if="${#sets.contains(permissionSet, 'system:user:downloadPdf')}" class="layui-btn layui-btn-sm" lay-event="downloadPdf">
+                    <i class="layui-icon layui-icon-download-circle" style="font-size: 10px;"></i>导出pdf
                 </button>
             </div>
         </script>

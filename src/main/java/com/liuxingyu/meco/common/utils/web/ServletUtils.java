@@ -12,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
@@ -30,17 +31,12 @@ public class ServletUtils {
 
     /**
      * 获取当前请求对象
-     * web.xml: <listener><listener-class>
-     * org.springframework.web.context.request.RequestContextListener
-     * </listener-class></listener>
+     *
      */
     public static HttpServletRequest getRequest() {
         HttpServletRequest request = null;
         try {
             request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-            if (request == null) {
-                return null;
-            }
             return request;
         } catch (Exception e) {
             return null;
@@ -49,21 +45,25 @@ public class ServletUtils {
 
     /**
      * 获取当前响应对象
-     * web.xml: <filter><filter-name>requestContextFilter</filter-name><filter-class>
-     * org.springframework.web.filter.RequestContextFilter</filter-class></filter><filter-mapping>
-     * <filter-name>requestContextFilter</filter-name><url-pattern>/*</url-pattern></filter-mapping>
+     *
      */
     public static HttpServletResponse getResponse() {
         HttpServletResponse response = null;
         try {
             response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
-            if (response == null) {
-                return null;
-            }
+            return response;
         } catch (Exception e) {
             return null;
         }
-        return response;
+    }
+
+
+    /**
+     * 获取session
+     *
+     */
+    public static HttpSession getSession() {
+        return getRequest().getSession();
     }
 
 
@@ -73,7 +73,6 @@ public class ServletUtils {
      * @param request
      */
     public static boolean isAjaxRequest(HttpServletRequest request) {
-
         String accept = request.getHeader("accept");
         if (accept != null && accept.indexOf("application/json") != -1) {
             return true;

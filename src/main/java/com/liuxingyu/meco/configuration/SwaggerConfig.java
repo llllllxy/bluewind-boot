@@ -41,13 +41,12 @@ public class SwaggerConfig {
         // 配置请求头，即在header里加上token，前后端分离时能用到
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(new ParameterBuilder()
-                .name("Authorization")
-                .description("认证Authorization")
+                .name("meco_token")
+                .description("认证token")
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
                 .required(false)
                 .build());
-
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
@@ -62,9 +61,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Wowo-mini接口文档") // 标题
+                .title("meco-server接口文档") // 标题
                 .contact(new Contact("liuxingyu01", "", "liuxingyu9725@foxmail.com")) // 作者
-                .description("Wowo-mini系统的文档") // 简介
+                .description("meco-server系统接口文档") // 简介
                 .termsOfServiceUrl("无") // 服务条款url
                 .version("1.0.0") // 版本
                 .build();
