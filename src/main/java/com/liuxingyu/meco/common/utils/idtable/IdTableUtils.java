@@ -1,11 +1,14 @@
 package com.liuxingyu.meco.common.utils.idtable;
 
 import com.liuxingyu.meco.common.utils.RedisUtil;
+import com.liuxingyu.meco.common.utils.lang.StringUtils;
 import com.liuxingyu.meco.common.utils.mybatis.MybatisSqlTool;
 import com.liuxingyu.meco.common.utils.spring.SpringUtil;
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,6 +21,7 @@ import java.util.Optional;
  **/
 public class IdTableUtils {
     final static Logger logger = LoggerFactory.getLogger(IdTableUtils.class);
+    private static final String[] AFFIX_FORMAT = {"yyyy", "yy", "MM", "dd", "HH", "mm", "ss"};
 
     private static RedisUtil redisUtil;
 
@@ -39,7 +43,7 @@ public class IdTableUtils {
      * @param idCode
      * @return
      */
-    public static int nextIntValue(String idCode) {
+    public static int nextIntId(String idCode) {
         return getNextIntIdValue(idCode);
     }
 
@@ -50,7 +54,7 @@ public class IdTableUtils {
      * @param idCode
      * @return
      */
-    public static long nextLongValue(String idCode) {
+    public static long nextLongId(String idCode) {
         return getNextLongIdValue(idCode);
     }
 
@@ -61,7 +65,7 @@ public class IdTableUtils {
      * @param idCode
      * @return
      */
-    public static String nextStringValue(String idCode) {
+    public static String nextStringId(String idCode) {
         return getNextStringIdValue(idCode);
     }
 
@@ -100,14 +104,14 @@ public class IdTableUtils {
      * @return
      */
     private static long getNextLongIdValue(String idCode) {
-        int maxId = 0;
+        long maxId = 0;
         try {
             Map idT = getIdTable(idCode);
             if (idT == null) {
                 throw new RuntimeException("getNextIntIdValue - 未找到ID_ID 为【" + idCode + "】的最大号记录！");
             }
             //获取当前最大编号
-            maxId = idT.get("id_value") == null ? 0 : Integer.parseInt(idT.get("id_value").toString());
+            maxId = idT.get("id_value") == null ? 0 : Long.parseLong(idT.get("id_value").toString());
             maxId++;
             //更新最大号
             updateIdTable(maxId, idCode);
@@ -137,20 +141,18 @@ public class IdTableUtils {
             int maxId = idT.get("id_value") == null ? 0 : Integer.parseInt(idT.get("id_value").toString());
             maxId++;
 
+            Date dateTime = new Date();
+            // 是否有前缀 1有，0没有
             String hasPrefix = (String) idT.get("has_prefix");
-            // 是否有前缀 0有，1没有
-            String idPrefix = "";
-            if ("0".equals(hasPrefix)) {
-                // 前缀
-                idPrefix = Optional.ofNullable(idT.get("id_prefix")).orElse("").toString();
-            }
-            // 是否有后缀 0有，1没有
+            // 前缀内容
+            String idPrefix = Optional.ofNullable(idT.get("id_prefix")).orElse("").toString();
+            idPrefix = compoundAffix(hasPrefix, idPrefix, dateTime);
+
+            // 是否有后缀 1有，0没有
             String hasSuffix = (String) idT.get("has_suffix");
-            String idSuffix = "";
-            if ("0".equals(hasSuffix)) {
-                // 后缀
-                idSuffix = Optional.ofNullable(idT.get("id_suffix")).orElse("").toString();
-            }
+            String idSuffix = Optional.ofNullable(idT.get("id_suffix")).orElse("").toString();
+            // 后缀内容
+            idSuffix = compoundAffix(hasSuffix, idSuffix, dateTime);
 
             // 长度
             int idLen = idT.get("id_length") == null ? 10 : Integer.parseInt(idT.get("id_length").toString());
@@ -189,7 +191,7 @@ public class IdTableUtils {
             result = MybatisSqlTool.selectMapAnySql(sql);
             // 放入redis中
             String id_id = (String) result.get("id_id");
-            redisUtil.set(id_id, result, -1);
+            getRedisUtil().set(id_id, result, -1);
             return result;
         }
     }
@@ -206,7 +208,26 @@ public class IdTableUtils {
         Map result = (Map) getRedisUtil().get(idCode);
         if (result != null && !result.isEmpty()) {
             result.put("id_value", maxId);
-            redisUtil.set(idCode, result, -1);
+            getRedisUtil().set(idCode, result, -1);
+        } else {
+            String sql = "update sys_id_table set id_value= " + maxId + " where id_id= '" + idCode + "'";
+            MybatisSqlTool.updateAnySql(sql);
+        }
+    }
+
+
+    /**
+     * 更新最大号
+     *
+     * @param maxId
+     * @param idCode
+     * @return
+     */
+    private static void updateIdTable(long maxId, String idCode) {
+        Map result = (Map) getRedisUtil().get(idCode);
+        if (result != null && !result.isEmpty()) {
+            result.put("id_value", maxId);
+            getRedisUtil().set(idCode, result, -1);
         } else {
             String sql = "update sys_id_table set id_value= " + maxId + " where id_id= '" + idCode + "'";
             MybatisSqlTool.updateAnySql(sql);
@@ -217,8 +238,8 @@ public class IdTableUtils {
     /**
      * 获取指定位数的数字字符串，不足补0
      *
-     * @param maxId
-     * @param numLen
+     * @param maxId  数字
+     * @param numLen 位数
      * @return
      */
     private static String get0Str(long maxId, int numLen) {
@@ -230,4 +251,39 @@ public class IdTableUtils {
         return retStr + String.valueOf(maxId);
     }
 
+    /**
+     * 完善前缀和后缀
+     *
+     * @param isAffix  是否有前缀或者后缀 1有 0无
+     * @param affix    前缀或者后缀内容
+     * @param dateTime 当前时间
+     * @return
+     */
+    private static String compoundAffix(String isAffix, String affix, Date dateTime) {
+        if (StringUtils.isNotBlank(isAffix) && isAffix.equals("1")) {
+            if (StringUtils.isNotBlank(affix)) {
+                affix = affix.trim();
+                for (String format : AFFIX_FORMAT) {
+                    affix = affix.replace(format, formatDate(dateTime, format));
+                }
+                return affix;
+            }
+        }
+        return "";
+    }
+
+
+    /**
+     * 得到日期字符串 默认格式（yyyy-MM-dd） pattern可以为："yyyy-MM-dd" "HH:mm:ss" "E"
+     */
+    public static String formatDate(Date date, String pattern) {
+        String formatDate = null;
+        if (date != null) {
+            if (StringUtils.isBlank(pattern)) {
+                pattern = "yyyy-MM-dd";
+            }
+            formatDate = FastDateFormat.getInstance(pattern).format(date);
+        }
+        return formatDate;
+    }
 }
