@@ -280,6 +280,28 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
 
 
     /**
+     * 获取两个ArrayList的交集
+     * @param firstArrayList 第一个ArrayList
+     * @param secondArrayList 第二个ArrayList
+     * @return resultList 交集ArrayList
+     */
+    public static List<String> intersectionList(List<String> firstArrayList, List<String> secondArrayList) {
+        // 大集合用linkedlist
+        LinkedList<String> result = new LinkedList<String>(firstArrayList);
+        // 小集合用hashset
+        HashSet<String> othHash = new HashSet<String>(secondArrayList);
+        // 采用Iterator迭代器进行数据的操作
+        Iterator<String> iter = result.iterator();
+        while(iter.hasNext()) {
+            if(!othHash.contains(iter.next())) {
+                iter.remove();
+            }
+        }
+        return  new ArrayList<String>(result);
+    }
+
+
+    /**
      * 列表分页方法
      *
      * @param list      源数据
