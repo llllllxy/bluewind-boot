@@ -20,6 +20,7 @@ import java.util.Map.Entry;
 /**
  * @author liuxingyu01
  * @date 2021-04-07-12:31
+ * @description Servlet工具类
  **/
 public class ServletUtils {
     public static final String DEFAULT_PARAMS_PARAM = "params";            // 登录扩展参数（JSON字符串）优先级高于扩展参数前缀
