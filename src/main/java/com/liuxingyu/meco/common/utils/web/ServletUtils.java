@@ -427,13 +427,16 @@ public class ServletUtils {
     }
 
 
+    /**
+     * 是否包含字符串
+     *
+     * @param str  验证字符串
+     * @param strs 字符串组
+     * @return 包含返回true
+     */
     public static boolean inStringIgnoreCase(String str, String... strs) {
         if (str != null && strs != null) {
-            String[] var2 = strs;
-            int var3 = strs.length;
-
-            for (int var4 = 0; var4 < var3; ++var4) {
-                String s = var2[var4];
+            for (String s : strs) {
                 if (str.equalsIgnoreCase(StringUtils.trim(s))) {
                     return true;
                 }
