@@ -28,6 +28,7 @@ public class UserTokenUtil {
     }
 
     private static RedisUtil redisUtil;
+
     private static RedisUtil getRedisUtil() {
         if (redisUtil == null) {
             redisUtil = SpringUtil.getBean("redisUtil");
@@ -37,6 +38,7 @@ public class UserTokenUtil {
 
     /**
      * 获取用户token
+     *
      * @return
      */
     public static String getToken() {
@@ -44,6 +46,7 @@ public class UserTokenUtil {
         String token = "";
         if (request != null) {
             logger.info("UserTokenUtil -- getToken -- start");
+            // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
             token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
             if (StringUtils.isBlank(token)) {
                 token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
@@ -61,9 +64,8 @@ public class UserTokenUtil {
      */
     public static SysUserInfo getSysUserInfo() {
         try {
-           String token = getToken();
-           SysUserInfo userInfo = (SysUserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
-           return userInfo;
+            String token = getToken();
+            return (SysUserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
         } catch (Exception e) {
             logger.error("UserTokenUtil -- getSysUserInfo:{e}", e);
         }
@@ -101,7 +103,7 @@ public class UserTokenUtil {
                 return userInfo.getAccount();
             }
         } catch (Exception e) {
-            logger.error("UserTokenUtil -- getSysUserId:{e}", e);
+            logger.error("UserTokenUtil -- getSysUserAccount:{e}", e);
         }
         return null;
     }

@@ -60,7 +60,7 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }
-        // 从请求中获取token
+        // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
         String token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
         if (StringUtils.isBlank(token)) {
             token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
@@ -96,7 +96,7 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         System.out.println("执行了postHandle方法");
 
-        // 从请求中获取token
+        // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
         String token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
         if (StringUtils.isBlank(token)) {
             token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);

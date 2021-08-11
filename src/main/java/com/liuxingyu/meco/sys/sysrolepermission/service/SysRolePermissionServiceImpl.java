@@ -37,7 +37,7 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
 
         Object object = redisUtil.get(SystemConst.SYSTEM_USER_PERMISSION + ":" + token);
         if (null != object) {
-            logger.info("SysRolePermissionServiceImpl -- listRolePermissionByUserId -- object = {}", object);
+            logger.info("SysRolePermissionServiceImpl -- listRolePermissionByUserId -- getCacheSuccess = {}", object);
             return (Set<String>) object;
         }
         Set<String> set = permissionMapper.listRolePermissionByUserId(userId);

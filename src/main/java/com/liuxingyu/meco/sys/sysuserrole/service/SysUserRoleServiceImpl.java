@@ -37,7 +37,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 
         Object object = redisUtil.get(SystemConst.SYSTEM_USER_ROLE + ":" + token);
         if (null != object) {
-            logger.info("SysUserRoleServiceImpl -- listUserRoleByUserId -- object = {}", object);
+            logger.info("SysUserRoleServiceImpl -- listUserRoleByUserId -- getCacheSuccess = {}", object);
             return (Set<String>) object;
         }
         Set<String> set = sysUserRoleMapper.listUserRoleByUserId(userId);

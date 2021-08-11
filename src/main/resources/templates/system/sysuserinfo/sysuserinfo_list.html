@@ -78,10 +78,10 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
-            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-delete" lay-event="authorize">角色</a>
-            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-delete" lay-event="editpassword">修改密码</a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:edit')}" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:delete')}" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:authorize')}" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="authorize">角色</a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:editpassword')}" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="editpassword">修改密码</a>
         </script>
 
         <script type="text/html" id="statusTpl">
@@ -157,7 +157,9 @@
                 };
             },
             done: function(res, curr, count) { // done为数据渲染完的回调
-
+                // 测试打印出后端返回的权限列表
+                let permissionSet = [[${permissionSet}]];
+                console.log(JSON.stringify(permissionSet));
             }
         });
 
