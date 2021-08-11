@@ -343,16 +343,6 @@
                     <include>**/*.*</include>
                 </includes>
             </resource>
-            <!--引入mapper对应的xml文件-->
-            <resource>
-                <directory>src/main/java</directory>
-                <!--打开资源过滤功能-->
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-
         </resources>
     </build>
 
