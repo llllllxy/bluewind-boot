@@ -156,8 +156,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     // 缩略字符串替换Html正则表达式预编译
-    private static Pattern p1 = Pattern.compile("<([a-zA-Z]+)[^<>]*>");
-
+    private static final Pattern p1 = Pattern.compile("<([a-zA-Z]+)[^<>]*>");
 
     /**
      * 缩略字符串（适应于与HTML标签的）
@@ -253,7 +252,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         if (s == null) {
             return null;
         }
-
         s = s.toLowerCase();
 
         StringBuilder sb = new StringBuilder(s.length());
@@ -562,6 +560,55 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             return defaultValue;
         }
     }
+
+
+    /**
+     * 判断字符串是否为数字
+     */
+    public static boolean isNumber(String str) {
+        return ((str != null) && (((str.matches("[+-]?[0-9]+\\.?[0-9]*")) || (str.matches("[+-]?[0-9]*\\.?[0-9]+")))));
+    }
+
+    /**
+     * 判断字符串是否为整数
+     */
+    public static boolean isInteger(String str) {
+        return ((str != null) && (str.matches("[+-]?[0-9]+")));
+    }
+
+    /**
+     * 判断字符串是否为自然数（非负整数）
+     */
+    public static boolean isNaturalNumber(String str) {
+        if (str == null) {
+            return false;
+        }
+        if ("0".equals(str)) {
+            return true;
+        } else {
+            for (int i = str.length(); --i >= 0;) {
+                int chr = str.charAt(i);
+                if (chr < 48 || chr > 57)
+                    return false;
+            }
+            return true;
+        }
+    }
+
+    /**
+     * 判断字符串是否为boolean类型
+     */
+    public static boolean isBoolean(String str) {
+        return ((!"".equals(str) && str != null) && ((("true".equals(str)) || ("false".equals(str)))));
+    }
+
+    /**
+     * 判断字符串是否全为字母
+     */
+    public static boolean isLetters(String str) {
+        return ((!"".equals(str) && str != null) && (str.matches("[a-zA-z]+")));
+    }
+
 
 //	/**
 //	 * 测试代码
