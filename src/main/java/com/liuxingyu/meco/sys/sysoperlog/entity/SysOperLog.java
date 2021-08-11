@@ -1,7 +1,13 @@
 package com.liuxingyu.meco.sys.sysoperlog.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -10,29 +16,51 @@ import java.io.Serializable;
  * @author liuxingyu01
  * @date 2021-03-05-13:35
  **/
+@TableName("sys_oper_log")
+@ApiModel(value = "SysOperLog对象", description = "系统操作日志表")
 public class SysOperLog implements Serializable {
     private static final long serialVersionUID = -4516808988241959991L;
 
+    @ApiModelProperty(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @ApiModelProperty(value = "model")
+    @TableField(value = "model")
     private String model;
 
+    @ApiModelProperty(value = "url")
+    @TableField(value = "url")
     private String url;
 
+    @ApiModelProperty(value = "method")
+    @TableField(value = "method")
     private String method;
 
+    @ApiModelProperty(value = "descript")
+    @TableField(value = "descript")
     private String descript;
 
+    @ApiModelProperty(value = "ip")
+    @TableField(value = "ip")
     private String ip;
 
+    @ApiModelProperty(value = "type")
+    @TableField(value = "type")
     private String type;
 
+    @ApiModelProperty(value = "spendTime")
+    @TableField(value = "spend_time")
     private Integer spendTime;
 
+    @ApiModelProperty(value = "createUser")
+    @TableField(value = "create_user")
     private Integer createUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "createTime")
+    @TableField(value = "create_time")
     private String createTime;
 
     public static long getSerialVersionUID() {

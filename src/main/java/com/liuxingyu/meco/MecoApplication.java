@@ -1,7 +1,6 @@
 package com.liuxingyu.meco;
 
 import com.liuxingyu.meco.common.utils.db.DbTypeUtil;
-import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +15,7 @@ import java.net.UnknownHostException;
 
 // 将spring boot自带的DataSourceAutoConfiguration禁掉，
 // 因为它会读取application.yml文件的spring.datasource.*属性并自动配置单数据源
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, MybatisAutoConfiguration.class})
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableTransactionManagement // 简单开启事务管理
 public class MecoApplication {
     final static Logger logger = LoggerFactory.getLogger(MecoApplication.class);

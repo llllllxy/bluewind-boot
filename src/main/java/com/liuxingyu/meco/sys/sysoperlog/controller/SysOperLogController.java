@@ -1,5 +1,6 @@
 package com.liuxingyu.meco.sys.sysoperlog.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liuxingyu.meco.common.annotation.LogAround;
@@ -72,24 +73,20 @@ public class SysOperLogController extends BaseController {
         if (logger.isInfoEnabled()) {
             logger.info("SysOperLogController -- list -- 页面大小：" + pageSize + "--页码:" + pageNum);
         }
-
-        Map<String, String> paraMap = new HashMap<>();
+        Map<String, Object> paraMap = new HashMap<>();
         paraMap.put("model", model);
         paraMap.put("type", type);
         paraMap.put("sortName", sortName);
         paraMap.put("sortOrder", sortOrder);
         paraMap.put("createTime", createTime);
+        paraMap.put("pageNum", pageNum);
+        paraMap.put("pageSize", pageSize);
 
-        List<SysOperLog> logs = sysOperLogService.list(paraMap);
+        Page<SysOperLog> logs = sysOperLogService.list(paraMap);
 
-        PageInfo<SysOperLog> pageinfo = new PageInfo<>(logs);
-        // 取出查询结果
-        List<SysOperLog> rows = pageinfo.getList();
-        int total = (int) pageinfo.getTotal();
         Map<String, Object> result = new HashMap<>();
-        result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, total);
-
+        result.put(RESULT_ROWS, logs.getRecords());
+        result.put(RESULT_TOTLAL, logs.getTotal());
         return BaseResult.success(result);
     }
 

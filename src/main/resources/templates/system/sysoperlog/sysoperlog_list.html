@@ -94,7 +94,7 @@
             elem: '#currentTableId',
             url: Util.ctx + 'sysoperlog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
-            where: {sortName: 'id', sortOrder: 'asc'}, // 初始化时带的参数
+            where: {sortName: 'id', sortOrder: 'desc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -103,14 +103,14 @@
             }],
             cols: [
                 [
-                    {field: 'id', width: '5%', title: '序号', sort: true, align: 'center'},
-                    {field: 'model', width: '10%', title: '操作模块', align: 'center'},
+                    {field: 'id', width: '6%', title: '序号', sort: true, align: 'center'},
+                    {field: 'model', width: '9%', title: '操作模块', align: 'center'},
                     {field: 'type', width: '10%', title: '操作类型', sort: true},
                     {field: 'method', width: '15%', title: '操作方法'},
                     {field: 'url', width: '15%', title: '请求URI', sort: true, align: 'center'},
-                    {field: 'descript', width: '20%', title: '操作描述'},
+                    {field: 'descript', width: '19%', title: '操作描述'},
                     {field: 'ip', width: '10%', title: '请求IP', sort: true},
-                    {field: 'spendTime', width: '5%', title: '耗时', sort: true},
+                    {field: 'spendTime', width: '6%', title: '耗时', sort: true},
                     {field: 'createTime', width: '10%', title: '操作时间', sort: true}
                 ]
             ],
