@@ -1,4 +1,4 @@
-package com.liuxingyu.meco.index.vo;
+package com.liuxingyu.meco.sys.index.vo;
 
 import java.io.Serializable;
 import java.util.List;

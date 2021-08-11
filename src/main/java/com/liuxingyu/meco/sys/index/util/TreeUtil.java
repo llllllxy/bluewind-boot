@@ -1,6 +1,6 @@
-package com.liuxingyu.meco.index.util;
+package com.liuxingyu.meco.sys.index.util;
 
-import com.liuxingyu.meco.index.vo.MenuVo;
+import com.liuxingyu.meco.sys.index.vo.MenuVo;
 
 import java.util.ArrayList;
 import java.util.List;

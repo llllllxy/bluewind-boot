@@ -1,6 +1,6 @@
-package com.liuxingyu.meco.login.service;
+package com.liuxingyu.meco.sys.login.service;
 
-import com.liuxingyu.meco.login.mapper.LoginMapper;
+import com.liuxingyu.meco.sys.login.mapper.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,12 +15,5 @@ import java.util.Map;
 public class LoginService {
     @Autowired
     private LoginMapper loginMapper;
-    /*
-     * 查询登陆用户的信息
-     */
-    public List<Map> userLogin(Map map){
-
-        return loginMapper.userLogin(map);
-    }
 }
 

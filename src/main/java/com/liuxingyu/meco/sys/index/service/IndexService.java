@@ -1,10 +1,10 @@
-package com.liuxingyu.meco.index.service;
+package com.liuxingyu.meco.sys.index.service;
 
 import com.liuxingyu.meco.common.utils.lang.StringUtils;
 import com.liuxingyu.meco.configuration.security.UserTokenUtil;
-import com.liuxingyu.meco.index.mapper.IndexMapper;
-import com.liuxingyu.meco.index.util.TreeUtil;
-import com.liuxingyu.meco.index.vo.MenuVo;
+import com.liuxingyu.meco.sys.index.mapper.IndexMapper;
+import com.liuxingyu.meco.sys.index.util.TreeUtil;
+import com.liuxingyu.meco.sys.index.vo.MenuVo;
 import com.liuxingyu.meco.sys.sysconfig.entity.SysConfig;
 import com.liuxingyu.meco.sys.sysconfig.service.SysConfigService;
 import org.slf4j.Logger;

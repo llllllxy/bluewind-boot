@@ -1,4 +1,4 @@
-package com.liuxingyu.meco.index.mapper;
+package com.liuxingyu.meco.sys.index.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,6 @@ import java.util.Map;
  **/
 @Repository
 public interface IndexMapper {
-
 
     /**
      * 根据用户名查询一个账户

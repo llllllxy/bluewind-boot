@@ -1,4 +1,4 @@
-package com.liuxingyu.meco.login.controller;
+package com.liuxingyu.meco.sys.login.controller;
 
 import com.liuxingyu.meco.common.annotation.LogAround;
 import com.liuxingyu.meco.common.utils.RedisUtil;
@@ -7,7 +7,7 @@ import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
 import com.liuxingyu.meco.common.utils.web.CookieUtils;
 import com.liuxingyu.meco.configuration.kaptcha.KaptchaUtil;
 import com.liuxingyu.meco.common.consts.SystemConst;
-import com.liuxingyu.meco.login.service.LoginService;
+import com.liuxingyu.meco.sys.login.service.LoginService;
 import com.liuxingyu.meco.sys.sysloginlog.service.SysLoginLogService;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;

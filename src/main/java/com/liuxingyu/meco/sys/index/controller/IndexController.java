@@ -1,11 +1,11 @@
-package com.liuxingyu.meco.index.controller;
+package com.liuxingyu.meco.sys.index.controller;
 
 import com.liuxingyu.meco.common.base.BaseController;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.encrypt.SHA256Utils;
 import com.liuxingyu.meco.configuration.security.UserTokenUtil;
-import com.liuxingyu.meco.index.service.IndexService;
+import com.liuxingyu.meco.sys.index.service.IndexService;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import com.liuxingyu.meco.sys.sysuserinfo.service.SysUserInfoService;
