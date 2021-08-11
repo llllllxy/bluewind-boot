@@ -42,12 +42,12 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      */
     @Override
     @Async("asyncServiceExecutor") // 耗时操作放进线程池去操作
-    public void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript) {
+    public void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript, String token) {
         SysLoginLog sysLoginLog = new SysLoginLog();
         sysLoginLog.setAccount(account);
         sysLoginLog.setDescript(descript);
         sysLoginLog.setStatus(status);
-        sysLoginLog.setSessionId(UserTokenUtil.getToken());
+        sysLoginLog.setSessionId(token);
         try {
             // 获取ip地址
             sysLoginLog.setIp(IPUtils.getIpAddress(request));

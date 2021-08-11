@@ -71,7 +71,7 @@ public class SysUserOnlineController extends BaseController {
         List<String> keysList = new ArrayList<>();
         keysSet.forEach(item -> {
             String[] strs = item.split(":");
-            keysList.add(strs[2]);
+            keysList.add(strs[3]);
         });
         if (logger.isInfoEnabled()) {
             logger.info("SysUserOnlineController - list - keysList：{}", keysList);

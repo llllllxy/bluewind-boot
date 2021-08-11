@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author liuxingyu01
@@ -85,13 +84,13 @@ public class LoginController {
         SysUserInfo userInfo = sysUserInfoService.getOne(username);
         // 没找到帐号(用户不存在)
         if (userInfo == null) {
-            sysLoginLogService.saveLoginlog(request, username, 1, "账户不存在！");
+            sysLoginLogService.saveLoginlog(request, username, 1, "账户不存在！", "");
             return BaseResult.failure("账户不存在！");
         }
         // 校验用户状态(用户已失效)
         // Integer包装类型在和基本数据类型比较时,jvm会自动把包装数据类型拆箱为基本数据类型int,所以额可以直接比较
         if (1 == userInfo.getStatus()) {
-            sysLoginLogService.saveLoginlog(request, username, 1, "该账户已被冻结！");
+            sysLoginLogService.saveLoginlog(request, username, 1, "该账户已被冻结！", "");
             return BaseResult.failure("该账户已被冻结！");
         }
 
@@ -99,7 +98,7 @@ public class LoginController {
         int errorTimes = redisUtil.get(SystemConst.SYSTEM_LOGIN_TIMES + ":" + userInfo.getAccount()) == null ? 0
                 : Integer.parseInt((String) redisUtil.get(SystemConst.SYSTEM_LOGIN_TIMES + ":" + userInfo.getAccount()));
         if (errorTimes >= 5) {
-            sysLoginLogService.saveLoginlog(request, username, 1, "密码连续输入错误超过5次，账号将被锁定半小时！");
+            sysLoginLogService.saveLoginlog(request, username, 1, "密码连续输入错误超过5次，账号将被锁定半小时！", "");
             redisUtil.expire(SystemConst.SYSTEM_LOGIN_TIMES + ":" + username, 1800);
             return BaseResult.failure("密码连续输入错误超过5次，账号将被锁定半小时！");
         }
@@ -118,11 +117,11 @@ public class LoginController {
             // 存储用户信息到redis
             redisUtil.set(SystemConst.SYSTEM_USER_TOKEN + ":" + token, userInfo, 1800);
             // 保存登录日志
-            sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！");
+            sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！", token);
 
             return BaseResult.success("登录成功，欢迎回来！", resultMap);
         } else {
-            sysLoginLogService.saveLoginlog(request, username, 1, "密码错误，请重新输入！");
+            sysLoginLogService.saveLoginlog(request, username, 1, "密码错误，请重新输入！", "");
             recordLoginTimes(username);
             return BaseResult.failure("密码错误，请重新输入！");
         }
