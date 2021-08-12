@@ -1,10 +1,10 @@
 package com.liuxingyu.meco.sys.sysmaillog.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.liuxingyu.meco.configuration.security.UserTokenUtil;
 import com.liuxingyu.meco.sys.sysmail.entity.SysEmailLog;
 import com.liuxingyu.meco.sys.sysmail.entity.SysEmailLogVO;
 import com.liuxingyu.meco.sys.sysmaillog.mapper.SysEmailLogMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class SysEmailLogServiceImpl implements SysEmailLogService {
     public int saveSysEmailLog(SysEmailLogVO sysEmailLogVO) {
         SysEmailLog sysEmailLog = new SysEmailLog();
         // 属性复制
-        BeanUtil.copyProperties(sysEmailLogVO, sysEmailLog);
+        BeanUtils.copyProperties(sysEmailLogVO, sysEmailLog);
         sysEmailLog.setCreateUser(UserTokenUtil.getSysUserId());
         return sysEmailLogMapper.saveSysEmailLog(sysEmailLogVO);
     }

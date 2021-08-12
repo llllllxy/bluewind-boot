@@ -132,7 +132,7 @@ public class OssStorageUtils {
         OSS ossClient = getOssClient();
         try {
             if (metaData == null) {
-                metaData = new HashMap();
+                metaData = new HashMap<>();
             }
             for (String key : metaData.keySet()) {
                 byte[] by = metaData.get(key).getBytes(StandardCharsets.UTF_8);

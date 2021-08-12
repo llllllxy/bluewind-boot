@@ -1,6 +1,7 @@
 package com.liuxingyu.meco.common.utils.lang;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;

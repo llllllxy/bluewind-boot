@@ -35,8 +35,10 @@ layui.config({
 /**
  * 封装nprogress进度条模块
  */
-layui.use(['nprogress'], function () {
+layui.use(['nprogress', 'layer'], function () {
     var nprogress = layui.nprogress;
+    var layer = layui.layer;
+
     /**
      * 页面加载进度条
      */
@@ -45,6 +47,27 @@ layui.use(['nprogress'], function () {
         // 进度条结束
         nprogress.done();
     }
+
+    /**
+     * 鼠标移入，显示弹窗
+     */
+    let tipsIndex;
+    $('body').on('mouseover', 'tbody .layui-table-cell', function () {
+        let that = this;
+        if (!$(this).hasClass('laytable-cell-numbers') && 0 == $(this).find('a').length && !!filterHTMLTag($(this).html())) {
+            tipsIndex = layer.tips(filterHTMLTag($(this).html()), that, {tips: [1, '#4BB2FF'], time: 5000});
+        }
+    });
+
+    /**
+     * 鼠标移出，关闭弹窗
+     */
+    $('body').on('mouseout', 'tbody .layui-table-cell', function () {
+        if (!$(this).hasClass('laytable-cell-numbers') && 0 == $(this).find('a').length && !!filterHTMLTag($(this).html())) {
+            layer.close(tipsIndex);
+        }
+    });
+
 });
 
 
