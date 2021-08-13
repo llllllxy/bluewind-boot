@@ -10,6 +10,7 @@ import com.liuxingyu.meco.common.utils.encrypt.SHA256Utils;
 import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
 import com.liuxingyu.meco.configuration.security.UserTokenUtil;
 import com.liuxingyu.meco.configuration.security.annotation.RequiresPermissions;
+import com.liuxingyu.meco.configuration.security.enums.Logical;
 import com.liuxingyu.meco.sys.sysroleinfo.service.SysRoleInfoService;
 import com.liuxingyu.meco.sys.sysuserinfo.service.SysUserInfoService;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;

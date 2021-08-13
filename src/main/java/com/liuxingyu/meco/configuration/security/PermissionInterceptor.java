@@ -7,6 +7,7 @@ import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.web.CookieUtils;
 import com.liuxingyu.meco.common.utils.web.ServletUtils;
 import com.liuxingyu.meco.configuration.security.annotation.RequiresPermissions;
+import com.liuxingyu.meco.configuration.security.enums.Logical;
 import com.liuxingyu.meco.sys.sysrolepermission.service.SysRolePermissionService;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -44,8 +45,6 @@ public class PermissionInterceptor implements HandlerInterceptor {
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-    private static final String OR_OPERATOR = " OR ";
-    private static final String AND_OPERATOR = " AND ";
 
     /**
      * 进入controller层之前拦截请求
@@ -57,7 +56,6 @@ public class PermissionInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-
         // 判断请求类型，如果是OPTIONS，直接返回
         String options = HttpMethod.OPTIONS.toString();
         logger.info("PermissionInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
@@ -70,11 +68,11 @@ public class PermissionInterceptor implements HandlerInterceptor {
         if (annotation == null) {
             annotation = ((HandlerMethod) handler).getBeanType().getAnnotation(RequiresPermissions.class);
         }
-        // 接口上没有注解，说明这个接口无权限控制
+        // 接口上没有注解，说明这个接口无权限控制，直接通过
         if (annotation == null) {
             return true;
         } else {
-            // 从请求中获取token
+            // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
             String token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
             if (StringUtils.isBlank(token)) {
                 token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
@@ -85,10 +83,10 @@ public class PermissionInterceptor implements HandlerInterceptor {
             Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
             logger.info("PermissionInterceptor -- preHandle -- permissionSet = {}", permissionSet);
 
-            String permission = annotation.value();
-            if (permission.contains(OR_OPERATOR)) {
-                // 如果有任何一个权限，返回true，否则返回false
-                String[] permissions = permission.split(OR_OPERATOR);
+            String[] permissions = annotation.value();
+            Logical logical = annotation.logical();
+            if (logical == Logical.OR) {
+                // 如果有任何一个权限，返回true，否则返回false（拥有其一）
                 for (String perm : permissions) {
                     if (permissionSet.contains(perm)) {
                         return true;
@@ -96,9 +94,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
                 }
                 responseError(request, response);
                 return false;
-            } else if (permission.contains(AND_OPERATOR)) {
-                // 只要有一个权限不是true的，就返回false
-                String[] permissions = permission.split(AND_OPERATOR);
+            } else if (logical == Logical.AND) {
+                // 只要有一个权限不是true的，就返回false（同时拥有）
                 for (String perm : permissions) {
                     if (!permissionSet.contains(perm)) {
                         responseError(request, response);
@@ -107,12 +104,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
                 }
                 return true;
             } else {
-                if (permissionSet.contains(permission)) {
-                    return true;
-                } else {
-                    responseError(request, response);
-                    return false;
-                }
+                responseError(request, response);
+                return false;
             }
         }
     }

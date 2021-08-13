@@ -7,6 +7,7 @@ import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.web.CookieUtils;
 import com.liuxingyu.meco.common.utils.web.ServletUtils;
 import com.liuxingyu.meco.configuration.security.annotation.RequiresRoles;
+import com.liuxingyu.meco.configuration.security.enums.Logical;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import com.liuxingyu.meco.sys.sysuserrole.service.SysUserRoleService;
 import org.apache.commons.lang3.StringUtils;
@@ -42,9 +43,6 @@ public class RoleInterceptor implements HandlerInterceptor {
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
-
-    private static final String OR_OPERATOR = " OR ";
-    private static final String AND_OPERATOR = " AND ";
 
 
     /**
@@ -84,10 +82,11 @@ public class RoleInterceptor implements HandlerInterceptor {
             Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
             logger.info("RoleInterceptor -- preHandle -- roleSet = {}", roleSet);
 
-            String role = annotation.value();
-            if (role.contains(OR_OPERATOR)) {
-                // 如果有任何一个角色，返回true，否则返回false
-                String[] roles = role.split(OR_OPERATOR);
+            String[] roles = annotation.value();
+            Logical logical = annotation.logical();
+
+            if (logical == Logical.OR) {
+                // 如果有任何一个角色，返回true，否则返回false（拥有其一）
                 for (String ro : roles) {
                     if (roleSet.contains(ro)) {
                         return true;
@@ -95,9 +94,8 @@ public class RoleInterceptor implements HandlerInterceptor {
                 }
                 responseError(request, response);
                 return false;
-            } else if (role.contains(AND_OPERATOR)) {
-                // 只要有一个角色不是true的，就返回false
-                String[] roles = role.split(AND_OPERATOR);
+            } else if (logical == Logical.AND) {
+                // 只要有一个角色不是true的，就返回false（同时拥有）
                 for (String ro : roles) {
                     if (!roleSet.contains(ro)) {
                         responseError(request, response);
@@ -106,12 +104,8 @@ public class RoleInterceptor implements HandlerInterceptor {
                 }
                 return true;
             } else {
-                if (roleSet.contains(role)) {
-                    return true;
-                } else {
-                    responseError(request, response);
-                    return false;
-                }
+                responseError(request, response);
+                return false;
             }
         }
     }
