@@ -182,9 +182,9 @@ public class HttpClientUtils {
      */
     public static String doDownload(String url, String filePath) {
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpget = new HttpGet(url);
+        HttpGet httpGet = new HttpGet(url);
         try {
-            HttpResponse response = httpClient.execute(httpget);
+            HttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
             InputStream is = entity.getContent();
             File file = new File(filePath);
@@ -218,6 +218,11 @@ public class HttpClientUtils {
             logger.error("HttpClientUtils -- doDownload - ClientProtocolException - {e}", e);
         } catch (IOException e) {
             logger.error("HttpClientUtils -- doDownload - IOException - {e}", e);
+        } finally {
+            // 释放连接
+            if (null != httpGet) {
+                httpGet.releaseConnection();
+            }
         }
         return filePath;
     }
