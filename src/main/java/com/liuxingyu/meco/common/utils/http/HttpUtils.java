@@ -17,7 +17,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * @author liuxingyu01
  * @date 2020-10-15-19:30
@@ -26,8 +25,11 @@ import org.slf4j.LoggerFactory;
 public class HttpUtils {
     private static final Logger log = LoggerFactory.getLogger(HttpUtils.class);
 
-    // 设置超时时间
+    // 设置连接主机超时（单位：毫秒）
     private static final int CONNECT_TIMEOUT = 5000;
+
+    // 设置从主机读取数据超时（单位：毫秒）
+    private static final int READ_TIMEOUT = 5000;
 
     /**
      * get请求
@@ -46,6 +48,7 @@ public class HttpUtils {
             con.setUseCaches(false); // 不允许缓存
             con.setRequestMethod("GET"); // 设置GET方式连接
             con.setConnectTimeout(CONNECT_TIMEOUT);
+            con.setReadTimeout(READ_TIMEOUT);
             // 设置请求属性
             con.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
             con.setRequestProperty("Charset", "UTF-8");
@@ -85,7 +88,7 @@ public class HttpUtils {
             conn.setDoInput(true);
             // 设置连接超时时间和读取超时时间
             conn.setConnectTimeout(CONNECT_TIMEOUT);
-            conn.setReadTimeout(CONNECT_TIMEOUT);
+            conn.setReadTimeout(READ_TIMEOUT);
             conn.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
             conn.setRequestProperty("Charset", "UTF-8");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -144,6 +147,7 @@ public class HttpUtils {
             con.setUseCaches(false); // 不允许缓存
             con.setRequestMethod("POST"); // 设置POST方式连接
             con.setConnectTimeout(CONNECT_TIMEOUT);
+            con.setReadTimeout(READ_TIMEOUT);
             // 设置请求属性
             con.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
             con.setRequestProperty("Charset", "UTF-8");
@@ -194,6 +198,7 @@ public class HttpUtils {
             con.setUseCaches(false); // 不允许缓存
             con.setRequestMethod("GET"); // 设置GET方式连接
             con.setConnectTimeout(CONNECT_TIMEOUT);
+            con.setReadTimeout(READ_TIMEOUT);
 
             // 设置请求属性
             con.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
