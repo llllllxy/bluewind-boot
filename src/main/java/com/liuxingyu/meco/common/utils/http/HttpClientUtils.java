@@ -14,6 +14,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -59,11 +60,17 @@ public class HttpClientUtils {
                 }
             }
             URI uri = uriBuilder.build();
-            // 创建get请求
-            httpGet = new HttpGet(uri);
             if (logger.isInfoEnabled()) {
                 logger.info("HttpClientUtils -- doGet -- url = {}", uri);
             }
+            // 创建get请求
+            httpGet = new HttpGet(uri);
+            // 设置超时时间
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setConnectTimeout(5000) // 设置连接超时时间，单位毫秒。
+                    .setConnectionRequestTimeout(1000) // 设置从connect Manager获取Connection超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。
+                    .setSocketTimeout(5000).build(); // 请求获取数据的超时时间，单位毫秒。如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
+            httpGet.setConfig(requestConfig);
 
             HttpResponse response = httpClient.execute(httpGet);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {// 返回200，请求成功
@@ -101,6 +108,14 @@ public class HttpClientUtils {
         // 创建httpclient对象
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(url);
+
+        // 设置超时时间
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(5000) // 设置连接超时时间，单位毫秒。
+                .setConnectionRequestTimeout(1000) // 设置从connect Manager获取Connection超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。
+                .setSocketTimeout(5000).build(); // 请求获取数据的超时时间，单位毫秒。如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
+        httpPost.setConfig(requestConfig);
+
         try { // 参数键值对
             if (null != params && !params.isEmpty()) {
                 List<NameValuePair> pairs = new ArrayList<NameValuePair>();
@@ -147,6 +162,14 @@ public class HttpClientUtils {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost(url);
+
+        // 设置超时时间
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(5000) // 设置连接超时时间，单位毫秒。
+                .setConnectionRequestTimeout(1000) // 设置从connect Manager获取Connection超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。
+                .setSocketTimeout(5000).build(); // 请求获取数据的超时时间，单位毫秒。如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
+        httpPost.setConfig(requestConfig);
+
         try {
             httpPost.addHeader("Content-type", "application/json; charset=utf-8");
             httpPost.setHeader("Accept", "application/json");
@@ -156,8 +179,9 @@ public class HttpClientUtils {
             HttpResponse response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 result = EntityUtils.toString(response.getEntity(), "utf-8");
-                logger.info("返回数据：" + result);
-                logger.info("HttpClientUtils -- doPostJson -- 请求成功，返回数据： {}", result);
+                if (logger.isInfoEnabled()) {
+                    logger.info("HttpClientUtils -- doPostJson -- 请求成功，返回数据： {}", result);
+                }
             } else {
                 logger.error("HttpClientUtils -- doPostJson -- 请求失败，code：= {}", response.getStatusLine().getStatusCode());
             }
@@ -182,9 +206,16 @@ public class HttpClientUtils {
      */
     public static String doDownload(String url, String filePath) {
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet(url);
+        HttpGet httpget = new HttpGet(url);
+
+        // 设置超时时间
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(5000) // 设置连接超时时间，单位毫秒。
+                .setConnectionRequestTimeout(1000) // 设置从connect Manager获取Connection超时时间，单位毫秒。这个属性是新加的属性，因为目前版本是可以共享连接池的。
+                .setSocketTimeout(5000).build(); // 请求获取数据的超时时间，单位毫秒。如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
+        httpget.setConfig(requestConfig);
         try {
-            HttpResponse response = httpClient.execute(httpGet);
+            HttpResponse response = httpClient.execute(httpget);
             HttpEntity entity = response.getEntity();
             InputStream is = entity.getContent();
             File file = new File(filePath);
@@ -219,9 +250,9 @@ public class HttpClientUtils {
         } catch (IOException e) {
             logger.error("HttpClientUtils -- doDownload - IOException - {e}", e);
         } finally {
-            // 释放连接
-            if (null != httpGet) {
-                httpGet.releaseConnection();
+            if (null != httpget) {
+                // 释放连接
+                httpget.releaseConnection();
             }
         }
         return filePath;
@@ -235,13 +266,15 @@ public class HttpClientUtils {
 //		logger.info("get请求调用成功，返回数据是：" + get);
 //		String post = doPost("http://10.10.10.67/lcm/restful/ReceiveFinance/getTestTest", map);
 //		logger.info("post调用成功，返回数据是：" + post);
-//		String json = doPostJson("http://10.10.10.67/lcm/restful/ReceiveFinance/getTestTest", "{\"name\":\"David\"}");
-//		logger.info("json发送成功，返回数据是：" + json);
 
-        String ueueueu = doGet("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ww18ca1c72a196320c&corpsecret=3yUH3k2I87x6strRkRlXA5qVXUwNgQ3TW2O64epMtqk", null);
-        logger.info("返回结果ueueueu：" + ueueueu);
+//        String str = "{\"sites\":{\"site\":[{\"id\":\"2\",\"name\":\"菜鸟工具\",\"url\":\"c.runoob.com\"}]}}";
+//        String json = doPostJson("http://10.110.1.210:18070/crm_m/elockRestful", str);
+//        logger.info("json发送成功，返回数据是：" + json);
 
-        String sss = doDownload("http://upyun.lxyccc.top/halo/article_bg_26_civilization2_4k.jpg", "D:/44dsdsdsds4.jpg");
+        // String ueueueu = doGet("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ww18ca1c72a196320c&corpsecret=3yUH3k2I87x6strRkRlXA5qVXUwNgQ3TW2O64epMtqk", null);
+        // logger.info("返回结果ueueueu：" + ueueueu);
+
+        // String sss = doDownload("http://upyun.lxyccc.top/halo/article_bg_26_civilization2_4k.jpg", "D:/44dsdsdsds4.jpg");
 
     }
 
