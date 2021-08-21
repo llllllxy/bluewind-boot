@@ -105,16 +105,16 @@ const Util = {
             async: options.async,
             cache: options.cache,
             dataType: options.dataType,
-            success: function (res) {
+            success: function (result, status, xhr) {
                 // 成功回调
                 if (!!succback) {
-                    succback(res);
+                    succback(result);
                 }
             },
-            error: function (res) {
+            error: function (xhr, status, error) {
                 // 错误回调
                 if (!!errback) {
-                    errback(res);
+                    errback(error);
                 }
             }
         });
@@ -145,16 +145,16 @@ const Util = {
             dataType: options.dataType,
             data: options.data,
             contentType: options.contentType, // 发送数据到服务器时所使用的内容类型。默认是："application/x-www-form-urlencoded"
-            success: function (res) {
+            success: function (result, status, xhr) {
                 // 成功回调
                 if (!!succback) {
-                    succback(res);
+                    succback(result);
                 }
             },
-            error: function (res) {
+            error: function (xhr, status, error) {
                 // 错误回调
                 if (!!errback) {
-                    errback(res);
+                    errback(error);
                 }
             }
         });
@@ -187,16 +187,16 @@ const Util = {
             processData: options.processData,
             data: options.data,
             contentType: options.contentType,
-            success: function (res) {
+            success: function (result, status, xhr) {
                 // 成功回调
                 if (!!succback) {
-                    succback(res);
+                    succback(result);
                 }
             },
-            error: function (res) {
+            error: function (xhr, status, error) {
                 // 错误回调
                 if (!!errback) {
-                    errback(res);
+                    errback(error);
                 }
             }
         });
