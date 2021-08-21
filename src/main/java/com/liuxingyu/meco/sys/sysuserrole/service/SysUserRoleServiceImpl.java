@@ -3,7 +3,7 @@ package com.liuxingyu.meco.sys.sysuserrole.service;
 import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.common.utils.RedisUtil;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.sys.sysuserrole.entity.SysUserRole;
 import com.liuxingyu.meco.sys.sysuserrole.mapper.SysUserRoleMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
     @Override
     public Set<String> listUserRoleByUserId(Integer userId) {
         logger.info("SysUserRoleServiceImpl -- listUserRoleByUserId -- userId = {}", userId);
-        String token = UserTokenUtil.getToken();
+        String token = SecurityUtil.getUserKey();
 
         Object object = redisUtil.get(SystemConst.SYSTEM_USER_ROLE + ":" + token);
         if (null != object) {

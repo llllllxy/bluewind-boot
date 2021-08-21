@@ -1,7 +1,7 @@
 package com.liuxingyu.meco.sys.index.service;
 
 import com.liuxingyu.meco.common.utils.lang.StringUtils;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.sys.index.mapper.IndexMapper;
 import com.liuxingyu.meco.sys.index.util.TreeUtil;
 import com.liuxingyu.meco.sys.index.vo.MenuVo;
@@ -55,7 +55,7 @@ public class IndexService {
      * @return
      */
     public Map<String, Object> menuInit() {
-        Integer userId = UserTokenUtil.getSysUserId();
+        Integer userId = SecurityUtil.getSysUserId();
         if (logger.isInfoEnabled()) {
             logger.info("IndexService -- menuInit -- userId = {} , contextPath = {}", userId, contextPath);
         }

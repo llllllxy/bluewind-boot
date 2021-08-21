@@ -7,6 +7,7 @@ import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
 import com.liuxingyu.meco.common.utils.web.CookieUtils;
 import com.liuxingyu.meco.configuration.kaptcha.KaptchaUtil;
 import com.liuxingyu.meco.common.consts.SystemConst;
+import com.liuxingyu.meco.configuration.security.JwtTokenUtil;
 import com.liuxingyu.meco.sys.login.service.LoginService;
 import com.liuxingyu.meco.sys.sysloginlog.service.SysLoginLogService;
 import com.liuxingyu.meco.common.base.BaseResult;
@@ -109,15 +110,17 @@ public class LoginController {
         if (localPassword.equals(password)) {
             logger.info("LoginController - doLogin - {}登陆成功！", username);
             Map<String, Object> resultMap = new HashMap<>();
-            String token = IdGenerate.uuid();
-            logger.info("LoginController - doLogin - token = {}", token);
-            resultMap.put(SystemConst.SYSTEM_USER_COOKIE, token);
-            // 将token放在cookie中
-            CookieUtils.setCookie(response, SystemConst.SYSTEM_USER_COOKIE, token);
+            String redisKey = IdGenerate.uuid();
+            logger.info("LoginController - doLogin - redisKey = {}", redisKey);
             // 存储用户信息到redis
-            redisUtil.set(SystemConst.SYSTEM_USER_TOKEN + ":" + token, userInfo, 1800);
+            redisUtil.set(SystemConst.SYSTEM_USER_KEY + ":" + redisKey, userInfo, 1800);
+
+            String token = SystemConst.TOKEN_PREFIX + JwtTokenUtil.createJWT(redisKey);
+            resultMap.put(SystemConst.SYSTEM_USER_TOKEN, token);
+            // 将token放在cookie中
+            CookieUtils.setCookie(response, SystemConst.SYSTEM_USER_TOKEN, token);
             // 保存登录日志
-            sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！", token);
+            sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！", redisKey);
 
             return BaseResult.success("登录成功，欢迎回来！", resultMap);
         } else {

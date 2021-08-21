@@ -8,7 +8,7 @@ import com.liuxingyu.meco.common.utils.DateTool;
 import com.liuxingyu.meco.common.utils.JsonTool;
 import com.liuxingyu.meco.common.utils.encrypt.SHA256Utils;
 import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.configuration.security.annotation.RequiresPermissions;
 import com.liuxingyu.meco.sys.sysroleinfo.service.SysRoleInfoService;
 import com.liuxingyu.meco.sys.sysuserinfo.service.SysUserInfoService;
@@ -418,7 +418,7 @@ public class SysUserInfoController extends BaseController {
                 people.disableBorderSide(15);
                 tablePlace.addCell(people);
 
-                PdfPCell relPeople = new PdfPCell(new Phrase(UserTokenUtil.getSysUserAccount(), text));
+                PdfPCell relPeople = new PdfPCell(new Phrase(SecurityUtil.getSysUserAccount(), text));
                 relPeople.disableBorderSide(15);
                 tablePlace.addCell(relPeople);
 

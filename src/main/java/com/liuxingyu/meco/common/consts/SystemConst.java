@@ -13,14 +13,19 @@ public final class SystemConst {
     public static final String SYSTEM_NAME = "meco-server";
 
     /**
-     * 登录用户token
+     * 登录用户 令牌 Redis Key 前缀
      */
-    public static final String SYSTEM_USER_TOKEN = "meco:user:token";
+    public static final String SYSTEM_USER_KEY = "meco:user:key";
 
     /**
      * 登录用户cookie-key
      */
-    public static final String SYSTEM_USER_COOKIE = "meco_token";
+    public static final String SYSTEM_USER_TOKEN = "Authorization";
+
+    /**
+     * 令牌前缀
+     */
+    public static final String TOKEN_PREFIX = "Bearer ";
 
     /**
      * 用户菜单

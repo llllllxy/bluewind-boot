@@ -2,7 +2,6 @@ package com.liuxingyu.meco.sys.sysloginlog.service;
 
 import com.liuxingyu.meco.common.utils.AddressUtils;
 import com.liuxingyu.meco.common.utils.IPUtils;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
 import com.liuxingyu.meco.sys.sysloginlog.entity.SysLoginLog;
 import com.liuxingyu.meco.sys.sysloginlog.mapper.SysLoginLogMapper;
 import org.slf4j.Logger;
@@ -42,12 +41,12 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      */
     @Override
     @Async("asyncServiceExecutor") // 耗时操作放进线程池去操作
-    public void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript, String token) {
+    public void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript, String redisKey) {
         SysLoginLog sysLoginLog = new SysLoginLog();
         sysLoginLog.setAccount(account);
         sysLoginLog.setDescript(descript);
         sysLoginLog.setStatus(status);
-        sysLoginLog.setSessionId(token);
+        sysLoginLog.setSessionId(redisKey);
         try {
             // 获取ip地址
             sysLoginLog.setIp(IPUtils.getIpAddress(request));

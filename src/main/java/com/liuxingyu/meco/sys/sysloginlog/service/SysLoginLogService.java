@@ -20,7 +20,7 @@ public interface SysLoginLogService {
     /**
      * 保存登录日志
      */
-    void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript, String token);
+    void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript, String redisKey);
 
 
     /**

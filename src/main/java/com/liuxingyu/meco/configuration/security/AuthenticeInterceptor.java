@@ -61,9 +61,9 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
             return true;
         }
         // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
-        String token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
+        String token = request.getHeader(SystemConst.SYSTEM_USER_TOKEN);
         if (StringUtils.isBlank(token)) {
-            token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
+            token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_TOKEN);
         }
         logger.info("AuthenticeInterceptor -- preHandle -- token = {}", token);
 
@@ -72,12 +72,26 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
             response.sendRedirect(contextPath + "/admin/login");
             return false;
         } else {
+            if (token.startsWith(SystemConst.TOKEN_PREFIX)) {
+                token = token.replace(SystemConst.TOKEN_PREFIX, "");
+            } else { // token不是以SystemConst.TOKEN_PREFIX开头的，返回false
+                // 拦截后跳转至登录页
+                response.sendRedirect(contextPath + "/admin/login");
+                return false;
+            }
+            token = JwtTokenUtil.parseJWT(token);
+            if (StringUtils.isBlank(token)) { // JWT验证未通过，返回false
+                // 拦截后跳转至登录页
+                response.sendRedirect(contextPath + "/admin/login");
+                return false;
+            }
+
             // 判断这个token在redis里面存在不，存在的话，说明有效
-            boolean isExists = redisUtil.hasKey(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
+            boolean isExists = redisUtil.hasKey(SystemConst.SYSTEM_USER_KEY + ":" + token);
             if (isExists) {
                 logger.info("AuthenticeInterceptor --> preHandle --> 会话验证通过！");
                 // 刷新会话缓存时间
-                redisUtil.expire(SystemConst.SYSTEM_USER_TOKEN + ":" + token, 1800);
+                redisUtil.expire(SystemConst.SYSTEM_USER_KEY + ":" + token, 1800);
                 return true;
             } else {
                 // 拦截后跳转至登录页
@@ -97,12 +111,17 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
         System.out.println("执行了postHandle方法");
 
         // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
-        String token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
+        String token = request.getHeader(SystemConst.SYSTEM_USER_TOKEN);
         if (StringUtils.isBlank(token)) {
-            token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
+            token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_TOKEN);
         }
+        if (StringUtils.isNotBlank(token) && token.startsWith(SystemConst.TOKEN_PREFIX)) {
+            token = token.replace(SystemConst.TOKEN_PREFIX, "");
+            token = JwtTokenUtil.parseJWT(token);
+        }
+
         logger.info("AuthenticeInterceptor -- postHandle -- token = {}", token);
-        SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
+        SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
 
         try {
             // 获取用户角色信息

@@ -67,7 +67,7 @@ public class SysUserOnlineController extends BaseController {
             logger.info("SysUserOnlineController -- list -- 页面大小：" + pageSize + "--页码:" + pageNum);
         }
 
-        Set<String> keysSet = redisUtil.keys( SystemConst.SYSTEM_USER_TOKEN + ":");
+        Set<String> keysSet = redisUtil.keys( SystemConst.SYSTEM_USER_KEY + ":");
         List<String> keysList = new ArrayList<>();
         keysSet.forEach(item -> {
             String[] strs = item.split(":");
@@ -114,7 +114,7 @@ public class SysUserOnlineController extends BaseController {
     @GetMapping("/forceLogout/{session_id}")
     @ResponseBody
     public BaseResult forceLogout(@PathVariable String session_id) {
-        redisUtil.del(SystemConst.SYSTEM_USER_TOKEN + ":" + session_id);
+        redisUtil.del(SystemConst.SYSTEM_USER_KEY + ":" + session_id);
         return BaseResult.success();
     }
 

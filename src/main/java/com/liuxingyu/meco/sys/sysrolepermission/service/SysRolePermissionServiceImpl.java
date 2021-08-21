@@ -2,7 +2,7 @@ package com.liuxingyu.meco.sys.sysrolepermission.service;
 
 import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.RedisUtil;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.sys.sysrolepermission.entity.SysRolePermission;
 import com.liuxingyu.meco.sys.sysrolepermission.mapper.SysRolePermissionMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,7 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
     @Override
     public Set<String> listRolePermissionByUserId(Integer userId) {
         logger.info("SysRolePermissionServiceImpl -- listRolePermissionByUserId -- userId = {}", userId);
-        String token = UserTokenUtil.getToken();
+        String token = SecurityUtil.getUserKey();
 
         Object object = redisUtil.get(SystemConst.SYSTEM_USER_PERMISSION + ":" + token);
         if (null != object) {

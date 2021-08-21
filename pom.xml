@@ -298,6 +298,13 @@
             <version>${oss.version}</version>
         </dependency>
 
+        <!-- JWT依赖，用于生成token -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
 
     </dependencies>
 

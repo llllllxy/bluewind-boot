@@ -4,7 +4,7 @@ import com.liuxingyu.meco.common.base.BaseController;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.encrypt.SHA256Utils;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.sys.index.service.IndexService;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
@@ -68,17 +68,17 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "/menuInit", method = RequestMethod.GET)
     @ResponseBody
     public Object menuInit() {
-        String token = UserTokenUtil.getToken();
+        String userKey = SecurityUtil.getUserKey();
 
         // 先从redis里面拿出菜单信息，拿不到的话，再去手动查询
-        Object object = redisUtil.get(SystemConst.SYSTEM_USER_MENU + ":" + token);
+        Object object = redisUtil.get(SystemConst.SYSTEM_USER_MENU + ":" + userKey);
         if (object != null) {
             logger.info("IndexController - menuInit - 从redis获取菜单信息成功！");
             return object;
         } else {
             Map<String, Object> map = indexService.menuInit();
             // 将用户菜单信息缓存到redis中
-            redisUtil.set(SystemConst.SYSTEM_USER_MENU + ":" + token, map, 1800);
+            redisUtil.set(SystemConst.SYSTEM_USER_MENU + ":" + userKey, map, 1800);
             return map;
         }
     }
@@ -91,9 +91,9 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "/outLogin",method = RequestMethod.GET)
     public String outLogin() {
         logger.info("IndexController - outLogin - start");
-        String token = getToken();
+        String token = getUserKey();
         // 删除用户的会话信息，即强制退出登录
-        redisUtil.del(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
+        redisUtil.del(SystemConst.SYSTEM_USER_KEY + ":" + token);
         //回到登陆页面
         return "redirect:" + contextPath + "admin/login";
     }

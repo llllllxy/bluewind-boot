@@ -2,7 +2,7 @@ package com.liuxingyu.meco.common.aspect;
 
 import com.liuxingyu.meco.common.annotation.OperLog;
 import com.liuxingyu.meco.common.utils.IPUtils;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.sys.sysoperlog.entity.SysOperLog;
 import com.liuxingyu.meco.sys.sysoperlog.service.SysOperLogService;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -71,7 +71,7 @@ public class OperLogAspect {
         // 请求ip
         sysOperLog.setIp(IPUtils.getIpAddress(request));
         // 操作人
-        sysOperLog.setCreateUser(UserTokenUtil.getSysUserId());
+        sysOperLog.setCreateUser(SecurityUtil.getSysUserId());
 
         Object o = joinPoint.proceed();
 

@@ -1,6 +1,6 @@
 package com.liuxingyu.meco.common.base;
 
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public abstract class BaseController {
      * @return
      */
     public SysUserInfo getSysUserInfo() {
-        return UserTokenUtil.getSysUserInfo();
+        return SecurityUtil.getSysUserInfo();
     }
 
     /**
@@ -33,7 +33,7 @@ public abstract class BaseController {
      * @return
      */
     public Integer getSysUserId() {
-        return UserTokenUtil.getSysUserId();
+        return SecurityUtil.getSysUserId();
     }
 
     /**
@@ -42,15 +42,15 @@ public abstract class BaseController {
      * @return
      */
     public String getSysUserAccount() {
-        return UserTokenUtil.getSysUserAccount();
+        return SecurityUtil.getSysUserAccount();
     }
 
     /**
      * 获取用户token
      * @return
      */
-    public String getToken() {
-        return UserTokenUtil.getToken();
+    public String getUserKey() {
+        return SecurityUtil.getUserKey();
     }
 
 }

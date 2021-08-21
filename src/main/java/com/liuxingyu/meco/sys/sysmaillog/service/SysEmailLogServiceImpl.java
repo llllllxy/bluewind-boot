@@ -1,6 +1,6 @@
 package com.liuxingyu.meco.sys.sysmaillog.service;
 
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.sys.sysmail.entity.SysEmailLog;
 import com.liuxingyu.meco.sys.sysmail.entity.SysEmailLogVO;
 import com.liuxingyu.meco.sys.sysmaillog.mapper.SysEmailLogMapper;
@@ -22,7 +22,7 @@ public class SysEmailLogServiceImpl implements SysEmailLogService {
         SysEmailLog sysEmailLog = new SysEmailLog();
         // 属性复制
         BeanUtils.copyProperties(sysEmailLogVO, sysEmailLog);
-        sysEmailLog.setCreateUser(UserTokenUtil.getSysUserId());
+        sysEmailLog.setCreateUser(SecurityUtil.getSysUserId());
         return sysEmailLogMapper.saveSysEmailLog(sysEmailLogVO);
     }
 

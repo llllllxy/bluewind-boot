@@ -2,7 +2,7 @@ package com.liuxingyu.meco.websocket.controller;
 
 import com.liuxingyu.meco.common.base.BaseController;
 import com.liuxingyu.meco.common.base.BaseResult;
-import com.liuxingyu.meco.configuration.security.UserTokenUtil;
+import com.liuxingyu.meco.configuration.security.SecurityUtil;
 import com.liuxingyu.meco.websocket.config.WebSocketServer;
 import com.liuxingyu.meco.websocket.vo.WebsocketVO;
 import io.swagger.annotations.Api;
@@ -30,7 +30,7 @@ public class WebsocketController extends BaseController {
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init(Model model) {
-        model.addAttribute("url", "ws://${host}" + contextPath + "/websocket/" + UserTokenUtil.getSysUserId());
+        model.addAttribute("url", "ws://${host}" + contextPath + "/websocket/" + SecurityUtil.getSysUserId());
         return "websocket/websocket_info";
     }
 

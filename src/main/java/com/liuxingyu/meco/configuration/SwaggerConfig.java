@@ -41,7 +41,7 @@ public class SwaggerConfig {
         // 配置请求头，即在header里加上token，前后端分离时能用到
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(new ParameterBuilder()
-                .name("meco_token")
+                .name("Authorization")
                 .description("认证token")
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")

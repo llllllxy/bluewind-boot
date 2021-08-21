@@ -73,12 +73,17 @@ public class PermissionInterceptor implements HandlerInterceptor {
             return true;
         } else {
             // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
-            String token = request.getHeader(SystemConst.SYSTEM_USER_COOKIE);
+            String token = request.getHeader(SystemConst.SYSTEM_USER_TOKEN);
             if (StringUtils.isBlank(token)) {
-                token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_COOKIE);
+                token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_TOKEN);
             }
+            if (StringUtils.isNotBlank(token) && token.startsWith(SystemConst.TOKEN_PREFIX)) {
+                token = token.replace(SystemConst.TOKEN_PREFIX, "");
+                token = JwtTokenUtil.parseJWT(token);
+            }
+
             logger.info("PermissionInterceptor -- preHandle -- token = {}", token);
-            SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
+            SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
             // 获取用户权限列表
             Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
             logger.info("PermissionInterceptor -- preHandle -- permissionSet = {}", permissionSet);
