@@ -68,6 +68,7 @@ public class CookieUtils {
             Cookie cookie = new Cookie(name, null);
             cookie.setPath(path);
             cookie.setMaxAge(maxAge);
+            cookie.setHttpOnly(true);
             try {
                 cookie.setValue(URLEncoder.encode(value, "utf-8"));
             } catch (UnsupportedEncodingException e) {
