@@ -104,14 +104,18 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
         logger.info("AuthenticeInterceptor -- postHandle -- token = {}", token);
         SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_TOKEN + ":" + token);
 
-        // 获取用户角色信息
-        Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
-        // 获取用户权限列表
-        Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
+        try {
+            // 获取用户角色信息
+            Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
+            // 获取用户权限列表
+            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
 
-        if (!ServletUtils.isAjaxRequest(request) && modelAndView != null) {
-            modelAndView.addObject("roleSet", roleSet);
-            modelAndView.addObject("permissionSet", permissionSet);
+            if (!ServletUtils.isAjaxRequest(request) && modelAndView != null) {
+                modelAndView.addObject("roleSet", roleSet);
+                modelAndView.addObject("permissionSet", permissionSet);
+            }
+        } catch (Exception e) {
+            logger.error("AuthenticeInterceptor -- postHandle -- Exception = {e}", e);
         }
     }
 
