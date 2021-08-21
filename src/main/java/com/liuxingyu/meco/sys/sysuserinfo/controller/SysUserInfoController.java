@@ -10,13 +10,13 @@ import com.liuxingyu.meco.common.utils.encrypt.SHA256Utils;
 import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
 import com.liuxingyu.meco.configuration.security.UserTokenUtil;
 import com.liuxingyu.meco.configuration.security.annotation.RequiresPermissions;
-import com.liuxingyu.meco.configuration.security.enums.Logical;
 import com.liuxingyu.meco.sys.sysroleinfo.service.SysRoleInfoService;
 import com.liuxingyu.meco.sys.sysuserinfo.service.SysUserInfoService;
 import com.liuxingyu.meco.sys.sysuserinfo.entity.SysUserInfo;
 import com.liuxingyu.meco.common.utils.BaseDictUtils;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.sys.sysuserrole.service.SysUserRoleService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +45,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping("/sysuser")
+@Api(value = "系统用户管理控制器", tags = "系统用户管理控制器")
 public class SysUserInfoController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(SysUserInfoController.class);
 
@@ -69,6 +70,7 @@ public class SysUserInfoController extends BaseController {
      * @return
      */
     @RequiresPermissions("system:user:init")
+    @ApiOperation(value = "查询页面初始化", notes = "查询页面初始化")
     @RequestMapping(value = "/SysUserInfoInit", method = RequestMethod.GET)
     public String SysUserInfoInit(Model model) {
         // 获取下拉栏枚举值
@@ -85,7 +87,9 @@ public class SysUserInfoController extends BaseController {
      * @param pageSize
      * @return
      */
-    @LogAround("账户管理页面分页查询")
+    @RequiresPermissions("system:user:init")
+    @LogAround("用户数据分页查询")
+    @ApiOperation(value = "用户数据分页查询", notes = "用户数据分页查询")
     @ResponseBody
     @RequestMapping(value = "/getSysUserInfoList", method = RequestMethod.POST)
     public BaseResult getSysUserInfoList(@RequestParam("page") Integer pageNum,
@@ -129,6 +133,8 @@ public class SysUserInfoController extends BaseController {
      * 删除一个系统用户（这里后面可能会改为逻辑删除）
      * @return
      */
+    @RequiresPermissions("system:user:delete")
+    @ApiOperation(value = "删除一个系统用户", notes = "删除一个系统用户")
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult delete(@PathVariable int id){
@@ -146,6 +152,8 @@ public class SysUserInfoController extends BaseController {
      * 批量删除系统用户
      * @return
      */
+    @RequiresPermissions("system:user:delete")
+    @ApiOperation(value = "批量删除系统用户", notes = "批量删除系统用户")
     @RequestMapping(value="/batchDelete", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult batchDelete(@RequestBody String data){
@@ -175,6 +183,8 @@ public class SysUserInfoController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("system:user:add")
+    @ApiOperation(value = "用户新增页面初始化", notes = "用户新增页面初始化")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
         return "system/sysuserinfo/sysuserinfo_add";
@@ -187,6 +197,8 @@ public class SysUserInfoController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("system:user:add")
+    @ApiOperation(value = "用户新增", notes = "用户新增")
     @RequestMapping(value = "/doAdd", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult doAdd(@RequestParam(value = "account") String account,
@@ -227,6 +239,8 @@ public class SysUserInfoController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("system:user:edit")
+    @ApiOperation(value = "用户修改页面初始化", notes = "用户修改页面初始化")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(Model model,
                          @PathVariable int id) {
@@ -244,6 +258,8 @@ public class SysUserInfoController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("system:user:editpassword")
+    @ApiOperation(value = "用户密码修改", notes = "用户密码修改")
     @RequestMapping(value = "/updatePassword/{id}/{password}", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult updatePassword(@PathVariable(value = "id") Integer id,
@@ -267,6 +283,8 @@ public class SysUserInfoController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("system:user:edit")
+    @ApiOperation(value = "用户信息修改", notes = "用户信息修改")
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult doUpdate(@RequestParam(value = "id") Integer id,
@@ -297,15 +315,17 @@ public class SysUserInfoController extends BaseController {
      *
      * @return
      */
+    @RequiresPermissions("system:user:authorize")
+    @ApiOperation(value = "用户授权页面初始化", notes = "用户授权页面初始化")
     @RequestMapping(value = "/authorize/{id}", method = RequestMethod.GET)
-    public String authorize(Model model,
-                            @PathVariable int id) {
+    public String authorize(Model model, @PathVariable int id) {
         SysUserInfo sysUserInfo = sysUserInfoService.getOneById(id);
         model.addAttribute("sysUserInfo", sysUserInfo);
         return "system/sysuserinfo/sysuserinfo_auth";
     }
 
 
+    @RequiresPermissions("system:user:authorize")
     @ApiOperation(value = "根据用户id查询用户角色", notes = "根据用户id查询用户角色")
     @RequestMapping(value = "/listRoleForSelect/{id}", method = RequestMethod.GET)
     @ResponseBody
@@ -314,6 +334,8 @@ public class SysUserInfoController extends BaseController {
     }
 
 
+    @RequiresPermissions("system:user:authorize")
+    @ApiOperation(value = "根据用户id赋予用户角色", notes = "根据用户id赋予用户角色")
     @RequestMapping(value = "doAuthorize/{id}/{roles}", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult doAuthorize(@PathVariable("id") Integer id,
@@ -322,7 +344,8 @@ public class SysUserInfoController extends BaseController {
     }
 
 
-    @ApiOperation(value = "downloadPdf")
+    @RequiresPermissions("system:user:downloadPdf")
+    @ApiOperation(value = "导出用户为pdf", notes = "导出用户为pdf")
     @RequestMapping(value = "/downloadPdf", method = RequestMethod.GET)
     @ResponseBody
     public void downloadPdf(HttpServletResponse response) {
