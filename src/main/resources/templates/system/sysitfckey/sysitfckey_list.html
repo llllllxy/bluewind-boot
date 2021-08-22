@@ -246,9 +246,7 @@
             } else if (obj.event === 'delete') {
                 layer.confirm('确定删除该密钥吗？', function (index) {
                     layer.close(index);
-                    $.ajax({
-                        type: "GET",
-                        dataType: "json",
+                    Util.get({
                         url: Util.ctx + "sysitfckey/delete/" + data.id + "/" + data.itfcKey,
                         success: function (res) {
                             // obj.del(); 删除该行
@@ -263,6 +261,7 @@
                         }
                     });
                 });
+                return false;
             } else if (obj.event === 'authorize') {
 
                 var index = layer.open({
@@ -285,9 +284,7 @@
             } else if (obj.event === 'forbid') {
                 layer.confirm('确定停用该密钥吗？', function (index) {
                     layer.close(index);
-                    $.ajax({
-                        type: "GET",
-                        dataType: "json",
+                    Util.get({
                         url: Util.ctx + "/sysitfckey/forbid/" + data.id + "/" + data.itfcKey,
                         success: function (res) {
                             if (res.code === 0) {
@@ -304,9 +301,7 @@
             } else if (obj.event === 'enable') {
                 layer.confirm('确定启用该密钥吗？', function (index) {
                     layer.close(index);
-                    $.ajax({
-                        type: "GET",
-                        dataType: "json",
+                    Util.get({
                         url: Util.ctx + "/sysitfckey/enable/" + data.id + "/" + data.itfcKey + "/" + data.validPeriod,
                         success: function (res) {
                             if (res.code === 0) {

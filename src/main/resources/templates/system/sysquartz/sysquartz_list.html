@@ -212,25 +212,31 @@
             if (obj.elem.checked == true) {
                 Util.get({
                     url: Util.ctx + "sysquartz/start/" + this.value,
-                }, function (res) {
-                    if (res.code === 0) {
-                        Message.success(1500, res.message, function () {
-                            currTable.reload();
-                        });
-                    } else {
-                        Message.error(res.message, 1000);
+                    success: function (res) {
+                        if (res.code === 0) {
+                            Message.success(1500, res.message, function () {
+                                currTable.reload();
+                            });
+                        } else {
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
                     }
                 });
             } else {
                 Util.get({
                     url: Util.ctx + "sysquartz/stop/" + this.value,
-                }, function (res) {
-                    if (res.code === 0) {
-                        Message.success(1500, res.message, function () {
-                            currTable.reload();
-                        });
-                    } else {
-                        Message.error(res.message, 1000);
+                    success: function (res) {
+                        if (res.code === 0) {
+                            Message.success(1500, res.message, function () {
+                                currTable.reload();
+                            });
+                        } else {
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
                     }
                 });
             }
@@ -298,7 +304,6 @@
                     layer.full(index);
                 });
                 return false;
-
             } else if (obj.event === 'delete') {
                 if (data.quartzStatus == 0) {
                     Message.warning("请先停止定时任务再进行删除", 1000);
@@ -309,20 +314,22 @@
                     var loading = layer.load(0, {shade: 0.1});
                     Util.get({
                         url: Util.ctx + "sysquartz/delete/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            layer.close(index);
-                            layer.close(loading);
-                            Message.success(1500, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            layer.close(loading);
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                layer.close(index);
+                                layer.close(loading);
+                                Message.success(1500, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                layer.close(loading);
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
-
                 });
                 return false;
             }

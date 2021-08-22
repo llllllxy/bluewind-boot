@@ -128,13 +128,16 @@
             Util.post({
                 url: Util.ctx + "websocket/sendMessage",
                 data: JSON.stringify(data),
-                contentType: 'application/json'
-            }, function (re) {
-                if (re.code === 0) {
-                    console.log(re);
-                } else {
-                    layer.close(loading);
-                    Message.error(re.message, 1000);
+                contentType: 'application/json',
+                success: function (res) {
+                    if (res.code === 0) {
+                        console.log(res);
+                    } else {
+                        layer.close(loading);
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
                 }
             });
 

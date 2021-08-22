@@ -229,22 +229,25 @@
                 });
                 return false;
             } else if (obj.event === 'delete') {
-                layer.confirm('确定删除该角色吗？', function (index) {
+                layer.confirm('确定删除该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
                         url:  Util.ctx + "sysdict/delete/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1000, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
-
                 });
+                return false;
             } else if (obj.event === 'setting') {
 
                 var index = layer.open({
@@ -269,14 +272,17 @@
                     layer.close(index);
                     Util.get({
                         url:  Util.ctx + "sysdict/forbid/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1000, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
                 });
@@ -286,14 +292,17 @@
                     layer.close(index);
                     Util.get({
                         url:  Util.ctx + "sysdict/enable/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1000, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
                 });

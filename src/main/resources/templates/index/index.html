@@ -243,25 +243,27 @@
                     "account": account,
                     "password": password
                 },
-            }, function (res) {
-                layer.close(index);
-                if (0 == res.code) {
-                    window.localStorage.setItem("lockcms", false);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 == res.code) {
+                        window.localStorage.setItem("lockcms", false);
+                        form.val("formLock", {
+                            password: '',
+                            lockMsg: ''
+                        });
+                        unlockPage();
+                    } else {
+                        form.val("formLock", {
+                            lockMsg: res.message
+                        });
+                    }
+                },
+                error: function (res) {
+                    layer.close(index);
                     form.val("formLock", {
-                        password: '',
-                        lockMsg: ''
-                    });
-                    unlockPage();
-                } else {
-                    form.val("formLock", {
-                        lockMsg: res.message
+                        lockMsg: '服务器异常！'
                     });
                 }
-            }, function (res) {
-                layer.close(index);
-                form.val("formLock", {
-                    lockMsg: '服务器异常！'
-                });
             });
 
             return false;

@@ -160,14 +160,17 @@
                     layer.close(index);
                     Util.get({
                         url: Util.ctx + "sysuseronline/forceLogout/" + data.session_id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1500, data.name + '强退成功', function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1500, data.name + '强退成功', function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
                 });

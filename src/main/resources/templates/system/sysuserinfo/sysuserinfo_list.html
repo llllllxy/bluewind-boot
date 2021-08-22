@@ -248,25 +248,62 @@
                         url: Util.ctx + "sysuser/batchDelete",
                         contentType: "application/json", // 默认是："application/x-www-form-urlencoded"
                         data: JSON.stringify(data),
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1500, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1500, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
-
                 });
 
                 // layer.alert(JSON.stringify(data));
             } else if (obj.event === 'downloadPdf') {
                 console.log("点击下载pdf");
-                let a = document.createElement('a');
-                a.href = Util.ctx + 'sysuser/downloadPdf';
-                a.click()
+                // let a = document.createElement('a');
+                // a.href = Util.ctx + 'sysuser/downloadPdf';
+                // a.click()
+
+                // 改为ajax下载文件，这样方便设置header什么的（$.ajax不支持blob类型，所以用原生的）
+                var url = Util.ctx + 'sysuser/downloadPdf';
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);    // 也可以使用POST方式，根据接口
+                xhr.responseType = "blob";    // 返回类型blob
+                // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+                xhr.onload = function () {
+                    // 请求完成
+                    if (this.status === 200) {
+                        // 返回200
+                        var blob = this.response;
+
+                        console.log(xhr.getResponseHeader("content-disposition"))
+                        let temp = xhr.getResponseHeader("content-disposition").split(";")[1].split("filename=")[1];
+                        var fileName = decodeURIComponent(temp);
+                        if (isEmpty(fileName)) {
+                            fileName = '人员明细信息表';
+                        }
+
+                        var reader = new FileReader();
+                        reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+                        reader.onload = function (e) {
+                            // 转换完成，创建一个a标签用于下载
+                            var a = document.createElement('a');
+                            a.download = fileName + '.pdf';
+                            a.href = e.target.result;
+                            $("body").append(a);    // 修复firefox中无法触发click
+                            a.click();
+                            $(a).remove();
+                        }
+                    }
+                };
+                // 发送ajax请求
+                xhr.send()
             }
         });
 
@@ -303,18 +340,21 @@
                     layer.close(index);
                     Util.get({
                         url: Util.ctx + "sysuser/delete/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1500, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1500, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
-
                 });
+                return false;
             } else if (obj.event === 'authorize') {
                 var index = layer.open({
                     title: '用户授权',
@@ -353,19 +393,20 @@
                     value = md5('' + value);
                     Util.get({
                         url: Util.ctx + 'sysuser/updatePassword/' + data.id + "/" + value,
-                    }, function (res) {
-                        if (0 === res.code) {
-                            layer.closeAll('dialog');
+                        success: function (res) {
+                            if (0 === res.code) {
+                                layer.closeAll('dialog');
+                                layer.close(index);
+                                Message.success(res.message, 1000);
+                            } else {
+                                Message.warning(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                             layer.close(index);
-                            Message.success(res.message, 1000);
-                        } else {
-                            Message.warning(res.message, 1000);
+                            Message.error(res.message, 1000);
                         }
-                    }, function (res) {
-                        layer.close(index);
-                        Message.error(res.message, 1000);
                     });
-
                     layer.close(prompt);
                 });
                 return false;

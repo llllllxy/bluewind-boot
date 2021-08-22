@@ -229,15 +229,18 @@
                 url: Util.ctx + "sysmail/email/sendTextMail",
                 data: JSON.stringify(data),
                 contentType: "application/json",
-            }, function (res) {
-                if (res.code === 0) {
-                    layer.close(index);
-                    Message.success(1500, res.message, function () {
-                        // 重载页面
-                        window.location.reload();
-                    });
-                } else {
-                    Message.error(res.message, 1000);
+                success: function (res) {
+                    if (res.code === 0) {
+                        layer.close(index);
+                        Message.success(1500, res.message, function () {
+                            // 重载页面
+                            window.location.reload();
+                        });
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
                 }
             });
 
@@ -258,16 +261,19 @@
             Util.post({
                 contentType: "application/json",
                 url: Util.ctx + "sysmail/email/sendHtmlMail",
-                data: JSON.stringify(data)
-            }, function (res) {
-                if (res.code === 0) {
-                    layer.close(index);
-                    Message.success(1500, res.message, function () {
-                        // 重载页面
-                        window.location.reload();
-                    });
-                } else {
-                    Message.error(res.message, 1000);
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.code === 0) {
+                        layer.close(index);
+                        Message.success(1500, res.message, function () {
+                            // 重载页面
+                            window.location.reload();
+                        });
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
                 }
             });
             return false;
@@ -281,15 +287,18 @@
                 contentType: "application/json", // 默认就是这个
                 url: Util.ctx + "sysmail/email/sendTemplateMail",
                 data: JSON.stringify(data),
-            }, function (res) {
-                if (res.code === 0) {
-                    layer.close(index);
-                    Message.success(1500, res.message, function () {
-                        // 重载页面
-                        window.location.reload();
-                    });
-                } else {
-                    Message.error(res.message, 1000);
+                success: function (res) {
+                    if (res.code === 0) {
+                        layer.close(index);
+                        Message.success(1500, res.message, function () {
+                            // 重载页面
+                            window.location.reload();
+                        });
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
                 }
             });
             return false;

@@ -248,19 +248,21 @@
             Util.post({
                 url: Util.ctx + "syspermission/doUpdate",
                 data: data,
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    Message.success(1000, res.message, function () {
-                        var windowIndex = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(windowIndex);
-                    });
-                } else {
-                    Message.warning(res.message, 500);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        Message.success(1000, res.message, function () {
+                            var windowIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(windowIndex);
+                        });
+                    } else {
+                        Message.warning(res.message, 500);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 500);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error("服务器异常！", 500);
             });
 
             return false;

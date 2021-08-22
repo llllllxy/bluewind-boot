@@ -103,18 +103,23 @@
                 var loading = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
                 Util.post({
                     url: Util.ctx + 'sysuser/doUpdate',
-                    data: data.field
-                }, function (res) {
-                    if (res.code === 0) {
-                        layer.close(index);
-                        layer.close(loading);
-                        Message.success(1500, "个人基本信息修改成功！", function () {
-                            // 关闭miniTab
-                            miniTab.deleteCurrentByIframe();
-                        });
-                    } else {
-                        layer.close(loading);
-                        Message.error("个人基本信息修改失败！", 1000);
+                    data: data.field,
+                    success: function (res) {
+                        if (res.code === 0) {
+                            layer.close(index);
+                            layer.close(loading);
+                            Message.success(1500, "个人基本信息修改成功！", function () {
+                                // 关闭miniTab
+                                miniTab.deleteCurrentByIframe();
+                            });
+                        } else {
+                            layer.close(loading);
+                            Message.error("个人基本信息修改失败！", 1000);
+                        }
+
+                    },
+                    error: function (error) {
+
                     }
                 });
 

@@ -60,18 +60,21 @@
                 Util.post({
                     url: Util.ctx + "sysdict/update",
                     data: data.field,
-                }, function (res) {
-                    layer.close(index);
-                    if (res.code === 0) {
-                        layer.close(loading);
-                        Message.success(1500, res.message, function () {
-                            // 重载表格
-                            var iframeIndex = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(iframeIndex);
-                        });
-                    } else {
-                        layer.close(loading);
-                        Message.error(res.message, 1000);
+                    success: function (res) {
+                        layer.close(index);
+                        if (res.code === 0) {
+                            layer.close(loading);
+                            Message.success(1500, res.message, function () {
+                                // 重载表格
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            });
+                        } else {
+                            layer.close(loading);
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
                     }
                 });
             });

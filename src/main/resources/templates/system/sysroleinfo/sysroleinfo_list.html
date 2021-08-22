@@ -233,14 +233,17 @@
                     layer.close(index);
                     Util.get({
                         url: Util.ctx + "sysrole/delete/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1000, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
                 });
@@ -268,14 +271,17 @@
                     layer.close(index);
                     Util.get({
                         url: Util.ctx + "sysrole/forbid/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1000, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
                 });
@@ -285,14 +291,17 @@
                     layer.close(index);
                     Util.get({
                         url: Util.ctx + "sysrole/enable/" + data.id,
-                    }, function (res) {
-                        if (res.code === 0) {
-                            Message.success(1000, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
                         }
                     });
                 });

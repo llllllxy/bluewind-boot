@@ -113,20 +113,22 @@
                     let loading = layer.load(0, {shade: 0.1});
                     Util.get({
                         url: Util.ctx + "sysdict/deleteDetail/" + data.id,
-                    }, function (res) {
-                        layer.close(loading);
-                        if (res.code === 0) {
-                            Message.success(1000, res.message, function () {
-                                // 重载表格
-                                currTable.reload();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            layer.close(loading);
+                            if (res.code === 0) {
+                                Message.success(1000, res.message, function () {
+                                    // 重载表格
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
+                            layer.close(index);
+                            layer.close(loading);
+                            Message.error("服务器异常！", 1000);
                         }
-                    }, function (res) {
-                        layer.close(index);
-                        layer.close(loading);
-                        Message.error("服务器异常！", 1000);
                     });
                 });
             }

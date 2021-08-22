@@ -4,18 +4,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.liuxingyu.meco.common.annotation.LogAround;
 import com.liuxingyu.meco.common.base.BaseController;
+import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.BaseDictUtils;
 import com.liuxingyu.meco.common.utils.DateTool;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
-import com.liuxingyu.meco.common.utils.lang.StringUtils;
-import com.liuxingyu.meco.common.utils.mybatis.MybatisSqlTool;
 import com.liuxingyu.meco.sys.sysitfckey.entity.SysItfcKey;
 import com.liuxingyu.meco.sys.sysitfckey.service.SysItfcKeyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,8 +137,6 @@ public class SysItfcKeyController extends BaseController {
         sysItfcKey.setStatus(0);
         int num = sysItfcKeyService.addOneSysItfcKey(sysItfcKey);
         if (num > 0) {
-            redisUtil.set("itfcKey:" + itfcKey, new HashSet<>(), -1);
-            redisUtil.set("itfcPeriod:" + itfcKey, validPeriod, -1);
             return BaseResult.success("新增服务密钥成功！");
         } else {
             return BaseResult.failure("新增服务密钥，请联系后台管理员！");
@@ -186,8 +182,8 @@ public class SysItfcKeyController extends BaseController {
 
         int num = sysItfcKeyService.updateSysItfcKey(sysItfcKey);
         if (num > 0) {
-            // 有效期可能会变化，所以这里修改redis里的密钥有效期
-            redisUtil.set("itfcPeriod:" + itfcKey, validPeriod, -1);
+            // 有效期可能会变化，所以这里删除掉redis里的缓存
+            redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
             return BaseResult.success("修改服务密钥成功！");
         } else {
             return BaseResult.failure("修改服务密钥，请联系后台管理员！");
@@ -207,8 +203,7 @@ public class SysItfcKeyController extends BaseController {
                              @PathVariable String itfcKey) {
         int num = sysItfcKeyService.deleteSysItfcKey(id);
         if (num > 0) {
-            redisUtil.del("itfcKey:" + itfcKey);
-            redisUtil.del("itfcPeriod:" + itfcKey);
+            redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
 
             return BaseResult.success("修改服务密钥成功！");
         } else {
@@ -229,8 +224,7 @@ public class SysItfcKeyController extends BaseController {
                              @PathVariable String itfcKey) {
         int num = sysItfcKeyService.forbidSysItfcKey(id);
         if (num > 0) {
-            redisUtil.del("itfcKey:" + itfcKey);
-            redisUtil.del("itfcPeriod:" + itfcKey);
+            redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
 
             return BaseResult.success("停用服务密钥成功！");
         } else {
@@ -252,26 +246,8 @@ public class SysItfcKeyController extends BaseController {
                              @PathVariable String validPeriod) {
         int num = sysItfcKeyService.enableSysItfcKey(id);
         if (num > 0) {
-            String sb = "select srp.sign from sys_itfc_permission srp " +
-                    "left join sys_itfc_key_permission srkp on srkp.itfc_permission = srp.permission_id " +
-                    "where srkp.itfc_key = '" + itfcKey + "'";
-            List<Map> permissionList = MybatisSqlTool.selectAnySql(sb);
-            Set<String> set = new HashSet<>();
 
-            if (CollectionUtils.isNotEmpty(permissionList)) {
-                for (Map map : permissionList) {
-                    String sign = Optional.ofNullable(map.get("sign")).orElse("").toString();
-                    if (StringUtils.isNotBlank(sign)) {
-                        set.add(sign);
-                    }
-                }
-                redisUtil.set("itfcKey:" + itfcKey, set, -1);
-                redisUtil.set("itfcPeriod:" + itfcKey, validPeriod, -1);
-            } else {
-                redisUtil.set("itfcKey:" + itfcKey, set, -1);
-                redisUtil.set("itfcPeriod:" + itfcKey, validPeriod, -1);
-            }
-
+            redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
             return BaseResult.success("启用服务密钥成功！");
         } else {
             return BaseResult.failure("启用服务密钥，请联系后台管理员！");
@@ -323,24 +299,7 @@ public class SysItfcKeyController extends BaseController {
         int num = sysItfcKeyService.authorize(itfcKey, permIds);
         if (num > 0) {
 
-            String sb = "select srp.sign from sys_itfc_permission srp " +
-                    "left join sys_itfc_key_permission srkp on srkp.itfc_permission = srp.permission_id " +
-                    "where srkp.itfc_key = '" + itfcKey + "'";
-            List<Map> permissionList = MybatisSqlTool.selectAnySql(sb);
-            Set<String> set = new HashSet<>();
-
-            if (CollectionUtils.isNotEmpty(permissionList)) {
-                for (Map map : permissionList) {
-                    String sign = Optional.ofNullable(map.get("sign")).orElse("").toString();
-                    if (StringUtils.isNotBlank(sign)) {
-                        set.add(sign);
-                    }
-                }
-                redisUtil.set("itfcKey:" + itfcKey, set, -1);
-            } else {
-                redisUtil.set("itfcKey:" + itfcKey, set, -1);
-            }
-
+            redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
             return BaseResult.success("服务权限更新成功!");
         } else {
             return BaseResult.failure("服务权限更新失败!");

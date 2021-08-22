@@ -47,5 +47,9 @@ public final class SystemConst {
      */
     public static final String SYSTEM_LOGIN_TIMES = "meco:logintimes";
 
+    /**
+     * itfc-key
+     */
+    public static final String SYSTEM_ITFC_KEY = "meco:itfckey";
 
 }

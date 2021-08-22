@@ -143,20 +143,21 @@
             Util.upload({
                 url: Util.ctx + 'fileupload/uploadFileAjax',
                 data: formData,
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    $("input[name='systemLogo']").val(res.data);
-                    $('#pic-img').attr('src', res.data);
-                    Message.success(res.message, 1000);
-                } else {
-                    Message.error(res.message, 1000);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        $("input[name='systemLogo']").val(res.data);
+                        $('#pic-img').attr('src', res.data);
+                        Message.success(res.message, 1000);
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 1000);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error("服务器异常！", 1000);
             });
-
         });
 
         $('#pic-input1').change(function () {
@@ -166,21 +167,22 @@
             Util.upload({
                 url: Util.ctx + 'fileupload/uploadFileAjax',
                 data: formData,
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    $("input[name='websiteIcon']").val(res.data);
-                    $('#pic-img1').attr('src', res.data);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        $("input[name='websiteIcon']").val(res.data);
+                        $('#pic-img1').attr('src', res.data);
 
-                    Message.success(res.message, 1000);
-                } else {
-                    Message.error(res.message, 1000);
+                        Message.success(res.message, 1000);
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 1000);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error("服务器异常！", 1000);
             });
-
         });
 
         $('#pic-input2').change(function () {
@@ -190,20 +192,21 @@
             Util.upload({
                 url: Util.ctx + 'fileupload/uploadFileAjax',
                 data: formData,
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    $("input[name='loginBackImg']").val(res.data);
-                    $('#pic-img2').attr('src', res.data);
-                    Message.success(res.message, 1000);
-                } else {
-                    Message.error(res.message, 1000);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        $("input[name='loginBackImg']").val(res.data);
+                        $('#pic-img2').attr('src', res.data);
+                        Message.success(res.message, 1000);
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 1000);
                 }
-            }, function (res){
-                layer.close(index);
-                Message.error("服务器异常！", 1000);
             });
-
         });
 
 
@@ -216,17 +219,19 @@
                     contentType: "application/json",
                     url: Util.ctx + "sysconfig/update",
                     data: JSON.stringify(data.field),
-                }, function (res) {
-                    if (res.code === 0) {
+                    success: function (res) {
+                        if (res.code === 0) {
+                            layer.close(loading);
+                            Message.success(res.message, 1000);
+                        } else {
+                            layer.close(loading);
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
                         layer.close(loading);
-                        Message.success(res.message, 1000);
-                    } else {
-                        layer.close(loading);
-                        Message.error(res.message, 1000);
+                        Message.error("服务器异常！", 1000);
                     }
-                }, function (res) {
-                    layer.close(loading);
-                    Message.error("服务器异常！", 1000);
                 });
             });
             return false;

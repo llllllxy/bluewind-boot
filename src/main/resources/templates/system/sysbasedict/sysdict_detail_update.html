@@ -60,20 +60,22 @@
             Util.post({
                 url: Util.ctx + "sysdict/updateDetail",
                 data: data.field,
-            }, function (res) {
-                layer.close(index);
-                if (res.code === 0) {
-                    Message.success(1500, res.message, function () {
-                        // 重载表格
-                        var iframeIndex = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(iframeIndex);
-                    });
-                } else {
-                    Message.error(res.message, 1000);
+                success: function (res) {
+                    layer.close(index);
+                    if (res.code === 0) {
+                        Message.success(1500, res.message, function () {
+                            // 重载表格
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        });
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error(error, 1000);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error("服务器异常！", 1000);
             });
 
             return false;

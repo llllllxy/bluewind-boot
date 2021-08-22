@@ -127,21 +127,23 @@
                 Util.post({
                     url: Util.ctx + "sysuser/doAdd",
                     data: data.field,
-                }, function (res) {
-                    if (res.code === 0) {
-                        layer.close(index);
-                        layer.close(loading);
-                        Message.success(1500, res.message, function () {
-                            // 重载表格
-                            var iframeIndex = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(iframeIndex);
-                        });
-                    } else {
-                        layer.close(loading);
-                        Message.error(res.message, 1000);
+                    success: function (res) {
+                        if (res.code === 0) {
+                            layer.close(index);
+                            layer.close(loading);
+                            Message.success(1500, res.message, function () {
+                                // 重载表格
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            });
+                        } else {
+                            layer.close(loading);
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
                     }
                 });
-
             });
 
             return false;
@@ -177,22 +179,23 @@
 
             Util.upload({
                 url: Util.ctx + 'fileupload/uploadFileAjax',
-                data: formData
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    $("input[name='avatar']").val(res.data);
-                    $('#pic-img').attr('src', res.data);
+                data: formData,
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        $("input[name='avatar']").val(res.data);
+                        $('#pic-img').attr('src', res.data);
 
-                    Message.success(res.message, 1000);
-                } else {
-                    Message.error(res.message, 1000);
+                        Message.success(res.message, 1000);
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 1000);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error("服务器异常！", 1000);
             });
-
         });
 
     });

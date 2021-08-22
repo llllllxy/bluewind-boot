@@ -197,69 +197,73 @@
         var index = layer.load(0, {shade: 0.1});
         Util.get({
             url: Util.ctx + 'syspermission/listPermissionByType/' + '1',
-        }, function (res) {
-            layer.close(index);
-            demo1 = xmSelect.render({
-                el: '#demo1',
-                tips: '请选择上级菜单',
-                model: { label: { type: 'text' } },
-                clickClose: true,
-                height: 'auto',
-                data: res.data,
-                theme: {
-                    color:'#1E9FFF'
-                },
-                tree: {
-                    show: true,
-                    strict: false,
-                    expandedKeys: true, //默认展开节点
-                },
-                //处理方式
-                on: function(data){
-                    if(data.isAdd){
-                        console.log("选中：" + data.change.slice(0, 1)[0].value);
-                        // 赋值给上级菜单input框
-                        $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
-                        return data.change.slice(0, 1);
-                    }
-                },
-            });
-        }, function (res) {
-            layer.close(index);
-            Message.error('获取上级菜单信息失败！', 1000);
+            success: function (res) {
+                layer.close(index);
+                demo1 = xmSelect.render({
+                    el: '#demo1',
+                    tips: '请选择上级菜单',
+                    model: { label: { type: 'text' } },
+                    clickClose: true,
+                    height: 'auto',
+                    data: res.data,
+                    theme: {
+                        color:'#1E9FFF'
+                    },
+                    tree: {
+                        show: true,
+                        strict: false,
+                        expandedKeys: true, //默认展开节点
+                    },
+                    //处理方式
+                    on: function(data){
+                        if(data.isAdd){
+                            console.log("选中：" + data.change.slice(0, 1)[0].value);
+                            // 赋值给上级菜单input框
+                            $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
+                            return data.change.slice(0, 1);
+                        }
+                    },
+                });
+            },
+            error: function (error) {
+                layer.close(index);
+                Message.error('获取上级菜单信息失败！', 1000);
+            }
         });
 
 
         Util.get({
             url: Util.ctx + 'syspermission/listPermissionByType/' + '2',
-        }, function (res) {
-            demo1 = xmSelect.render({
-                el: '#demo2',
-                tips: '请选择上级菜单',
-                model: { label: { type: 'text' } },
-                clickClose: true,
-                height: 'auto',
-                data: res.data,
-                theme: {
-                    color:'#1E9FFF'
-                },
-                tree: {
-                    show: true,
-                    strict: false,
-                    expandedKeys: true, //默认展开节点
-                },
-                //处理方式
-                on: function(data){
-                    if(data.isAdd){
-                        console.log("选中：" + data.change.slice(0, 1)[0].value);
-                        // 赋值给上级菜单input框
-                        $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
-                        return data.change.slice(0, 1);
-                    }
-                },
-            });
-        }, function (res) {
-            Message.error('获取上级菜单信息失败！', 1000);
+            success: function (res) {
+                demo1 = xmSelect.render({
+                    el: '#demo2',
+                    tips: '请选择上级菜单',
+                    model: { label: { type: 'text' } },
+                    clickClose: true,
+                    height: 'auto',
+                    data: res.data,
+                    theme: {
+                        color:'#1E9FFF'
+                    },
+                    tree: {
+                        show: true,
+                        strict: false,
+                        expandedKeys: true, //默认展开节点
+                    },
+                    //处理方式
+                    on: function(data){
+                        if(data.isAdd){
+                            console.log("选中：" + data.change.slice(0, 1)[0].value);
+                            // 赋值给上级菜单input框
+                            $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
+                            return data.change.slice(0, 1);
+                        }
+                    },
+                });
+            },
+            error: function (error) {
+                Message.error('获取上级菜单信息失败！', 1000);
+            }
         });
 
 
@@ -321,21 +325,22 @@
             Util.post({
                 url: Util.ctx + "syspermission/doAdd",
                 data: data,
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    Message.success(1000, res.message, function () {
-                        var windowIndex = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(windowIndex);
-                    });
-                } else {
-                    Message.warning(res.message, 500);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        Message.success(1000, res.message, function () {
+                            var windowIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(windowIndex);
+                        });
+                    } else {
+                        Message.warning(res.message, 500);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 500);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error("服务器异常！", 500);
             });
-
             return false;
         });
     });

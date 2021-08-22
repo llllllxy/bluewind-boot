@@ -83,18 +83,21 @@
                 Util.post({
                     url: Util.ctx + "sysitfckey/add",
                     data: data.field,
-                }, function (res) {
-                    if (res.code === 0) {
-                        layer.close(index);
-                        layer.close(loading);
-                        Message.success(1500, res.message, function () {
-                            // 关闭该标签
-                            var iframeIndex = parent.layer.getFrameIndex(window.name);
-                            parent.layer.close(iframeIndex);
-                        });
-                    } else {
-                        layer.close(loading);
-                        Message.error(res.message, 1000);
+                    success: function (res) {
+                        if (res.code === 0) {
+                            layer.close(index);
+                            layer.close(loading);
+                            Message.success(1500, res.message, function () {
+                                // 关闭该标签
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            });
+                        } else {
+                            layer.close(loading);
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
                     }
                 });
             });

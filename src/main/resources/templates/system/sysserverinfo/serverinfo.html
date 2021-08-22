@@ -249,18 +249,20 @@
         var index = layer.load(0, {shade: 0.1});
         Util.get({
             url: Util.ctx + 'sysserverinfo/list',
-            timeout: 25000
-        }, function (res) {
-            layer.close(index);
-            if (0 === res.code) {
-                renderData(res.data);
-                Message.success("刷新成功！", 1000);
-            } else {
-                Message.error(res.message, 1000);
+            timeout: 25000,
+            success: function (res) {
+                layer.close(index);
+                if (0 === res.code) {
+                    renderData(res.data);
+                    Message.success("刷新成功！", 1000);
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            },
+            error: function (error) {
+                layer.close(index);
+                Message.error("服务器异常！", 1000);
             }
-        }, function (res) {
-            layer.close(index);
-            Message.error("服务器异常！", 1000);
         });
 
     });

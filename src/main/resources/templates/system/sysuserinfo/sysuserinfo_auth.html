@@ -61,20 +61,21 @@
 
             Util.get({
                 url: Util.ctx + 'sysuser/listRoleForSelect/' + $('input[name="id"]').val(),
-            }, function (res) {
-                layer.close(index);
-                demo1 = xmSelect.render({
-                    el: '#demo1',
-                    data: res.data,
-                    theme: {
-                        color: '#1E9FFF'
-                    }
-                })
-            }, function (res) {
-                layer.close(index);
-                Message.error('获取角色信息失败！', 1000);
+                success: function (res) {
+                    layer.close(index);
+                    demo1 = xmSelect.render({
+                        el: '#demo1',
+                        data: res.data,
+                        theme: {
+                            color: '#1E9FFF'
+                        }
+                    })
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error('获取角色信息失败！', 1000);
+                }
             });
-
         }
 
         // 监听提交
@@ -90,21 +91,23 @@
 
             Util.get({
                 url: Util.ctx + 'sysuser/doAuthorize/' + data.id + '/' + selectArr,
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    // 延迟一秒后，进入系统
-                    Message.success(1500, res.message, function () {
-                        // 重载表格
-                        var iframeIndex = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(iframeIndex);
-                    });
-                } else {
-                    Message.error(res.message, 1000);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        // 延迟一秒后，进入系统
+                        Message.success(1500, res.message, function () {
+                            // 重载表格
+                            var iframeIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(iframeIndex);
+                        });
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error('服务器异常！', 1000);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error('服务器异常！', 1000);
             });
 
             return false;

@@ -115,20 +115,22 @@
             var index = layer.load(2, {shade: 0.1});
             Util.get({
                 url: Util.ctx + 'syspermission/updateSort/' + data.permissionId + '/' + value,
-            }, function (res) {
-                layer.close(index);
-                if (0 === res.code) {
-                    layer.closeAll('dialog');
-                    Message.success(500, res.message, function () {
-                        // 重载表格
-                        insTb.refresh();
-                    });
-                } else {
-                    Message.error(res.message, 1000);
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        layer.closeAll('dialog');
+                        Message.success(500, res.message, function () {
+                            // 重载表格
+                            insTb.refresh();
+                        });
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error('服务器异常！', 1000);
                 }
-            }, function (res) {
-                layer.close(index);
-                Message.error('服务器异常！', 1000);
             });
         });
 
@@ -185,20 +187,22 @@
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
                         url: Util.ctx + 'syspermission/delete/' + data.permissionId,
-                    }, function (res) {
-                        layer.close(index);
-                        if (0 === res.code) {
-                            layer.closeAll('dialog');
-                            Message.success(500, res.message, function () {
-                                // 重载表格
-                                insTb.refresh();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            layer.close(index);
+                            if (0 === res.code) {
+                                layer.closeAll('dialog');
+                                Message.success(500, res.message, function () {
+                                    // 重载表格
+                                    insTb.refresh();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
+                            layer.close(index);
+                            Message.error("服务器异常！", 1000);
                         }
-                    }, function (res) {
-                        layer.close(index);
-                        Message.error("服务器异常！", 1000);
                     });
                 });
                 return false;
@@ -209,21 +213,23 @@
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
                         url: Util.ctx + 'syspermission/enable/' + data.permissionId,
-                    }, function (res) {
-                        layer.close(index);
-                        if (0 === res.code) {
-                            layer.closeAll('dialog');
-                            Message.success(500, res.message, function () {
-                                // 重载表格
-                                insTb.refresh();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            layer.close(index);
+                            if (0 === res.code) {
+                                layer.closeAll('dialog');
+                                Message.success(500, res.message, function () {
+                                    // 重载表格
+                                    insTb.refresh();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
+                            layer.close(index);
+                            Message.error("服务器异常！", 1000);
                         }
-                    }, function (res) {
-                        layer.close(index);
-                        Message.error("服务器异常！", 1000);
-                    })
+                    });
                 });
                 return false;
             } else if (obj.event === 'forbid') {
@@ -233,20 +239,22 @@
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
                         url: Util.ctx + 'syspermission/forbid/' + data.permissionId,
-                    }, function (res) {
-                        layer.close(index);
-                        if (0 === res.code) {
-                            layer.closeAll('dialog');
-                            Message.success(500, res.message, function () {
-                                // 重载表格
-                                insTb.refresh();
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            layer.close(index);
+                            if (0 === res.code) {
+                                layer.closeAll('dialog');
+                                Message.success(500, res.message, function () {
+                                    // 重载表格
+                                    insTb.refresh();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
+                            layer.close(index);
+                            Message.error("服务器异常！", 1000);
                         }
-                    }, function (res) {
-                        layer.close(index);
-                        Message.error("服务器异常！", 1000);
                     });
                 });
                 return false;

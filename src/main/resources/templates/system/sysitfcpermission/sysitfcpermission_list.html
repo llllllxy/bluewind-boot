@@ -284,27 +284,29 @@
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
                         url: Util.ctx + 'sysitfcpermission/delete/' + data.permissionId,
-                    }, function (res) {
-                        layer.close(index);
-                        if (0 === res.code) {
-                            layer.closeAll('dialog');
-                            Message.success(500, res.message, function () {
-                                // 成功后的操作，刷新ztree
-                                loadTree();
-                                $("#tablecard").show();
-                                $("#editcard").hide();
-                                table.reload('currentTableId', {
-                                    page: {
-                                        curr: 1 // 页码从1开始
-                                    }
-                                }, 'data');
-                            });
-                        } else {
-                            Message.error(res.message, 1000);
+                        success: function (res) {
+                            layer.close(index);
+                            if (0 === res.code) {
+                                layer.closeAll('dialog');
+                                Message.success(500, res.message, function () {
+                                    // 成功后的操作，刷新ztree
+                                    loadTree();
+                                    $("#tablecard").show();
+                                    $("#editcard").hide();
+                                    table.reload('currentTableId', {
+                                        page: {
+                                            curr: 1 // 页码从1开始
+                                        }
+                                    }, 'data');
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
+                            layer.close(index);
+                            Message.error("服务器异常！", 1000);
                         }
-                    }, function (res) {
-                        layer.close(index);
-                        Message.error("服务器异常！", 1000);
                     });
                 });
                 return false;
@@ -329,24 +331,27 @@
                 Util.post({
                     url: Util.ctx + "sysitfcpermission/update",
                     data: data.field,
-                }, function (res) {
-                    if (res.code === 0) {
-                        layer.close(index);
-                        layer.close(loading);
-                        Message.success(1500, res.message, function () {
-                            // 成功后的操作，刷新ztree
-                            loadTree();
-                            $("#tablecard").show();
-                            $("#editcard").hide();
-                            table.reload('currentTableId', {
-                                page: {
-                                    curr: 1 // 页码从1开始
-                                }
-                            }, 'data');
-                        });
-                    } else {
-                        layer.close(loading);
-                        Message.error(res.message, 1000);
+                    success: function (res) {
+                        if (res.code === 0) {
+                            layer.close(index);
+                            layer.close(loading);
+                            Message.success(1500, res.message, function () {
+                                // 成功后的操作，刷新ztree
+                                loadTree();
+                                $("#tablecard").show();
+                                $("#editcard").hide();
+                                table.reload('currentTableId', {
+                                    page: {
+                                        curr: 1 // 页码从1开始
+                                    }
+                                }, 'data');
+                            });
+                        } else {
+                            layer.close(loading);
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
                     }
                 });
             });
@@ -373,35 +378,38 @@
         function loadTree() {
             var loading = layer.load(0, {shade: 0.1});
             Util.get({
-                url: Util.ctx + "sysitfcpermission/listTree"
-            }, function (res) {
-                if (res.code === 0) {
-                    layer.close(loading);
-                    ztree = $.fn.zTree.init($("#eleTree1"), setting, res.data);
+                url: Util.ctx + "sysitfcpermission/listTree",
+                success: function (res) {
+                    if (res.code === 0) {
+                        layer.close(loading);
+                        ztree = $.fn.zTree.init($("#eleTree1"), setting, res.data);
 
-                    var resdata = res.data;
-                    // 动态渲染select
-                    var add = document.getElementById("superior");
-                    $("#superior").empty();// 清空option
+                        var resdata = res.data;
+                        // 动态渲染select
+                        var add = document.getElementById("superior");
+                        $("#superior").empty();// 清空option
 
-                    var option = document.createElement("option");
-                    option.value = "";
-                    option.innerText = "请选择";
-                    add.append(option);
+                        var option = document.createElement("option");
+                        option.value = "";
+                        option.innerText = "请选择";
+                        add.append(option);
 
-                    for (var i = 0, len = resdata.length; i < len; i++) {
-                        if (resdata[i].type === 0) {
-                            var option2 = document.createElement("option");
-                            option2.value = resdata[i].permission_id;
-                            option2.innerText = resdata[i].name;
-                            add.append(option2);
+                        for (var i = 0, len = resdata.length; i < len; i++) {
+                            if (resdata[i].type === 0) {
+                                var option2 = document.createElement("option");
+                                option2.value = resdata[i].permission_id;
+                                option2.innerText = resdata[i].name;
+                                add.append(option2);
+                            }
                         }
+                        // 更新渲染
+                        form.render('select');
+                    } else {
+                        layer.close(loading);
+                        Message.error(res.message, 1000);
                     }
-                    // 更新渲染
-                    form.render('select');
-                } else {
-                    layer.close(loading);
-                    Message.error(res.message, 1000);
+                },
+                error: function (error) {
                 }
             });
         }

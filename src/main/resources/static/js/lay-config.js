@@ -88,7 +88,7 @@ const Util = {
     /**
      * GET 请求
      */
-    get: function (options, succback, errback) {
+    get: function (options) {
         if (!options.url) {
             alert('请求错误，url不可为空!');
             return false;
@@ -105,17 +105,13 @@ const Util = {
             async: options.async,
             cache: options.cache,
             dataType: options.dataType,
-            success: function (result, status, xhr) {
+            success: function (data, textStatus, jqXHR) {
                 // 成功回调
-                if (!!succback) {
-                    succback(result);
-                }
+                options.success(data);
             },
-            error: function (xhr, status, error) {
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
                 // 错误回调
-                if (!!errback) {
-                    errback(error);
-                }
+                options.error("错误提示： " + XMLHttpRequest.status + " " + XMLHttpRequest.statusText);
             }
         });
     },
@@ -124,7 +120,7 @@ const Util = {
     /**
      * POST 请求
      */
-    post: function (options, succback, errback) {
+    post: function (options) {
         if (!options.url) {
             alert('请求错误，url不可为空!');
             return false;
@@ -145,17 +141,13 @@ const Util = {
             dataType: options.dataType,
             data: options.data,
             contentType: options.contentType, // 发送数据到服务器时所使用的内容类型。默认是："application/x-www-form-urlencoded"
-            success: function (result, status, xhr) {
+            success: function (data, textStatus, jqXHR) {
                 // 成功回调
-                if (!!succback) {
-                    succback(result);
-                }
+                options.success(data);
             },
-            error: function (xhr, status, error) {
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
                 // 错误回调
-                if (!!errback) {
-                    errback(error);
-                }
+                options.error("错误提示： " + XMLHttpRequest.status + " " + XMLHttpRequest.statusText);
             }
         });
     },
@@ -187,17 +179,13 @@ const Util = {
             processData: options.processData,
             data: options.data,
             contentType: options.contentType,
-            success: function (result, status, xhr) {
+            success: function (data, textStatus, jqXHR) {
                 // 成功回调
-                if (!!succback) {
-                    succback(result);
-                }
+                options.success(data);
             },
-            error: function (xhr, status, error) {
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
                 // 错误回调
-                if (!!errback) {
-                    errback(error);
-                }
+                options.error("错误提示： " + XMLHttpRequest.status + " " + XMLHttpRequest.statusText);
             }
         });
     }
