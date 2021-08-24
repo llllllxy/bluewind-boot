@@ -41,6 +41,9 @@
         <itext-asian.version>5.2.0</itext-asian.version>
         <itextpdf.version>5.2.0</itextpdf.version>
         <UserAgentUtils.version>1.21</UserAgentUtils.version>
+        <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
+        <redisson.version>3.15.4</redisson.version>
+        <shedlock.version>4.25.0</shedlock.version>
     </properties>
 
     <profiles>
@@ -302,9 +305,27 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jsonwebtoken.version}</version>
         </dependency>
 
+        <!--分布式redis锁-->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+
+        <!--分布式定时任务轻量级解决方案ShedLock-->
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-spring</artifactId>
+            <version>${shedlock.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-provider-redis-spring</artifactId>
+            <version>${shedlock.version}</version>
+        </dependency>
 
     </dependencies>
 

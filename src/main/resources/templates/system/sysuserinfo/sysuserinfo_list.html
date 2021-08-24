@@ -266,11 +266,12 @@
                 // layer.alert(JSON.stringify(data));
             } else if (obj.event === 'downloadPdf') {
                 console.log("点击下载pdf");
+                // 下面的href模式也是可以的，也是没问题的，
                 // let a = document.createElement('a');
                 // a.href = Util.ctx + 'sysuser/downloadPdf';
                 // a.click()
 
-                // 改为ajax下载文件，这样方便设置header什么的（$.ajax不支持blob类型，所以用原生的）
+                // 改为ajax下载文件，这样方便设置header，适配前后端分离的情况（$.ajax不支持blob类型，所以用原生的）
                 var url = Util.ctx + 'sysuser/downloadPdf';
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);    // 也可以使用POST方式，根据接口
@@ -284,9 +285,11 @@
 
                         console.log(xhr.getResponseHeader("content-disposition"))
                         let temp = xhr.getResponseHeader("content-disposition").split(";")[1].split("filename=")[1];
+                        temp = temp.replace('"', ''); // 去除两边的引号
+
                         var fileName = decodeURIComponent(temp);
                         if (isEmpty(fileName)) {
-                            fileName = '人员明细信息表';
+                            fileName = '人员明细信息表.pdf';
                         }
 
                         var reader = new FileReader();
