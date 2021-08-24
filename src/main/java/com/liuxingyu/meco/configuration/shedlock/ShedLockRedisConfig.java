@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling //开启定时任务注解
 // 开启定时任务锁，并设置默认锁最大时间为30秒(PT为固定格式，S为时间单位)   ---  PT5M表示五分钟
-@EnableSchedulerLock(defaultLockAtMostFor = "30s")
+@EnableSchedulerLock(defaultLockAtMostFor = "PT30S")
 public class ShedLockRedisConfig {
 
     @Value("${spring.profiles.active}")
