@@ -1,5 +1,6 @@
 package com.liuxingyu.meco.common.scheduling;
 
+import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.DateTool;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.mybatis.MybatisSqlTool;
@@ -50,10 +51,12 @@ public class IdTableTimer {
         List<Map> result = MybatisSqlTool.selectAnySql(sql);
         result.forEach(item -> {
             String id_id = (String) item.get("id_id");
-            Map map = (Map) redisUtil.get(id_id);
-            int id_value = map.get("id_value") == null ? 0 : Integer.parseInt(map.get("id_value").toString());
-            String sql2 = "update sys_id_table set id_value = " + id_value + " where id_id = '" + id_id + "'";
-            MybatisSqlTool.updateAnySql(sql2);
+            Map map = (Map) redisUtil.get(SystemConst.SYSTEM_ID_TABLE + ":" + id_id);
+            if (map != null && !map.isEmpty()) {
+                int id_value = map.get("id_value") == null ? 0 : Integer.parseInt(map.get("id_value").toString());
+                String sql2 = "update sys_id_table set id_value = " + id_value + " where id_id = '" + id_id + "'";
+                MybatisSqlTool.updateAnySql(sql2);
+            }
         });
     }
 }

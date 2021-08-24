@@ -1,5 +1,6 @@
 package com.liuxingyu.meco.common.utils.idtable;
 
+import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.lang.StringUtils;
 import com.liuxingyu.meco.common.utils.mybatis.MybatisSqlTool;
@@ -182,7 +183,7 @@ public class IdTableUtils {
      * @return
      */
     private static Map getIdTable(String idCode) {
-        Map result = (Map) getRedisUtil().get(idCode);
+        Map result = (Map) getRedisUtil().get(SystemConst.SYSTEM_ID_TABLE + ":" + idCode);
         // 先从redis中获取，没有再去数据库里查
         if (result != null && !result.isEmpty()) {
             return result;
@@ -191,7 +192,7 @@ public class IdTableUtils {
             result = MybatisSqlTool.selectMapAnySql(sql);
             // 放入redis中
             String id_id = (String) result.get("id_id");
-            getRedisUtil().set(id_id, result, -1);
+            getRedisUtil().set(SystemConst.SYSTEM_ID_TABLE + ":" + id_id, result, -1);
             return result;
         }
     }
@@ -205,10 +206,10 @@ public class IdTableUtils {
      * @return
      */
     private static void updateIdTable(int maxId, String idCode) {
-        Map result = (Map) getRedisUtil().get(idCode);
+        Map result = (Map) getRedisUtil().get(SystemConst.SYSTEM_ID_TABLE + ":" + idCode);
         if (result != null && !result.isEmpty()) {
             result.put("id_value", maxId);
-            getRedisUtil().set(idCode, result, -1);
+            getRedisUtil().set(SystemConst.SYSTEM_ID_TABLE + ":" + idCode, result, -1);
         } else {
             String sql = "update sys_id_table set id_value= " + maxId + " where id_id= '" + idCode + "'";
             MybatisSqlTool.updateAnySql(sql);
@@ -224,10 +225,10 @@ public class IdTableUtils {
      * @return
      */
     private static void updateIdTable(long maxId, String idCode) {
-        Map result = (Map) getRedisUtil().get(idCode);
+        Map result = (Map) getRedisUtil().get(SystemConst.SYSTEM_ID_TABLE + ":" + idCode);
         if (result != null && !result.isEmpty()) {
             result.put("id_value", maxId);
-            getRedisUtil().set(idCode, result, -1);
+            getRedisUtil().set(SystemConst.SYSTEM_ID_TABLE + ":" + idCode, result, -1);
         } else {
             String sql = "update sys_id_table set id_value= " + maxId + " where id_id= '" + idCode + "'";
             MybatisSqlTool.updateAnySql(sql);
@@ -257,6 +258,16 @@ public class IdTableUtils {
      * @param isAffix  是否有前缀或者后缀 1有 0无
      * @param affix    前缀或者后缀内容
      * @param dateTime 当前时间
+     *                 特别说明如下：
+     *                 <p>假设当前时间为2019年2月25日3时11分23秒，如果前缀或后缀包含下列字符串</p>
+     *                 <p>yyyy：生成的流水号将该字符串替换为2019</p>
+     *                 <p>yy：生成的流水号将该字符串替换为19</p>
+     *                 <p>MM：生成的流水号将该字符串替换为02</p>
+     *                 <p>dd：生成的流水号将该字符串替换为25</p>
+     *                 <p>HH：生成的流水号将该字符串替换为03</p>
+     *                 <p>mm：生成的流水号将该字符串替换为11</p>
+     *                 <p>ss：生成的流水号将该字符串替换为23</p>
+     *                 <p>以上日期时间字符，yyyyMMddHHmmss，区分大小写</p>
      * @return
      */
     private static String compoundAffix(String isAffix, String affix, Date dateTime) {

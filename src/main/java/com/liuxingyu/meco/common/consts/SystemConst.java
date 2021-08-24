@@ -52,4 +52,8 @@ public final class SystemConst {
      */
     public static final String SYSTEM_ITFC_KEY = "meco:itfckey";
 
+    /**
+     * id-table业务流水号
+     */
+    public static final String SYSTEM_ID_TABLE = "meco:idtable";
 }

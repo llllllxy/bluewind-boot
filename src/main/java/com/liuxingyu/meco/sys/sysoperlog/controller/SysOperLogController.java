@@ -7,6 +7,7 @@ import com.liuxingyu.meco.common.annotation.LogAround;
 import com.liuxingyu.meco.common.annotation.RequestLimit;
 import com.liuxingyu.meco.common.base.BaseController;
 import com.liuxingyu.meco.common.base.BaseResult;
+import com.liuxingyu.meco.common.utils.idtable.IdTableUtils;
 import com.liuxingyu.meco.sys.sysoperlog.entity.SysOperLog;
 import com.liuxingyu.meco.sys.sysoperlog.service.SysOperLogService;
 import org.slf4j.Logger;
@@ -73,6 +74,12 @@ public class SysOperLogController extends BaseController {
         if (logger.isInfoEnabled()) {
             logger.info("SysOperLogController -- list -- 页面大小：" + pageSize + "--页码:" + pageNum);
         }
+        // 测试流水号的生成，mark
+        String idid = IdTableUtils.nextStringId("id_test_one");
+        if (logger.isInfoEnabled()) {
+            logger.info("SysOperLogController -- list -- idid：" + idid);
+        }
+
         Map<String, Object> paraMap = new HashMap<>();
         paraMap.put("model", model);
         paraMap.put("type", type);
