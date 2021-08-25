@@ -1,8 +1,6 @@
 package com.liuxingyu.meco.sys.sysoperlog.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.liuxingyu.meco.common.annotation.LogAround;
 import com.liuxingyu.meco.common.annotation.RequestLimit;
 import com.liuxingyu.meco.common.base.BaseController;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,8 +66,6 @@ public class SysOperLogController extends BaseController {
                            @RequestParam(required = false, defaultValue = "", value = "createTime") String createTime,
                            @RequestParam(required = false, defaultValue = "", value = "sortName") String sortName,
                            @RequestParam(required = false, defaultValue = "", value = "sortOrder") String sortOrder) {
-        // 分页查询
-        PageHelper.startPage(pageNum, pageSize);
         if (logger.isInfoEnabled()) {
             logger.info("SysOperLogController -- list -- 页面大小：" + pageSize + "--页码:" + pageNum);
         }
