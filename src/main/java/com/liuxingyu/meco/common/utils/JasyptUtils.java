@@ -6,7 +6,7 @@ public class JasyptUtils {
 
     public static String encrypt(String password, String encryptStr) {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
-        // 加密所需的salt
+        // 加密所需的salt（盐值）
         textEncryptor.setPassword(password);
         // 要加密的数据（数据库的用户名或密码）
         return textEncryptor.encrypt(encryptStr);
@@ -14,7 +14,7 @@ public class JasyptUtils {
 
     public static String decrypt(String password, String decryptStr) {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
-        // 加密所需的salt
+        // 加密所需的salt（盐值）
         textEncryptor.setPassword(password);
         // 要解密的数据（数据库的用户名或密码）
         return textEncryptor.decrypt(decryptStr);
