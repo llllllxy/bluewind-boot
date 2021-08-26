@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author liuxingyu01
@@ -17,6 +19,35 @@ import java.util.Map;
  **/
 public class OkHttpUtil {
     final static Logger log = LoggerFactory.getLogger(OkHttpUtil.class);
+
+    // 私有化示例要加上volatile，防止jvm重排序，导致空指针
+    private static volatile OkHttpClient okHttpClient = null;
+
+    // 单例禁止new实例化
+    private OkHttpUtil() {
+
+    }
+
+
+    /**
+     * 获取单例的线程池对象（懒汉式单例，有线程安全问题，所以加锁）
+     * @return
+     */
+    public static OkHttpClient getInstance() {
+        if (okHttpClient == null) {
+            synchronized (OkHttpUtil.class) {
+                if (okHttpClient == null) {
+                    okHttpClient = new OkHttpClient.Builder()
+                            .readTimeout(10, TimeUnit.SECONDS)
+                            .connectTimeout(5, TimeUnit.SECONDS)
+                            .build();
+                }
+            }
+        }
+        return okHttpClient;
+    }
+
+
 
     /**
      * Get请求
@@ -27,7 +58,7 @@ public class OkHttpUtil {
     public static String get(String url) {
         String result = null;
         try {
-            OkHttpClient okHttpClient = new OkHttpClient();
+            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
             Request request = new Request.Builder().url(url).build();
             Response response = okHttpClient.newCall(request).execute();
             if (response.body() != null && response.isSuccessful()) {
@@ -55,7 +86,7 @@ public class OkHttpUtil {
             params = new HashMap<>();
         }
         try {
-            OkHttpClient okHttpClient = new OkHttpClient();
+            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
             FormBody.Builder formBodyBuilder = new FormBody.Builder();
             // 添加参数
             log.info("post - params：{}", params);
@@ -100,7 +131,7 @@ public class OkHttpUtil {
                     .url(url)
                     .post(body)
                     .build();
-            OkHttpClient mOkHttpClient = new OkHttpClient();
+            OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
             Response response = mOkHttpClient.newCall(request).execute();
             if (response.body() != null && response.isSuccessful()) {
                 result = response.body().string();
@@ -122,7 +153,7 @@ public class OkHttpUtil {
     public static String upload(String url, Map<String, File> params) {
         String result = null;
         try {
-            OkHttpClient okHttpClient = new OkHttpClient();
+            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
             MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
             for (Map.Entry<String, File> map : params.entrySet()) {
@@ -158,7 +189,7 @@ public class OkHttpUtil {
     public static String download(String url, String savePath) {
         String result = null;
         try {
-            OkHttpClient okHttpClient = new OkHttpClient();
+            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
             Request request = new Request.Builder().url(url).build();
             Response response = okHttpClient.newCall(request).execute();
             File file = new File(savePath);
@@ -179,6 +210,42 @@ public class OkHttpUtil {
             return result;
         }
     }
+
+
+
+    /**
+     * Get请求（异步请求示例，暂时）
+     *
+     * @param url URL地址
+     * @return 返回结果
+     */
+    public static void asyncGet(String url) {
+        try {
+            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+            Request request = new Request.Builder()
+                    //.addHeader("token", "123") // 设置请求头
+                    .url(url)
+                    .build();
+
+            okHttpClient.newCall(request).enqueue(new Callback(){
+                @Override
+                public void onResponse(Call call,Response response) throws IOException {
+                    if (response.body() != null && response.isSuccessful()) {
+                        String result = response.body().string();
+                        log.info("OkHttp[asyncGet]请求结果：{}", result);
+                    }
+                }
+                @Override
+                public void onFailure(Call call, IOException e){
+
+                }
+            });
+
+        } catch (Exception e) {
+            log.error("OkHttp[asyncGet]请求异常", e);
+        }
+    }
+
 
 
     public static void main(String[] args) {
