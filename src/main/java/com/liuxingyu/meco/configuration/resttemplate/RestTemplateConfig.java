@@ -1,12 +1,16 @@
-package com.liuxingyu.meco.configuration;
+package com.liuxingyu.meco.configuration.resttemplate;
 
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * RestTemplate配置类，进行一些个性化的配置
@@ -41,6 +45,13 @@ public class RestTemplateConfig {
         httpRequestFactory.setConnectTimeout(3000);// 指客户端和服务器建立连接的timeout
         httpRequestFactory.setReadTimeout(120000);// 读取数据的超时时间
         RestTemplate restTemplate = new RestTemplate(httpRequestFactory);
+
+        // restTemplate 统一添加 Header
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        interceptors.add(new HeaderRequestInterceptor("token1", "123"));
+        interceptors.add(new HeaderRequestInterceptor("token2", "456"));
+        restTemplate.setInterceptors(interceptors);
+
         return restTemplate;
     }
 

@@ -1,10 +1,14 @@
 package com.liuxingyu.meco.common.aspect;
 
 import com.liuxingyu.meco.common.annotation.RequestLimit;
+import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.common.utils.IPUtils;
 import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.web.CookieUtils;
+import com.liuxingyu.meco.configuration.security.JwtTokenUtil;
+import com.liuxingyu.meco.common.consts.SystemConst;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -23,6 +27,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+
 /**
  * @author liuxingyu01
  * @date 2021-03-23-10:41
@@ -32,8 +37,6 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RequestLimitAspect {
     final static Logger logger = LoggerFactory.getLogger(RequestLimitAspect.class);
-
-    private static final String REQ_LIMIT = "reqLimit";
 
     @Autowired
     private RedisUtil redisUtil;
@@ -60,8 +63,16 @@ public class RequestLimitAspect {
         int count = limt.count();
         int waits = limt.waits();
 
-        // 唯一值（取不到session_token则使用请求ip）
-        String token = CookieUtils.getCookie(request, "session_token");
+        // 唯一值 - 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）- （取不到的话则使用请求ip）
+        String token = request.getHeader(SystemConst.SYSTEM_USER_TOKEN);
+        if (StringUtils.isBlank(token)) {
+            token = CookieUtils.getCookie(request, SystemConst.SYSTEM_USER_TOKEN);
+        }
+        if (StringUtils.isNotBlank(token) && token.startsWith(SystemConst.TOKEN_PREFIX)) {
+            token = token.replace(SystemConst.TOKEN_PREFIX, "");
+            token = JwtTokenUtil.parseJWT(token);
+        }
+
         if (token == null || "".equals(token)) {
             token = IPUtils.getIpAddress(request);
         }
@@ -104,7 +115,7 @@ public class RequestLimitAspect {
     private static String requestLimitKey(String url, String token) {
         url = url.replace("/", ":");
         StringBuffer sb = new StringBuffer();
-        sb.append(REQ_LIMIT);
+        sb.append(SystemConst.SYSTEM_REQ_LIMIT);
         sb.append(url);
         sb.append(":");
         sb.append(token);

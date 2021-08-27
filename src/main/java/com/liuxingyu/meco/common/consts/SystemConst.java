@@ -56,4 +56,9 @@ public final class SystemConst {
      * id-table业务流水号
      */
     public static final String SYSTEM_ID_TABLE = "meco:idtable";
+
+    /**
+     * 请求频率限制
+     */
+    public static final String SYSTEM_REQ_LIMIT = "meco:reqlimit";
 }

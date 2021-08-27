@@ -203,6 +203,7 @@
                     el: '#demo1',
                     tips: '请选择上级菜单',
                     model: { label: { type: 'text' } },
+                    radio: true, // 单选模式（显示单选按钮）
                     clickClose: true,
                     height: 'auto',
                     data: res.data,
@@ -213,6 +214,8 @@
                         show: true,
                         strict: false,
                         expandedKeys: true, //默认展开节点
+                        clickExpand: false, // 点击节点是否展开
+                        clickCheck: true, // 点击节点是否选中
                     },
                     //处理方式
                     on: function(data){
@@ -239,7 +242,8 @@
                     el: '#demo2',
                     tips: '请选择上级菜单',
                     model: { label: { type: 'text' } },
-                    clickClose: true,
+                    radio: true, // 单选模式（显示单选按钮）
+                    clickClose: true, // 选中时是否关闭
                     height: 'auto',
                     data: res.data,
                     theme: {
@@ -249,10 +253,12 @@
                         show: true,
                         strict: false,
                         expandedKeys: true, //默认展开节点
+                        clickExpand: false, // 点击节点是否展开
+                        clickCheck: true, // 点击节点是否选中
                     },
                     //处理方式
-                    on: function(data){
-                        if(data.isAdd){
+                    on: function(data) {
+                        if (data.isAdd) {
                             console.log("选中：" + data.change.slice(0, 1)[0].value);
                             // 赋值给上级菜单input框
                             $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
@@ -315,7 +321,7 @@
                 }
             }
 
-            if(!!data.icon){
+            if (!!data.icon) {
                 data.icon = 'fa ' + data.icon;
             } else {
                 data.icon = 'fa fa-home'; // 如果不选择，则设置为默认的

@@ -121,7 +121,7 @@
             skin: 'line', // 行边框风格
             parseData: function (res) { //res 即为原始返回的数据
                 if (res.code === -2) {
-                    Message.warning(res.message, 1000);
+                    Message.warning(res.msg, 1000);
                     return;
                 }
                 return {
