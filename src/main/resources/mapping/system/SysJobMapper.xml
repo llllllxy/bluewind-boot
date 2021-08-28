@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuxingyu.meco.sys.sysjob.mapper.SysJobMapper">
+
+    <resultMap type="com.liuxingyu.meco.sys.sysjob.entity.SysJob" id="SysJobResult">
+        <id property="id" column="id"/>
+        <result property="jobId" column="job_id"/>
+        <result property="jobName" column="job_name"/>
+        <result property="jobGroup" column="job_group"/>
+        <result property="invokeTarget" column="invoke_target"/>
+        <result property="cronExpression" column="cron_expression"/>
+        <result property="misfirePolicy" column="misfire_policy"/>
+        <result property="concurrent" column="concurrent"/>
+        <result property="status" column="status"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <!-- 查询定时任务分页列表 -->
+    <select id="list" resultMap="SysJobResult" parameterType="map">
+        select * from `sys_job`
+        where 1=1
+        <if test="jobName != null and jobName != ''">
+            and `job_name` like CONCAT('%',#{jobName},'%')
+        </if>
+        <if test="jobGroup != null and jobGroup != ''">
+            and `job_group` = #{jobGroup}
+        </if>
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by `job_id` asc
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <select id="getOne" resultMap="SysJobResult" parameterType="java.lang.String">
+        select * from `sys_job` where `job_id` = #{_parameter}
+    </select>
+
+
+    <insert id="insertJob" parameterType="com.liuxingyu.meco.sys.sysjob.entity.SysJob">
+       insert into `sys_job` (
+            `job_id`,
+            `job_name`,
+            `job_group`,
+            `invoke_target`,
+            `cron_expression`,
+            `misfire_policy`,
+            `concurrent`,
+            `status`,
+            `create_user`,
+            `remark`
+        ) values (
+            #{jobId},
+            #{jobName},
+            #{jobGroup},
+            #{invokeTarget},
+            #{cronExpression},
+            #{misfirePolicy},
+            #{concurrent},
+            #{status},
+            #{createUser},
+            #{remark}
+        )
+    </insert>
+
+    <update id="changeStatus" parameterType="com.liuxingyu.meco.sys.sysjob.entity.SysJob">
+        update `sys_job` set `status` = #{status} where `job_id` = #{jobId}
+    </update>
+
+    <delete id="deleteJobById" parameterType="java.lang.String">
+        delete from `sys_job` where `job_id` = #{_parameter}
+    </delete>
+
+    <update id="updateJob" parameterType="com.liuxingyu.meco.sys.sysjob.entity.SysJob">
+        update `sys_job` set
+        `job_name` = #{jobName},
+        `job_group` = #{jobGroup},
+        `invoke_target` = #{invokeTarget},
+        `cron_expression` = #{cronExpression},
+        `concurrent` = #{concurrent},
+        `misfire_policy` = #{misfirePolicy},
+        `update_user` = #{updateUser}
+        where `job_id` = #{jobId}
+    </update>
+
+
+</mapper>
