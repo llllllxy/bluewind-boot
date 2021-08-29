@@ -4,13 +4,15 @@ package com.liuxingyu.meco.sys.syspermissioninfo.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author liuxingyu01
  * @date 2021-02-05-22:23
  **/
-public class SysPermissionInfo {
+public class SysPermissionInfo implements Serializable {
+    private static final long serialVersionUID = -6508640424530431598L;
 
     private Integer id;
 
