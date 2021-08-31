@@ -1,5 +1,5 @@
 spring:
   profiles:
     # 切换配置文件，根据pom的profile配置
-    active: @profiles.active@
+    active: dev
     # active: pro
