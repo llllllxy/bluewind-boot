@@ -2,10 +2,7 @@ package com.liuxingyu.meco.common.utils;
 
 import com.liuxingyu.meco.common.utils.lang.StringUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Base64;
 
 /**
@@ -15,11 +12,12 @@ import java.util.Base64;
 public class FileUtils {
 
     /**
+     * base64转文件
      * @param base64Str
      * @param imgFilePath
      * @return
      */
-    private File Base64ToImage(String base64Str, String imgFilePath, String fileName) {
+    private File base64ToFile(String base64Str, String imgFilePath, String fileName) {
         try {
             File resultFile = new File(imgFilePath, fileName);
             // 文件不存在则新建
@@ -47,6 +45,74 @@ public class FileUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    /**
+     * 文件转base64
+     * @param filePath 文件地址
+     * @return
+     */
+    public static String fileToBase64(String filePath) {
+        if(filePath == null || "".equals(filePath)) {
+            return null;
+        }
+        String base64 = null;
+        FileInputStream fin = null;
+        try {
+            fin = new FileInputStream(filePath);
+            byte[] buff = new byte[fin.available()];
+            fin.read(buff);
+            base64 = Base64.getEncoder().encodeToString(buff);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fin != null) {
+                try {
+                    fin.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if(StringUtils.isNotBlank(base64) && !base64.contains("data:image")){
+            base64 = "data:image/png;base64," + base64;
+        }
+        return base64;
+    }
+
+
+    /**
+     * 文件转base64
+     * @param file 文件对象
+     * @return
+     */
+    public static String fileToBase64(File file) {
+        if(file == null) {
+            return null;
+        }
+        String base64 = null;
+        FileInputStream fin = null;
+        try {
+            fin = new FileInputStream(file);
+            byte[] buff = new byte[fin.available()];
+            fin.read(buff);
+            base64 = Base64.getEncoder().encodeToString(buff);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fin != null) {
+                try {
+                    fin.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if(StringUtils.isNotBlank(base64) && !base64.contains("data:image")){
+            base64 = "data:image/png;base64," + base64;
+        }
+        return base64;
     }
 
 
