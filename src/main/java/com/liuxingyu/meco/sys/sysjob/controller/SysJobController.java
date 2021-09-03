@@ -294,7 +294,12 @@ public class SysJobController extends BaseController {
      */
     @ApiOperation(value = "Cron表达式生成器页面", notes = "Cron表达式生成器页面")
     @GetMapping("/forCron")
-    public String forCron() {
+    public String forCron(Model model,
+                          @RequestParam(required = false, defaultValue = "", value = "cronExpression") String cronExpression) {
+        if (logger.isInfoEnabled()) {
+            logger.info("SysJobController - forCron - cronExpression：" + cronExpression);
+        }
+        model.addAttribute("cronExpression", cronExpression);
         return "system/sysjob/sysjob_cron";
     }
 
