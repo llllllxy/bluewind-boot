@@ -1,4 +1,4 @@
-package com.liuxingyu.meco.timer.job;
+package com.liuxingyu.meco.timertask;
 
 import org.springframework.stereotype.Component;
 

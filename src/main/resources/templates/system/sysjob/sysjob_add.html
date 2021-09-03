@@ -42,9 +42,13 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">cron表达式</label>
-        <div class="layui-input-block">
+        <div class="layui-input-inline">
             <input type="text" name="cronExpression" lay-verify="required" lay-reqtext="请输入cron表达式"
                    placeholder="请输入cron表达式" value="" class="layui-input">
+        </div>
+
+        <div class="layui-form-mid layui-word-aux">
+            <button class="layui-btn layui-btn-xs layui-btn-normal" id="generateCron">cron生成器</button>
         </div>
     </div>
 
@@ -128,7 +132,30 @@
             ]
         });
 
+
+        // 调出Cron表达式生成器页面
+        $("#generateCron").click(function () {
+            var index = layer.open({
+                title: 'Cron表达式生成器',
+                type: 2,
+                shade: 0.2,
+                maxmin: true,
+                shadeClose: true,
+                area: ['860px', '580px'],
+                content: Util.ctx + 'sysjob/forCron',
+                end: function (index) {
+                    // 重载表格
+
+                }
+            });
+        });
+
     });
+    
+    function getChildValue(obj) {
+        console.log(obj);
+        $("input[name='cronExpression']").val(obj);
+    }
 </script>
 </body>
 </html>

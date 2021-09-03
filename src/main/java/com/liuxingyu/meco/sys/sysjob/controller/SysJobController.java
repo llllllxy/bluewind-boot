@@ -7,6 +7,7 @@ import com.liuxingyu.meco.common.base.BaseResult;
 import com.liuxingyu.meco.common.exception.TaskException;
 import com.liuxingyu.meco.common.utils.BaseDictUtils;
 import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
+import com.liuxingyu.meco.configuration.quartz.CronUtils;
 import com.liuxingyu.meco.sys.sysjob.entity.SysJob;
 import com.liuxingyu.meco.sys.sysjob.service.SysJobService;
 import io.swagger.annotations.ApiOperation;
@@ -286,7 +287,23 @@ public class SysJobController extends BaseController {
     }
 
 
+    /**
+     * Cron表达式生成器页面
+     *
+     * @return
+     */
+    @ApiOperation(value = "Cron表达式生成器页面", notes = "Cron表达式生成器页面")
+    @GetMapping("/forCron")
+    public String forCron() {
+        return "system/sysjob/sysjob_cron";
+    }
 
 
+    @GetMapping("/getNextExecTime")
+    @ResponseBody
+    public BaseResult getNextExecTime(@RequestParam("CronExpression")String CronExpression) {
+        List<String> list = CronUtils.getNextExecTime(CronExpression, 10);
+        return BaseResult.success(list);
+    }
 
 }
