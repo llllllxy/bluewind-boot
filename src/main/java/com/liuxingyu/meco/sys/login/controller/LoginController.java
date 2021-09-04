@@ -1,11 +1,12 @@
 package com.liuxingyu.meco.sys.login.controller;
 
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import com.liuxingyu.meco.common.annotation.LogAround;
 import com.liuxingyu.meco.common.utils.RedisUtil;
 import com.liuxingyu.meco.common.utils.encrypt.SHA256Utils;
 import com.liuxingyu.meco.common.utils.idgen.IdGenerate;
 import com.liuxingyu.meco.common.utils.web.CookieUtils;
-import com.liuxingyu.meco.configuration.kaptcha.KaptchaUtil;
 import com.liuxingyu.meco.common.consts.SystemConst;
 import com.liuxingyu.meco.configuration.security.JwtTokenUtil;
 import com.liuxingyu.meco.sys.login.service.LoginService;
@@ -18,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +51,9 @@ public class LoginController {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private CaptchaService captchaService;
+
     /**
      * 盐
      */
@@ -60,10 +63,9 @@ public class LoginController {
     @LogAround(value = "跳转到登陆页面")
     @ApiOperation(value = "跳转到登陆页面")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model) {
+    public String loginPage() {
         logger.info("LoginController -- loginPage -- start");
-        model.addAttribute("kaptcha_key", IdGenerate.uuid());
-        return "login/login";
+        return "login/login_v2";
     }
 
     @LogAround(value = "执行登陆操作")
@@ -72,13 +74,14 @@ public class LoginController {
     @ResponseBody
     public BaseResult doLogin(@RequestParam("username") String username,
                               @RequestParam("password") String password,
-                              @RequestParam("captcha") String captcha,
-                              @RequestParam("kaptchaKey") String kaptchaKey,
+                              @RequestParam("captchaVerification") String captchaVerification,
                               HttpServletRequest request,
                               HttpServletResponse response) {
-        // 先验证验证码
-        if (!KaptchaUtil.validate(captcha, kaptchaKey)) {
-            return BaseResult.failure("验证码错误或已过期，请重新输入!");
+        // 二次验证滑动验证码-集成AJ-Captcha
+        CaptchaVO captchaVO = new CaptchaVO();
+        captchaVO.setCaptchaVerification(captchaVerification);
+        if (!captchaService.verification(captchaVO).isSuccess()) {
+            return BaseResult.failure("行为验证失败，请重试!");
         }
 
         // 根据用户名查找到用户信息
@@ -88,6 +91,8 @@ public class LoginController {
             sysLoginLogService.saveLoginlog(request, username, 1, "账户不存在！", "");
             return BaseResult.failure("账户不存在！");
         }
+        logger.info("LoginController - doLogin - userInfo = " + userInfo.toString());
+
         // 校验用户状态(用户已失效)
         // Integer包装类型在和基本数据类型比较时,jvm会自动把包装数据类型拆箱为基本数据类型int,所以额可以直接比较
         if (1 == userInfo.getStatus()) {

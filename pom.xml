@@ -34,7 +34,6 @@
         <qiniu-sdk.version>7.2.29</qiniu-sdk.version>
         <gson.version>2.8.5</gson.version>
         <okhttp.version>3.14.7</okhttp.version>
-        <kaptcha.version>2.3.2</kaptcha.version>
         <oshi.version>3.9.1</oshi.version>
         <jna.version>4.5.2</jna.version>
         <easypoi.version>4.2.0</easypoi.version>
@@ -46,6 +45,7 @@
         <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
         <redisson.version>3.15.4</redisson.version>
         <shedlock.version>4.25.0</shedlock.version>
+        <captcha.version>1.3.0</captcha.version>
     </properties>
 
     <profiles>
@@ -249,13 +249,6 @@
         </dependency>
         <!-- 七牛云OSS所需依赖结束 -->
 
-        <!-- kaptcha验证码工具类 -->
-        <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <version>${kaptcha.version}</version>
-        </dependency>
-
         <!-- 获取系统信息开始 -->
         <dependency>
             <groupId>com.github.oshi</groupId>
@@ -333,6 +326,13 @@
             <groupId>net.javacrumbs.shedlock</groupId>
             <artifactId>shedlock-provider-redis-spring</artifactId>
             <version>${shedlock.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.anji-plus/spring-boot-starter-captcha -->
+        <dependency>
+            <groupId>com.anji-plus</groupId>
+            <artifactId>spring-boot-starter-captcha</artifactId>
+            <version>${captcha.version}</version>
         </dependency>
 
     </dependencies>
