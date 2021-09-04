@@ -23,9 +23,7 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 
     @Override
     public SysUserInfo getOne(String userName) {
-        SysUserInfo sysUserInfo = sysUserInfoMapper.getOne(userName);
-        logger.info("SysUserInfoServiceImpl - getOne - sysUserInfo = " + sysUserInfo.toString());
-        return sysUserInfo;
+        return sysUserInfoMapper.getOne(userName);
     }
 
 
