@@ -45,7 +45,7 @@ public class IdGenerate {
      * @return 大写的UUID，去掉了横线
      */
     public static String fastUUID() {
-        return UUID.fastUUID().toString(true);
+        return UUID.fastUUID().toString(true).toUpperCase();
     }
 
     public static String getInnerIdByLength(int length) {
