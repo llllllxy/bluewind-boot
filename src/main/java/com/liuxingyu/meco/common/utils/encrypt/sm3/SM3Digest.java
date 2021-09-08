@@ -135,16 +135,36 @@ public class SM3Digest {
         byte[] md2 = new byte[32];
         sm3.doFinal(md2, 0);
         String s2 = HexUtil.byte2HexStr(md2).toLowerCase();
-        System.out.println("加密后的字符串msg2:" + s2);
+        System.out.println("加密后的字符串msg2: " + s2);
     }
 
-
-    public static String getSm3Str(String str) {
-        // 加密盐
+    /**
+     * 国密3-加密字符串
+     * @param str 待加密字符串
+     * @return 加密后的字符串
+     */
+    public static String encode(String str) {
+        // 加密盐（公共）
         String salt = "{1#2$3%4(5)6@7!poeeww$3%4(5)djjkkldss}";
         str = str + salt;
         byte[] md = new byte[32];
         byte[] msg = str.getBytes();
+        SM3Digest sm3 = new SM3Digest();
+        sm3.update(msg, 0, msg.length);
+        sm3.doFinal(md, 0);
+        return HexUtil.byte2HexStr(md).toLowerCase();
+    }
+
+
+    /**
+     * 国密3-加密字符串
+     * @param str 待加密字符串
+     * @param salt 盐
+     * @return 加密后的字符串
+     */
+    public static String encode(String str, String salt) {
+        byte[] md = new byte[32];
+        byte[] msg = (str + salt).getBytes();
         SM3Digest sm3 = new SM3Digest();
         sm3.update(msg, 0, msg.length);
         sm3.doFinal(md, 0);
