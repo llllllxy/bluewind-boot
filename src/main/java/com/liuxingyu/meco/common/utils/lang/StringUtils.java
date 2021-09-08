@@ -387,6 +387,38 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
+     * 生成随机字符串
+     *
+     * @return 生成的32位长度的16进制字符串
+     */
+    public static String getRandomHex() {
+        String[] POOL = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 32; i++) {
+            sb.append(POOL[random.nextInt(POOL.length)]);
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * 生成随机字符串
+     *
+     * @return 生成的指定长度的16进制字符串
+     */
+    public static String getRandomHex(int count) {
+        String[] POOL = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < count; i++) {
+            sb.append(POOL[random.nextInt(POOL.length)]);
+        }
+        return sb.toString();
+    }
+
+
+    /**
      * 获取树节点名字
      *
      * @param isShowCode 是否显示编码<br>
