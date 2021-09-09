@@ -369,6 +369,29 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
+     * 密钥生成（复杂）
+     *
+     * @param count 位数
+     * @return
+     */
+    public static String getSecretStr(int count) {
+        char[] codeSeq = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                '!', '@', '#', '$', '%', '^', '&', '*', '?', '.', '=', '+'};
+        Random random = new Random();
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            String r = String.valueOf(codeSeq[random.nextInt(codeSeq.length)]);
+            s.append(r);
+        }
+        return s.toString();
+    }
+
+
+    /**
      * 获取随机数字
      *
      * @param count
@@ -387,7 +410,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
-     * 生成随机字符串
+     * 生成随机字符串（16进制）
      *
      * @return 生成的32位长度的16进制字符串
      */
@@ -403,7 +426,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
-     * 生成随机字符串
+     * 生成随机字符串（16进制）
      *
      * @return 生成的指定长度的16进制字符串
      */
