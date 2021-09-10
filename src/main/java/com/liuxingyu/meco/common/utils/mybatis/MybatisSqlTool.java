@@ -78,6 +78,45 @@ public class MybatisSqlTool {
 
 
     /**
+     * 根据条件查询字段值
+     *
+     * @param fieldName 所要查的字段
+     * @param tableName 所对应的表名
+     * @param conditionName 条件字段名
+     * @param conditionValue 条件的值
+     * @return String
+     */
+    public static String selectStringByCondition(String fieldName, String tableName,
+                                                 String conditionName, String conditionValue) {
+        String sql = "select " + fieldName + "  from " + tableName + "  where " + conditionName
+                + "  = '" + conditionValue + "'";
+        List<Map> list = selectAnySql(sql);
+        if (list != null && !list.isEmpty()) {
+            Map map = list.get(0);
+            String fieldValue = map.get(fieldName) == null ? "" : (String) map.get(fieldName);
+            return fieldValue;
+        } else {
+            return "";
+        }
+    }
+
+
+    /**
+     * 根据条件查询结果列表
+     *
+     * @param tableName 所对应的表名
+     * @param conditionName 条件字段名
+     * @param conditionValue 条件的值
+     * @return String
+     */
+    public static List<Map> selectByCondition(String tableName, String conditionName, String conditionValue) {
+        String sql = "select * from " + tableName + " where " + conditionName
+                + " = '" + conditionValue + "'";
+        return selectAnySql(sql);
+    }
+
+
+    /**
      * 执行更新语句 返回 影响的结果行
      *
      * @param updateSql
