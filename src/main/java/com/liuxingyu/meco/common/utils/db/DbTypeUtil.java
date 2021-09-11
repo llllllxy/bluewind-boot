@@ -1,6 +1,5 @@
 package com.liuxingyu.meco.common.utils.db;
 
-
 import com.liuxingyu.meco.common.enums.DbType;
 import com.liuxingyu.meco.common.utils.spring.SpringUtil;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ public class DbTypeUtil {
     private static final Logger logger = LoggerFactory.getLogger(DbTypeUtil.class);
 
     public static DbType getDbType() {
-        DataSource dataSource = (DataSource) SpringUtil.getBean("routingDataSource");
+        DataSource dataSource = (DataSource) SpringUtil.getBean("dataSource");
         return getDbTypeByDataSource(dataSource);
     }
 
