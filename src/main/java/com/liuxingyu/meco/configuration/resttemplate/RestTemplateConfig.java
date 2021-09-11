@@ -21,6 +21,10 @@ import java.util.List;
 @Configuration
 public class RestTemplateConfig {
 
+    /**
+     * 配置HttpClient连接池
+     * @return
+     */
     @Bean
     public HttpClientConnectionManager poolingConnectionManager() {
         PoolingHttpClientConnectionManager poolingConnectionManager = new PoolingHttpClientConnectionManager();
@@ -32,7 +36,7 @@ public class RestTemplateConfig {
     @Bean
     public HttpClientBuilder httpClientBuilder() {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-        //设置HTTP连接管理器
+        // 设置HTTP连接管理器
         httpClientBuilder.setConnectionManager(poolingConnectionManager());
         return httpClientBuilder;
     }
