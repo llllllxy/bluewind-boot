@@ -26,7 +26,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/logerror.%d{yyyy-MM-dd}.%i.log</fileNamePattern><!--路径-->
-            <maxFileSize>50MB</maxFileSize>  <!-- 日志文件过大会使的编辑器打开非常慢，因此设置日志最大50MB -->
+            <maxFileSize>20MB</maxFileSize>  <!-- 日志文件过大会使的编辑器打开非常慢，因此设置日志最大50MB -->
             <maxHistory>30</maxHistory>  <!-- 保存30天 -->
             <totalSizeCap>10GB</totalSizeCap>  <!-- 总日志大小 -->
         </rollingPolicy>
@@ -49,7 +49,7 @@
         <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/loginfo.%d{yyyy-MM-dd}.%i.log</fileNamePattern><!--路径-->
-            <maxFileSize>50MB</maxFileSize>  <!-- 日志文件过大会使的编辑器打开非常慢，因此设置日志最大50MB -->
+            <maxFileSize>20MB</maxFileSize>  <!-- 日志文件过大会使的编辑器打开非常慢，因此设置日志最大50MB -->
             <maxHistory>30</maxHistory>  <!-- 保存30天 -->
             <totalSizeCap>10GB</totalSizeCap>  <!-- 总日志大小 -->
         </rollingPolicy>
