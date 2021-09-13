@@ -36,8 +36,7 @@ public class BluewindBootApplication {
                 "DbType: \t\t" + DbTypeUtil.getDbType() + "\n" +
                 "----------------------------------------------------------");
 
-
-        // 打印JAVA环境变量
+        // 打印系统环境变量
 //        Properties properties = System.getProperties();
 //        Set<Object> keys = properties.keySet();
 //        for (Object key : keys) {
