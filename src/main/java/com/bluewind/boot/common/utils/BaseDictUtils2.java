@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.utils;
 
-import com.bluewind.boot.sys.sysbasedict.mapper.SysBaseDictMapper;
+import com.bluewind.boot.module.sys.sysbasedict.mapper.SysBaseDictMapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;

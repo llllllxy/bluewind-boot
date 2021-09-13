@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bluewind.boot.sys.syspermissioninfo.mapper.SysPermissionInfoMapper">
+<mapper namespace="com.bluewind.boot.module.sys.syspermissioninfo.mapper.SysPermissionInfoMapper">
 
-    <resultMap id="SysPermissionInfo" type="com.bluewind.boot.sys.syspermissioninfo.entity.SysPermissionInfo">
+    <resultMap id="SysPermissionInfo" type="com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
         <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
@@ -24,7 +24,7 @@
 
     <!-- 角色赋权，根据角色id获取权限树tree组件 -->
     <select id="listPermissionForTree" parameterType="java.lang.String"
-            resultType="com.bluewind.boot.sys.syspermissioninfo.entity.LayuiTree">
+            resultType="com.bluewind.boot.module.sys.syspermissioninfo.entity.LayuiTree">
         SELECT
             a.`permission_id` as permissionId,
             a.`parent_id` as parentId,
@@ -52,7 +52,7 @@
     </select>
 
     <!-- 启/禁用菜单前获取所有菜单列表 -->
-    <select id="listTree" resultType="com.bluewind.boot.sys.syspermissioninfo.entity.LayuiTree">
+    <select id="listTree" resultType="com.bluewind.boot.module.sys.syspermissioninfo.entity.LayuiTree">
         select
             `permission_id` as permissionId,
             `parent_id` as parentId,
@@ -101,7 +101,7 @@
 
 
     <select id="listPermissionByType1" parameterType="java.lang.String"
-            resultType="com.bluewind.boot.sys.syspermissioninfo.entity.LayuiTree">
+            resultType="com.bluewind.boot.module.sys.syspermissioninfo.entity.LayuiTree">
         SELECT
             a.`permission_id` as permissionId,
             a.`parent_id` as parentId,
@@ -123,7 +123,7 @@
 
 
     <select id="listPermissionByType2" parameterType="java.lang.String"
-            resultType="com.bluewind.boot.sys.syspermissioninfo.entity.LayuiTree">
+            resultType="com.bluewind.boot.module.sys.syspermissioninfo.entity.LayuiTree">
         SELECT
             a.`permission_id` as permissionId,
             a.`parent_id` as parentId,
@@ -145,14 +145,14 @@
 
 
     <!-- 修改菜单顺序 -->
-    <update id="updateSort" parameterType="com.bluewind.boot.sys.syspermissioninfo.entity.SysPermissionInfo">
+    <update id="updateSort" parameterType="com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo">
         update sys_permission_info
         set `sort` = #{sort}
         where `permission_id` = #{permissionId}
     </update>
 
     <!-- 新增菜单 -->
-    <insert id="addPermission" parameterType="com.bluewind.boot.sys.syspermissioninfo.entity.SysPermissionInfo">
+    <insert id="addPermission" parameterType="com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo">
         insert into sys_permission_info (
             `permission_id`,
             `parent_id`,
@@ -192,7 +192,7 @@
 
 
     <!-- 修改菜单 -->
-    <update id="updatePermission" parameterType="com.bluewind.boot.sys.syspermissioninfo.entity.SysPermissionInfo">
+    <update id="updatePermission" parameterType="com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo">
         update sys_permission_info
         set `sort` = #{sort},
         `name` = #{name},

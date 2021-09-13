@@ -1,7 +1,7 @@
 package com.bluewind.boot.common.aspect;
 
 import com.bluewind.boot.common.annotation.DataSourceWith;
-import com.bluewind.boot.configuration.datasource.RoutingDataSourceContext;
+import com.bluewind.boot.common.configuration.datasource.RoutingDataSourceContext;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

@@ -1,7 +1,7 @@
 package com.bluewind.boot.common.base;
 
-import com.bluewind.boot.configuration.security.SecurityUtil;
-import com.bluewind.boot.sys.sysuserinfo.entity.SysUserInfo;
+import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

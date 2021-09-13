@@ -10,12 +10,12 @@ public final class SystemConst {
     /**
      * 项目名称
      */
-    public static final String SYSTEM_NAME = "meco-server";
+    public static final String SYSTEM_NAME = "bluewind-boot";
 
     /**
      * 登录用户 令牌 Redis Key 前缀
      */
-    public static final String SYSTEM_USER_KEY = "meco:user:key";
+    public static final String SYSTEM_USER_KEY = "bluewind:user:key";
 
     /**
      * 登录用户cookie-key
@@ -30,35 +30,35 @@ public final class SystemConst {
     /**
      * 用户菜单
      */
-    public static final String SYSTEM_USER_MENU = "meco:user:menu";
+    public static final String SYSTEM_USER_MENU = "bluewind:user:menu";
 
     /**
      * 用户角色
      */
-    public static final String SYSTEM_USER_ROLE = "meco:user:role";
+    public static final String SYSTEM_USER_ROLE = "bluewind:user:role";
 
     /**
      * 用户权限
      */
-    public static final String SYSTEM_USER_PERMISSION = "meco:user:permission";
+    public static final String SYSTEM_USER_PERMISSION = "bluewind:user:permission";
 
     /**
      * 用户登陆次数
      */
-    public static final String SYSTEM_LOGIN_TIMES = "meco:logintimes";
+    public static final String SYSTEM_LOGIN_TIMES = "bluewind:logintimes";
 
     /**
      * itfc-key
      */
-    public static final String SYSTEM_ITFC_KEY = "meco:itfckey";
+    public static final String SYSTEM_ITFC_KEY = "bluewind:itfckey";
 
     /**
      * id-table业务流水号
      */
-    public static final String SYSTEM_ID_TABLE = "meco:idtable";
+    public static final String SYSTEM_ID_TABLE = "bluewind:idtable";
 
     /**
      * 请求频率限制
      */
-    public static final String SYSTEM_REQ_LIMIT = "meco:reqlimit";
+    public static final String SYSTEM_REQ_LIMIT = "bluewind:reqlimit";
 }

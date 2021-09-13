@@ -16,7 +16,6 @@ import java.net.UnknownHostException;
 
 // 将spring boot自带的DataSourceAutoConfiguration禁掉，
 // 因为它会读取application.yml文件的spring.datasource.*属性并自动配置单数据源
-
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableTransactionManagement // 简单开启事务管理
 @MapperScan(basePackages = "com.bluewind.boot.**.mapper")

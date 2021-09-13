@@ -1,9 +1,9 @@
 package com.bluewind.boot.common.aspect;
 
 import com.bluewind.boot.common.utils.IPUtils;
-import com.bluewind.boot.configuration.security.SecurityUtil;
-import com.bluewind.boot.sys.sysoperlog.entity.SysOperLog;
-import com.bluewind.boot.sys.sysoperlog.service.SysOperLogService;
+import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.module.sys.sysoperlog.entity.SysOperLog;
+import com.bluewind.boot.module.sys.sysoperlog.service.SysOperLogService;
 import com.bluewind.boot.common.annotation.OperLog;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

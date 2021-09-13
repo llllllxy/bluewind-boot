@@ -1,1 +1,1 @@
-com.bluewind.boot.configuration.ajcaptcha.CaptchaCacheServiceRedisImpl
+com.bluewind.boot.common.configuration.ajcaptcha.CaptchaCacheServiceRedisImpl

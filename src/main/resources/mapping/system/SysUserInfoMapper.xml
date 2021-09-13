@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bluewind.boot.sys.sysuserinfo.mapper.SysUserInfoMapper">
+<mapper namespace="com.bluewind.boot.module.sys.sysuserinfo.mapper.SysUserInfoMapper">
 
-    <resultMap id="SysUserInfo" type="com.bluewind.boot.sys.sysuserinfo.entity.SysUserInfo">
+    <resultMap id="SysUserInfo" type="com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="account" jdbcType="VARCHAR" property="account"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -62,7 +62,7 @@
     </delete>
 
 
-    <insert id="doAdd" parameterType="com.bluewind.boot.sys.sysuserinfo.entity.SysUserInfo">
+    <insert id="doAdd" parameterType="com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo">
         insert into sys_user_info (account,password,`name`,phone,avatar,sex,`status`,del_flag,create_user)
         values (
             #{account},
@@ -83,13 +83,13 @@
     </select>
 
 
-    <update id="resetPass" parameterType="com.bluewind.boot.sys.sysuserinfo.entity.SysUserInfo">
+    <update id="resetPass" parameterType="com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo">
         update sys_user_info set password = #{password}
         where id = #{id}
     </update>
 
 
-    <update id="doUpdate" parameterType="com.bluewind.boot.sys.sysuserinfo.entity.SysUserInfo">
+    <update id="doUpdate" parameterType="com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo">
         update sys_user_info set `name` = #{name},
         `sex` = #{sex},
         `status` = #{status},

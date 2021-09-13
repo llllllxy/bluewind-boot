@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bluewind.boot.sys.sysroleinfo.mapper.SysRoleInfoMapper">
+<mapper namespace="com.bluewind.boot.module.sys.sysroleinfo.mapper.SysRoleInfoMapper">
 
-    <resultMap id="SysRoleInfo" type="com.bluewind.boot.sys.sysroleinfo.entity.SysRoleInfo">
+    <resultMap id="SysRoleInfo" type="com.bluewind.boot.module.sys.sysroleinfo.entity.SysRoleInfo">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
         <result column="sign" jdbcType="VARCHAR" property="sign"/>
@@ -17,7 +17,7 @@
     </resultMap>
 
 
-    <select id="listXmSelectPojo" resultType="com.bluewind.boot.sys.sysroleinfo.entity.XmSelect">
+    <select id="listXmSelectPojo" resultType="com.bluewind.boot.module.sys.sysroleinfo.entity.XmSelect">
         SELECT
             a.role_id AS `value`,
             a.`name`,
@@ -56,7 +56,7 @@
 
 
     <!--新增一个角色-->
-    <insert id="doAdd" parameterType="com.bluewind.boot.sys.sysroleinfo.entity.SysRoleInfo">
+    <insert id="doAdd" parameterType="com.bluewind.boot.module.sys.sysroleinfo.entity.SysRoleInfo">
         insert into sys_role_info (role_id,`name`,sign,descript,`status`,del_flag,create_user)
         values (
             #{roleId},
@@ -92,7 +92,7 @@
 
 
     <!--更新一个角色-->
-    <update id="doUpdate" parameterType="com.bluewind.boot.sys.sysroleinfo.entity.SysRoleInfo">
+    <update id="doUpdate" parameterType="com.bluewind.boot.module.sys.sysroleinfo.entity.SysRoleInfo">
         update sys_role_info
         set `name` = #{name},
         `sign` = #{sign},
