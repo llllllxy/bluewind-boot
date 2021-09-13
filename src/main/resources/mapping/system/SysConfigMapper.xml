@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liuxingyu.meco.sys.sysconfig.mapper.SysConfigMapper">
+<mapper namespace="com.bluewind.boot.sys.sysconfig.mapper.SysConfigMapper">
 
-    <resultMap id="SysConfig" type="com.liuxingyu.meco.sys.sysconfig.entity.SysConfig">
+    <resultMap id="SysConfig" type="com.bluewind.boot.sys.sysconfig.entity.SysConfig">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="system_name" jdbcType="VARCHAR" property="systemName"/>
         <result column="system_full_name" jdbcType="VARCHAR" property="systemFullName"/>
@@ -29,7 +29,7 @@
 
 
     <!--更新配置-->
-    <update id="updateSysConfig" parameterType="com.liuxingyu.meco.sys.sysconfig.entity.SysConfig">
+    <update id="updateSysConfig" parameterType="com.bluewind.boot.sys.sysconfig.entity.SysConfig">
         update sys_configure
         set `system_name` = #{systemName},
         `system_full_name` = #{systemFullName},

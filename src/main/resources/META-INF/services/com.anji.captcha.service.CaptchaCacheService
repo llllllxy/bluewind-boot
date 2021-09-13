@@ -1,1 +1,1 @@
-com.liuxingyu.meco.configuration.ajcaptcha.CaptchaCacheServiceRedisImpl
+com.bluewind.boot.configuration.ajcaptcha.CaptchaCacheServiceRedisImpl

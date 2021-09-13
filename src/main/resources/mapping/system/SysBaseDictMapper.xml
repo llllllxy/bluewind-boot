@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liuxingyu.meco.sys.sysbasedict.mapper.SysBaseDictMapper">
+<mapper namespace="com.bluewind.boot.sys.sysbasedict.mapper.SysBaseDictMapper">
 
     <!--查询一个枚举,公共方法-->
     <select id="getBaseDictByDictId" parameterType="string" resultType="map">
@@ -11,7 +11,7 @@
     </select>
 
 
-    <resultMap id="SysDict" type="com.liuxingyu.meco.sys.sysbasedict.entity.SysDict">
+    <resultMap id="SysDict" type="com.bluewind.boot.sys.sysbasedict.entity.SysDict">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
@@ -25,7 +25,7 @@
     </resultMap>
 
 
-    <resultMap id="SysDictDetail" type="com.liuxingyu.meco.sys.sysbasedict.entity.SysDictDetail">
+    <resultMap id="SysDictDetail" type="com.bluewind.boot.sys.sysbasedict.entity.SysDictDetail">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
@@ -69,7 +69,7 @@
 
 
     <!--插入一个枚举-->
-    <insert id="addOneDict" parameterType="com.liuxingyu.meco.sys.sysbasedict.entity.SysDict">
+    <insert id="addOneDict" parameterType="com.bluewind.boot.sys.sysbasedict.entity.SysDict">
         insert into `sys_dict` (
             `dict_code`,
             `name`,
@@ -105,18 +105,18 @@
 
 
     <!--更新一个枚举-->
-    <update id="updateOneDict" parameterType="com.liuxingyu.meco.sys.sysbasedict.entity.SysDict">
+    <update id="updateOneDict" parameterType="com.bluewind.boot.sys.sysbasedict.entity.SysDict">
         update sys_dict set `name` = #{name},`descript` = #{descript} where `id` =  #{id}
     </update>
 
     <!--根据条件，查询所有枚举-->
     <select id="getBaseDictDetail" resultMap="SysDictDetail"
-            parameterType="com.liuxingyu.meco.sys.sysbasedict.entity.SysDict">
+            parameterType="com.bluewind.boot.sys.sysbasedict.entity.SysDict">
         select * from `sys_dict_detail` where `dict_code` = #{dictCode}
     </select>
 
     <!--插入一个枚举明细-->
-    <insert id="addDetail" parameterType="com.liuxingyu.meco.sys.sysbasedict.entity.SysDictDetail">
+    <insert id="addDetail" parameterType="com.bluewind.boot.sys.sysbasedict.entity.SysDictDetail">
         insert into `sys_dict_detail` (
             `dict_code`,
             `name`,
@@ -142,7 +142,7 @@
     </select>
 
     <!--更新一个枚举明细-->
-    <update id="updateDetail" parameterType="com.liuxingyu.meco.sys.sysbasedict.entity.SysDictDetail">
+    <update id="updateDetail" parameterType="com.bluewind.boot.sys.sysbasedict.entity.SysDictDetail">
         update sys_dict_detail
         set `name` = #{name},
         `code` = #{code},

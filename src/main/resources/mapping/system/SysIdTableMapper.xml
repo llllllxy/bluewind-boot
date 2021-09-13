@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liuxingyu.meco.sys.sysidtable.mapper.SysIdTableMapper">
+<mapper namespace="com.bluewind.boot.sys.sysidtable.mapper.SysIdTableMapper">
 
-    <resultMap id="SysIdTable" type="com.liuxingyu.meco.sys.sysidtable.entity.SysIdTable">
+    <resultMap id="SysIdTable" type="com.bluewind.boot.sys.sysidtable.entity.SysIdTable">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="id_id" jdbcType="VARCHAR" property="idId"/>
         <result column="id_name" jdbcType="VARCHAR" property="idName"/>
@@ -45,7 +45,7 @@
 
 
     <!-- 新增业务流水号 -->
-    <insert id="addOneIdTable" parameterType="com.liuxingyu.meco.sys.sysidtable.entity.SysIdTable">
+    <insert id="addOneIdTable" parameterType="com.bluewind.boot.sys.sysidtable.entity.SysIdTable">
         insert into sys_id_table (
             `id_id`,
             `id_name`,
@@ -82,7 +82,7 @@
     </select>
 
 
-    <update id="updateIdTable" parameterType="com.liuxingyu.meco.sys.sysidtable.entity.SysIdTable">
+    <update id="updateIdTable" parameterType="com.bluewind.boot.sys.sysidtable.entity.SysIdTable">
         update `sys_id_table`
         set `id_name` = #{idName},
         `id_length` =  #{idLength},

@@ -8,11 +8,11 @@
         <version>2.2.12.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.liuxingyu</groupId>
-    <artifactId>meco-server</artifactId>
+    <groupId>com.bluewind.boot</groupId>
+    <artifactId>bluewind-boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>meco-server</name>
-    <description>meco管理系统</description>
+    <name>bluewind-boot</name>
+    <description>bluewind-boot管理系统</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -346,7 +346,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.2.12.RELEASE</version>
                 <configuration>
-                    <mainClass>com.liuxingyu.meco.MecoApplication</mainClass>
+                    <mainClass>com.bluewind.boot.BluewindBootApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
