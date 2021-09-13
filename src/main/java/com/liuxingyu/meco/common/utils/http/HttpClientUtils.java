@@ -3,28 +3,39 @@ package com.liuxingyu.meco.common.utils.http;
 import java.io.*;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 
 /**
  * @author liuxingyu01
@@ -33,6 +44,7 @@ import org.slf4j.LoggerFactory;
  **/
 public class HttpClientUtils {
     private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+
 
     /**
      * @param url    请求路径
@@ -45,8 +57,9 @@ public class HttpClientUtils {
         // 返回结果
         String result = "";
         // 创建HttpClient对象
-        HttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = createHttpClient(url);
         HttpGet httpGet = null;
+        CloseableHttpResponse response = null;
         try {
             // 拼接参数,可以用URIBuilder,也可以直接拼接在？传值，拼在url后面，如下--httpGet = new
             // HttpGet(uri+"?id=123");
@@ -72,7 +85,7 @@ public class HttpClientUtils {
                     .setSocketTimeout(5000).build(); // 请求获取数据的超时时间，单位毫秒。如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
             httpGet.setConfig(requestConfig);
 
-            HttpResponse response = httpClient.execute(httpGet);
+            response = httpClient.execute(httpGet);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {// 返回200，请求成功
                 // 结果返回
                 result = EntityUtils.toString(response.getEntity(), "utf-8");
@@ -88,6 +101,22 @@ public class HttpClientUtils {
             // 释放连接
             if (null != httpGet) {
                 httpGet.releaseConnection();
+            }
+            // 回收链接到连接池
+            if (null != response) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (null != httpClient) {
+                try {
+                    httpClient.close();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         return result;
@@ -106,7 +135,8 @@ public class HttpClientUtils {
         String result = "";
 
         // 创建httpclient对象
-        HttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = createHttpClient(url);
+        CloseableHttpResponse response = null;
         HttpPost httpPost = new HttpPost(url);
 
         // 设置超时时间
@@ -128,7 +158,7 @@ public class HttpClientUtils {
                 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(pairs);
                 httpPost.setEntity(entity);
             }
-            HttpResponse response = httpClient.execute(httpPost);
+            response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 result = EntityUtils.toString(response.getEntity(), "utf-8");
                 if (logger.isInfoEnabled()) {
@@ -140,9 +170,23 @@ public class HttpClientUtils {
         } catch (Exception e) {
             logger.error("HttpClientUtils -- doPost -- Exception： {e}", e);
         } finally {
-            if (null != httpPost) {
-                // 释放连接
-                httpPost.releaseConnection();
+            // 释放连接
+            httpPost.releaseConnection();
+            // 回收链接到连接池
+            if (null != response) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (null != httpClient) {
+                try {
+                    httpClient.close();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         return result;
@@ -160,7 +204,8 @@ public class HttpClientUtils {
     public static String doPostJson(String url, String jsonStr) {
         String result = "";
 
-        HttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = createHttpClient(url);
+        CloseableHttpResponse response = null;
         HttpPost httpPost = new HttpPost(url);
 
         // 设置超时时间
@@ -174,9 +219,12 @@ public class HttpClientUtils {
             httpPost.addHeader("Content-type", "application/json; charset=utf-8");
             httpPost.setHeader("Accept", "application/json");
             if (StringUtils.isNotBlank(jsonStr)) {
-                httpPost.setEntity(new StringEntity(jsonStr, Charset.forName("UTF-8")));
+                StringEntity stringEntity = new StringEntity(jsonStr, Charset.forName("UTF-8"));
+                stringEntity.setContentEncoding("UTF-8");
+                stringEntity.setContentType("application/json");
+                httpPost.setEntity(stringEntity);
             }
-            HttpResponse response = httpClient.execute(httpPost);
+            response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 result = EntityUtils.toString(response.getEntity(), "utf-8");
                 if (logger.isInfoEnabled()) {
@@ -188,9 +236,23 @@ public class HttpClientUtils {
         } catch (IOException e) {
             logger.error("HttpClientUtils -- doPostJson -- Exception： {e}", e);
         } finally {
-            if (null != httpPost) {
-                // 释放连接
-                httpPost.releaseConnection();
+            // 释放连接
+            httpPost.releaseConnection();
+            // 回收链接到连接池
+            if (null != response) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (null != httpClient) {
+                try {
+                    httpClient.close();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         return result;
@@ -198,14 +260,16 @@ public class HttpClientUtils {
 
 
     /**
-     * 下载文件
      *
-     * @param url
-     * @param filePath
-     * @return
+     * @param url url
+     * @param filePath 本地存储地址
+     * @Title: doDownload
+     * @Description: 下载文件
+     * @author liuxingyu01
      */
     public static String doDownload(String url, String filePath) {
-        HttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpClient httpClient = createHttpClient(url);
+        CloseableHttpResponse response = null;
         HttpGet httpget = new HttpGet(url);
 
         // 设置超时时间
@@ -215,7 +279,7 @@ public class HttpClientUtils {
                 .setSocketTimeout(5000).build(); // 请求获取数据的超时时间，单位毫秒。如果访问一个接口，多少时间内无法返回数据，就直接放弃此次调用。
         httpget.setConfig(requestConfig);
         try {
-            HttpResponse response = httpClient.execute(httpget);
+            response = httpClient.execute(httpget);
             HttpEntity entity = response.getEntity();
             InputStream is = entity.getContent();
             File file = new File(filePath);
@@ -250,12 +314,69 @@ public class HttpClientUtils {
         } catch (IOException e) {
             logger.error("HttpClientUtils -- doDownload - IOException - {e}", e);
         } finally {
-            if (null != httpget) {
-                // 释放连接
-                httpget.releaseConnection();
+            // 释放连接
+            httpget.releaseConnection();
+            // 回收链接到连接池
+            if (null != response) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (null != httpClient) {
+                try {
+                    httpClient.close();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         return filePath;
+    }
+
+
+    /**
+     * 根据url判断是http还是https
+     * @param url
+     * @return
+     */
+    public static CloseableHttpClient createHttpClient(String url) {
+        String head = url.substring(0, 5);
+        if (StringUtils.isNotBlank(head)) {
+            if ("https".equals(head)) {
+                return createSSLInsecureClient();
+            } else {
+                return HttpClientBuilder.create().build();
+            }
+        } else {
+            return HttpClientBuilder.create().build();
+        }
+    }
+
+
+    /**
+     * 创建 SSL连接
+     */
+    public static CloseableHttpClient createSSLInsecureClient() {
+        try {
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(new TrustStrategy() {
+                @Override
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true;
+                }
+            }).build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+            return HttpClients.custom().setSSLSocketFactory(sslsf).build();
+        } catch (GeneralSecurityException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 
@@ -267,14 +388,19 @@ public class HttpClientUtils {
 //		String post = doPost("http://10.10.10.67/lcm/restful/ReceiveFinance/getTestTest", map);
 //		logger.info("post调用成功，返回数据是：" + post);
 
-//        String str = "{\"sites\":{\"site\":[{\"id\":\"2\",\"name\":\"菜鸟工具\",\"url\":\"c.runoob.com\"}]}}";
-//        String json = doPostJson("http://10.110.1.210:18070/crm_m/elockRestful", str);
-//        logger.info("json发送成功，返回数据是：" + json);
+//        String access_token = doGet("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ww18ca1c72a196320c&corpsecret=3yUH3k2I87x6strRkRlXA5qVXUwNgQ3TW2O64epMtqk", null);
+//        logger.info("返回结果access_token：" + access_token);
 
-        // String ueueueu = doGet("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ww18ca1c72a196320c&corpsecret=3yUH3k2I87x6strRkRlXA5qVXUwNgQ3TW2O64epMtqk", null);
-        // logger.info("返回结果ueueueu：" + ueueueu);
+        String token = "yDzs20PZHD_6pGUo_w1sZhnHnzeojsEOxVb0_rGFmEvp2mOzQ_LsaF_euo9jPJO8OleoJt5vNtaXkrJu8_IApeUmg3Mhs5uP5UmzvVkaN5lq9ggEDOUbCqBoJmWWlF-_v5NPFXFDcdNTKMnJ7L5shNLKRtbzamL-As9UzVfWGne3ZhoncVeEHL5jBpZotsgBjpgn1SzXsbfrG0VwfUT2Cw";
+        String str = "{\"datetime\":1511971200,\"useridlist\":[\"leisure\",\"liuxingyu\"]}";
+        String json = doPostJson("https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckinoption?access_token=" + token, str);
+        logger.info("json发送成功，返回数据是：" + json);
 
-        // String sss = doDownload("http://upyun.lxyccc.top/halo/article_bg_26_civilization2_4k.jpg", "D:/44dsdsdsds4.jpg");
+
+
+//        String sss = doDownload("http://upyun.lxyccc.top/halo/article_bg_26_civilization2_4k.jpg", "D:/44dsdsdsds4.jpg");
+
+
 
     }
 
