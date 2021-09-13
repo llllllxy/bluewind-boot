@@ -172,7 +172,7 @@ public class SysJobServiceImpl implements SysJobService {
 
 
     /**
-     * 更新任务
+     * 更新任务（先删除，再新增）
      *
      * @param job      任务对象
      * @param jobGroup 任务组名
