@@ -36,14 +36,23 @@ import java.nio.charset.CodingErrorAction;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
  * @author liuxingyu01
  * @date 2021-09-11-22:55
+ * @description HttpClient连接池公共方法
+ * 注意点：1. http连接池不是万能的,过多的长连接会占用服务器资源,导致其他服务受阻
+ *        2. http连接池只适用于请求是经常访问同一主机(或同一个接口)的情况下
+ *        3. 并发数不高的情况下资源利用率低下
+ *
+ * 使用http连接池的优点：
+ *        1. 复用http连接,省去了tcp的3次握手和4次挥手的时间,极大降低请求响应的时间
+ *        2. 自动管理tcp连接,不用人为地释放/创建连接
  **/
-public class HttpClientUtils2 {
-    private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils2.class);
+public class HttpClientPoolUtils {
+    private static final Logger logger = LoggerFactory.getLogger(HttpClientPoolUtils.class);
 
     private static PoolingHttpClientConnectionManager clientConnectionManager = null;
     // 它是线程安全的，所有的线程都可以使用它一起发送http请求
@@ -59,7 +68,7 @@ public class HttpClientUtils2 {
      */
     public static CloseableHttpClient getHttpClient() {
         if (httpClient == null) {
-            synchronized (HttpClientUtils2.class) {
+            synchronized (HttpClientPoolUtils.class) {
                 if (httpClient == null) {
                     init();
                     httpClient = HttpClients.custom()
@@ -68,6 +77,7 @@ public class HttpClientUtils2 {
                             .setDefaultRequestConfig(config)               //默认请求配置
                             .setRetryHandler(httpRequestRetryHandler)      //重试策略
                             .evictExpiredConnections() // 开启独立线程清理过期连接
+                            .evictIdleConnections(5L, TimeUnit.SECONDS) // 清理空闲连接
                             .build();
                 }
             }

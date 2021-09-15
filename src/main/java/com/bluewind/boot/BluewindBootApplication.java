@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Map;
 
 // 将spring boot自带的DataSourceAutoConfiguration禁掉，
 // 因为它会读取application.yml文件的spring.datasource.*属性并自动配置单数据源
@@ -36,7 +37,7 @@ public class BluewindBootApplication {
                 "DbType: \t\t" + DbTypeUtil.getDbType() + "\n" +
                 "----------------------------------------------------------");
 
-        // 打印系统环境变量
+        // 打印Jvm环境变量
 //        Properties properties = System.getProperties();
 //        Set<Object> keys = properties.keySet();
 //        for (Object key : keys) {
@@ -44,6 +45,10 @@ public class BluewindBootApplication {
 //                logger.info("系统参数 --> key :" + key + "  value  :" + System.getProperty((String) key));
 //            }
 //        }
+        // 打印系统环境变量
+//        Map<String,String> envMap = System.getenv();
+
+
     }
 
 }
