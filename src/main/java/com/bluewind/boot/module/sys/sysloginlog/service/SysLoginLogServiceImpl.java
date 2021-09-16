@@ -40,7 +40,7 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      * 保存登录日志
      */
     @Override
-    @Async("asyncServiceExecutor") // 耗时操作放进线程池去操作
+    @Async("asyncServiceExecutor") // 耗时操作放进线程池去操作,注意：异步方法使用注解@Async的返回值只能为void或者Future
     public void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript, String redisKey) {
         SysLoginLog sysLoginLog = new SysLoginLog();
         sysLoginLog.setAccount(account);
