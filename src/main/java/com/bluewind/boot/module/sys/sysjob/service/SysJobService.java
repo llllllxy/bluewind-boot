@@ -18,13 +18,13 @@ public interface SysJobService {
 
     SysJob getOne(String jobId);
 
-    void executeonce(String jobId) throws SchedulerException;
+    void executeonce(String jobId) throws SchedulerException, TaskException;
 
     int insertJob(SysJob job) throws SchedulerException, TaskException;
 
-    int start(String jobId) throws SchedulerException;
+    int start(String jobId) throws SchedulerException, TaskException;
 
-    int stop(String jobId) throws SchedulerException;
+    int stop(String jobId) throws SchedulerException, TaskException;
 
     int delete(String jobId) throws SchedulerException;
 

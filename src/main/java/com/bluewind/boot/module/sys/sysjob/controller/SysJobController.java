@@ -113,7 +113,7 @@ public class SysJobController extends BaseController {
     @ApiOperation(value = "执行一次", notes = "执行一次")
     @ResponseBody
     @GetMapping("/executeonce/{jobId}")
-    public BaseResult executeonce(@PathVariable String jobId) throws SchedulerException {
+    public BaseResult executeonce(@PathVariable String jobId) throws SchedulerException, TaskException {
         sysJobService.executeonce(jobId);
         return BaseResult.success("执行一次成功！");
     }
@@ -127,7 +127,7 @@ public class SysJobController extends BaseController {
     @ApiOperation(value = "启动", notes = "启动")
     @ResponseBody
     @GetMapping("/start/{jobId}")
-    public BaseResult start(@PathVariable String jobId) throws SchedulerException {
+    public BaseResult start(@PathVariable String jobId) throws SchedulerException, TaskException {
         int num = sysJobService.start(jobId);
         if (num > 0) {
             return BaseResult.success("启动成功！");
@@ -145,7 +145,7 @@ public class SysJobController extends BaseController {
     @ApiOperation(value = "停止", notes = "停止")
     @ResponseBody
     @GetMapping("/stop/{jobId}")
-    public BaseResult stop(@PathVariable String jobId) throws SchedulerException {
+    public BaseResult stop(@PathVariable String jobId) throws SchedulerException, TaskException {
         int num = sysJobService.stop(jobId);
 
         if (num > 0) {
@@ -164,7 +164,7 @@ public class SysJobController extends BaseController {
     @ApiOperation(value = "删除", notes = "删除")
     @ResponseBody
     @GetMapping("/delete/{jobId}")
-    public BaseResult delete(@PathVariable String jobId) throws SchedulerException, TaskException {
+    public BaseResult delete(@PathVariable String jobId) throws SchedulerException {
         int num = sysJobService.delete(jobId);
 
         if (num > 0) {
@@ -173,8 +173,6 @@ public class SysJobController extends BaseController {
             return BaseResult.failure("删除定时任务失败，请联系后台管理员！");
         }
     }
-
-
 
 
     /**
@@ -226,7 +224,6 @@ public class SysJobController extends BaseController {
             return BaseResult.failure("请检查Cron表达式是否正确！");
         }
     }
-
 
 
     /**
@@ -306,7 +303,7 @@ public class SysJobController extends BaseController {
 
     @GetMapping("/getNextExecTime")
     @ResponseBody
-    public BaseResult getNextExecTime(@RequestParam("CronExpression")String CronExpression) {
+    public BaseResult getNextExecTime(@RequestParam("CronExpression") String CronExpression) {
         List<String> list = CronUtils.getNextExecTime(CronExpression, 10);
         return BaseResult.success(list);
     }

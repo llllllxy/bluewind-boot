@@ -3,22 +3,12 @@ package com.bluewind.boot.common.configuration.quartz;
 import com.bluewind.boot.common.consts.ScheduleConstants;
 import com.bluewind.boot.common.exception.TaskException;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.Job;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
+import org.quartz.*;
 
 /**
- * 定时任务工具类
- *
  * @author liuxingyu01
  * @date 2021-08-27-13:25
+ * @description 定时任务工具类
  **/
 public class ScheduleUtils {
 
@@ -81,6 +71,7 @@ public class ScheduleUtils {
         }
     }
 
+
     /**
      * 设置定时任务策略
      */
@@ -99,6 +90,96 @@ public class ScheduleUtils {
                 throw new TaskException("The task misfire policy '" + job.getMisfirePolicy()
                         + "' cannot be used in cron schedule tasks", TaskException.Code.CONFIG_ERROR);
         }
+    }
+
+
+    /**
+     * 执行一次
+     */
+    public static void executeonceScheduler(Scheduler scheduler, SysJob sysJob) throws SchedulerException, TaskException {
+        try {
+            JobDataMap dataMap = new JobDataMap();
+            dataMap.put(ScheduleConstants.TASK_PROPERTIES, sysJob);
+            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            // 如果不存在，则新建一个quartz实例
+            if (!scheduler.checkExists(jobKey)) {
+                createScheduleJob(scheduler, sysJob);
+                scheduler.triggerJob(jobKey, dataMap);
+            } else {
+                scheduler.triggerJob(jobKey, dataMap);
+            }
+        } catch (SchedulerException e) {
+            throw new SchedulerException("执行一次定时任务失败", e);
+        }
+    }
+
+
+    /**
+     * 删除定时任务
+     */
+    public static void deleteSchedulerJob(Scheduler scheduler, SysJob sysJob) throws SchedulerException {
+        try {
+            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            if (!scheduler.checkExists(jobKey)) {
+                return;
+            }
+            scheduler.deleteJob(jobKey);
+        } catch (SchedulerException e) {
+            throw new SchedulerException("删除定时任务失败", e);
+        }
+    }
+
+
+    /**
+     * 暂停任务
+     */
+    public static void pauseSchedulerJob(Scheduler scheduler, SysJob sysJob) throws SchedulerException, TaskException {
+        try {
+            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            if (!scheduler.checkExists(jobKey)) {
+                // 任务之前不存在，则新建，新建的同时，createQuartzTask方法内会暂停任务，所以这里无需再次操作
+                createScheduleJob(scheduler, sysJob);
+                return;
+            }
+            scheduler.pauseJob(jobKey);
+        } catch (SchedulerException e) {
+            throw new SchedulerException("暂停定时任务失败", e);
+        }
+    }
+
+
+    /**
+     * 恢复任务
+     */
+    public static void resumeSchedulerJob(Scheduler scheduler, SysJob sysJob) throws SchedulerException, TaskException {
+        try {
+            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            if (!scheduler.checkExists(jobKey)) {
+                // 任务之前不存在，则新建，新建的同时，createQuartzTask方法内会自动开始任务，所以这里无需再次操作
+                createScheduleJob(scheduler, sysJob);
+                return;
+            }
+            scheduler.resumeJob(jobKey);
+        } catch (SchedulerException e) {
+            throw new SchedulerException("恢复定时任务失败", e);
+        }
+    }
+
+
+    /**
+     * 更新任务（先删除，再新增）
+     *
+     * @param job       任务对象
+     * @param scheduler 任务调度器
+     */
+    public static void updateSchedulerJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException {
+        // 判断是否存在
+        JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
+        if (scheduler.checkExists(jobKey)) {
+            // 防止创建时存在数据问题，所以先移除，然后在执行创建操作
+            scheduler.deleteJob(jobKey);
+        }
+        createScheduleJob(scheduler, job);
     }
 
 }
