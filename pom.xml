@@ -46,6 +46,7 @@
         <redisson.version>3.15.4</redisson.version>
         <shedlock.version>4.25.0</shedlock.version>
         <captcha.version>1.3.0</captcha.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
     </properties>
 
     <profiles>
@@ -328,13 +329,19 @@
             <version>${shedlock.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.anji-plus/spring-boot-starter-captcha -->
+        <!-- anji-plus行为验证码工具包 -->
         <dependency>
             <groupId>com.anji-plus</groupId>
             <artifactId>spring-boot-starter-captcha</artifactId>
             <version>${captcha.version}</version>
         </dependency>
 
+        <!-- kaptcha文字验证码工具包 -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

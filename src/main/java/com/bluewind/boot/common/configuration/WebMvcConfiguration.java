@@ -62,8 +62,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         excludePathList.add("/admin/doLogin"); // 登录接口
         excludePathList.add("/anon/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
         excludePathList.add("/itfc/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
-        excludePathList.add("/captcha/**"); // 开放获取验证码接口
-
+        excludePathList.add("/captcha/**"); // 开放获取行为验验证码接口
+        excludePathList.add("/kaptcha/**");  // 开放获取文字验证码接口
         excludePathList.add("/static/**");//静态资源不拦截
 
         // 开放静态文件
