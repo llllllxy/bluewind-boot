@@ -125,7 +125,9 @@ public class QiNiuUtil {
             logger.error("QiNiuUtil -- uploadQiniuWithInputStream -- ex= " + r);
         } finally {
             try {
-                inputStream.close();
+                if (inputStream != null) {
+                    inputStream.close();
+                }
             } catch (IOException e) {
                 logger.error("QiNiuUtil -- uploadQiniuWithInputStream -- IOException - e= ", e);
             }
@@ -176,7 +178,9 @@ public class QiNiuUtil {
             logger.error("QiNiuUtil -- uploadQiniuWithBase64 -- ex= " + r);
         } finally {
             try {
-                inputStream.close();
+                if (inputStream != null) {
+                    inputStream.close();
+                }
             } catch (IOException e) {
                 logger.error("QiNiuUtil -- uploadQiniuWithBase64 -- IOException - e= ", e);
             }
@@ -240,7 +244,9 @@ public class QiNiuUtil {
                 } catch (Exception e) {
                     logger.error("QiNiuUtil -- download -- e= ", e);
                 } finally {
-                    inputStream.close();
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
                 }
                 return writer.toByteArray();
             }
