@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理-登陆</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/aj-captcha/css/verify.css}">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style th:inline="text">
+        body,html,#app,.layui-body {
+            height: 100%;
+            background: #f3f3f3;
+        }
+
+        a {
+            cursor: pointer;
+            color: #5a8bff;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #1e51c7;
+        }
+
+        #app a {
+            outline: none;
+        }
+
+        #VIEW-login{
+            height: 100%;
+            background:#252834;
+            padding-top:1px;
+            margin-top:-1px;
+        }
+        #VIEW-login .layui-logo{
+            user-select: none;
+            overflow: hidden;
+            position: static;
+            font-size: 30px;
+            color:#d6e0f6;
+            width: 100%;
+            padding:0;
+            line-height: 120px;
+            height: 120px;
+            color:#3491ff;
+            font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+            transition: height .8s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+        #VIEW-login .layui-logo span{
+            font-weight: normal;
+            color:#fff;
+            border-bottom: 1px solid #3491ff;
+        }
+        #VIEW-login .layui-logo span b{
+            color:#3491ff;
+        }
+
+
+        #VIEW-login .login-wrap{
+            position: relative;
+            top:50%;
+            margin-top:-290px;
+            height: 540px;
+        }
+
+        #VIEW-login .layui-form{
+            overflow: hidden;
+            background: #fff;
+            padding:40px;
+            padding-bottom:20px;
+            border-radius: 0px;
+            box-shadow: 0 0 30px #000;
+            position: relative;
+        }
+        #VIEW-login .layui-form-item{
+            position: relative;
+        }
+        #VIEW-login .verify-block{
+            display: none;
+        }
+        #VIEW-login .telephone-block{
+            display: none;
+        }
+
+        #VIEW-login .layui-input{
+            text-indent:26px;
+        }
+        #VIEW-login .codeimg{
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #VIEW-login .sendsms{
+            position: absolute;
+            top:4px;
+            right: 4px;
+            width: 100px;
+            border:none;
+        }
+        #VIEW-login .sendsms.layui-btn-disabled{
+            background: #f4f4f4;
+            color:#bbb;
+        }
+        #VIEW-login .houseimg{
+            text-align: center;
+        }
+        #VIEW-login .houseimg img{
+            display: inline-block;
+            margin-top:5%;
+        }
+
+        #VIEW-login .login-type-tab{
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        #VIEW-login .login-type-tab li{
+            display: inline-block;
+            padding-right: 20px;
+            font-size: 16px;
+            line-height: 30px;
+            color:#bbb;
+            cursor: pointer;
+            transition: color .5s ease;
+        }
+        #VIEW-login .login-type-tab li.active{
+            color:#333;
+        }
+        #VIEW-login .login-type-tab li .qrcode-icon{
+            font-size: 24px;
+        }
+        #VIEW-login .phonecode-block{
+            display: none;
+        }
+        #VIEW-login .qrcode-block{
+            text-align: center;
+            display: none;
+        }
+
+        #VIEW-login .qrcode-block .qrcode{
+            border:1px solid #eee;
+            display: inline-block;
+            padding:15px;
+            margin:30px 0;
+            width: 158px;
+            height: 158px;
+        }
+
+        #VIEW-login .qrcode-block .qrcode .layui-icon{
+            line-height: 158px;
+            font-size: 44px;
+            color:#e6e6e6;
+        }
+        #VIEW-login .qrcode-block .p1{
+            font-size: 16px;
+        }
+        #VIEW-login .qrcode-block .p2{
+            font-size: 14px;
+            color:#999;
+            margin-top:10px;
+            margin-bottom: 20px;
+        }
+        #VIEW-login .layui-form-item .label-icon{
+            position: absolute;
+            top:0;
+            left:0;
+            width: 38px;
+            line-height: 38px;
+            text-align: center;
+            color: #d2d2d2!important;
+        }
+        .nepadmin-tc {
+            text-align: center;
+        }
+        .nepadmin-fr {
+            float: right;
+        }
+
+        .layui-form-checked[lay-skin=primary] i{
+            border-color:#4BB2FF !important;
+            background-color:#4BB2FF !important;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+<body>
+<div id="content"></div>
+<div id="moniclick"></div>
+<div id="app">
+    <div id="VIEW-login" lay-title="登录">
+        <div class="login-wrap">
+            <div class="layui-container">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-lg4 layui-col-lg-offset4 nepadmin-tc">
+                        <div class="layui-logo"><span>blue<b>wind</b>&nbsp;boot</span></div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-lg4 layui-col-lg-offset4">
+                        <div class="layui-form" lay-filter="login-form">
+                            <!--切换模块-->
+                            <ul class="login-type-tab">
+                                <li login-type="password" class="active">密码登录</li>
+                                <li login-type="phonecode">手机号登录</li>
+                                <li login-type="qrcode" class="nepadmin-fr layui-hide-xs" style="padding-right: 0;" lay-tips="扫码登录" >
+                                <span class="qrcode-icon">
+                                    <i class="fa fa-qrcode" aria-hidden="true"></i>
+                                </span>
+                                </li>
+                            </ul>
+                            <!--二维码显示模块-->
+                            <div class="qrcode-block">
+                                <div class="qrcode qrcode-image">
+
+                                </div>
+                                <p class="p1">1秒即登录，方便又安全</p>
+                                <p class="p2">使用 手机版 扫码登录</p>
+                            </div>
+                            <!--常规表单登陆显示模块-->
+                            <div class="normal-login-form">
+                                <!--用户名div-->
+                                <div class="layui-form-item username-block">
+                                    <label class="layui-icon label-icon layui-icon-username"></label>
+                                    <input type="text" name="username" id="username" value="" placeholder="用户名" autocomplete="off" class="layui-input">
+                                </div>
+                                <!--密码div-->
+                                <div class="layui-form-item password-block">
+                                    <label class="layui-icon label-icon layui-icon-password"></label>
+                                    <input type="password" name="password" id="password" value="" placeholder="密码" autocomplete="off" class="layui-input">
+                                </div>
+
+                                <!--手机号div-->
+                                <div class="layui-form-item telephone-block">
+                                    <label class="layui-icon label-icon layui-icon-cellphone"></label>
+                                    <input type="text" name="telephone" value="" placeholder="手机号码" maxlength="11" autocomplete="off" class="layui-input">
+                                </div>
+                                <!--图形验证码div-->
+                                <div class="layui-form-item verify-block">
+                                    <div class="layui-row">
+                                        <div class="layui-col-xs8">
+                                            <label class="layui-icon label-icon layui-icon-vercode"></label>
+                                            <input type="text" name="verifyCode" maxlength="4" placeholder="图形验证码" class="layui-input" autocomplete="off">
+                                        </div>
+                                        <div class="layui-col-xs4">
+                                            <img class="codeimg" alt="看不清? 点击刷新" title="看不清? 点击刷新" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--手机验证码div-->
+                                <div class="layui-form-item phonecode-block">
+                                    <label class="layui-icon label-icon layui-icon-cellphone"></label>
+                                    <input type="text" name="smsCode" maxlength="4" placeholder="手机验证码" class="layui-input" autocomplete="off">
+                                    <button class="layui-btn layui-btn-danger layui-btn-sm sendsms layui-btn-disabled">获取验证码</button>
+                                </div>
+
+                                <!--记住密码div-->
+                                <div class="layui-form-item">
+                                    <input type="checkbox" name="rememberMe" id="rememberMe" title="记住密码" lay-skin="primary">
+                                </div>
+                                <!--登陆按钮div-->
+                                <div class="layui-form-item">
+                                    <button class="layui-btn layui-btn-normal layui-btn-fluid" lay-submit lay-filter="login-submit">
+                                        <i style="display: none" class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+                                        <span class="btn-text">立即登录</span>
+                                    </button>
+                                </div>
+                                <!--两个链接div-->
+                                <div class="layui-form-item nepadmin-tr">
+                                    <a lay-href="/user/forget">注册账号</a>
+                                    &nbsp;&nbsp;
+                                    <a style="margin-right:10px;" lay-href="/user/forget">忘记密码？</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/md5/md5.min.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<!-- 滑动验证码验证插件 -->
+<script th:src="@{/lib/aj-captcha/js/crypto-js.js}" charset="utf-8"></script>
+<script th:src="@{/lib/aj-captcha/js/ase.js}" charset="utf-8"></script>
+<script th:src="@{/lib/aj-captcha/js/verify.js}" charset="utf-8"></script>
+<!-- 二维码生成插件 -->
+<script th:src="@{/lib/jq-module/qrcode/jquery.qrcode.min.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'layNotify', 'util'], function () {
+        var form = layui.form,
+            util = layui.util,
+            layNotify = layui.layNotify;
+
+        // 登录过期的时候，跳出ifram框架
+        if (top.location != self.location) {
+            top.location = self.location;
+        }
+
+        // 根据localStorage的值判断是否设置了记住密码
+        if (localStorage.getItem("bluewindbootsign") == "rememberMe") {
+            console.log("设置成勾选");
+            // 设置成勾选
+            $("#rememberMe").prop("checked", true);
+            // 在每一次对layui组件select,checkbox等操作后还得再进行渲染一遍才行，这里太坑了
+            form.render();
+        }
+        if (localStorage.getItem("username") && localStorage.getItem("password")) {
+            console.log("浏览器记住，自动填入账号密码，" + localStorage.getItem("username"))
+            $("#username").val(localStorage.getItem("username"));
+            $("#password").val(localStorage.getItem("password"));
+        } else {
+            console.log("不存在localStorage");
+        }
+
+
+        // 标记当前登陆类型
+        var currentLoginType = 'password';
+        // 发送短信验证码的按钮
+        var viewSendsmsBtn = $('.sendsms');
+        // 标记发送短信验证码的按钮的状态
+        var smsCountdown = false;
+
+        // 注册li切换模块，根据不同的选择显示不同的登陆选项
+        var viewTabBtn = $('.login-type-tab li');
+        viewTabBtn.click(function () {
+            var type = $(this).attr('login-type');
+            $(this).addClass('active').siblings().removeClass('active');
+            console.log(type)
+            var qrcode_block = $('.qrcode-block');
+            var normal_login_form = $('.normal-login-form');
+            var username_block = $('.username-block');
+            var password_block = $('.password-block');
+            var telephone_block = $('.telephone-block');
+            var verify_block = $('.verify-block');
+            var phonecode_block = $('.phonecode-block');
+
+            if (type == 'password') {
+                currentLoginType = 'password';
+                normal_login_form.show();
+                qrcode_block.hide();
+                username_block.css('display', 'block');
+                password_block.css('display', 'block');
+                verify_block.css('display', 'none');
+                telephone_block.css('display', 'none');
+                phonecode_block.css('display', 'none');
+            } else if (type == 'phonecode') {
+                currentLoginType = 'phonecode';
+                normal_login_form.show();
+                qrcode_block.hide();
+                username_block.css('display', 'none');
+                password_block.css('display', 'none');
+                verify_block.css('display', 'block');
+                telephone_block.css('display', 'block');
+                phonecode_block.css('display', 'block');
+            } else if (type == 'qrcode') {
+                currentLoginType = 'qrcode';
+                qrcode_block.show();
+                normal_login_form.hide();
+                createQrcode();
+            }
+        });
+
+
+        if (currentLoginType !== 'password') {
+            viewTabBtn.each(function (i) {
+                var elem = viewTabBtn.eq(i);
+                if (elem.attr('login-type') === currentLoginType) {
+                    elem.click();
+                }
+            });
+        }
+
+        // 监听手机号图形验证码和input输入框，然后切换获取验证码按钮的状态
+        var viewPhoneInput = $('input[name="telephone"]');
+        var viewImgVerifyInput = $('input[name="verifyCode"]');
+        viewPhoneInput.on('keyup', checkSendsmsStatus);
+        viewImgVerifyInput.on('keyup', checkSendsmsStatus);
+        function checkSendsmsStatus() {
+            if (currentLoginType != 'phonecode') {
+                return;
+            }
+            var reg = layui.form.config.verify.phone[0];
+            if (smsCountdown == false && reg.test(viewPhoneInput.val()) && viewImgVerifyInput.val().length == 4) {
+                viewSendsmsBtn.removeClass('layui-btn-disabled');
+            } else {
+                viewSendsmsBtn.addClass('layui-btn-disabled');
+            }
+        }
+
+        // 二维码生成模块，暂时未做具体逻辑实现
+        var viewQrcode = $(".qrcode-image");
+        function createQrcode() {
+            // 重置 viewQrcode这个DIV里的内容
+            viewQrcode.html('<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>');
+            setTimeout(function () {
+                var qrcode = viewQrcode.qrcode({
+                    render: "canvas", //设置渲染方式，有table和canvas，使用canvas方式渲染性能相对来说比较好
+                    text: utf16to8("http://www.layui.com"), //二维码的内容,可以直接填一个网址，扫描二维码后自动跳向该链接
+                    width: "160", //二维码宽度
+                    height: "160", //二维码高度
+                    background: "#ffffff", //二维码后景色
+                    foreground: "#000000", //二维码前景色
+                });
+                viewQrcode.find('.layui-icon').hide();
+            }, 500);
+        }
+
+
+        // 发送短信验证码的按钮的点击事件
+        viewSendsmsBtn.click(function () {
+            var self = $(this);
+            if (self.hasClass('layui-btn-disabled')) {
+                return;
+            }
+            self.addClass('layui-btn-disabled');
+
+            var defHtml = self.html();
+            var startTime = new Date().getTime();
+            var endTime = startTime + 59000;
+            smsCountdown = true;
+            util.countdown(endTime, startTime, function (date, time, timer) {
+                var second = date[3];
+                self.html(second + ' 秒');
+                if (second <= 0) {
+                    self.removeClass('layui-btn-disabled').html(defHtml);
+                    smsCountdown = false;
+                    clearInterval(timer);
+                }
+            });
+        });
+
+
+        // 初始化行为验证码-弹出式
+        $('#content').slideVerify({
+            baseUrl: Util.ctx,  //服务器请求地址, 默认地址为安吉服务器;
+            mode: 'pop',     //展示模式
+            containerId: 'moniclick',//pop模式 必填 被点击之后出现行为验证码的元素id
+            imgSize: {       //图片的大小对象,有默认值{ width: '310px',height: '155px'},可省略
+                width: '400px',
+                height: '200px',
+            },
+            barSize: {         //下方滑块的大小对象,有默认值{ width: '310px',height: '50px'},可省略
+                width: '400px',
+                height: '40px',
+            },
+            ready: function () {
+            },  //加载完毕的回调
+            success: function (params) { //成功的回调
+                console.log(params);
+                var username = $("input[name='username']").val();
+                var password = $("input[name='password']").val();
+                // 加密输入的密码
+                password = md5(password);
+                let data = {
+                    "username": username,
+                    "password": password,
+                    "captchaVerification": params.captchaVerification
+                }
+                // 一秒后，再执行登陆操作，用户体验较好
+                setTimeout(function (){
+                    doLogin(data);
+                }, 1000);
+            },
+            error: function () {
+            }        //失败的回调
+        });
+
+
+        // 提交登录表单
+        form.on('submit(login-submit)', function (data) {
+            // 当模式为密码登陆时
+            if (currentLoginType == 'password') {
+                let formdata = data.field;
+                if (formdata.username == '') {
+                    layer.msg('用户名不能为空');
+                    return false;
+                }
+                if (formdata.password == '') {
+                    layer.msg('密码不能为空');
+                    return false;
+                }
+                // 判断rememberMe是否选中
+                if ($('#rememberMe').prop('checked')) {
+                    localStorage.setItem("username", formdata.username, "7d");
+                    localStorage.setItem("password", formdata.password, "7d");
+                    localStorage.setItem("bluewindbootsign", "rememberMe", "7d");
+                } else {
+                    localStorage.removeItem("username");
+                    localStorage.removeItem("password");
+                    localStorage.removeItem("bluewindbootsign");
+                }
+                // 手动触发滑动验证码事件
+                document.getElementById("moniclick").click();
+            } else {
+                layer.msg('手机号登陆暂未支持，敬请期待');
+            }
+
+            return false;
+        });
+
+
+        /**
+         * 密码登陆模式的执行操作
+         * @param data
+         */
+        function doLogin(data) {
+            // 设置按钮为登陆中，此时禁止点击
+            logining();
+
+            Util.post({
+                contentType: "application/x-www-form-urlencoded", // 默认就是这个
+                url: Util.ctx + "admin/doLogin",
+                data: data,
+                success: function (res) {
+                    if (res.code === 0) {
+                        layNotify.notice({
+                            title: "登录提示",
+                            type: "success",
+                            message: res.message
+                        });
+                        setTimeout(function () {
+                            window.location.href = Util.ctx + "admin/index";
+                        }, 1000);
+                    } else {
+                        loginend();
+                        layNotify.notice({
+                            title: "登录提示",
+                            type: "warning",
+                            message: res.message
+                        });
+                        document.getElementById("ver_btn").click();
+                        document.getElementById("captcha").value = '';
+                    }
+                },
+                error: function (error) {
+                    loginend();
+                    layNotify.notice({
+                        title: "登录提示",
+                        type: "error",
+                        message: "请求失败，请联系系统管理员！"
+                    });
+                }
+            });
+        }
+
+
+        // 登陆中
+        function logining() {
+            var button = $('.layui-btn-fluid');
+            var loading = button.find('.layui-icon');
+            var btntext = button.find('.btn-text');
+            if (loading.is(":visible")) {
+                return;
+            }
+            if ($(this).hasClass('layui-btn-disabled')) {
+                return;
+            }
+            // 设置按钮为不可点击状态
+            button.addClass('layui-btn-disabled');
+            // 改变按钮文字
+            btntext.text('正在登录');
+            // 设置loading图标为显示状态
+            loading.show();
+        }
+
+        // 登陆后
+        function loginend() {
+            var button = $('.layui-btn-fluid');
+            var loading = button.find('.layui-icon');
+            var btntext = button.find('.btn-text');
+            // 恢复登陆按钮状态和loading图标状态
+            button.removeClass('layui-btn-disabled');
+            btntext.text('立即登录');
+            loading.hide();
+        }
+
+
+
+        // 文字验证码初始化（短信登陆）
+        let kaptcha_key = [[${kaptcha_key}]];
+        getKaptcha(kaptcha_key);
+
+        // 文字验证码点击事件（短信登陆）
+        $(".codeimg").click(function () {
+            let kaptcha_key = [[${kaptcha_key}]];
+            getKaptcha(kaptcha_key);
+        });
+        // 获取文字验证码（短信登陆）
+        function getKaptcha(kaptcha_key) {
+            Util.get({
+                url: Util.ctx + "kaptcha/getImage?kaptcha_key=" + kaptcha_key,
+                dataType: "text",
+                success: function (result) {
+                    $(".codeimg").attr("src", result);
+                },
+                error: function (error) {
+                    layNotify.notice({
+                        title: "提示",
+                        type: "warning",
+                        message: "获取验证码错误，请联系系统管理员!"
+                    });
+                }
+            });
+        }
+    });
+
+    /**
+     * 防止二维码内容乱码
+     * @param str
+     * @returns {string}
+     */
+    function utf16to8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for (i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            }
+        }
+        return out;
+    }
+</script>
+
+</body>
+</html>

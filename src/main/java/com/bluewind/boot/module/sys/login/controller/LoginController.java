@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,9 +64,10 @@ public class LoginController {
     @LogAround(value = "跳转到登陆页面")
     @ApiOperation(value = "跳转到登陆页面")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage() {
+    public String loginPage(Model model) {
         logger.info("LoginController -- loginPage -- start");
-        return "login/login_v2";
+        model.addAttribute("kaptcha_key", IdGenerate.uuid());
+        return "login/login_v3";
     }
 
     @LogAround(value = "执行登陆操作")
