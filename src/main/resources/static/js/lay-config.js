@@ -394,7 +394,7 @@ function accMul(arg1, arg2) {
         m += s2.split(".")[1].length
     } catch (e) {
     }
-    return util.accDiv(Number(s1.replace(".", "")) * Number(s2.replace(".", "")), Math.pow(10, m));
+    return accDiv(Number(s1.replace(".", "")) * Number(s2.replace(".", "")), Math.pow(10, m));
 }
 
 
@@ -417,7 +417,7 @@ function accAdd(arg1, arg2) {
         r2 = 0
     }
     m = Math.pow(10, Math.max(r1, r2));
-    return util.accDiv((util.accMul(arg1, m) + util.accMul(arg2, m)), m);
+    return accDiv((accMul(arg1, m) + accMul(arg2, m)), m);
 }
 
 
@@ -440,5 +440,5 @@ function accSub(arg1, arg2) {
         r2 = 0
     }
     m = Math.pow(10, Math.max(r1, r2));
-    return util.accDiv((util.accMul(arg1, m) - util.accMul(arg2, m)), m);
+    return accDiv((accMul(arg1, m) - accMul(arg2, m)), m);
 }
