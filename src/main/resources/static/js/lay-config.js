@@ -295,6 +295,57 @@ function getCurrentTime() {
 
 
 /**
+ * 转化时间戳或日期对象为日期格式字符
+ * time：可以是日期对象，也可以是毫秒数
+ * format：日期字符格式（默认：yyyy-MM-dd HH:mm:ss），可随意定义，如：yyyy年MM月dd日
+ */
+function toDateString(time, format) {
+    //若 null 或空字符，则返回空字符
+    if (time === null || time === '') return '';
+    var that = this
+        , date = new Date(function () {
+        if (!time) return;
+        return isNaN(time) ? time : (typeof time === 'string' ? parseInt(time) : time)
+    }() || new Date())
+        , ymd = [
+        that.digit(date.getFullYear(), 4)
+        , that.digit(date.getMonth() + 1)
+        , that.digit(date.getDate())
+    ]
+        , hms = [
+        that.digit(date.getHours())
+        , that.digit(date.getMinutes())
+        , that.digit(date.getSeconds())
+    ];
+
+    if (!date.getDate()) return hint.error('Invalid Msec for "util.toDateString(Msec)"'), '';
+
+    format = format || 'yyyy-MM-dd HH:mm:ss';
+    return format.replace(/yyyy/g, ymd[0])
+        .replace(/MM/g, ymd[1])
+        .replace(/dd/g, ymd[2])
+        .replace(/HH/g, hms[0])
+        .replace(/mm/g, hms[1])
+        .replace(/ss/g, hms[2]);
+}
+
+/**
+ * 数字前置补零(配合toDateString使用)
+ * @param num
+ * @param length
+ * @returns {string}
+ */
+function digit(num, length){
+    var str = '';
+    num = String(num);
+    length = length || 2;
+    for(var i = num.length; i < length; i++){
+        str += '0';
+    }
+    return num < Math.pow(10, length) ? str + (num|0) : num;
+}
+
+/**
  * 去掉字符串的HTML标签
  * @param str
  * @returns {string}
@@ -442,3 +493,67 @@ function accSub(arg1, arg2) {
     m = Math.pow(10, Math.max(r1, r2));
     return accDiv((accMul(arg1, m) - accMul(arg2, m)), m);
 }
+
+
+/**
+ * 数字转大写金额
+ * @param n 数字 9101.11
+ * @returns {string} 大写金额 玖千壹百零壹元壹角壹分
+ */
+function numToDX(n) {
+    if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(n))
+        return "数据非法";
+    let unit = "千百拾亿千百拾万千百拾元角分", str = "";
+    n += "00";
+    let p = n.indexOf('.');
+    if (p >= 0)
+        n = n.substring(0, p) + n.substr(p + 1, 2);
+    unit = unit.substr(unit.length - n.length);
+    for (let i = 0; i < n.length; i++)
+        str += '零壹贰叁肆伍陆柒捌玖'.charAt(n.charAt(i)) + unit.charAt(i);
+    return str.replace(/零(千|百|拾|角)/g, "零").replace(/(零)+/g, "零").replace(/零(万|亿|元)/g, "$1").replace(/(亿)万|壹(拾)/g, "$1$2").replace(/^元零?|零分/g, "").replace(/元$/g, "元整");
+}
+
+
+/**
+ * 数字每三位加逗号
+ * @param num 9999
+ * @returns {string} 999,9
+ */
+function toThousands(num) {
+    var num = (num || 0).toString(), result = '';
+    while (num.length > 3) {
+        result = ',' + num.slice(-3) + result;
+        num = num.slice(0, num.length - 3);
+    }
+    if (num) {
+        result = num + result;
+    }
+    return result;
+}
+
+/**
+ * 根据参数名称获取url中参数值(会自动解码)
+ * @param url https://translate.google.cn/?sl=zh-CN&tl=en&text=%E8%A1%A5%E8%B4%B4&op=translate
+ * @param key text
+ * @returns {string|null} 补贴
+ */
+function getUrlParamValue(url, key) {
+    var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)", "i");
+    var r = url.match(reg);
+    if (r != null) {
+        return decodeURIComponent(r[2]);
+    } else {
+        return null;
+    }
+}
+
+/**
+ * 根据参数名称获取当前url：location.href中参数值(会自动解码)
+ * @param key 参数键
+ * @returns {string | null}
+ */
+function getUrlKeyValue(key) {
+    return decodeURIComponent((new RegExp('[?|&]' + key + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+}
+
