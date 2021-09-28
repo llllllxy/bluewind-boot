@@ -70,7 +70,19 @@ Itfc服务管理
 
 ### 页面展示
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194325_04527e94_5304908.png "登陆20210928190004.png")
-
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194411_0de6e6c6_5304908.png "行为验证码20210928190124.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194428_1d3201e2_5304908.png "用户管理20210928190218.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194448_72e9ee18_5304908.png "角色管理20210928190248.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194504_5d7c3d7f_5304908.png "菜单管理20210928190323.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194552_2ca2b92e_5304908.png "业务流水号20210928190704.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194621_db9a1d1b_5304908.png "数据字典20210928190647.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194638_6eda7fe8_5304908.png "定时任务20210928190719.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194712_6b7724b1_5304908.png "服务器监控20210928190500.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194734_e8e855eb_5304908.png "在线用户管理20210928190630.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194748_81140ee1_5304908.png "操作日志20210928190425.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194808_fc3af25b_5304908.png "Druid监控20210928190607.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194821_57606555_5304908.png "服务秘钥20210928190345.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194834_97216cc4_5304908.png "服务权限20210928190403.png")
 ### bluewind-boot
 
 [![leisureLXY/bluewind-boot](https://gitee.com/leisureLXY/bluewind-boot/widgets/widget_card.svg?colors=ffffff,1e252b,323d47,455059,d7deea,99a0ae)](https://gitee.com/leisureLXY/bluewind-boot)
