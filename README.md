@@ -69,7 +69,7 @@ Itfc服务管理
 
 
 ### 页面展示
-![输入图片说明](http://halo.lxyccc.top/%E7%99%BB%E9%99%8620210928190004.png "在这里输入图片标题")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194325_04527e94_5304908.png "登陆20210928190004.png")
 
 ### bluewind-boot
 
