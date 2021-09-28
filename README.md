@@ -69,37 +69,7 @@ Itfc服务管理
 
 
 ### 页面展示
-<table>
-    <tr>
-        <td><img src="http://halo.lxyccc.top/%E7%99%BB%E9%99%8620210928190004.png"/></td>
-        <td><img src="http://halo.lxyccc.top/%E8%A1%8C%E4%B8%BA%E9%AA%8C%E8%AF%81%E7%A0%8120210928190124.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="http://halo.lxyccc.top/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%8620210928190218.png"/></td>
-        <td><img src="http://halo.lxyccc.top/%E8%A7%92%E8%89%B2%E7%AE%A1%E7%90%8620210928190248.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="http://halo.lxyccc.top/%E8%8F%9C%E5%8D%95%E7%AE%A1%E7%90%8620210928190323.png"/></td>
-        <td><img src="http://halo.lxyccc.top/%E5%9C%A8%E7%BA%BF%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%8620210928190630.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="http://halo.lxyccc.top/%E8%8F%9C%E5%8D%95%E7%AE%A1%E7%90%8620210928190323.png"/></td>
-        <td><img src="http://halo.lxyccc.top/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A120210928190719.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="http://halo.lxyccc.top/%E6%95%B0%E6%8D%AE%E5%AD%97%E5%85%B820210928190647.png"/></td>
-        <td><img src="http://halo.lxyccc.top/%E6%93%8D%E4%BD%9C%E6%97%A5%E5%BF%9720210928190425.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="http://halo.lxyccc.top/%E6%9C%8D%E5%8A%A1%E7%A7%98%E9%92%A520210928190345.png"/></td>
-        <td><img src="http://halo.lxyccc.top/Druid%E7%9B%91%E6%8E%A720210928190607.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="http://halo.lxyccc.top/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%91%E6%8E%A720210928190500.png"/></td>
-        <td><img src="http://halo.lxyccc.top/%E6%9C%8D%E5%8A%A1%E6%9D%83%E9%99%9020210928190403.png"/></td>
-    </tr>
-</table>
-
+![输入图片说明](http://halo.lxyccc.top/%E7%99%BB%E9%99%8620210928190004.png "在这里输入图片标题")
 
 ### bluewind-boot
 
