@@ -7,7 +7,7 @@
 软件架构说明
 01.  地址：<a target="_blank" href="http://127.0.0.1:8090/bluewind-boot">http://127.0.0.1:8090/bluewind-boot</a>
 01.  账户：admin
-01.  密码：123456
+01.  密码：123456a?
 
 ### 技术选型
 
