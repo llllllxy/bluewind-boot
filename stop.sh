@@ -5,7 +5,7 @@
 # 项目部署目录
 projectDir="/opt/springboot/"
 # 项目运行 jar 名称
-jarName="wowo-mini-0.0.1-SNAPSHOT.jar"
+jarName="bluewind-boot-0.0.1-SNAPSHOT.jar"
 
 # 判断项目SpringBoot程序是否运行
 count=$(ps -ef | grep ${jarName} | grep -v "grep" | wc -l)
