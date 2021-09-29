@@ -4,13 +4,11 @@
 📚bluewind-boot 一个基于SpringBoot + MyBatis 的后台权限管理系统，代码简洁易懂、界面美观大方，内部封装了权限系统常用的功能，可直接作为快速开发JavaWEB项目的脚手架使用。
 
 ### 演示地址
-软件架构说明
 01.  地址：<a target="_blank" href="http://127.0.0.1:8090/bluewind-boot">http://127.0.0.1:8090/bluewind-boot</a>
 01.  账户：admin
 01.  密码：123456a?
 
 ### 技术选型
-
 - SpringBoot 2.2.12
 - thymeleaf 模板引擎
 - Quartz 定时任务调度方案
