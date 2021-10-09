@@ -1,7 +1,6 @@
 package com.bluewind.boot.common.utils.io;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,15 +10,21 @@ import java.util.regex.Pattern;
  * @description 使用系统环境变量替换配置文件中的占位符
  **/
 public class SystemVariableUtil {
+
+    /**
+     * 匹配${AAA_BBB}或者${AAA_BBB:xxx}形式字符串
+     */
     private static final Pattern SYSTEM_VARIABLE_PATTERN = Pattern.compile("\\$\\{(.*?)\\}");
 
-    public SystemVariableUtil() {
-    }
 
+    /**
+     * 解析含有${}格式的propertyValue值,将其以环境变量替代
+     * @param variableStr
+     * @return
+     */
     public static String convertSystemVariable(String variableStr) {
         Matcher matcher = SYSTEM_VARIABLE_PATTERN.matcher(variableStr);
-        HashMap temp = new HashMap();
-
+        HashMap<String, String> temp = new HashMap<>();
         while (matcher.find()) {
             int start = matcher.start();
             int end = matcher.end();
@@ -32,9 +37,10 @@ public class SystemVariableUtil {
             } else {
                 systemVariableKey = matchStr.substring(2, matchStr.length() - 1);
             }
-
+            // 读系统属性Property
             String systemProperties = System.getProperty(systemVariableKey);
-            String systemVariableValue = (String) System.getenv().get(systemVariableKey);
+            // 读环境变量Env
+            String systemVariableValue = System.getenv().get(systemVariableKey);
             if (null != systemProperties) {
                 temp.put(matchStr, systemProperties);
             } else if (null != systemVariableValue) {
@@ -43,18 +49,18 @@ public class SystemVariableUtil {
                 temp.put(matchStr, defaultValue);
             }
         }
-
-        String key;
-        for (Iterator var10 = temp.keySet().iterator(); var10.hasNext(); variableStr = variableStr.replace(key, (CharSequence) temp.get(key))) {
-            key = (String) var10.next();
+        for (String key : temp.keySet()) {
+            variableStr = variableStr.replace(key, temp.get(key));
         }
 
         return variableStr;
     }
 
+
     public static void main(String[] args) {
         System.setProperty("app.name", "plm-server");
-        System.setProperty("DATASOURCE_MASTER_URL", "127.0.0.1");
+        System.setProperty("DATASOURCE_MASTER_URL", "127.0.0.1:3306/");
+
         String result1 = convertSystemVariable("jdbc:mysql://${DATASOURCE_MASTER_URL:10.10.250.149:3306/lambo}${app.name:1123}");
         System.out.println(result1);
         String result2 = convertSystemVariable("${app.name:1123}"); // 取不到环境变量的话，就取:后面的默认值
