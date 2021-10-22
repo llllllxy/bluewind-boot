@@ -44,7 +44,7 @@ public class IdTableUtils {
      * @param idCode
      * @return
      */
-    public static int nextIntId(String idCode) {
+    public synchronized static int nextIntId(String idCode) {
         return getNextIntIdValue(idCode);
     }
 
@@ -55,7 +55,7 @@ public class IdTableUtils {
      * @param idCode
      * @return
      */
-    public static long nextLongId(String idCode) {
+    public synchronized static long nextLongId(String idCode) {
         return getNextLongIdValue(idCode);
     }
 
@@ -66,7 +66,7 @@ public class IdTableUtils {
      * @param idCode
      * @return
      */
-    public static String nextStringId(String idCode) {
+    public synchronized static String nextStringId(String idCode) {
         return getNextStringIdValue(idCode);
     }
 
@@ -109,7 +109,7 @@ public class IdTableUtils {
         try {
             Map idT = getIdTable(idCode);
             if (idT == null) {
-                throw new RuntimeException("getNextIntIdValue - 未找到ID_ID 为【" + idCode + "】的最大号记录！");
+                throw new RuntimeException("getNextLongIdValue - 未找到ID_ID 为【" + idCode + "】的最大号记录！");
             }
             //获取当前最大编号
             maxId = idT.get("id_value") == null ? 0 : Long.parseLong(idT.get("id_value").toString());
@@ -118,7 +118,7 @@ public class IdTableUtils {
             updateIdTable(maxId, idCode);
         } catch (Exception e) {
             if (logger.isErrorEnabled()) {
-                logger.error("getNextIntIdValue - 获取业务流水号[" + idCode + "]出错,Exception = {e}", e);
+                logger.error("getNextLongIdValue - 获取业务流水号[" + idCode + "]出错,Exception = {e}", e);
             }
         }
         return maxId;
