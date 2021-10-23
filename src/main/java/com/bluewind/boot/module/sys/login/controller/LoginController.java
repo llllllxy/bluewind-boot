@@ -96,8 +96,7 @@ public class LoginController {
         logger.info("LoginController - doLogin - userInfo = " + userInfo.toString());
 
         // 校验用户状态(用户已失效)
-        // Integer包装类型在和基本数据类型比较时,jvm会自动把包装数据类型拆箱为基本数据类型int,所以额可以直接比较
-        if (1 == userInfo.getStatus()) {
+        if ("1".equals(userInfo.getStatus())) {
             sysLoginLogService.saveLoginlog(request, username, 1, "该账户已被冻结！", "");
             return BaseResult.failure("该账户已被冻结！");
         }

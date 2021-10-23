@@ -126,8 +126,8 @@ public class SysRoleInfoController extends BaseController {
         sysRoleInfo.setName(name);
         sysRoleInfo.setSign(sign);
         sysRoleInfo.setDescript(descript);
-        sysRoleInfo.setStatus(0);
-        sysRoleInfo.setDelFlag(0);
+        sysRoleInfo.setStatus("0");
+        sysRoleInfo.setDelFlag("0");
         sysRoleInfo.setCreateUser(getSysUserId());
 
         int num = sysRoleInfoService.doAdd(sysRoleInfo);

@@ -24,25 +24,25 @@
             <div class="layui-form layuimini-form">
                 <div class="layui-form-item">
                     <label class="layui-form-label required">类型</label>
-                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 0}">
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type eq '0'}">
                         <input type="radio" name="type" value="0" title="模块" lay-filter="type" checked>
                         <input type="radio" name="type" value="1" title='目录' lay-filter="type" disabled>
                         <input type="radio" name="type" value="2" title="功能" lay-filter="type" disabled>
                         <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type" disabled>
                     </div>
-                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 1}">
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type eq '1'}">
                         <input type="radio" name="type" value="0" title="模块" lay-filter="type" disabled>
                         <input type="radio" name="type" value="1" title='目录' lay-filter="type" checked>
                         <input type="radio" name="type" value="2" title="功能" lay-filter="type" disabled>
                         <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type" disabled>
                     </div>
-                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 2}">
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type eq '2'}">
                         <input type="radio" name="type" value="0" title="模块" lay-filter="type" disabled>
                         <input type="radio" name="type" value="1" title='目录' lay-filter="type" disabled>
                         <input type="radio" name="type" value="2" title="功能" lay-filter="type" checked>
                         <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type" disabled>
                     </div>
-                    <div class="layui-input-block" th:if="${sysPermissionInfo.type == 3}">
+                    <div class="layui-input-block" th:if="${sysPermissionInfo.type eq '3'}">
                         <input type="radio" name="type" value="0" title="模块" lay-filter="type" disabled>
                         <input type="radio" name="type" value="1" title='目录' lay-filter="type" disabled>
                         <input type="radio" name="type" value="2" title="功能" lay-filter="type" disabled>
@@ -86,7 +86,7 @@
                     <div class="layui-input-block">
                         <select name="target" id="target" th:value="${sysPermissionInfo.target}" lay-verify="required" lay-reqtext="请选择打开方式">
                             <option th:each="item:${baseDictList}" th:text="${item.name}" th:value="${item.code}"
-                                    th:selected="(${sysPermissionInfo.target} == ${item.code})"></option>
+                                    th:selected="(${sysPermissionInfo.target} eq ${item.code})"></option>
                         </select>
                     </div>
                 </div>

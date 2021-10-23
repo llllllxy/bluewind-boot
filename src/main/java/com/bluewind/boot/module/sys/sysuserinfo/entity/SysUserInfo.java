@@ -25,9 +25,9 @@ public class SysUserInfo implements Serializable {
 
     private String avatar;
 
-    private Integer sex;
+    private String sex;
 
-    private Integer status;
+    private String status;
 
     private Integer createUser;
 
@@ -41,7 +41,7 @@ public class SysUserInfo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateTime;
 
-    private Integer delFlag;
+    private String delFlag;
 
     public void setAccount(String account) {
         this.account = account;
@@ -63,11 +63,11 @@ public class SysUserInfo implements Serializable {
         this.avatar = avatar;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -87,7 +87,7 @@ public class SysUserInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
@@ -119,11 +119,11 @@ public class SysUserInfo implements Serializable {
         return avatar;
     }
 
-    public Integer getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -143,7 +143,7 @@ public class SysUserInfo implements Serializable {
         return updateTime;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
@@ -156,13 +156,13 @@ public class SysUserInfo implements Serializable {
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", sex=" + sex +
-                ", status=" + status +
+                ", sex=" + sex + '\'' +
+                ", status=" + status + '\'' +
                 ", createUser=" + createUser +
                 ", createTime='" + createTime + '\'' +
                 ", updateUser=" + updateUser +
                 ", updateTime='" + updateTime + '\'' +
-                ", delFlag=" + delFlag +
+                ", delFlag=" + delFlag + '\'' +
                 '}';
     }
 }

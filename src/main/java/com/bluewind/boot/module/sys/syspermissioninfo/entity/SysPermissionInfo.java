@@ -22,7 +22,7 @@ public class SysPermissionInfo implements Serializable {
 
     private String name;
 
-    private Integer type;
+    private String type;
 
     private String sign;
 
@@ -32,7 +32,7 @@ public class SysPermissionInfo implements Serializable {
 
     private String icon;
 
-    private Integer status;
+    private String status;
 
     private String target;
 
@@ -50,7 +50,7 @@ public class SysPermissionInfo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
-    private Integer delFlag;
+    private String delFlag;
 
     public Integer getId() {
         return id;
@@ -68,7 +68,7 @@ public class SysPermissionInfo implements Serializable {
         return name;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
@@ -88,7 +88,7 @@ public class SysPermissionInfo implements Serializable {
         return icon;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -116,7 +116,7 @@ public class SysPermissionInfo implements Serializable {
         return updateTime;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
@@ -136,7 +136,7 @@ public class SysPermissionInfo implements Serializable {
         this.name = name;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -156,7 +156,7 @@ public class SysPermissionInfo implements Serializable {
         this.icon = icon;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -184,7 +184,7 @@ public class SysPermissionInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
@@ -195,19 +195,19 @@ public class SysPermissionInfo implements Serializable {
                 ", permissionId='" + permissionId + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", name='" + name + '\'' +
-                ", type=" + type +
+                ", type=" + type + '\'' +
                 ", sign='" + sign + '\'' +
                 ", href='" + href + '\'' +
                 ", sort=" + sort +
                 ", icon='" + icon + '\'' +
-                ", status=" + status +
+                ", status=" + status + '\'' +
                 ", target='" + target + '\'' +
                 ", descript='" + descript + '\'' +
                 ", createUser=" + createUser +
                 ", createTime=" + createTime +
                 ", updateUser=" + updateUser +
                 ", updateTime=" + updateTime +
-                ", delFlag=" + delFlag +
+                ", delFlag=" + delFlag + '\'' +
                 '}';
     }
 }
