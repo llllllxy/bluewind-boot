@@ -119,8 +119,8 @@ public class SysBaseDictController extends BaseController {
         sysDict.setDescript(descript);
         sysDict.setName(name);
         sysDict.setCreateUser(getSysUserId());
-        sysDict.setStatus(0);
-        sysDict.setDelFlag(0);
+        sysDict.setStatus("0");
+        sysDict.setDelFlag("0");
         int num = baseDictService.addOneDict(sysDict);
         if (num > 0) {
             return BaseResult.success("字典新增成功！");
@@ -207,8 +207,8 @@ public class SysBaseDictController extends BaseController {
         sysDict.setName(name);
         sysDict.setId(id);
         sysDict.setCreateUser(getSysUserId());
-        sysDict.setStatus(0);
-        sysDict.setDelFlag(0);
+        sysDict.setStatus("0");
+        sysDict.setDelFlag("0");
         int num = baseDictService.updateOneDict(sysDict);
         if (num > 0) {
             return BaseResult.success("字典编辑保存成功！");

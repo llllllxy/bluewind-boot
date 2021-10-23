@@ -16,11 +16,11 @@
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
         <result column="create_user" jdbcType="INTEGER" property="createUser"/>
         <result column="create_time" jdbcType="DATE" property="createTime"/>
         <result column="update_time" jdbcType="DATE" property="updateTime"/>
-        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
     </resultMap>
 
@@ -41,7 +41,7 @@
     <select id="getAllBaseDict" resultMap="SysDict" parameterType="map">
         select * from `sys_dict`
         where 1=1
-        and `del_flag` = 0
+        and `del_flag` = '0'
         <if test="dictCode != null and dictCode != ''">
             and `dict_code` like CONCAT('%',#{dictCode},'%')
         </if>
@@ -90,17 +90,17 @@
 
     <!--逻辑删除一个枚举-->
     <update id="deleteDict" parameterType="java.lang.Integer">
-        update sys_dict set `del_flag` = 1 where id = #{_parameter}
+        update sys_dict set `del_flag` = '1' where id = #{_parameter}
     </update>
 
     <!--禁用一个枚举-->
     <update id="forbidDict" parameterType="java.lang.Integer">
-        update sys_dict set `status` = 1 where id =  #{_parameter}
+        update sys_dict set `status` = '1' where id =  #{_parameter}
     </update>
 
     <!--启用一个枚举-->
     <update id="enableDict" parameterType="java.lang.Integer">
-        update sys_dict set `status` = 0 where id =  #{_parameter}
+        update sys_dict set `status` = '0' where id =  #{_parameter}
     </update>
 
 
@@ -133,7 +133,7 @@
 
     <!--删除一个枚举明细-->
     <delete id="deleteDetail" parameterType="java.lang.Integer">
-        delete from sys_dict_detail where id = #{_parameter}
+        delete from `sys_dict_detail` where `id` = #{_parameter}
     </delete>
 
     <!--根据条件，查询所有枚举-->
@@ -143,7 +143,7 @@
 
     <!--更新一个枚举明细-->
     <update id="updateDetail" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDictDetail">
-        update sys_dict_detail
+        update `sys_dict_detail`
         set `name` = #{name},
         `code` = #{code},
         `update_user` = #{updateUser}
