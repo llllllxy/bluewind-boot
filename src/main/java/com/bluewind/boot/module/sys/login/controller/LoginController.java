@@ -90,14 +90,14 @@ public class LoginController {
         SysUserInfo userInfo = sysUserInfoService.getOne(username);
         // 没找到帐号(用户不存在)
         if (userInfo == null) {
-            sysLoginLogService.saveLoginlog(request, username, 1, "账户不存在！", "");
+            sysLoginLogService.saveLoginlog(request, username, "1", "账户不存在！", "");
             return BaseResult.failure("账户不存在！");
         }
         logger.info("LoginController - doLogin - userInfo = " + userInfo.toString());
 
         // 校验用户状态(用户已失效)
         if ("1".equals(userInfo.getStatus())) {
-            sysLoginLogService.saveLoginlog(request, username, 1, "该账户已被冻结！", "");
+            sysLoginLogService.saveLoginlog(request, username, "1", "该账户已被冻结！", "");
             return BaseResult.failure("该账户已被冻结！");
         }
 
@@ -105,7 +105,7 @@ public class LoginController {
         int errorTimes = redisUtil.get(SystemConst.SYSTEM_LOGIN_TIMES + ":" + userInfo.getAccount()) == null ? 0
                 : Integer.parseInt((String) redisUtil.get(SystemConst.SYSTEM_LOGIN_TIMES + ":" + userInfo.getAccount()));
         if (errorTimes >= 5) {
-            sysLoginLogService.saveLoginlog(request, username, 1, "密码连续输入错误超过5次，账号将被锁定半小时！", "");
+            sysLoginLogService.saveLoginlog(request, username, "1", "密码连续输入错误超过5次，账号将被锁定半小时！", "");
             redisUtil.expire(SystemConst.SYSTEM_LOGIN_TIMES + ":" + username, 1800);
             return BaseResult.failure("密码连续输入错误超过5次，账号将被锁定半小时！");
         }
@@ -126,11 +126,11 @@ public class LoginController {
             // 将token放在cookie中
             CookieUtils.setCookie(response, SystemConst.SYSTEM_USER_TOKEN, token);
             // 保存登录日志
-            sysLoginLogService.saveLoginlog(request, username, 0, "用户登录成功！", redisKey);
+            sysLoginLogService.saveLoginlog(request, username, "0", "用户登录成功！", redisKey);
 
             return BaseResult.success("登录成功，欢迎回来！", resultMap);
         } else {
-            sysLoginLogService.saveLoginlog(request, username, 1, "密码错误，请重新输入！", "");
+            sysLoginLogService.saveLoginlog(request, username, "1", "密码错误，请重新输入！", "");
             recordLoginTimes(username);
             return BaseResult.failure("密码错误，请重新输入！");
         }
