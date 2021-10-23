@@ -133,8 +133,8 @@ public class SysItfcKeyController extends BaseController {
         sysItfcKey.setValidPeriod(validPeriod);
         sysItfcKey.setDescript(descript);
         sysItfcKey.setCreateUser(getSysUserId());
-        sysItfcKey.setDelFlag(0);
-        sysItfcKey.setStatus(0);
+        sysItfcKey.setDelFlag("0");
+        sysItfcKey.setStatus("0");
         int num = sysItfcKeyService.addOneSysItfcKey(sysItfcKey);
         if (num > 0) {
             return BaseResult.success("新增服务密钥成功！");

@@ -35,7 +35,6 @@ public class SysItfcPermissionServiceImpl implements SysItfcPermissionService {
     }
 
     public List<Map> listTree() {
-        Map<String, Object> resultMap = new HashMap<>();
         return sysItfcPermissionMapper.listTree();
     }
 

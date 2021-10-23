@@ -50,45 +50,6 @@ public class ItfcPermissionTree implements Serializable {
      */
     private boolean spread = true;
 
-    /**
-     * 链接
-     */
-    private String href;
-
-    /**
-     * 类型
-     */
-    private Integer type;
-
-
-    /**
-     * 菜单名称（适配xm-select）
-     */
-    private String name;
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * 菜单值（适配xm-select）
-     */
-    private String value;
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-
     public String getParentId() {
         return parentId;
     }
@@ -119,14 +80,6 @@ public class ItfcPermissionTree implements Serializable {
 
     public boolean isSpread() {
         return spread;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public Integer getType() {
-        return type;
     }
 
     public void setParentId(String parentId) {
@@ -161,13 +114,6 @@ public class ItfcPermissionTree implements Serializable {
         this.spread = spread;
     }
 
-    public void setHref(String href) {
-        this.href = href;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
 
     @Override
     public String toString() {
@@ -180,8 +126,6 @@ public class ItfcPermissionTree implements Serializable {
                 ", checked=" + checked +
                 ", disabled=" + disabled +
                 ", spread=" + spread +
-                ", href='" + href + '\'' +
-                ", type=" + type +
                 '}';
     }
 }

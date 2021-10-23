@@ -15,9 +15,9 @@ public class SysItfcKey implements Serializable {
 
     private Integer id;
 
-    private Integer status;
+    private String status;
 
-    private Integer delFlag;
+    private String delFlag;
 
     private String itfcKey;
 
@@ -48,19 +48,19 @@ public class SysItfcKey implements Serializable {
         this.id = id;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
@@ -133,8 +133,8 @@ public class SysItfcKey implements Serializable {
     public String toString() {
         return "SysRestKey{" +
                 "id=" + id +
-                ", status=" + status +
-                ", delFlag=" + delFlag +
+                ", status=" + status + '\'' +
+                ", delFlag=" + delFlag + '\'' +
                 ", itfcKey='" + itfcKey + '\'' +
                 ", owner='" + owner + '\'' +
                 ", validPeriod='" + validPeriod + '\'' +

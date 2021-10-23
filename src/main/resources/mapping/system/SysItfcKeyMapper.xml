@@ -8,21 +8,20 @@
         <result column="owner" jdbcType="VARCHAR" property="owner"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="valid_period" jdbcType="CHAR" property="validPeriod"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
-        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
         <result column="update_time" jdbcType="DATE" property="updateTime"/>
         <result column="create_user" jdbcType="INTEGER" property="createUser"/>
         <result column="create_time" jdbcType="DATE" property="createTime"/>
     </resultMap>
 
-
     <!-- 查询所有itfc_key -->
     <select id="getSysItfcKeyList" resultMap="SysItfcKey" parameterType="java.util.Map">
         select * from `sys_itfc_key`
         where 1=1
         <if test="'${dbType}' != null and '${dbType}' == 'MySQL'">
-        and `del_flag` = 0
+        and `del_flag` = '0'
         </if>
         <if test="itfcKey != null and itfcKey != ''">
             and `itfc_key` like CONCAT('%',#{itfcKey},'%')
@@ -47,7 +46,6 @@
     <select id="getOneSysItfcKey" resultMap="SysItfcKey" parameterType="java.lang.Integer">
         select * from `sys_itfc_key` where id = #{_parameter}
     </select>
-
 
     <!-- 新增服务密钥 -->
     <insert id="addOneSysItfcKey" parameterType="com.bluewind.boot.module.sys.sysitfckey.entity.SysItfcKey">
@@ -79,27 +77,23 @@
         where `id` = #{id}
     </update>
 
-
     <update id="deleteSysItfcKey" parameterType="java.lang.Integer">
         update `sys_itfc_key` set
-        `del_flag` = 1
+        `del_flag` = '1'
         where `id` = #{_parameter}
     </update>
-
 
     <update id="forbidSysItfcKey" parameterType="java.lang.Integer">
         update `sys_itfc_key` set
-        `status` = 1
+        `status` = '1'
         where `id` = #{_parameter}
     </update>
-
 
     <update id="enableSysItfcKey" parameterType="java.lang.Integer">
         update `sys_itfc_key` set
-        `status` = 0
+        `status` = '0'
         where `id` = #{_parameter}
     </update>
-
 
     <select id="listPermissionForTree" parameterType="java.lang.String"
             resultType="com.bluewind.boot.module.sys.sysitfckey.entity.ItfcPermissionTree">
@@ -111,8 +105,8 @@
             ( CASE WHEN LENGTH(b.itfc_key) > 0 THEN 1 ELSE 0 END ) AS checked
         FROM sys_itfc_permission a
         LEFT JOIN sys_itfc_key_permission b ON ( a.permission_id = b.itfc_permission AND b.itfc_key	= #{_parameter} )
-        WHERE a.`del_flag` = 0
-          AND a.`status` = 0
+        WHERE a.`del_flag` = '0'
+          AND a.`status` = '0'
         ORDER BY a.`type`,a.`parent_id`
     </select>
 
@@ -129,6 +123,5 @@
             from dual
         </foreach>
     </insert>
-
 
 </mapper>
