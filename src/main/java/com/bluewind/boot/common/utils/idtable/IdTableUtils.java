@@ -19,6 +19,7 @@ import java.util.*;
  **/
 public class IdTableUtils {
     final static Logger logger = LoggerFactory.getLogger(IdTableUtils.class);
+
     private static final String[] AFFIX_FORMAT = {"yyyy", "yy", "MM", "dd", "HH", "mm", "ss"};
 
     private static final int IDTABLE_CACHE_NUMBER = 100;
@@ -34,10 +35,10 @@ public class IdTableUtils {
 
 
     /**
-     * 获取下一个字符串
+     * 获取下一个流水号字符串
      *
-     * @param idId
-     * @return
+     * @param idId 流水号编码
+     * @return String 流水号字符串
      */
     public synchronized static String nextId(String idId) {
         return takeNextId(idId);
@@ -45,10 +46,10 @@ public class IdTableUtils {
 
 
     /**
-     * 获取下一个字符串
+     * 获取下一个流水号字符串
      *
-     * @param idId
-     * @return
+     * @param idId 流水号编码
+     * @return String 流水号字符串
      */
     public static String takeNextId(String idId) {
         String cacheKey = SystemConst.SYSTEM_ID_TABLE + ":" + idId;
@@ -59,32 +60,33 @@ public class IdTableUtils {
                 return value.toString();
             }
         }
-
         List<Object> ids = generateNextIds(idId);
         getRedisUtil().lRightPushAll(cacheKey, ids);
-
+        // 递归调用，直到lGetListSize > 0
         return takeNextId(idId);
     }
 
 
-
-
+    /**
+     * 批类构造流水号字符串
+     * @param idId 流水号编码
+     * @return List<Object> 流水号列表
+     */
     private static List<Object> generateNextIds(String idId) {
         List<Object> nextIds = new ArrayList<>();
         String sql = "select * from sys_id_table where id_id= '" + idId + "'";
         Map idTable = MybatisSqlTool.selectMapAnySql(sql);
         if (idTable != null && !idTable.isEmpty()) {
-            // 获取当前最大编号
-            int id_value = idTable.get("id_value") == null ? 0 : Integer.parseInt(idTable.get("id_value").toString());
-            int maxId = id_value + IDTABLE_CACHE_NUMBER;
-
-            // 更新id_value为最新值(+IDTABLE_CACHE_NUMBER)
+            // 获取流水号的当前值
+            int idValue = idTable.get("id_value") == null ? 0 : Integer.parseInt(idTable.get("id_value").toString());
+            int maxId = idValue + IDTABLE_CACHE_NUMBER;
+            // 更新id_value为最新值(加上IDTABLE_CACHE_NUMBER)
             String sql2 = "update sys_id_table set id_value= " + maxId + " where id_id= '" + idId + "'";
             MybatisSqlTool.updateAnySql(sql2);
             // 循环获取100个流水号，放入nextIds中去
             for (int i = 1; i <= IDTABLE_CACHE_NUMBER; i++) {
-                int step = id_value + i;
-                String nextId = generateNextId(idTable, step);
+                int nextIdValue = idValue + i;
+                String nextId = generateNextId(idTable, nextIdValue);
                 nextIds.add(nextId);
             }
             return nextIds;
@@ -94,20 +96,18 @@ public class IdTableUtils {
     }
 
 
-
-
-
     /**
-     * 获取字符串流水号值
+     * 根据规则构造流水号字符串
      *
-     * @param idT
-     * @param step
-     * @return
+     * @param idT 流水号Map
+     * @param nextIdValue 流水号当前值
+     * @return String 流水号字符串
      */
-    private static String generateNextId(Map idT, int step) {
+    private static String generateNextId(Map idT, int nextIdValue) {
         String retStr = "";
         try {
             Date dateTime = new Date();
+
             // 是否有前缀 1有，0没有
             String hasPrefix = (String) idT.get("has_prefix");
             // 前缀内容
@@ -123,11 +123,11 @@ public class IdTableUtils {
             // 长度
             int idLen = idT.get("id_length") == null ? 10 : Integer.parseInt(idT.get("id_length").toString());
             int numLen = idLen - idPrefix.length() - idSuffix.length();
-            if (numLen < String.valueOf(step).length()) {
-                logger.error("getNextStringIdValue -- 编码长度不够，请增加编码长度!");
+            if (numLen < String.valueOf(nextIdValue).length()) {
+                logger.error("generateNextId -- 编码长度不够，请增加编码长度!");
                 throw new RuntimeException("编码长度不够，请增加编码长度!");
             } else {
-                String maxIdStr = get0Str(step, numLen);
+                String maxIdStr = get0Str(nextIdValue, numLen);
                 retStr = idPrefix + maxIdStr + idSuffix;
             }
         } catch (Exception e) {
@@ -140,63 +140,21 @@ public class IdTableUtils {
 
 
     /**
-     * 获取最大号信息
-     *
-     * @param idCode 流水号code
-     * @return
-     */
-    private static Map getIdTable(String idCode) {
-        Map result = (Map) getRedisUtil().get(SystemConst.SYSTEM_ID_TABLE + ":" + idCode);
-        // 先从redis中获取，没有再去数据库里查
-        if (result != null && !result.isEmpty()) {
-            return result;
-        } else {
-            String sql = "select * from sys_id_table where id_id= '" + idCode + "'";
-            result = MybatisSqlTool.selectMapAnySql(sql);
-            // 放入redis中
-            String id_id = (String) result.get("id_id");
-            getRedisUtil().set(SystemConst.SYSTEM_ID_TABLE + ":" + id_id, result, -1);
-            return result;
-        }
-    }
-
-
-    /**
-     * 更新最大号
-     *
-     * @param maxId
-     * @param idCode
-     * @return
-     */
-    private static void updateIdTable(int maxId, String idCode) {
-        Map result = (Map) getRedisUtil().get(SystemConst.SYSTEM_ID_TABLE + ":" + idCode);
-        if (result != null && !result.isEmpty()) {
-            result.put("id_value", maxId);
-            getRedisUtil().set(SystemConst.SYSTEM_ID_TABLE + ":" + idCode, result, -1);
-        } else {
-            String sql = "update sys_id_table set id_value= " + maxId + " where id_id= '" + idCode + "'";
-            MybatisSqlTool.updateAnySql(sql);
-        }
-    }
-
-
-
-
-    /**
      * 获取指定位数的数字字符串，不足补0
      *
-     * @param step  数字
+     * @param nextIdValue  数字
      * @param numLen 位数
      * @return
      */
-    private static String get0Str(long step, int numLen) {
+    private static String get0Str(long nextIdValue, int numLen) {
         StringBuilder retStr = new StringBuilder();
-        int needLen = numLen - String.valueOf(step).length();
+        int needLen = numLen - String.valueOf(nextIdValue).length();
         for (int i = 0; i < needLen; i++) {
             retStr.append("0");
         }
-        return retStr + String.valueOf(step);
+        return retStr + String.valueOf(nextIdValue);
     }
+
 
     /**
      * 完善前缀和后缀
