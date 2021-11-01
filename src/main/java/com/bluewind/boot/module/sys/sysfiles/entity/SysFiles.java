@@ -27,7 +27,7 @@ public class SysFiles implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    private Integer delFlag;
+    private String delFlag;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -81,11 +81,11 @@ public class SysFiles implements Serializable {
         this.createTime = createTime;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
