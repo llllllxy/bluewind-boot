@@ -15,7 +15,8 @@ import java.util.*;
  * @author liuxingyu01
  * @date 2021-03-28-22:51
  * @description 自定义业务流水号工具类，需要先维护一个，再使用
- *
+ *              优化参考美团Leaf，从数据库批量的获取自增ID，每次从数据库取出一个号段范围，例如 (1,100] 代表100个ID，
+ *              业务服务将号段在本地生成1~100的自增ID并加载到redis，减少对数据库的频率操作
  **/
 public class IdTableUtils {
     final static Logger logger = LoggerFactory.getLogger(IdTableUtils.class);
