@@ -14,9 +14,9 @@
         <result column="has_suffix" jdbcType="VARCHAR" property="hasSuffix"/>
         <result column="id_suffix" jdbcType="VARCHAR" property="idSuffix"/>
         <result column="create_user" jdbcType="INTEGER" property="createUser"/>
-        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
-        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 
 
