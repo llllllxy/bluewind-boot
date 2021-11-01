@@ -18,9 +18,9 @@ public class SysEmailLog implements Serializable {
 
     private String subject;
 
-    private Integer type;
+    private String type;
 
-    private Integer status;
+    private String status;
 
     private Integer createUser;
 
@@ -34,7 +34,7 @@ public class SysEmailLog implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateTime;
 
-    private Integer delFlag;
+    private String delFlag;
 
     public Integer getId() {
         return id;
@@ -60,19 +60,19 @@ public class SysEmailLog implements Serializable {
         this.subject = subject;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -108,11 +108,11 @@ public class SysEmailLog implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
