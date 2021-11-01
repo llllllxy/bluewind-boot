@@ -2,7 +2,7 @@ package com.bluewind.boot.module.sys.sysloginlog.service;
 
 import com.bluewind.boot.module.sys.sysloginlog.entity.SysLoginLog;
 import com.bluewind.boot.common.utils.AddressUtils;
-import com.bluewind.boot.common.utils.IPUtils;
+import com.bluewind.boot.common.utils.network.IPUtils;
 import com.bluewind.boot.module.sys.sysloginlog.mapper.SysLoginLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

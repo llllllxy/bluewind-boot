@@ -1,4 +1,4 @@
-package com.bluewind.boot.common.utils;
+package com.bluewind.boot.common.utils.network;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
