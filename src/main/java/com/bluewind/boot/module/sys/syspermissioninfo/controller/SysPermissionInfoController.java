@@ -161,7 +161,7 @@ public class SysPermissionInfoController extends BaseController {
      */
     @RequestMapping(value="/doAdd", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult doAdd(@RequestParam("type") Integer type,
+    public BaseResult doAdd(@RequestParam("type") String type,
                             @RequestParam("name") String name,
                             @RequestParam("sign") String sign,
                             @RequestParam(required = false, defaultValue = "", value = "uppermenuValue") String uppermenuValue,

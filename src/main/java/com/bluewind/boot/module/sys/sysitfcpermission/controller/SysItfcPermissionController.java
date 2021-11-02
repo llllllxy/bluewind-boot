@@ -101,12 +101,12 @@ public class SysItfcPermissionController extends BaseController {
     @ResponseBody
     public BaseResult update(@RequestParam(required = false, defaultValue = "", value = "permission_id") String permission_id,
                              @RequestParam(required = false, defaultValue = "", value = "superior") String superior,
-                             @RequestParam("type") Integer type,
+                             @RequestParam("type") String type,
                              @RequestParam("name") String name,
                              @RequestParam("ifEdit") Boolean ifEdit,
                              @RequestParam(required = false, defaultValue = "", value = "sign") String sign,
                              @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
-        if (type == 0) {
+        if ("0".equals(type)) {
             superior = "0";
         }
         // 如果是新增的话，则生成一个permission_id

@@ -61,4 +61,19 @@ public final class SystemConst {
      * 请求频率限制
      */
     public static final String SYSTEM_REQ_LIMIT = "bluewind:reqlimit";
+
+    /**
+     * 系统配置信息
+     */
+    public static final String SYS_CONFIGURE = "bluewind:configure";
+
+    /**
+     * 服务监控信息
+     */
+    public static final String SYS_SERVER_INFO = "bluewind:serverinfo";
+
+    /**
+     * 字典信息
+     */
+    public static final String SYS_DICT = "bluewind:dict";
 }

@@ -15,10 +15,10 @@ import java.util.GregorianCalendar;
  */
 public class DateUtils {
 
-    //用来全局控制 上一周，本周，下一周的周数变化
+    // 用来全局控制 上一周，本周，下一周的周数变化
     private static int weeks = 0;
-    private static int MaxDate;//一月最大天数
-    private static int MaxYear;//一年最大天数
+    // 一年最大天数
+    private static int MaxYear;
 
 
     /**
@@ -433,9 +433,10 @@ public class DateUtils {
         int monthOfNumber = cd.get(Calendar.DAY_OF_MONTH);
         cd.set(Calendar.DATE, 1);// 把日期设置为当月第一天
         cd.roll(Calendar.DATE, -1);// 日期回滚一天，也就是最后一天
-        MaxDate = cd.get(Calendar.DATE);
+        //一月最大天数
+        int maxDate = cd.get(Calendar.DATE);
         if (monthOfNumber == 1) {
-            return -MaxDate;
+            return -maxDate;
         } else {
             return 1 - monthOfNumber;
         }

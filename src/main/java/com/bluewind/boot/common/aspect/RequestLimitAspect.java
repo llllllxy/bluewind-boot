@@ -3,7 +3,7 @@ package com.bluewind.boot.common.aspect;
 import com.bluewind.boot.common.annotation.RequestLimit;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.consts.SystemConst;
-import com.bluewind.boot.common.utils.IPUtils;
+import com.bluewind.boot.common.utils.network.IPUtils;
 import com.bluewind.boot.common.utils.RedisUtil;
 import com.bluewind.boot.common.utils.web.CookieUtils;
 import com.bluewind.boot.common.configuration.security.JwtTokenUtil;

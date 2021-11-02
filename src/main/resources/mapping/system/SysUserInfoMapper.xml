@@ -9,12 +9,12 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
-        <result column="sex" jdbcType="TINYINT" property="sex"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="sex" jdbcType="CHAR" property="sex"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
         <result column="create_user" jdbcType="INTEGER" property="createUser"/>
-        <result column="create_time" jdbcType="DATE" property="createTime"/>
-        <result column="update_time" jdbcType="DATE" property="updateTime"/>
-        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
     </resultMap>
 

@@ -47,8 +47,8 @@ public class SysEmailController {
     @ResponseBody
     public BaseResult sendTextMail(@RequestBody SysEmailLogVO sysEmailLogVO) {
         BaseResult responseResult = emailUtils.sendTextMail(sysEmailLogVO.getAddress().trim(), sysEmailLogVO.getSubject().trim(), sysEmailLogVO.getContent().trim());
-        sysEmailLogVO.setType(0);
-        sysEmailLogVO.setStatus(0 == responseResult.getCode() ? 0 : 1);
+        sysEmailLogVO.setType("0");
+        sysEmailLogVO.setStatus(0 == responseResult.getCode() ? "0" : "1");
         sysEmailLogService.saveSysEmailLog(sysEmailLogVO);
         return responseResult;
     }
@@ -62,8 +62,8 @@ public class SysEmailController {
     @ResponseBody
     public BaseResult sendHtmlMail(@RequestBody SysEmailLogVO sysEmailLogVO) {
         BaseResult baseResult = emailUtils.sendHtmlMail(sysEmailLogVO.getAddress().trim(), sysEmailLogVO.getSubject().trim(), sysEmailLogVO.getContent().trim());
-        sysEmailLogVO.setType(1);
-        sysEmailLogVO.setStatus(0 == baseResult.getCode() ? 0 : 1);
+        sysEmailLogVO.setType("1");
+        sysEmailLogVO.setStatus(0 == baseResult.getCode() ? "0" : "1");
         sysEmailLogService.saveSysEmailLog(sysEmailLogVO);
         return baseResult;
     }
@@ -108,8 +108,8 @@ public class SysEmailController {
     @ResponseBody
     public BaseResult sendTemplateMail(@RequestBody SysEmailLogVO sysEmailLogVO) {
         BaseResult baseResult = emailUtils.sendTemplateMail(sysEmailLogVO.getAddress().trim(), sysEmailLogVO.getSubject().trim(), sysEmailLogVO.getTemplate().trim(), sysEmailLogVO.getContent().trim());
-        sysEmailLogVO.setType(4);
-        sysEmailLogVO.setStatus(0 == baseResult.getCode() ? 0 : 1);
+        sysEmailLogVO.setType("4");
+        sysEmailLogVO.setStatus(0 == baseResult.getCode() ? "0" : "1");
         sysEmailLogService.saveSysEmailLog(sysEmailLogVO);
         return baseResult;
     }

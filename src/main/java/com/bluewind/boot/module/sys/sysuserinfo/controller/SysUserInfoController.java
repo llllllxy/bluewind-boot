@@ -219,11 +219,11 @@ public class SysUserInfoController extends BaseController {
         password = SHA256Utils.SHA256Encode(salt + password);
         sysUserInfo.setPassword(password);
         sysUserInfo.setName(name);
-        sysUserInfo.setSex(Integer.parseInt(sex));
+        sysUserInfo.setSex(sex);
         sysUserInfo.setPhone(phone);
         sysUserInfo.setAvatar(avatar);
-        sysUserInfo.setDelFlag(0);
-        sysUserInfo.setStatus(0);
+        sysUserInfo.setDelFlag("0");
+        sysUserInfo.setStatus("0");
         sysUserInfo.setCreateUser(getSysUserId());
         int num = sysUserInfoService.doAdd(sysUserInfo);
         if (num > 0) {
@@ -289,9 +289,9 @@ public class SysUserInfoController extends BaseController {
     @ResponseBody
     public BaseResult doUpdate(@RequestParam(value = "id") Integer id,
                                @RequestParam(value = "name") String name,
-                               @RequestParam(value = "sex") Integer sex,
+                               @RequestParam(value = "sex") String sex,
                                @RequestParam(value = "phone") String phone,
-                               @RequestParam(value = "status") Integer status,
+                               @RequestParam(value = "status") String status,
                                @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar) {
         SysUserInfo sysUserInfo = new SysUserInfo();
         sysUserInfo.setId(id);

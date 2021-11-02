@@ -268,7 +268,7 @@
                                 </div>
                                 <!--登陆按钮div-->
                                 <div class="layui-form-item">
-                                    <button class="layui-btn layui-btn-normal layui-btn-fluid" lay-submit lay-filter="login-submit">
+                                    <button class="layui-btn layui-btn-normal layui-btn-fluid" lay-submit lay-filter="login-submit" id="login-submit">
                                         <i style="display: none" class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
                                         <span class="btn-text">立即登录</span>
                                     </button>
@@ -617,6 +617,14 @@
                 }
             });
         }
+
+
+        // 键盘回车登录
+        $('body').keydown(function () {
+            if (13 == event.keyCode) {
+                $('#login-submit').trigger('click');
+            }
+        });
     });
 
     /**

@@ -16,8 +16,8 @@
         <result column="login_back_img" jdbcType="VARCHAR" property="loginBackImg"/>
         <result column="homepage_href" jdbcType="VARCHAR" property="homepageHref"/>
         <result column="create_user" jdbcType="INTEGER" property="createUser"/>
-        <result column="create_time" jdbcType="DATE" property="createTime"/>
-        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
     </resultMap>
 

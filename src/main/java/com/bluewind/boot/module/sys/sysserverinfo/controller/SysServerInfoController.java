@@ -1,7 +1,8 @@
 package com.bluewind.boot.module.sys.sysserverinfo.controller;
 
+import com.bluewind.boot.common.consts.SystemConst;
+import com.bluewind.boot.common.utils.network.MacUtils;
 import com.bluewind.boot.module.sys.sysserverinfo.entity.ServerInfo;
-import com.bluewind.boot.common.consts.RedisConst;
 import com.bluewind.boot.common.utils.DateTool;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.JsonTool;
@@ -46,7 +47,8 @@ public class SysServerInfoController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult list() {
-        Object object = redisUtil.get(RedisConst.Key.SYS_SERVER_INFO);
+        String mac = MacUtils.getMac();
+        Object object = redisUtil.get(SystemConst.SYS_SERVER_INFO + ":" + mac);
         if (null != object) {
             logger.info("SysServerInfoController - list - 从redis获取缓存成功");
             return BaseResult.success(JsonTool.getMapFromJsonString(object.toString()));
@@ -54,17 +56,16 @@ public class SysServerInfoController {
         ServerInfo serverInfo = new ServerInfo();
         try {
             serverInfo.copyTo();
-            // 放在redis里面，60秒过期时间
+            // 放在redis里面，120秒过期时间
             Map<String, Object> infoMap = new HashMap<>();
             infoMap.put("data", serverInfo);
             infoMap.put("updateTime", DateTool.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
-            redisUtil.set(RedisConst.Key.SYS_SERVER_INFO, JsonTool.mapToJsonString(infoMap), 120);
+            redisUtil.set(SystemConst.SYS_SERVER_INFO + ":" + mac, JsonTool.mapToJsonString(infoMap), 120);
             return BaseResult.success(infoMap);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("SysServerInfoController - list - Exception = ", e);
         }
-        return BaseResult.failure("获取服务信息失败");
+        return BaseResult.failure("获取服务器信息失败！");
     }
-
 
 }

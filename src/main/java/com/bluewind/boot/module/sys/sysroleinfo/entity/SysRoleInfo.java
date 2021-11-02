@@ -22,7 +22,7 @@ public class SysRoleInfo implements Serializable {
 
     private String sign;
 
-    private Integer status;
+    private String status;
 
     private String descript;
 
@@ -38,7 +38,7 @@ public class SysRoleInfo implements Serializable {
         return sign;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -70,7 +70,7 @@ public class SysRoleInfo implements Serializable {
         return updateTime;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
@@ -88,7 +88,7 @@ public class SysRoleInfo implements Serializable {
         this.sign = sign;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -112,7 +112,7 @@ public class SysRoleInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
@@ -126,7 +126,7 @@ public class SysRoleInfo implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
-    private Integer delFlag;
+    private String delFlag;
 
     @Override
     public String toString() {
@@ -135,13 +135,13 @@ public class SysRoleInfo implements Serializable {
                 "roleId=" + roleId +
                 ", name='" + name + '\'' +
                 ", sign='" + sign + '\'' +
-                ", status=" + status +
+                ", status=" + status + '\'' +
                 ", descript='" + descript + '\'' +
                 ", createUser=" + createUser +
                 ", updateUser=" + updateUser +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", delFlag=" + delFlag +
+                ", delFlag=" + delFlag + '\'' +
                 '}';
     }
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class SysLoginLog implements Serializable {
     private static final long serialVersionUID = -8623198361955748757L;
 
-    private Long id;
+    private Integer id;
 
     private String sessionId;
 
@@ -24,13 +24,13 @@ public class SysLoginLog implements Serializable {
 
     private String location;
 
-    private Integer status;
+    private String status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -50,7 +50,7 @@ public class SysLoginLog implements Serializable {
         return location;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -58,7 +58,7 @@ public class SysLoginLog implements Serializable {
         return createTime;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -86,7 +86,7 @@ public class SysLoginLog implements Serializable {
         this.location = location;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -103,7 +103,7 @@ public class SysLoginLog implements Serializable {
                 ", ip='" + ip + '\'' +
                 ", descript='" + descript + '\'' +
                 ", location='" + location + '\'' +
-                ", status=" + status +
+                ", status=" + status + '\'' +
                 ", createTime='" + createTime + '\'' +
                 '}';
     }

@@ -9,8 +9,8 @@
         <result column="ip" jdbcType="VARCHAR" property="ip"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
-        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
 
 

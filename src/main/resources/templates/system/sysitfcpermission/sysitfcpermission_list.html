@@ -143,7 +143,7 @@
             callback : {
                 onClick : function(event, treeId, treeNode) {
                     console.log(treeNode);
-                    if (treeNode.type === 0) {
+                    if (treeNode.type === '0') {
                         signParent = treeNode.permission_id;
                         tempTreeNode = treeNode;
                         $("#tablecard").show();
@@ -205,16 +205,16 @@
                     {field: 'name', minWidth: 200, title: '名称'},
                     {field: 'sign', title: '标识', align: 'center'},
                     {field: 'type', title: '类型', align: 'center', templet: function (d) {
-                            if (0 == d.type) {
+                            if ('0' == d.type) {
                                 return '<span class="layui-badge layui-bg-cyan">模块</span>';
-                            } else if (1 == d.type) {
+                            } else if ('1' == d.type) {
                                 return '<span class="layui-badge layui-bg-blue">接口</span>';
                             }
                         }
                     },
                     {field: 'descript', title: '描述'},
                     {field: 'status', title: '状态', align: 'center', templet: function (d) {
-                            if (0 == d.status) {
+                            if ('0' == d.status) {
                                 return '正常';
                             } else {
                                 return '禁用';
@@ -395,7 +395,7 @@
                         add.append(option);
 
                         for (var i = 0, len = resdata.length; i < len; i++) {
-                            if (resdata[i].type === 0) {
+                            if (resdata[i].type === '0') {
                                 var option2 = document.createElement("option");
                                 option2.value = resdata[i].permission_id;
                                 option2.innerText = resdata[i].name;

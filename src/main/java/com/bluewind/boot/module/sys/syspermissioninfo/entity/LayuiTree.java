@@ -55,7 +55,7 @@ public class LayuiTree {
     /**
      * 类型
      */
-    private Integer type;
+    private String type;
 
 
     /**
@@ -122,7 +122,7 @@ public class LayuiTree {
         return href;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
@@ -162,7 +162,7 @@ public class LayuiTree {
         this.href = href;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -178,7 +178,7 @@ public class LayuiTree {
                 ", disabled=" + disabled +
                 ", spread=" + spread +
                 ", href='" + href + '\'' +
-                ", type=" + type +
+                ", type=" + type + '\'' +
                 '}';
     }
 }

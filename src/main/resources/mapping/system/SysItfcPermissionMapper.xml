@@ -6,22 +6,22 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
         <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
-        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
         <result column="sign" jdbcType="VARCHAR" property="sign"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
         <result column="create_user" jdbcType="INTEGER" property="createUser"/>
-        <result column="create_time" jdbcType="DATE" property="createTime"/>
-        <result column="update_time" jdbcType="DATE" property="updateTime"/>
-        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
     </resultMap>
 
     <!-- 查询所有功能权限列表 -->
     <select id="list" resultMap="SysItfcPermission" parameterType="java.lang.String">
         select * from `sys_itfc_permission`
-        where `del_flag` = 0
+        where `del_flag` = '0'
         <if test="permissionId != null and permissionId != ''">
             and `parent_id` = #{_parameter}
         </if>
@@ -31,7 +31,7 @@
     <select id="listTree" resultType="java.util.Map">
         SELECT *
         FROM `sys_itfc_permission`
-        where `del_flag` = 0
+        where `del_flag` = '0'
         ORDER BY `type`,`parent_id`
     </select>
 
@@ -64,22 +64,22 @@
             #{type},
             #{sign},
             #{descript},
-            0,
-            0,
+            '0',
+            '0',
             #{createUser}
         )
     </insert>
 
     <update id="enable" parameterType="java.lang.String">
-        update `sys_itfc_permission` set `status` = 0 where `permission_id` = #{_parameter}
+        update `sys_itfc_permission` set `status` = '0' where `permission_id` = #{_parameter}
     </update>
 
     <update id="delete" parameterType="java.lang.String">
-        update `sys_itfc_permission` set `del_flag` = 1 where `permission_id` = #{_parameter}
+        update `sys_itfc_permission` set `del_flag` = '1' where `permission_id` = #{_parameter}
     </update>
 
     <update id="deleteChildren" parameterType="java.lang.String">
-        update `sys_itfc_permission` set `del_flag` = 1 where `parent_id` = #{_parameter}
+        update `sys_itfc_permission` set `del_flag` = '1' where `parent_id` = #{_parameter}
     </update>
 
 </mapper>

@@ -57,8 +57,9 @@ public class RoleInterceptor implements HandlerInterceptor {
         }
         // 判断请求类型，如果是OPTIONS，直接返回
         String options = HttpMethod.OPTIONS.toString();
-        logger.info("RoleInterceptor -- preHandle -- httpMethod=" + options);
-        logger.info("RoleInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
+        if (logger.isInfoEnabled()) {
+            logger.info("RoleInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
+        }
         if (options.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
@@ -80,11 +81,15 @@ public class RoleInterceptor implements HandlerInterceptor {
                 token = token.replace(SystemConst.TOKEN_PREFIX, "");
                 token = JwtTokenUtil.parseJWT(token);
             }
-            logger.info("RoleInterceptor -- preHandle -- token = {}", token);
+            if (logger.isInfoEnabled()) {
+                logger.info("RoleInterceptor -- preHandle -- token = {}", token);
+            }
             SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
             // 获取用户权限列表
             Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
-            logger.info("RoleInterceptor -- preHandle -- roleSet = {}", roleSet);
+            if (logger.isInfoEnabled()) {
+                logger.info("RoleInterceptor -- preHandle -- roleSet = {}", roleSet);
+            }
 
             String[] roles = annotation.value();
             Logical logical = annotation.logical();

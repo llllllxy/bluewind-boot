@@ -58,7 +58,9 @@ public class PermissionInterceptor implements HandlerInterceptor {
         }
         // 判断请求类型，如果是OPTIONS，直接返回
         String options = HttpMethod.OPTIONS.toString();
-        logger.info("PermissionInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
+        if (logger.isInfoEnabled()) {
+            logger.info("PermissionInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
+        }
         if (options.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
@@ -81,12 +83,15 @@ public class PermissionInterceptor implements HandlerInterceptor {
                 token = token.replace(SystemConst.TOKEN_PREFIX, "");
                 token = JwtTokenUtil.parseJWT(token);
             }
-
-            logger.info("PermissionInterceptor -- preHandle -- token = {}", token);
+            if (logger.isInfoEnabled()) {
+                logger.info("PermissionInterceptor -- preHandle -- token = {}", token);
+            }
             SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
             // 获取用户权限列表
             Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
-            logger.info("PermissionInterceptor -- preHandle -- permissionSet = {}", permissionSet);
+            if (logger.isInfoEnabled()) {
+                logger.info("PermissionInterceptor -- preHandle -- permissionSet = {}", permissionSet);
+            }
 
             String[] permissions = annotation.value();
             Logical logical = annotation.logical();

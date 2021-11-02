@@ -19,9 +19,9 @@ public class SysDict {
 
     private String descript;
 
-    private Integer status;
+    private String status;
 
-    private Integer delFlag;
+    private String delFlag;
 
     private Integer createUser;
 
@@ -51,11 +51,11 @@ public class SysDict {
         this.descript = descript;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
@@ -91,11 +91,11 @@ public class SysDict {
         return descript;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
@@ -122,8 +122,8 @@ public class SysDict {
                 ", dictCode='" + dictCode + '\'' +
                 ", name='" + name + '\'' +
                 ", descript='" + descript + '\'' +
-                ", status=" + status +
-                ", delFlag=" + delFlag +
+                ", status=" + status + '\'' +
+                ", delFlag=" + delFlag + '\'' +
                 ", createUser=" + createUser +
                 ", createTime=" + createTime +
                 ", updateUser=" + updateUser +

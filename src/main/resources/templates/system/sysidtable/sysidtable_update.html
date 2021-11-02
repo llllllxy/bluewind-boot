@@ -49,7 +49,7 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">前缀</label>
+        <label class="layui-form-label">前缀<i class="layui-icon layui-icon-about" id="layui-icon-about1"></i></label>
         <div class="layui-input-block">
             <input type="text" name="idPrefix" placeholder="请输入流水号前缀" class="layui-input"
                    th:value="${sysIdTable.idPrefix}">
@@ -57,7 +57,7 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">后缀</label>
+        <label class="layui-form-label">后缀<i class="layui-icon layui-icon-about" id="layui-icon-about2"></i></label>
         <div class="layui-input-block">
             <input type="text" name="idSuffix" placeholder="请输入流水号后缀" class="layui-input"
                    th:value="${sysIdTable.idSuffix}">
@@ -86,9 +86,27 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form'], function () {
+    layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = layui.layer;
+
+        var tipStr = "<p>假设当前时间为2019年2月25日3时11分23秒，如果前缀或后缀包含下列字符串</p>" +
+            "<p>yyyy：生成的流水号将该字符串替换为2019</p>" +
+            "<p>yy：生成的流水号将该字符串替换为19</p>" +
+            "<p>MM：生成的流水号将该字符串替换为02</p>" +
+            "<p>dd：生成的流水号将该字符串替换为25</p>" +
+            "<p>HH：生成的流水号将该字符串替换为03</p>" +
+            "<p>mm：生成的流水号将该字符串替换为11</p>" +
+            "<p>ss：生成的流水号将该字符串替换为23</p>" +
+            "<p>以上日期时间字符，yyyyMMddHHmmss，区分大小写</p>";
+
+        var tipsIndex1;
+        $("#layui-icon-about1, #layui-icon-about2").on("mouseover", function() {
+            tipsIndex1 = layer.tips(tipStr, "#layui-icon-about", {tips: [1, '#4BB2FF'], time: 50000});
+        }).on("mouseout", function() {
+            layer.close(tipsIndex1);
+        });
+
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {

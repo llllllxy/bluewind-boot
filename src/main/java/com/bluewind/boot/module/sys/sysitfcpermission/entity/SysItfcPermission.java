@@ -20,15 +20,15 @@ public class SysItfcPermission implements Serializable {
 
     private String name;
 
-    private Integer type;
+    private String type;
 
     private String sign;
 
     private String descript;
 
-    private Integer status;
+    private String status;
 
-    private Integer delFlag;
+    private String delFlag;
 
     private Integer createUser;
 
@@ -74,11 +74,11 @@ public class SysItfcPermission implements Serializable {
         this.name = name;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -98,19 +98,19 @@ public class SysItfcPermission implements Serializable {
         this.descript = descript;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Integer getDelFlag() {
+    public String getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(Integer delFlag) {
+    public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
@@ -153,11 +153,11 @@ public class SysItfcPermission implements Serializable {
                 ", permissionId='" + permissionId + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", name='" + name + '\'' +
-                ", type=" + type +
+                ", type=" + type + '\'' +
                 ", sign='" + sign + '\'' +
                 ", descript='" + descript + '\'' +
-                ", status=" + status +
-                ", delFlag=" + delFlag +
+                ", status=" + status + '\'' +
+                ", delFlag=" + delFlag + '\'' +
                 ", createUser=" + createUser +
                 ", updateUser=" + updateUser +
                 ", createTime='" + createTime + '\'' +

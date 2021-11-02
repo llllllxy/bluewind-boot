@@ -99,7 +99,4 @@ public class SysLoginLogController extends BaseController {
         return BaseResult.success(result);
     }
 
-
-
-
 }

@@ -150,14 +150,14 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
         if ("1".equals(type)) {
             list = sysPermissionInfoMapper.listPermissionByType1();
             list.forEach(item -> {
-                if (2 == item.getType() || 3 == item.getType()) {
+                if ("2".equals(item.getType())  || "3".equals(item.getType())) {
                     item.setDisabled(true);
                 }
             });
         } else { // 如果是新增按钮权限
             list = sysPermissionInfoMapper.listPermissionByType2();
             list.forEach(item -> {
-                if (0 == item.getType() || 1 == item.getType() || 3 == item.getType()) {
+                if ("0".equals(item.getType()) || "1".equals(item.getType()) || "3".equals(item.getType())) {
                     item.setDisabled(true);
                 }
             });

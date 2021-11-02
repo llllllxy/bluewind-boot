@@ -604,7 +604,7 @@ public class RedisUtil {
     }
 
     /**
-     * 通过索引 获取list中的值
+     * 通过索引获取list中的值
      *
      * @param key   键
      * @param index 索引  index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
@@ -616,82 +616,6 @@ public class RedisUtil {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @return
-     */
-    public boolean lSet(String key, Object value) {
-        try {
-            redisTemplate.opsForList().rightPush(key, value);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒)
-     * @return
-     */
-    public boolean lSet(String key, Object value, long time) {
-        try {
-            redisTemplate.opsForList().rightPush(key, value);
-            if (time > 0) {
-                expire(key, time);
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @return
-     */
-    public boolean lSet(String key, List<Object> value) {
-        try {
-            redisTemplate.opsForList().rightPushAll(key, value);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒)
-     * @return
-     */
-    public boolean lSet(String key, List<Object> value, long time) {
-        try {
-            redisTemplate.opsForList().rightPushAll(key, value);
-            if (time > 0) {
-                expire(key, time);
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -714,7 +638,161 @@ public class RedisUtil {
     }
 
     /**
-     * 移除N个值为value
+     * 将指定的值插入存储在键的列表的尾部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从右边插入）
+     * @param key   键
+     * @param value 值
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lRightPush(String key, Object value) {
+        try {
+            return redisTemplate.opsForList().rightPush(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    /**
+     * 将指定的值插入存储在键的列表的尾部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从右边插入）
+     * @param key   键
+     * @param value 值
+     * @param time  过期时间(秒)
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lRightPush(String key, Object value, long time) {
+        try {
+            Long num = redisTemplate.opsForList().rightPush(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return num;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    /**
+     * 将所有指定的值插入存储在键的列表的尾部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从右边插入）
+     * @param key   键
+     * @param value 值
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lRightPushAll(String key, List<Object> value) {
+        try {
+            return redisTemplate.opsForList().rightPushAll(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    /**
+     * 将所有指定的值插入存储在键的列表的尾部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从右边插入）
+     * @param key   键
+     * @param value 值
+     * @param time  过期时间(秒)
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lRightPushAll(String key, List<Object> value, long time) {
+        try {
+            Long num = redisTemplate.opsForList().rightPushAll(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return num;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+
+    /**
+     * 将指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPush(String key, Object value) {
+        try {
+            return redisTemplate.opsForList().leftPush(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    /**
+     * 将指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @param time  过期时间(秒)
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPush(String key, Object value, long time) {
+        try {
+            Long num = redisTemplate.opsForList().leftPush(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return num;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+
+    /**
+     * 将所有指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPushAll(String key, List<Object> value) {
+        try {
+            return redisTemplate.opsForList().leftPushAll(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    /**
+     * 将所有指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @param time  过期时间(秒)
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPushAll(String key, List<Object> value, long time) {
+        try {
+            Long num = redisTemplate.opsForList().leftPushAll(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return num;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    /**
+     * 从存储在键中的列表中删除等于值的元素的第一个计数事件。
+     * 计数参数以下列方式影响操作：
+     * count> 0：删除等于从头到尾移动的值的元素。
+     * count <0：删除等于从尾到头移动的值的元素。
+     * count = 0：删除等于value的所有元素。
      *
      * @param key   键
      * @param count 移除多少个
@@ -723,13 +801,43 @@ public class RedisUtil {
      */
     public long lRemove(String key, long count, Object value) {
         try {
-            Long remove = redisTemplate.opsForList().remove(key, count, value);
-            return remove;
+            return redisTemplate.opsForList().remove(key, count, value);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
+
+    /**
+     * 弹出最左边的元素并返回，弹出之后该值在列表中将不复存在
+     *
+     * @param key 键
+     * @return Object 弹出的元素
+     */
+    public Object lLeftPop(String key) {
+        try {
+            return redisTemplate.opsForList().leftPop(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 弹出最右边的元素并返回，弹出之后该值在列表中将不复存在
+     *
+     * @param key 键
+     * @return Object 弹出的元素
+     */
+    public Object lRightPop(String key) {
+        try {
+            return redisTemplate.opsForList().rightPop(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     /*===============================list  end=============================*/
 
 

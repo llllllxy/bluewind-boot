@@ -2,7 +2,7 @@ package com.bluewind.boot.module.sys.sysloginlog.service;
 
 import com.bluewind.boot.module.sys.sysloginlog.entity.SysLoginLog;
 import com.bluewind.boot.common.utils.AddressUtils;
-import com.bluewind.boot.common.utils.IPUtils;
+import com.bluewind.boot.common.utils.network.IPUtils;
 import com.bluewind.boot.module.sys.sysloginlog.mapper.SysLoginLogMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
      */
     @Override
     @Async("asyncServiceExecutor") // 耗时操作放进线程池去操作,注意：异步方法使用注解@Async的返回值只能为void或者Future
-    public void saveLoginlog(HttpServletRequest request, String account, Integer status, String descript, String redisKey) {
+    public void saveLoginlog(HttpServletRequest request, String account, String status, String descript, String redisKey) {
         SysLoginLog sysLoginLog = new SysLoginLog();
         sysLoginLog.setAccount(account);
         sysLoginLog.setDescript(descript);

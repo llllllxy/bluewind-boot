@@ -26,16 +26,16 @@
             a.type,
             a.target
         FROM sys_permission_info a
-        WHERE a.del_flag = 0
-          AND a.`status` = 0
+        WHERE a.del_flag = '0'
+          AND a.`status` = '0'
           AND a.type &lt; 3
           AND EXISTS (
             SELECT
                 rp.permission_id
             FROM sys_role_permission rp
             LEFT JOIN sys_role_info ri ON ( rp.role_id = ri.role_id )
-            WHERE ri.del_flag = 0
-            AND ri.`status` = 0
+            WHERE ri.del_flag = '0'
+            AND ri.`status` = '0'
             AND EXISTS ( SELECT ur.role_id FROM sys_user_role ur WHERE ur.user_id = #{id} AND rp.role_id = ur.role_id )
                 AND a.permission_id = rp.permission_id
             )

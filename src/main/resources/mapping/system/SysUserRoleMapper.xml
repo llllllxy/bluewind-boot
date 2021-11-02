@@ -8,8 +8,8 @@
         FROM
             sys_role_info a
         WHERE
-            a.del_flag = 0
-            AND a.`status` = 0
+            a.del_flag = '0'
+            AND a.`status` = '0'
             AND EXISTS ( SELECT b.id FROM sys_user_role b WHERE b.user_id = #{userId} AND a.role_id = b.role_id )
     </select>
 

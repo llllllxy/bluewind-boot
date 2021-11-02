@@ -164,7 +164,7 @@ minio:
 
 #用户密码加密的盐
 hash:
-  salt: yOp8R3Xg7Kv5$y5fM3*xl&ins7PZcTEY
+  salt: ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY
 
 jasypt:
   encryptor:
@@ -194,8 +194,8 @@ async:
 
 oss:
   endPoint: http://oss-cn-hangzhou.aliyuncs.com
-  accessKeyId: XXXXXXXXXXXXXX
-  accessKeySecret: XXXXXXXX
+  accessKeyId: xxxxxxxxxxxx
+  accessKeySecret: xxxxxxxx
   bucketName: test-upload
 
 #aj-captcha行为验证码配置
