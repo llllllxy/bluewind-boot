@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.configuration.quartz;
 
-import com.bluewind.boot.common.consts.ScheduleConstants;
+import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
 import org.quartz.*;
@@ -27,14 +27,14 @@ public class ScheduleUtils {
      * 构建任务触发对象
      */
     public static TriggerKey getTriggerKey(String jobId, String jobGroup) {
-        return TriggerKey.triggerKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup);
+        return TriggerKey.triggerKey(ScheduleConst.TASK_CLASS_NAME + jobId, jobGroup);
     }
 
     /**
      * 构建任务键对象
      */
     public static JobKey getJobKey(String jobId, String jobGroup) {
-        return JobKey.jobKey(ScheduleConstants.TASK_CLASS_NAME + jobId, jobGroup);
+        return JobKey.jobKey(ScheduleConst.TASK_CLASS_NAME + jobId, jobGroup);
     }
 
     /**
@@ -55,7 +55,7 @@ public class ScheduleUtils {
         CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(jobId, jobGroup)).withSchedule(cronScheduleBuilder).build();
 
         // 放入参数，运行时的方法可以获取
-        jobDetail.getJobDataMap().put(ScheduleConstants.TASK_PROPERTIES, job);
+        jobDetail.getJobDataMap().put(ScheduleConst.TASK_PROPERTIES, job);
 
         // 判断是否存在
         if (scheduler.checkExists(getJobKey(jobId, jobGroup))) {
@@ -66,7 +66,7 @@ public class ScheduleUtils {
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
-        if (job.getStatus().equals(ScheduleConstants.Status.PAUSE.getValue())) {
+        if (job.getStatus().equals(ScheduleConst.Status.PAUSE.getValue())) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
     }
@@ -78,13 +78,13 @@ public class ScheduleUtils {
     public static CronScheduleBuilder handleCronScheduleMisfirePolicy(SysJob job, CronScheduleBuilder cb)
             throws TaskException {
         switch (job.getMisfirePolicy()) {
-            case ScheduleConstants.MISFIRE_DEFAULT:
+            case ScheduleConst.MISFIRE_DEFAULT:
                 return cb;
-            case ScheduleConstants.MISFIRE_IGNORE_MISFIRES:
+            case ScheduleConst.MISFIRE_IGNORE_MISFIRES:
                 return cb.withMisfireHandlingInstructionIgnoreMisfires();
-            case ScheduleConstants.MISFIRE_FIRE_AND_PROCEED:
+            case ScheduleConst.MISFIRE_FIRE_AND_PROCEED:
                 return cb.withMisfireHandlingInstructionFireAndProceed();
-            case ScheduleConstants.MISFIRE_DO_NOTHING:
+            case ScheduleConst.MISFIRE_DO_NOTHING:
                 return cb.withMisfireHandlingInstructionDoNothing();
             default:
                 throw new TaskException("The task misfire policy '" + job.getMisfirePolicy()
@@ -99,7 +99,7 @@ public class ScheduleUtils {
     public static void executeonceScheduler(Scheduler scheduler, SysJob sysJob) throws SchedulerException, TaskException {
         try {
             JobDataMap dataMap = new JobDataMap();
-            dataMap.put(ScheduleConstants.TASK_PROPERTIES, sysJob);
+            dataMap.put(ScheduleConst.TASK_PROPERTIES, sysJob);
             JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
             // 如果不存在，则新建一个quartz实例
             if (!scheduler.checkExists(jobKey)) {

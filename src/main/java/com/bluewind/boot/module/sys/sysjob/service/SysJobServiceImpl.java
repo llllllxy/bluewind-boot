@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.sysjob.service;
 
-import com.bluewind.boot.common.consts.ScheduleConstants;
+import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
 import com.bluewind.boot.common.configuration.quartz.ScheduleUtils;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
@@ -77,7 +77,7 @@ public class SysJobServiceImpl implements SysJobService {
     @Override
     @Transactional
     public int insertJob(SysJob job) throws SchedulerException, TaskException {
-        job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
+        job.setStatus(ScheduleConst.Status.PAUSE.getValue());
         int rows = sysJobMapper.insertJob(job);
         if (rows > 0) {
             ScheduleUtils.createScheduleJob(scheduler, job);
@@ -97,7 +97,7 @@ public class SysJobServiceImpl implements SysJobService {
     @Transactional
     public int start(String jobId) throws SchedulerException, TaskException {
         SysJob sysJob = sysJobMapper.getOne(jobId);
-        sysJob.setStatus(ScheduleConstants.Status.NORMAL.getValue());
+        sysJob.setStatus(ScheduleConst.Status.NORMAL.getValue());
         int rows = sysJobMapper.changeStatus(sysJob);
         if (rows > 0) {
             ScheduleUtils.resumeSchedulerJob(scheduler, sysJob);
@@ -117,7 +117,7 @@ public class SysJobServiceImpl implements SysJobService {
     @Transactional
     public int stop(String jobId) throws SchedulerException, TaskException {
         SysJob sysJob = sysJobMapper.getOne(jobId);
-        sysJob.setStatus(ScheduleConstants.Status.PAUSE.getValue());
+        sysJob.setStatus(ScheduleConst.Status.PAUSE.getValue());
         int rows = sysJobMapper.changeStatus(sysJob);
         if (rows > 0) {
             ScheduleUtils.pauseSchedulerJob(scheduler, sysJob);

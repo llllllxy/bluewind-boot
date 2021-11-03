@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.sysjob.entity;
 
-import com.bluewind.boot.common.consts.ScheduleConstants;
+import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.configuration.quartz.CronUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +47,7 @@ public class SysJob implements Serializable {
     /**
      * cron计划策略
      */
-    private String misfirePolicy = ScheduleConstants.MISFIRE_DEFAULT;
+    private String misfirePolicy = ScheduleConst.MISFIRE_DEFAULT;
 
     /**
      * 是否并发执行（0允许 1禁止）

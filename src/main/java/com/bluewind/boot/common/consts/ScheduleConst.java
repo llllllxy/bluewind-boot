@@ -6,7 +6,7 @@ package com.bluewind.boot.common.consts;
  * @author liuxingyu01
  * @date 2021-08-27-12:50
  **/
-public class ScheduleConstants {
+public class ScheduleConst {
 
     public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
 
@@ -34,6 +34,34 @@ public class ScheduleConstants {
      * 不触发立即执行
      */
     public static final String MISFIRE_DO_NOTHING = "3";
+
+
+    /**
+     * RMI 远程方法调用
+     */
+    public static final String LOOKUP_RMI = "rmi://";
+
+    /**
+     * LDAP 远程方法调用
+     */
+    public static final String LOOKUP_LDAP = "ldap://";
+
+    /**
+     * 定时任务违规的字符
+     */
+    public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
+            "org.springframework.jndi" };
+
+    /**
+     * http请求
+     */
+    public static final String HTTP = "http://";
+
+    /**
+     * https请求
+     */
+    public static final String HTTPS = "https://";
+
 
     public enum Status {
         /**

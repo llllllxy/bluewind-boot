@@ -1,7 +1,9 @@
 package com.bluewind.boot.module.sys.sysjob.controller;
 
+import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
 import com.bluewind.boot.common.configuration.quartz.CronUtils;
+import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
 import com.bluewind.boot.module.sys.sysjob.service.SysJobService;
 import com.github.pagehelper.PageHelper;
@@ -202,6 +204,19 @@ public class SysJobController extends BaseController {
                           @RequestParam("cronExpression") String cronExpression,
                           @RequestParam(required = false, defaultValue = "1", value = "concurrent") String concurrent,
                           @RequestParam(required = false, defaultValue = "3", value = "misfirePolicy") String misfirePolicy) throws SchedulerException, TaskException {
+        if (StringUtils.containsIgnoreCase(invokeTarget, ScheduleConst.LOOKUP_RMI)) {
+            return BaseResult.failure("新增任务'" + jobName + "'失败，目标字符串不允许'rmi://'调用");
+        }
+        if (StringUtils.containsIgnoreCase(invokeTarget, ScheduleConst.LOOKUP_LDAP)) {
+            return BaseResult.failure("新增任务'" + jobName + "'失败，目标字符串不允许'ldap://'调用");
+        }
+        if (StringUtils.containsAnyIgnoreCase(invokeTarget, new String[] { ScheduleConst.HTTP, ScheduleConst.HTTPS })) {
+            return BaseResult.failure("新增任务'" + jobName + "'失败，目标字符串不允许'http(s)//'调用");
+        }
+        if (StringUtils.containsAnyIgnoreCase(invokeTarget, ScheduleConst.JOB_ERROR_STR)) {
+            return BaseResult.failure("新增任务'" + jobName + "'失败，目标字符串存在违规");
+        }
+
         // 判断Cron表达式是否正确
         if (CronExpression.isValidExpression(cronExpression)) {
             SysJob sysJob = new SysJob();
@@ -216,12 +231,12 @@ public class SysJobController extends BaseController {
 
             int num = sysJobService.insertJob(sysJob);
             if (num > 0) {
-                return BaseResult.success("新增任务成功！");
+                return BaseResult.success("新增任务'" + jobName + "'成功！");
             } else {
                 return BaseResult.failure("新增任务失败，请联系后台管理员！");
             }
         } else {
-            return BaseResult.failure("请检查Cron表达式是否正确！");
+            return BaseResult.failure("新增任务'" + jobName + "'失败，Cron表达式不正确！");
         }
     }
 
@@ -259,6 +274,19 @@ public class SysJobController extends BaseController {
                              @RequestParam("status") String status,
                              @RequestParam(required = false, defaultValue = "1", value = "concurrent") String concurrent,
                              @RequestParam(required = false, defaultValue = "3", value = "misfirePolicy") String misfirePolicy) throws SchedulerException, TaskException {
+        if (StringUtils.containsIgnoreCase(invokeTarget, ScheduleConst.LOOKUP_RMI)) {
+            return BaseResult.failure("更新任务'" + jobName + "'失败，目标字符串不允许'rmi://'调用");
+        }
+        if (StringUtils.containsIgnoreCase(invokeTarget, ScheduleConst.LOOKUP_LDAP)) {
+            return BaseResult.failure("更新任务'" + jobName + "'失败，目标字符串不允许'ldap://'调用");
+        }
+        if (StringUtils.containsAnyIgnoreCase(invokeTarget, new String[] { ScheduleConst.HTTP, ScheduleConst.HTTPS })) {
+            return BaseResult.failure("更新任务'" + jobName + "'失败，目标字符串不允许'http(s)//'调用");
+        }
+        if (StringUtils.containsAnyIgnoreCase(invokeTarget, ScheduleConst.JOB_ERROR_STR)) {
+            return BaseResult.failure("更新任务'" + jobName + "'失败，目标字符串存在违规");
+        }
+
         // 判断Cron表达式是否正确
         if (CronExpression.isValidExpression(cronExpression)) {
             SysJob sysJob = new SysJob();
@@ -274,12 +302,12 @@ public class SysJobController extends BaseController {
 
             int num = sysJobService.updateJob(sysJob);
             if (num > 0) {
-                return BaseResult.success("更新任务成功！");
+                return BaseResult.success("更新任务'" + jobName + "'成功！");
             } else {
-                return BaseResult.failure("更新任务失败，请联系后台管理员！");
+                return BaseResult.failure("更新任务'" + jobName + "'失败，请联系后台管理员！");
             }
         } else {
-            return BaseResult.failure("请检查Cron表达式是否正确！");
+            return BaseResult.failure("更新任务'" + jobName + "'失败，Cron表达式不正确！");
         }
     }
 

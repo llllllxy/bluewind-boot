@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.configuration.quartz;
 
-import com.bluewind.boot.common.consts.ScheduleConstants;
+import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.utils.ExceptionUtil;
 import com.bluewind.boot.common.utils.spring.SpringUtil;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
@@ -33,7 +33,7 @@ public abstract class AbstractQuartzJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         SysJob sysJob = new SysJob();
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES), sysJob);
+        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConst.TASK_PROPERTIES), sysJob);
         try {
             before(context, sysJob);
             if (sysJob != null) {
