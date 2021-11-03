@@ -94,7 +94,7 @@
             $(elem).find('.layui-carousel-arrow[lay-type=sub]').trigger('click');
         }
     };
-
+    // layui.cache.base取的是layui.config里面配置的base
     layui.link(layui.cache.base + 'step-lay/step.css');
 
     exports('step', step);
