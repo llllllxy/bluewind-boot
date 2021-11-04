@@ -108,8 +108,8 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
 
 
     /**
-     * 处理请求完成后，视图渲染之前的处理操作
-     * 此时可以通过ModelAndView(模型和视图对象)对模型数据进行处理或对视图进行处理，modelAndView也可能为null
+     * 处理请求完成后，视图渲染之前的处理操作(Controller方法调用之后)
+     * 此处可以通过ModelAndView(模型和视图对象)对模型数据进行处理或对视图进行处理，modelAndView也可能为null
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
@@ -146,7 +146,7 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
     }
 
     /**
-     * 整个请求处理完毕回调方法，即视图渲染完毕之后的操作
+     * 在整个请求结束之后被调用，也就是视图渲染完毕之后的操作（主要是用于进行性能监控、资源清理工作）
      */
     @Override
     public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3) throws Exception {
