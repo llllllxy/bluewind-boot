@@ -51,22 +51,22 @@ layui.use(['nprogress', 'layer'], function () {
     /**
      * 鼠标移入，显示弹窗
      */
-    let tipsIndex;
-    $('body').on('mouseover', 'tbody .layui-table-cell', function () {
-        let that = this;
-        if (!$(this).hasClass('laytable-cell-numbers') && 0 == $(this).find('a').length && !!filterHTMLTag($(this).html())) {
-            tipsIndex = layer.tips(filterHTMLTag($(this).html()), that, {tips: [1, '#4BB2FF'], time: 5000});
-        }
-    });
+    // let tipsIndex;
+    // $('body').on('mouseover', 'tbody .layui-table-cell', function () {
+    //     let that = this;
+    //     if (!$(this).hasClass('laytable-cell-numbers') && 0 == $(this).find('a').length && !!filterHTMLTag($(this).html())) {
+    //         tipsIndex = layer.tips(filterHTMLTag($(this).html()), that, {tips: [1, '#4BB2FF'], time: 5000});
+    //     }
+    // });
 
     /**
      * 鼠标移出，关闭弹窗
      */
-    $('body').on('mouseout', 'tbody .layui-table-cell', function () {
-        if (!$(this).hasClass('laytable-cell-numbers') && 0 == $(this).find('a').length && !!filterHTMLTag($(this).html())) {
-            layer.close(tipsIndex);
-        }
-    });
+    // $('body').on('mouseout', 'tbody .layui-table-cell', function () {
+    //     if (!$(this).hasClass('laytable-cell-numbers') && 0 == $(this).find('a').length && !!filterHTMLTag($(this).html())) {
+    //         layer.close(tipsIndex);
+    //     }
+    // });
 
 });
 

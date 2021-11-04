@@ -14,8 +14,8 @@
     <div class="layuimini-main">
 
         <fieldset class="table-search-fieldset">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
+            <legend>搜索信息(<b style="color: #4BB2FF;cursor: pointer">收起-展开</b>)</legend>
+            <div id="search-div" style="margin: 10px 10px 10px 10px">
                 <form class="layui-form" action="" lay-filter="search-form">
                     <div class="layui-form-item">
                         <div class="layui-inline">
@@ -140,7 +140,7 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             //执行搜索重载
-            table.reload('currentTableId', {
+            currTable.reload({
                 page: {
                     curr: 1 // 页码从1开始
                 },
@@ -149,7 +149,7 @@
                     jobGroup: data.field.jobGroup,
                     status: data.field.status
                 }
-            }, 'data');
+            });
             return false;
         });
 
@@ -161,12 +161,12 @@
                 "status": '',
             });
             // 执行搜索重载
-            table.reload('currentTableId', {
+            currTable.reload({
                 page: {
                     curr: 1
                 },
                 where: form.val("search-form")
-            }, 'data');
+            });
             return false;
         });
 

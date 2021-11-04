@@ -26,8 +26,8 @@
     <div class="layuimini-main">
 
         <fieldset class="table-search-fieldset">
-            <legend>搜索信息</legend>
-            <div style="margin: 10px 10px 10px 10px">
+            <legend>搜索信息(<b style="color: #4BB2FF;cursor: pointer">收起-展开</b>)</legend>
+            <div id="search-div" style="margin: 10px 10px 10px 10px">
                 <form class="layui-form" action="" lay-filter="search-form">
                     <div class="layui-form-item">
 
@@ -136,7 +136,7 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             //执行搜索重载
-            table.reload('currentTableId', {
+            currTable.reload({
                 page: {
                     curr: 1 // 页码从1开始
                 },
@@ -145,7 +145,7 @@
                     type: data.field.type,
                     createTime: data.field.createTime
                 }
-            }, 'data');
+            });
             return false;
         });
 
@@ -157,12 +157,12 @@
                 "createTime": ''
             });
             // 执行搜索重载
-            table.reload('currentTableId', {
+            currTable.reload({
                 page: {
                     curr: 1
                 },
                 where: form.val("search-form")
-            }, 'data');
+            });
             return false;
         });
 
@@ -170,11 +170,10 @@
         table.on('sort(currentTableFilter)', function (obj) { //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             console.log(obj.field); //当前排序的字段名
             console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
-            console.log(this); //当前排序的 th 对象
 
             //尽管我们的 table 自带排序功能，但并没有请求服务端。
             //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-            table.reload('currentTableId', {
+            currTable.reload({
                 initSort: obj, //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                 where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                     sortName: toLine(obj.field), //排序字段
