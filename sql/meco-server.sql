@@ -4,14 +4,14 @@
  Source Server         : 腾讯云TDSQL-C
  Source Server Type    : MySQL
  Source Server Version : 50718
- Source Host           : nj-cynosdbmysql-grp-goes1s5b.sql.tencentcdb.com:28151
+ Source Host           : 127.0.0.1:3307
  Source Schema         : meco-server
 
  Target Server Type    : MySQL
  Target Server Version : 50718
  File Encoding         : 65001
 
- Date: 14/09/2021 15:59:10
+ Date: 03/11/2021 16:57:43
 */
 
 SET NAMES utf8mb4;
@@ -55,8 +55,8 @@ CREATE TABLE `sys_dict`  (
   `dict_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '编码',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `descript` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `status` tinyint(4) NULL DEFAULT 0 COMMENT '状态（0--正常1--冻结）',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除状态（0，正常，1已删除）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--冻结）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--正常，1--已删除）',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建人',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
@@ -67,23 +67,23 @@ CREATE TABLE `sys_dict`  (
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, 'user_sex', '性别', '性别的数据字典', 0, 0, 0, '2020-07-15 16:32:49', 0, '2020-10-21 11:35:35');
-INSERT INTO `sys_dict` VALUES (2, 'user_status', '用户状态', '用户的禁/启用状态', 0, 0, 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:17');
-INSERT INTO `sys_dict` VALUES (3, 'menu_type', '权限类型', '权限数据的类型', 0, 0, 0, '2020-07-20 21:20:22', 0, '2020-09-21 10:50:46');
-INSERT INTO `sys_dict` VALUES (4, 'quartz_status', '定时任务启动状态', '定时任务启动状态', 0, 0, 0, '2020-07-21 10:10:41', 0, '2020-09-21 10:50:46');
-INSERT INTO `sys_dict` VALUES (5, 'login_status', '登录状态', '登录日志的记录状态', 0, 0, 1, '2020-07-28 10:04:05', 0, '2020-09-21 10:50:46');
-INSERT INTO `sys_dict` VALUES (6, 'notice_type', '公告类型', '', 0, 0, 1, '2020-09-28 14:18:18', 0, '2020-09-28 14:18:18');
-INSERT INTO `sys_dict` VALUES (7, 'banner_type', '轮播类型', '', 0, 0, 1, '2020-09-28 14:18:30', 0, '2020-09-28 14:18:30');
-INSERT INTO `sys_dict` VALUES (8, 'feed_back_type', '意见反馈类型', '意见反馈类型', 0, 0, 1, '2020-09-29 16:12:32', 0, '2021-03-04 23:13:00');
-INSERT INTO `sys_dict` VALUES (9, 'news_type', '新闻资讯类别', '', 0, 0, 1, '2020-09-30 10:52:36', 0, '2020-09-30 10:52:36');
-INSERT INTO `sys_dict` VALUES (10, 'role_status', '角色状态', '角色的禁/启用状态', 0, 0, 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:29');
-INSERT INTO `sys_dict` VALUES (11, 'quartz_data_status', '定时任务状态', '定时任务的禁/启用状态', 0, 0, 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:29');
-INSERT INTO `sys_dict` VALUES (12, 'dict_status', '数据字典状态', '数据字典的禁/启用状态', 0, 0, 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:29');
-INSERT INTO `sys_dict` VALUES (13, 'permission_target', '权限菜单打开方式', '内链/外链', 0, 0, 0, '2021-02-17 17:27:21', 0, '2021-02-17 17:27:21');
-INSERT INTO `sys_dict` VALUES (15, 'sdasdsadas', '爱吃甜品的猫w', '哈哈哈哈哈撒旦撒旦撒', 0, 0, 1, '2021-03-03 19:15:40', 0, '2021-03-03 19:39:06');
-INSERT INTO `sys_dict` VALUES (16, 'itfc_key_status', '服务密钥状态', '服务密钥的状态', 0, 0, 1, '2021-06-13 22:37:22', 0, '2021-07-19 10:40:34');
-INSERT INTO `sys_dict` VALUES (17, 'sys_job_group', '定时任务分组', '定时任务分组', 0, 0, 1, '2021-08-27 17:05:37', 0, '2021-08-27 17:05:37');
-INSERT INTO `sys_dict` VALUES (18, 'sys_job_status', '定时任务状态', '定时任务状态', 0, 0, 1, '2021-08-27 17:05:48', 0, '2021-08-27 17:06:04');
+INSERT INTO `sys_dict` VALUES (1, 'user_sex', '性别', '性别的数据字典', '0', '0', 0, '2020-07-15 16:32:49', 0, '2020-10-21 11:35:35');
+INSERT INTO `sys_dict` VALUES (2, 'user_status', '用户状态', '用户的禁/启用状态', '0', '0', 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:17');
+INSERT INTO `sys_dict` VALUES (3, 'menu_type', '权限类型', '权限数据的类型', '0', '0', 0, '2020-07-20 21:20:22', 0, '2020-09-21 10:50:46');
+INSERT INTO `sys_dict` VALUES (4, 'quartz_status', '定时任务启动状态', '定时任务启动状态', '0', '0', 0, '2020-07-21 10:10:41', 0, '2020-09-21 10:50:46');
+INSERT INTO `sys_dict` VALUES (5, 'login_status', '登录状态', '登录日志的记录状态', '0', '0', 1, '2020-07-28 10:04:05', 0, '2020-09-21 10:50:46');
+INSERT INTO `sys_dict` VALUES (6, 'notice_type', '公告类型', '', '0', '0', 1, '2020-09-28 14:18:18', 0, '2020-09-28 14:18:18');
+INSERT INTO `sys_dict` VALUES (7, 'banner_type', '轮播类型', '', '0', '0', 1, '2020-09-28 14:18:30', 0, '2020-09-28 14:18:30');
+INSERT INTO `sys_dict` VALUES (8, 'feed_back_type', '意见反馈类型', '意见反馈类型', '0', '0', 1, '2020-09-29 16:12:32', 0, '2021-03-04 23:13:00');
+INSERT INTO `sys_dict` VALUES (9, 'news_type', '新闻资讯类别', '', '0', '0', 1, '2020-09-30 10:52:36', 0, '2020-09-30 10:52:36');
+INSERT INTO `sys_dict` VALUES (10, 'role_status', '角色状态', '角色的禁/启用状态', '0', '0', 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:29');
+INSERT INTO `sys_dict` VALUES (11, 'quartz_data_status', '定时任务状态', '定时任务的禁/启用状态', '0', '0', 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:29');
+INSERT INTO `sys_dict` VALUES (12, 'dict_status', '数据字典状态', '数据字典的禁/启用状态', '0', '0', 0, '2020-07-15 16:37:04', 0, '2020-10-21 11:36:29');
+INSERT INTO `sys_dict` VALUES (13, 'permission_target', '权限菜单打开方式', '内链/外链', '0', '0', 0, '2021-02-17 17:27:21', 0, '2021-02-17 17:27:21');
+INSERT INTO `sys_dict` VALUES (15, 'sdasdsadas', '爱吃甜品的猫w', '哈哈哈哈哈撒旦撒旦撒', '0', '1', 1, '2021-03-03 19:15:40', 0, '2021-10-23 16:34:54');
+INSERT INTO `sys_dict` VALUES (16, 'itfc_key_status', '服务密钥状态', '服务密钥的状态', '0', '0', 1, '2021-06-13 22:37:22', 0, '2021-07-19 10:40:34');
+INSERT INTO `sys_dict` VALUES (17, 'sys_job_group', '定时任务分组', '定时任务分组', '0', '0', 1, '2021-08-27 17:05:37', 0, '2021-08-27 17:05:37');
+INSERT INTO `sys_dict` VALUES (18, 'sys_job_status', '定时任务状态', '定时任务状态', '0', '0', 1, '2021-08-27 17:05:48', 0, '2021-08-27 17:06:04');
 
 -- ----------------------------
 -- Table structure for sys_dict_detail
@@ -94,7 +94,7 @@ CREATE TABLE `sys_dict_detail`  (
   `dict_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字典编码',
   `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '编号',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
-  `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
+  `create_user` int(11) NULL DEFAULT 0 COMMENT '创建人',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
@@ -108,7 +108,7 @@ INSERT INTO `sys_dict_detail` VALUES (1, 'user_sex', '0', '未知', 0, '2020-09-
 INSERT INTO `sys_dict_detail` VALUES (2, 'user_sex', '1', '男', 0, '2020-09-21 10:49:43', 0, '2020-10-21 11:35:45');
 INSERT INTO `sys_dict_detail` VALUES (3, 'user_sex', '2', '女', 0, '2020-09-21 10:49:43', 0, '2020-10-21 11:35:47');
 INSERT INTO `sys_dict_detail` VALUES (4, 'user_status', '0', '正常', 0, '2020-09-21 10:49:43', 0, '2020-10-21 11:36:35');
-INSERT INTO `sys_dict_detail` VALUES (5, 'user_status', '1', '禁用', 0, '2020-09-21 10:49:43', 0, '2020-10-21 11:36:36');
+INSERT INTO `sys_dict_detail` VALUES (5, 'user_status', '1', '锁定', 0, '2020-09-21 10:49:43', 1, '2021-10-23 14:30:13');
 INSERT INTO `sys_dict_detail` VALUES (7, 'menu_type', '0', '目录', 0, '2020-09-21 10:49:43', 0, '2020-09-21 11:32:36');
 INSERT INTO `sys_dict_detail` VALUES (8, 'menu_type', '1', '菜单', 0, '2020-09-21 10:49:43', 0, '2020-09-21 11:32:36');
 INSERT INTO `sys_dict_detail` VALUES (9, 'menu_type', '2', '按钮', 0, '2020-09-21 10:49:43', 0, '2020-09-21 11:32:36');
@@ -3706,44 +3706,44 @@ CREATE TABLE `sys_email_log`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱地址',
   `subject` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '主题',
-  `type` tinyint(4) NULL DEFAULT NULL COMMENT '类型(0--文本1--html2--图片3--附件4--模板)',
-  `status` tinyint(4) NULL DEFAULT NULL COMMENT '发送状态(0--成功1--失败)',
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型(0--文本,1--html,2--图片,3--附件,4--模板)',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发送状态(0--成功,1--失败)',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除状态（0--未删除1--已删除）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除,1--已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送日志记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_email_log
 -- ----------------------------
-INSERT INTO `sys_email_log` VALUES (1, '1446108432@qq.com', '测试邮件', 1, 0, 1, '2020-11-05 11:08:15', 0, '2020-11-05 11:08:15', 0);
-INSERT INTO `sys_email_log` VALUES (2, '1446108432@qq.com', '文本邮件', 0, 0, 1, '2020-11-05 11:25:27', 0, '2020-11-05 11:25:27', 0);
-INSERT INTO `sys_email_log` VALUES (3, '1446108432@qq.com', '入职通知书', 1, 0, 1, '2020-11-05 12:07:07', 0, '2020-11-05 12:07:07', 0);
-INSERT INTO `sys_email_log` VALUES (4, '1446108432@qq.com', '账户注册验证', 4, 1, 1, '2020-11-05 14:29:48', 0, '2020-11-05 14:29:48', 0);
-INSERT INTO `sys_email_log` VALUES (5, '1446108432@qq.com', '账户注册验证', 4, 0, 1, '2020-11-05 14:30:36', 0, '2020-11-05 14:30:36', 0);
-INSERT INTO `sys_email_log` VALUES (6, '1446108432@qq.com', '测试', 0, 0, 1, '2020-12-04 15:10:46', 0, '2020-12-04 15:10:46', 0);
-INSERT INTO `sys_email_log` VALUES (7, 'leisure@petalmail.com', '测试发送邮件', 0, 0, 1, '2021-04-15 23:36:21', 0, '2021-04-15 23:36:21', 0);
-INSERT INTO `sys_email_log` VALUES (8, '184974699@qq.com', '菜单', 0, 0, 1, '2021-04-15 23:37:40', 0, '2021-04-15 23:37:40', 0);
-INSERT INTO `sys_email_log` VALUES (9, '184974699@qq.com', '我是测试的', 0, 0, 1, '2021-04-15 23:52:42', 0, '2021-04-15 23:52:42', 0);
-INSERT INTO `sys_email_log` VALUES (10, '184974699@qq.com', '我是测试的2', 1, 0, 1, '2021-04-15 23:53:51', 0, '2021-04-15 23:53:51', 0);
-INSERT INTO `sys_email_log` VALUES (11, '184974699@qq.com', '测试测试测试', 4, 0, 1, '2021-04-15 23:55:31', 0, '2021-04-15 23:55:31', 0);
-INSERT INTO `sys_email_log` VALUES (12, '184974699@qq.com', 'eqweqweqwewq', 0, 0, NULL, '2021-04-17 02:48:44', 0, '2021-04-17 02:48:44', 0);
-INSERT INTO `sys_email_log` VALUES (13, '184974699@qq.com', 'eqweqweqwewq', 0, 0, NULL, '2021-04-17 02:49:51', 0, '2021-04-17 02:49:51', 0);
-INSERT INTO `sys_email_log` VALUES (14, '184974699@qq.com', '8888', 0, 0, NULL, '2021-04-17 02:55:23', 0, '2021-04-17 02:55:23', 0);
-INSERT INTO `sys_email_log` VALUES (15, '184974699@qq.com', 'eqweqweqwewq', 1, 0, NULL, '2021-04-17 03:04:29', 0, '2021-04-17 03:04:29', 0);
-INSERT INTO `sys_email_log` VALUES (16, '184974699@qq.com', 'eqweqweqwewq', 0, 0, NULL, '2021-04-17 03:05:15', 0, '2021-04-17 03:05:15', 0);
-INSERT INTO `sys_email_log` VALUES (17, '184974699@qq.com', 'eqweqweqwewq', 0, 0, NULL, '2021-04-17 03:06:36', 0, '2021-04-17 03:06:36', 0);
-INSERT INTO `sys_email_log` VALUES (18, '184974699@qq.com', '8888', 0, 0, NULL, '2021-04-17 03:11:10', 0, '2021-04-17 03:11:10', 0);
-INSERT INTO `sys_email_log` VALUES (19, '184974699@qq.com', '测试html邮件', 1, 0, NULL, '2021-04-17 03:11:43', 0, '2021-04-17 03:11:43', 0);
-INSERT INTO `sys_email_log` VALUES (20, '184974699@qq.com', '测试模板邮件', 4, 0, NULL, '2021-04-17 03:13:01', 0, '2021-04-17 03:13:01', 0);
-INSERT INTO `sys_email_log` VALUES (21, '184974699@qq.com', '测试111邮箱', 0, 1, NULL, '2021-04-17 03:32:27', 0, '2021-04-17 03:32:27', 0);
-INSERT INTO `sys_email_log` VALUES (22, '184974699@qq.com', '测试111邮箱', 0, 0, NULL, '2021-04-17 03:35:02', 0, '2021-04-17 03:35:02', 0);
-INSERT INTO `sys_email_log` VALUES (23, '184974699@qq.com', '测试111邮箱', 0, 0, NULL, '2021-07-28 20:46:20', 0, '2021-07-28 20:46:20', 0);
-INSERT INTO `sys_email_log` VALUES (24, '184974699@qq.com', '来自meco-server的邮件', 0, 1, NULL, '2021-08-21 20:10:58', 0, '2021-08-21 20:10:58', 0);
-INSERT INTO `sys_email_log` VALUES (25, '184974699@qq.com', '来自meco-server的邮件', 0, 1, NULL, '2021-08-21 20:14:02', 0, '2021-08-21 20:14:02', 0);
+INSERT INTO `sys_email_log` VALUES (1, '1446108432@qq.com', '测试邮件', '1', '0', 1, '2020-11-05 11:08:15', 0, '2020-11-05 11:08:15', '0');
+INSERT INTO `sys_email_log` VALUES (2, '1446108432@qq.com', '文本邮件', '0', '0', 1, '2020-11-05 11:25:27', 0, '2020-11-05 11:25:27', '0');
+INSERT INTO `sys_email_log` VALUES (3, '1446108432@qq.com', '入职通知书', '1', '0', 1, '2020-11-05 12:07:07', 0, '2020-11-05 12:07:07', '0');
+INSERT INTO `sys_email_log` VALUES (4, '1446108432@qq.com', '账户注册验证', '4', '1', 1, '2020-11-05 14:29:48', 0, '2020-11-05 14:29:48', '0');
+INSERT INTO `sys_email_log` VALUES (5, '1446108432@qq.com', '账户注册验证', '4', '0', 1, '2020-11-05 14:30:36', 0, '2020-11-05 14:30:36', '0');
+INSERT INTO `sys_email_log` VALUES (6, '1446108432@qq.com', '测试', '0', '0', 1, '2020-12-04 15:10:46', 0, '2020-12-04 15:10:46', '0');
+INSERT INTO `sys_email_log` VALUES (7, 'leisure@petalmail.com', '测试发送邮件', '0', '0', 1, '2021-04-15 23:36:21', 0, '2021-04-15 23:36:21', '0');
+INSERT INTO `sys_email_log` VALUES (8, '184974699@qq.com', '菜单', '0', '0', 1, '2021-04-15 23:37:40', 0, '2021-04-15 23:37:40', '0');
+INSERT INTO `sys_email_log` VALUES (9, '184974699@qq.com', '我是测试的', '0', '0', 1, '2021-04-15 23:52:42', 0, '2021-04-15 23:52:42', '0');
+INSERT INTO `sys_email_log` VALUES (10, '184974699@qq.com', '我是测试的2', '1', '0', 1, '2021-04-15 23:53:51', 0, '2021-04-15 23:53:51', '0');
+INSERT INTO `sys_email_log` VALUES (11, '184974699@qq.com', '测试测试测试', '4', '0', 1, '2021-04-15 23:55:31', 0, '2021-04-15 23:55:31', '0');
+INSERT INTO `sys_email_log` VALUES (12, '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 02:48:44', 0, '2021-04-17 02:48:44', '0');
+INSERT INTO `sys_email_log` VALUES (13, '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 02:49:51', 0, '2021-04-17 02:49:51', '0');
+INSERT INTO `sys_email_log` VALUES (14, '184974699@qq.com', '8888', '0', '0', NULL, '2021-04-17 02:55:23', 0, '2021-04-17 02:55:23', '0');
+INSERT INTO `sys_email_log` VALUES (15, '184974699@qq.com', 'eqweqweqwewq', '1', '0', NULL, '2021-04-17 03:04:29', 0, '2021-04-17 03:04:29', '0');
+INSERT INTO `sys_email_log` VALUES (16, '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 03:05:15', 0, '2021-04-17 03:05:15', '0');
+INSERT INTO `sys_email_log` VALUES (17, '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 03:06:36', 0, '2021-04-17 03:06:36', '0');
+INSERT INTO `sys_email_log` VALUES (18, '184974699@qq.com', '8888', '0', '0', NULL, '2021-04-17 03:11:10', 0, '2021-04-17 03:11:10', '0');
+INSERT INTO `sys_email_log` VALUES (19, '184974699@qq.com', '测试html邮件', '1', '0', NULL, '2021-04-17 03:11:43', 0, '2021-04-17 03:11:43', '0');
+INSERT INTO `sys_email_log` VALUES (20, '184974699@qq.com', '测试模板邮件', '4', '0', NULL, '2021-04-17 03:13:01', 0, '2021-04-17 03:13:01', '0');
+INSERT INTO `sys_email_log` VALUES (21, '184974699@qq.com', '测试111邮箱', '0', '1', NULL, '2021-04-17 03:32:27', 0, '2021-04-17 03:32:27', '0');
+INSERT INTO `sys_email_log` VALUES (22, '184974699@qq.com', '测试111邮箱', '0', '0', NULL, '2021-04-17 03:35:02', 0, '2021-04-17 03:35:02', '0');
+INSERT INTO `sys_email_log` VALUES (23, '184974699@qq.com', '测试111邮箱', '0', '0', NULL, '2021-07-28 20:46:20', 0, '2021-07-28 20:46:20', '0');
+INSERT INTO `sys_email_log` VALUES (24, '184974699@qq.com', '来自meco-server的邮件', '0', '1', NULL, '2021-08-21 20:10:58', 0, '2021-08-21 20:10:58', '0');
+INSERT INTO `sys_email_log` VALUES (25, '184974699@qq.com', '来自meco-server的邮件', '0', '1', NULL, '2021-08-21 20:14:02', 0, '2021-08-21 20:14:02', '0');
 
 -- ----------------------------
 -- Table structure for sys_files
@@ -3756,18 +3756,18 @@ CREATE TABLE `sys_files`  (
   `suffix` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件后缀（png、doc等）',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除状态（0--未删除1--已删除）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统附件表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_files
 -- ----------------------------
-INSERT INTO `sys_files` VALUES (1, '66666.png', '66666.png', 'png', 1, '2021-01-11 17:35:03', 1);
-INSERT INTO `sys_files` VALUES (2, '张伟-请坐.jpg', 'business/20210111/325b66c0-8f00-4e81-ac5d-62093c17e5e4.jpg', 'jpg', 0, '2021-01-11 20:09:50', 1);
-INSERT INTO `sys_files` VALUES (3, '张伟-专业团队.jpg', 'business/20210111/ec5d63fb-6e28-4f8f-ac0c-56446f75fc12.jpg', 'jpg', 0, '2021-01-11 20:10:34', 1);
-INSERT INTO `sys_files` VALUES (4, 'cat.jpg', 'default/20210111/39c6083d-2348-4cb2-9b9f-1ed289f5d333.jpg', 'jpg', 0, '2021-01-11 20:47:37', 0);
-INSERT INTO `sys_files` VALUES (5, 'timg.png', 'default/20210111/e621c49b-fee5-46fa-a0aa-f1812479d4ac.png', 'png', 0, '2021-01-11 20:50:11', 0);
+INSERT INTO `sys_files` VALUES (1, '66666.png', '66666.png', 'png', 1, '2021-01-11 17:35:03', '1');
+INSERT INTO `sys_files` VALUES (2, '张伟-请坐.jpg', 'business/20210111/325b66c0-8f00-4e81-ac5d-62093c17e5e4.jpg', 'jpg', 0, '2021-01-11 20:09:50', '1');
+INSERT INTO `sys_files` VALUES (3, '张伟-专业团队.jpg', 'business/20210111/ec5d63fb-6e28-4f8f-ac0c-56446f75fc12.jpg', 'jpg', 0, '2021-01-11 20:10:34', '1');
+INSERT INTO `sys_files` VALUES (4, 'cat.jpg', 'default/20210111/39c6083d-2348-4cb2-9b9f-1ed289f5d333.jpg', 'jpg', 0, '2021-01-11 20:47:37', '0');
+INSERT INTO `sys_files` VALUES (5, 'timg.png', 'default/20210111/e621c49b-fee5-46fa-a0aa-f1812479d4ac.png', 'png', 0, '2021-01-11 20:50:11', '0');
 
 -- ----------------------------
 -- Table structure for sys_id_table
@@ -3794,7 +3794,7 @@ CREATE TABLE `sys_id_table`  (
 -- ----------------------------
 -- Records of sys_id_table
 -- ----------------------------
-INSERT INTO `sys_id_table` VALUES (1, 'id_test_one', '测试流水号', 30, 10, '0', 'AA', '0', 'BB', NULL, '2021-03-28 15:40:41', '2021-08-25 13:47:22', NULL, NULL);
+INSERT INTO `sys_id_table` VALUES (1, 'id_test_one', '测试流水号', 190, 10, '0', 'AA', '0', 'yyyy', NULL, '2021-03-28 15:40:41', '2021-10-26 21:55:39', NULL, NULL);
 INSERT INTO `sys_id_table` VALUES (3, 'id_test_1', '测试新增的呀', 1, 10, '0', 'te', '0', 'ster', '哈哈哈哈呲呲呲', '2021-04-11 15:15:30', '2021-04-11 15:34:21', 1, 1);
 
 -- ----------------------------
@@ -3806,9 +3806,9 @@ CREATE TABLE `sys_itfc_key`  (
   `itfc_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密钥',
   `owner` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '使用方',
   `descript` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `status` tinyint(4) NULL DEFAULT 0 COMMENT '状态（0--使用1--停用）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--使用1--停用）',
   `valid_period` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'key的有效期',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除状态（0--未删除1--已删除）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
@@ -3819,10 +3819,10 @@ CREATE TABLE `sys_itfc_key`  (
 -- ----------------------------
 -- Records of sys_itfc_key
 -- ----------------------------
-INSERT INTO `sys_itfc_key` VALUES (1, 'dsasdutepwkwsdasd', '测试key', '测试key1', 0, '20210728', 0, 0, '2021-06-11 21:15:43', 1, '2021-07-10 22:53:48');
-INSERT INTO `sys_itfc_key` VALUES (71, 'ee81d86d98a845c1a390afdd27139fe0', '中正有限责任公司', 'asdasd1', 0, '20210831', 0, 1, '2021-06-25 22:50:48', 1, '2021-08-22 15:12:56');
-INSERT INTO `sys_itfc_key` VALUES (72, '95ba4c7b78bb46ca89e74b67e01bb0f4', 'dsa', 'sda', 0, '20210610', 1, 1, '2021-06-25 22:54:42', 0, '2021-06-26 11:22:43');
-INSERT INTO `sys_itfc_key` VALUES (73, '28a6fc8997be4fb293eff1434061eb12', 'XO软件技术公司', 'XO软件技术公司', 0, '20210807', 0, 1, '2021-07-18 22:44:21', 0, '2021-07-18 22:44:21');
+INSERT INTO `sys_itfc_key` VALUES (1, 'dsasdutepwkwsdasd', '测试key', '测试key1', '0', '20210728', '0', 0, '2021-06-11 21:15:43', 1, '2021-07-10 22:53:48');
+INSERT INTO `sys_itfc_key` VALUES (71, 'ee81d86d98a845c1a390afdd27139fe0', '中正有限责任公司', 'asdasd1', '0', '20210831', '0', 1, '2021-06-25 22:50:48', 1, '2021-08-22 15:12:56');
+INSERT INTO `sys_itfc_key` VALUES (72, '95ba4c7b78bb46ca89e74b67e01bb0f4', 'dsa', 'sda', '0', '20210610', '1', 1, '2021-06-25 22:54:42', 0, '2021-06-26 11:22:43');
+INSERT INTO `sys_itfc_key` VALUES (73, '28a6fc8997be4fb293eff1434061eb12', 'XO软件技术公司', 'XO软件技术公司', '0', '20211023', '0', 1, '2021-07-18 22:44:21', 1, '2021-10-23 16:59:21');
 
 -- ----------------------------
 -- Table structure for sys_itfc_key_permission
@@ -3835,7 +3835,7 @@ CREATE TABLE `sys_itfc_key_permission`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 115 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc密钥权限对照表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 122 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc密钥权限对照表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_itfc_key_permission
@@ -3847,8 +3847,13 @@ INSERT INTO `sys_itfc_key_permission` VALUES (106, 'ee81d86d98a845c1a390afdd2713
 INSERT INTO `sys_itfc_key_permission` VALUES (107, 'ee81d86d98a845c1a390afdd27139fe0', '1403605968951169031', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
 INSERT INTO `sys_itfc_key_permission` VALUES (108, 'ee81d86d98a845c1a390afdd27139fe0', '1414451700946903040', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
 INSERT INTO `sys_itfc_key_permission` VALUES (109, 'ee81d86d98a845c1a390afdd27139fe0', '1414454980065243136', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (113, 'dsasdutepwkwsdasd', '1414451700946903040', '2021-07-19 10:46:50', '2021-07-19 10:46:50');
-INSERT INTO `sys_itfc_key_permission` VALUES (114, 'dsasdutepwkwsdasd', '1414454980065243136', '2021-07-19 10:46:50', '2021-07-19 10:46:50');
+INSERT INTO `sys_itfc_key_permission` VALUES (115, 'dsasdutepwkwsdasd', '1414451700946903040', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES (116, 'dsasdutepwkwsdasd', '1414454980065243136', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES (117, 'dsasdutepwkwsdasd', '1403605968955363329', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES (118, 'dsasdutepwkwsdasd', '1414451450911858688', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES (119, 'dsasdutepwkwsdasd', '1403605968955363332', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES (120, 'dsasdutepwkwsdasd', '1403605968951169031', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES (121, 'dsasdutepwkwsdasd', '1403605968955363328', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
 
 -- ----------------------------
 -- Table structure for sys_itfc_permission
@@ -3859,11 +3864,11 @@ CREATE TABLE `sys_itfc_permission`  (
   `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限id',
   `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '父级id',
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限名称',
-  `type` tinyint(4) NOT NULL COMMENT '类型（0是模块，1是具体接口）',
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型（0是模块，1是具体接口）',
   `sign` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源值',
   `descript` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `status` tinyint(4) NULL DEFAULT 0 COMMENT '状态（0--正常1--停用）',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除状态（0--未删除1--已删除）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
@@ -3874,13 +3879,13 @@ CREATE TABLE `sys_itfc_permission`  (
 -- ----------------------------
 -- Records of sys_itfc_permission
 -- ----------------------------
-INSERT INTO `sys_itfc_permission` VALUES (71, '1403605968955363329', '0', '登陆日志rest服务', 0, 'itfc:loginlog', '登陆日志rest服务', 0, 0, 0, '2021-06-12 14:53:33', 0, '2021-07-17 15:28:35');
-INSERT INTO `sys_itfc_permission` VALUES (72, '1403605968955363328', '1403605968955363329', 'getAllLoginLog', 1, 'itfc:loginlog:getAllLoginLog', '1', 0, 0, 0, '2021-06-12 14:55:46', 0, '2021-07-17 15:28:38');
-INSERT INTO `sys_itfc_permission` VALUES (73, '1403605968951169031', '1403605968955363329', 'getSomeLoginLog', 1, 'itfc:loginlog:getSomeLoginLog', '2', 0, 0, 0, '2021-06-12 14:56:19', 0, '2021-07-17 15:28:42');
-INSERT INTO `sys_itfc_permission` VALUES (74, '1403605968955363332', '1403605968955363329', 'updateLoginLog', 1, 'update:LoginLog', 'update:LoginLog3222', 0, 0, 0, '2021-07-01 20:01:17', 1, '2021-07-11 21:37:57');
-INSERT INTO `sys_itfc_permission` VALUES (75, '1414451450911858688', '1403605968955363329', 'insertLoginLog', 1, 'insert:LoginLog', 'weqweq32', 0, 0, 1, '2021-07-12 13:07:59', 1, '2021-07-19 10:31:52');
-INSERT INTO `sys_itfc_permission` VALUES (76, '1414451700946903040', '0', '操作日志rest服务', 0, 'getAll:operaLog', 'getAll:operaLog2', 0, 0, 1, '2021-07-12 13:08:59', 1, '2021-07-12 22:09:20');
-INSERT INTO `sys_itfc_permission` VALUES (77, '1414454980065243136', '1414451700946903040', '查询', 1, 'operalog:list', '', 0, 0, 1, '2021-07-12 13:22:01', 0, '2021-07-12 13:22:01');
+INSERT INTO `sys_itfc_permission` VALUES (71, '1403605968955363329', '0', '登陆日志rest服务', '0', 'itfc:loginlog', '登陆日志rest服务', '0', '0', 0, '2021-06-12 14:53:33', 0, '2021-07-17 15:28:35');
+INSERT INTO `sys_itfc_permission` VALUES (72, '1403605968955363328', '1403605968955363329', 'getAllLoginLog', '1', 'itfc:loginlog:getAllLoginLog', '1', '0', '0', 0, '2021-06-12 14:55:46', 0, '2021-07-17 15:28:38');
+INSERT INTO `sys_itfc_permission` VALUES (73, '1403605968951169031', '1403605968955363329', 'getSomeLoginLog', '1', 'itfc:loginlog:getSomeLoginLog', '2', '0', '0', 0, '2021-06-12 14:56:19', 0, '2021-07-17 15:28:42');
+INSERT INTO `sys_itfc_permission` VALUES (74, '1403605968955363332', '1403605968955363329', 'updateLoginLog', '1', 'update:LoginLog', 'update:LoginLog3222', '0', '0', 0, '2021-07-01 20:01:17', 1, '2021-07-11 21:37:57');
+INSERT INTO `sys_itfc_permission` VALUES (75, '1414451450911858688', '1403605968955363329', 'insertLoginLog', '1', 'insert:LoginLog', 'weqweq326', '0', '0', 1, '2021-07-12 13:07:59', 1, '2021-10-23 17:09:59');
+INSERT INTO `sys_itfc_permission` VALUES (76, '1414451700946903040', '0', '操作日志rest服务', '0', 'getAll:operaLog', 'getAll:operaLog2', '0', '0', 1, '2021-07-12 13:08:59', 1, '2021-07-12 22:09:20');
+INSERT INTO `sys_itfc_permission` VALUES (77, '1414454980065243136', '1414451700946903040', '查询', '1', 'operatelog:list', '666', '0', '0', 1, '2021-07-12 13:22:01', 1, '2021-10-23 17:10:26');
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -3907,9 +3912,9 @@ CREATE TABLE `sys_job`  (
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
-INSERT INTO `sys_job` VALUES (4, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '*/10 * * * * ?', '3', '0', '1', 1, 1, '2021-08-28 16:32:31', '2021-09-13 22:16:19', NULL);
-INSERT INTO `sys_job` VALUES (5, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '*/7 * * * * ?', '3', '0', '1', 1, 1, '2021-08-28 13:26:41', '2021-09-13 22:33:38', NULL);
-INSERT INTO `sys_job` VALUES (6, 'd9b93921aafe45b7989edf305da704be', '测试定时器3', 'DEFAULT', 'bluewindTask.bwNoParams', '4 * * * * ? *', '3', '1', '1', 1, 1, '2021-09-11 10:58:47', '2021-09-13 22:16:29', NULL);
+INSERT INTO `sys_job` VALUES (4, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '*/10 * * * * ?', '3', '0', '1', 1, 1, '2021-08-28 16:32:31', '2021-09-19 11:08:28', NULL);
+INSERT INTO `sys_job` VALUES (5, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '0/5 * * * * ?', '3', '0', '1', 1, 1, '2021-08-28 13:26:41', '2021-09-19 11:39:38', NULL);
+INSERT INTO `sys_job` VALUES (6, 'd9b93921aafe45b7989edf305da704be', '测试定时器3', 'DEFAULT', 'bluewindTask.bwNoParams', '4 * * * * ? *', '3', '1', '1', 1, 1, '2021-09-11 10:58:47', '2021-09-19 11:04:18', NULL);
 
 -- ----------------------------
 -- Table structure for sys_job_log
@@ -3926,7 +3931,7 @@ CREATE TABLE `sys_job_log`  (
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '异常信息',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 820 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 891 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -4012,6 +4017,77 @@ INSERT INTO `sys_job_log` VALUES (816, 'd8c8ea0f9091456db61e6e48c9496843', '系�
 INSERT INTO `sys_job_log` VALUES (817, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'mecoTask.ryParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '1', 'org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named \'mecoTask\' available\r\n	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanDefinition(DefaultListableBeanFactory.java:816)\r\n	at org.springframework.beans.factory.support.AbstractBeanFactory.getMergedLocalBeanDefinition(AbstractBeanFactory.java:1288)\r\n	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:298)\r\n	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)\r\n	at com.bluewind.boot.common.utils.spring.SpringUtil.getBean(SpringUtil.java:74)\r\n	at com.bluewind.boot.common.configuration.quartz.JobInvokeUtil.invokeMethod(JobInvokeUtil.java:31)\r\n	at com.bluewind.boot.common.configuration.quartz.QuartzJobExecution.doExecute(QuartzJobExecution.java:15)\r\n	at com.bluewind.boot.common.configuration.quartz.AbstractQuartzJob.execute(AbstractQuartzJob.java:40)\r\n	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)\r\n	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)\r\n', '2021-09-13 22:32:35');
 INSERT INTO `sys_job_log` VALUES (818, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-13 22:33:28');
 INSERT INTO `sys_job_log` VALUES (819, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-13 22:33:35');
+INSERT INTO `sys_job_log` VALUES (820, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：3毫秒', '0', '', '2021-09-19 10:51:38');
+INSERT INTO `sys_job_log` VALUES (821, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:51:55');
+INSERT INTO `sys_job_log` VALUES (822, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:52:28');
+INSERT INTO `sys_job_log` VALUES (823, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:52:35');
+INSERT INTO `sys_job_log` VALUES (824, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:52:42');
+INSERT INTO `sys_job_log` VALUES (825, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:52:49');
+INSERT INTO `sys_job_log` VALUES (826, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:52:56');
+INSERT INTO `sys_job_log` VALUES (827, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:00');
+INSERT INTO `sys_job_log` VALUES (828, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:07');
+INSERT INTO `sys_job_log` VALUES (829, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:13');
+INSERT INTO `sys_job_log` VALUES (830, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:20');
+INSERT INTO `sys_job_log` VALUES (831, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:27');
+INSERT INTO `sys_job_log` VALUES (832, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:34');
+INSERT INTO `sys_job_log` VALUES (833, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:41');
+INSERT INTO `sys_job_log` VALUES (834, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:48');
+INSERT INTO `sys_job_log` VALUES (835, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:55');
+INSERT INTO `sys_job_log` VALUES (836, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:53:59');
+INSERT INTO `sys_job_log` VALUES (837, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:54:06');
+INSERT INTO `sys_job_log` VALUES (838, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:54:13');
+INSERT INTO `sys_job_log` VALUES (839, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:54:20');
+INSERT INTO `sys_job_log` VALUES (840, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:54:27');
+INSERT INTO `sys_job_log` VALUES (841, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:54:34');
+INSERT INTO `sys_job_log` VALUES (842, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:54:41');
+INSERT INTO `sys_job_log` VALUES (843, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:54:48');
+INSERT INTO `sys_job_log` VALUES (844, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:54:55');
+INSERT INTO `sys_job_log` VALUES (845, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:55:52');
+INSERT INTO `sys_job_log` VALUES (846, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:55:55');
+INSERT INTO `sys_job_log` VALUES (847, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:55:59');
+INSERT INTO `sys_job_log` VALUES (848, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:56:06');
+INSERT INTO `sys_job_log` VALUES (849, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:56:13');
+INSERT INTO `sys_job_log` VALUES (850, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:56:20');
+INSERT INTO `sys_job_log` VALUES (851, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:56:27');
+INSERT INTO `sys_job_log` VALUES (852, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:56:34');
+INSERT INTO `sys_job_log` VALUES (853, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:56:41');
+INSERT INTO `sys_job_log` VALUES (854, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:56:49');
+INSERT INTO `sys_job_log` VALUES (855, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:56:55');
+INSERT INTO `sys_job_log` VALUES (856, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：1毫秒', '0', '', '2021-09-19 10:56:59');
+INSERT INTO `sys_job_log` VALUES (857, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:06');
+INSERT INTO `sys_job_log` VALUES (858, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:13');
+INSERT INTO `sys_job_log` VALUES (859, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:21');
+INSERT INTO `sys_job_log` VALUES (860, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:28');
+INSERT INTO `sys_job_log` VALUES (861, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:34');
+INSERT INTO `sys_job_log` VALUES (862, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:42');
+INSERT INTO `sys_job_log` VALUES (863, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:49');
+INSERT INTO `sys_job_log` VALUES (864, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:57:56');
+INSERT INTO `sys_job_log` VALUES (865, 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-09-19 10:58:00');
+INSERT INTO `sys_job_log` VALUES (866, 'd9b93921aafe45b7989edf305da704be', '测试定时器3', 'DEFAULT', 'bluewindTask.bwNoParams', '测试定时器3 总共耗时：0毫秒', '0', '', '2021-09-19 11:02:04');
+INSERT INTO `sys_job_log` VALUES (867, 'd9b93921aafe45b7989edf305da704be', '测试定时器3', 'DEFAULT', 'bluewindTask.bwNoParams', '测试定时器3 总共耗时：1毫秒', '0', '', '2021-09-19 11:03:04');
+INSERT INTO `sys_job_log` VALUES (868, 'd9b93921aafe45b7989edf305da704be', '测试定时器3', 'DEFAULT', 'bluewindTask.bwNoParams', '测试定时器3 总共耗时：0毫秒', '0', '', '2021-09-19 11:04:04');
+INSERT INTO `sys_job_log` VALUES (869, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：1毫秒', '0', '', '2021-09-19 11:04:29');
+INSERT INTO `sys_job_log` VALUES (870, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:04:39');
+INSERT INTO `sys_job_log` VALUES (871, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:04:49');
+INSERT INTO `sys_job_log` VALUES (872, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:04:59');
+INSERT INTO `sys_job_log` VALUES (873, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:05:09');
+INSERT INTO `sys_job_log` VALUES (874, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:05:19');
+INSERT INTO `sys_job_log` VALUES (875, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:05:42');
+INSERT INTO `sys_job_log` VALUES (876, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:05:49');
+INSERT INTO `sys_job_log` VALUES (877, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:05:59');
+INSERT INTO `sys_job_log` VALUES (878, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:06:33');
+INSERT INTO `sys_job_log` VALUES (879, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:06:34');
+INSERT INTO `sys_job_log` VALUES (880, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：1毫秒', '0', '', '2021-09-19 11:06:35');
+INSERT INTO `sys_job_log` VALUES (881, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:06:39');
+INSERT INTO `sys_job_log` VALUES (882, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:06:49');
+INSERT INTO `sys_job_log` VALUES (883, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：1毫秒', '0', '', '2021-09-19 11:06:59');
+INSERT INTO `sys_job_log` VALUES (884, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:07:09');
+INSERT INTO `sys_job_log` VALUES (885, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:07:32');
+INSERT INTO `sys_job_log` VALUES (886, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:07:39');
+INSERT INTO `sys_job_log` VALUES (887, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:07:49');
+INSERT INTO `sys_job_log` VALUES (888, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：1毫秒', '0', '', '2021-09-19 11:07:59');
+INSERT INTO `sys_job_log` VALUES (889, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:08:09');
+INSERT INTO `sys_job_log` VALUES (890, '0432fdbbd21a4331aec44d4b7cfff77b', '系统测试3', 'DEFAULT', 'bluewindTask.bwNoParams', '系统测试3 总共耗时：0毫秒', '0', '', '2021-09-19 11:08:20');
 
 -- ----------------------------
 -- Table structure for sys_login_log
@@ -4022,265 +4098,290 @@ CREATE TABLE `sys_login_log`  (
   `session_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `ip` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `descript` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容',
-  `status` tinyint(4) NULL DEFAULT 0 COMMENT '状态（0--成功1--失败）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--成功1--失败）',
   `location` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '位置',
   `account` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '账号',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1965 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1990 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_login_log
 -- ----------------------------
-INSERT INTO `sys_login_log` VALUES (1714, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-05 13:23:56');
-INSERT INTO `sys_login_log` VALUES (1715, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-07 22:42:53');
-INSERT INTO `sys_login_log` VALUES (1716, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-07 22:46:36');
-INSERT INTO `sys_login_log` VALUES (1717, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-07 23:07:17');
-INSERT INTO `sys_login_log` VALUES (1718, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-11 21:50:32');
-INSERT INTO `sys_login_log` VALUES (1719, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-12 15:33:34');
-INSERT INTO `sys_login_log` VALUES (1720, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-12 15:42:37');
-INSERT INTO `sys_login_log` VALUES (1721, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-12 15:44:08');
-INSERT INTO `sys_login_log` VALUES (1722, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-13 22:36:27');
-INSERT INTO `sys_login_log` VALUES (1723, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-14 15:08:02');
-INSERT INTO `sys_login_log` VALUES (1724, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-14 16:03:43');
-INSERT INTO `sys_login_log` VALUES (1725, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-14 22:38:04');
-INSERT INTO `sys_login_log` VALUES (1726, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-14 23:13:06');
-INSERT INTO `sys_login_log` VALUES (1727, NULL, '60.208.111.213', '用户登录成功！', 0, '山东省济南市 联通', 'admin', '2021-06-16 13:52:13');
-INSERT INTO `sys_login_log` VALUES (1728, NULL, '223.104.194.53', '用户登录成功！', 0, '山东省 移动', 'admin', '2021-06-17 14:42:31');
-INSERT INTO `sys_login_log` VALUES (1729, NULL, '223.104.194.53', '用户登录成功！', 0, '山东省 移动', 'admin', '2021-06-17 15:35:55');
-INSERT INTO `sys_login_log` VALUES (1730, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-17 15:42:01');
-INSERT INTO `sys_login_log` VALUES (1731, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-17 15:48:17');
-INSERT INTO `sys_login_log` VALUES (1732, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-17 16:41:50');
-INSERT INTO `sys_login_log` VALUES (1733, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-17 19:43:29');
-INSERT INTO `sys_login_log` VALUES (1734, NULL, '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', 1, '获取位置失败', 'admin', '2021-06-17 19:44:39');
-INSERT INTO `sys_login_log` VALUES (1735, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-17 19:45:32');
-INSERT INTO `sys_login_log` VALUES (1736, NULL, '111.36.169.230', '用户登录成功！', 0, '山东省济南市 移动', 'admin', '2021-06-17 22:28:41');
-INSERT INTO `sys_login_log` VALUES (1737, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-17 22:38:24');
-INSERT INTO `sys_login_log` VALUES (1738, NULL, '223.104.191.96', '用户登录成功！', 0, '山东省 移动', 'admin', '2021-06-18 13:15:38');
-INSERT INTO `sys_login_log` VALUES (1739, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-18 13:16:24');
-INSERT INTO `sys_login_log` VALUES (1740, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-18 17:10:32');
-INSERT INTO `sys_login_log` VALUES (1741, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-18 17:59:14');
-INSERT INTO `sys_login_log` VALUES (1742, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-18 22:15:11');
-INSERT INTO `sys_login_log` VALUES (1743, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-19 14:57:55');
-INSERT INTO `sys_login_log` VALUES (1744, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-19 15:07:56');
-INSERT INTO `sys_login_log` VALUES (1745, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-19 15:29:24');
-INSERT INTO `sys_login_log` VALUES (1746, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-19 15:59:38');
-INSERT INTO `sys_login_log` VALUES (1747, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 16:39:38');
-INSERT INTO `sys_login_log` VALUES (1748, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 17:17:19');
-INSERT INTO `sys_login_log` VALUES (1749, NULL, '111.36.168.56', '用户登录成功！', 0, '山东省济南市 移动', 'admin', '2021-06-19 18:53:26');
-INSERT INTO `sys_login_log` VALUES (1750, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-19 18:53:30');
-INSERT INTO `sys_login_log` VALUES (1751, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 19:07:23');
-INSERT INTO `sys_login_log` VALUES (1752, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-19 19:08:19');
-INSERT INTO `sys_login_log` VALUES (1753, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 19:11:37');
-INSERT INTO `sys_login_log` VALUES (1754, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 19:13:19');
-INSERT INTO `sys_login_log` VALUES (1755, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 19:13:44');
-INSERT INTO `sys_login_log` VALUES (1756, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 19:14:36');
-INSERT INTO `sys_login_log` VALUES (1757, NULL, '192.168.81.1', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-06-19 19:14:55');
-INSERT INTO `sys_login_log` VALUES (1758, NULL, '192.168.81.1', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-06-19 19:18:28');
-INSERT INTO `sys_login_log` VALUES (1759, NULL, '192.168.81.1', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-06-19 19:18:34');
-INSERT INTO `sys_login_log` VALUES (1760, NULL, '192.168.81.1', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-06-19 19:18:45');
-INSERT INTO `sys_login_log` VALUES (1761, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 19:18:55');
-INSERT INTO `sys_login_log` VALUES (1762, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 19:33:19');
-INSERT INTO `sys_login_log` VALUES (1763, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-19 23:35:08');
-INSERT INTO `sys_login_log` VALUES (1764, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-20 16:17:14');
-INSERT INTO `sys_login_log` VALUES (1765, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-20 17:27:17');
-INSERT INTO `sys_login_log` VALUES (1767, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-20 17:46:20');
-INSERT INTO `sys_login_log` VALUES (1768, NULL, '223.104.190.111', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-21 13:29:38');
-INSERT INTO `sys_login_log` VALUES (1769, NULL, '223.104.190.111', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-21 13:29:45');
-INSERT INTO `sys_login_log` VALUES (1770, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-21 13:29:53');
-INSERT INTO `sys_login_log` VALUES (1771, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-21 22:18:38');
-INSERT INTO `sys_login_log` VALUES (1772, NULL, '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', 1, '获取位置失败', 'admin', '2021-06-22 13:18:27');
-INSERT INTO `sys_login_log` VALUES (1773, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 13:18:36');
-INSERT INTO `sys_login_log` VALUES (1774, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 13:21:01');
-INSERT INTO `sys_login_log` VALUES (1775, NULL, '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', 1, '获取位置失败', 'admin', '2021-06-22 13:22:23');
-INSERT INTO `sys_login_log` VALUES (1776, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 13:22:34');
-INSERT INTO `sys_login_log` VALUES (1777, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-22 14:09:50');
-INSERT INTO `sys_login_log` VALUES (1778, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 14:15:36');
-INSERT INTO `sys_login_log` VALUES (1779, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 14:47:52');
-INSERT INTO `sys_login_log` VALUES (1780, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 19:13:32');
-INSERT INTO `sys_login_log` VALUES (1781, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 19:19:02');
-INSERT INTO `sys_login_log` VALUES (1782, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 19:23:47');
-INSERT INTO `sys_login_log` VALUES (1783, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 19:25:31');
-INSERT INTO `sys_login_log` VALUES (1784, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 19:36:26');
-INSERT INTO `sys_login_log` VALUES (1785, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 19:37:10');
-INSERT INTO `sys_login_log` VALUES (1786, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-22 19:37:48');
-INSERT INTO `sys_login_log` VALUES (1787, NULL, '223.104.194.143', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-23 13:32:05');
-INSERT INTO `sys_login_log` VALUES (1788, NULL, '223.104.194.143', '用户登录成功！', 0, '山东省 移动', 'admin', '2021-06-23 13:32:10');
-INSERT INTO `sys_login_log` VALUES (1789, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-23 15:31:58');
-INSERT INTO `sys_login_log` VALUES (1790, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-24 18:59:03');
-INSERT INTO `sys_login_log` VALUES (1791, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-24 23:10:17');
-INSERT INTO `sys_login_log` VALUES (1792, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-25 13:58:31');
-INSERT INTO `sys_login_log` VALUES (1793, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-25 21:55:09');
-INSERT INTO `sys_login_log` VALUES (1794, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-06-25 21:55:28');
-INSERT INTO `sys_login_log` VALUES (1795, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-25 22:10:05');
-INSERT INTO `sys_login_log` VALUES (1796, NULL, '127.0.0.1', '用户登录成功！', 0, '局域网，无法获取位置', 'admin', '2021-06-25 22:54:12');
-INSERT INTO `sys_login_log` VALUES (1797, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-26 11:05:28');
-INSERT INTO `sys_login_log` VALUES (1798, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-26 13:30:58');
-INSERT INTO `sys_login_log` VALUES (1799, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-27 17:33:51');
-INSERT INTO `sys_login_log` VALUES (1800, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-27 19:29:33');
-INSERT INTO `sys_login_log` VALUES (1801, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-27 19:33:24');
-INSERT INTO `sys_login_log` VALUES (1802, NULL, '192.168.81.1', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-06-27 19:42:10');
-INSERT INTO `sys_login_log` VALUES (1803, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-27 19:42:20');
-INSERT INTO `sys_login_log` VALUES (1804, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-27 20:01:32');
-INSERT INTO `sys_login_log` VALUES (1805, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-27 21:07:20');
-INSERT INTO `sys_login_log` VALUES (1806, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-28 19:47:39');
-INSERT INTO `sys_login_log` VALUES (1807, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-28 21:39:25');
-INSERT INTO `sys_login_log` VALUES (1808, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-28 21:52:08');
-INSERT INTO `sys_login_log` VALUES (1809, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-06-28 22:00:14');
-INSERT INTO `sys_login_log` VALUES (1810, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-06-29 23:12:49');
-INSERT INTO `sys_login_log` VALUES (1811, NULL, '117.136.94.41', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-30 13:35:37');
-INSERT INTO `sys_login_log` VALUES (1812, NULL, '117.136.94.41', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-30 13:35:50');
-INSERT INTO `sys_login_log` VALUES (1813, NULL, '117.136.94.41', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-30 13:36:02');
-INSERT INTO `sys_login_log` VALUES (1814, NULL, '117.136.94.41', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-30 13:36:30');
-INSERT INTO `sys_login_log` VALUES (1815, NULL, '117.136.94.41', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-06-30 13:36:43');
-INSERT INTO `sys_login_log` VALUES (1816, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-07-01 19:41:53');
-INSERT INTO `sys_login_log` VALUES (1817, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-02 08:24:56');
-INSERT INTO `sys_login_log` VALUES (1818, NULL, NULL, '未知错误！！！', 1, 'ip为空，无法获取位置', 'root', '2021-07-02 14:45:12');
-INSERT INTO `sys_login_log` VALUES (1819, NULL, '223.104.190.37', '密码错误，请重新输入！', 1, '山东省 移动', 'admin', '2021-07-02 14:48:05');
-INSERT INTO `sys_login_log` VALUES (1820, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-03 10:01:18');
-INSERT INTO `sys_login_log` VALUES (1821, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-03 11:03:03');
-INSERT INTO `sys_login_log` VALUES (1822, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-03 13:47:16');
-INSERT INTO `sys_login_log` VALUES (1823, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-05 14:16:06');
-INSERT INTO `sys_login_log` VALUES (1824, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-07 13:33:27');
-INSERT INTO `sys_login_log` VALUES (1825, NULL, '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-07 22:07:03');
-INSERT INTO `sys_login_log` VALUES (1826, NULL, '127.0.0.1', '密码错误，请重新输入！', 1, '局域网，无法获取位置', 'admin', '2021-07-07 22:43:34');
-INSERT INTO `sys_login_log` VALUES (1827, NULL, '127.0.0.1', '用户登录成功！', 0, '局域网，无法获取位置', 'admin', '2021-07-07 22:43:46');
-INSERT INTO `sys_login_log` VALUES (1828, NULL, '127.0.0.1', '用户登录成功！', 0, '局域网，无法获取位置', 'admin', '2021-07-07 22:50:39');
-INSERT INTO `sys_login_log` VALUES (1829, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-09 22:28:25');
-INSERT INTO `sys_login_log` VALUES (1830, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-10 22:35:00');
-INSERT INTO `sys_login_log` VALUES (1831, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-11 11:20:48');
-INSERT INTO `sys_login_log` VALUES (1832, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-11 13:18:57');
-INSERT INTO `sys_login_log` VALUES (1833, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-11 15:28:51');
-INSERT INTO `sys_login_log` VALUES (1834, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-11 16:31:28');
-INSERT INTO `sys_login_log` VALUES (1835, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-11 20:22:29');
-INSERT INTO `sys_login_log` VALUES (1836, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-12 13:06:32');
-INSERT INTO `sys_login_log` VALUES (1837, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-07-12 16:27:00');
-INSERT INTO `sys_login_log` VALUES (1838, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-12 17:03:52');
-INSERT INTO `sys_login_log` VALUES (1839, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-12 21:11:05');
-INSERT INTO `sys_login_log` VALUES (1840, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-13 19:43:09');
-INSERT INTO `sys_login_log` VALUES (1841, NULL, '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-13 21:27:37');
-INSERT INTO `sys_login_log` VALUES (1842, NULL, '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-13 22:14:32');
-INSERT INTO `sys_login_log` VALUES (1843, NULL, '60.208.111.213', '未知错误！！！', 1, '山东省济南市 联通', 'liuxingyu', '2021-07-14 10:41:29');
-INSERT INTO `sys_login_log` VALUES (1844, NULL, '58.56.96.28', '未知错误！！！', 1, '山东省济南市 电信', 'liuxingyu', '2021-07-14 10:41:38');
-INSERT INTO `sys_login_log` VALUES (1845, NULL, '58.56.96.28', '未知错误！！！', 1, '山东省济南市 电信', 'liuxingyu', '2021-07-14 10:42:02');
-INSERT INTO `sys_login_log` VALUES (1846, NULL, NULL, '密码错误，请重新输入！', 1, 'ip为空，无法获取位置', 'admin', '2021-07-14 10:42:30');
-INSERT INTO `sys_login_log` VALUES (1847, NULL, NULL, '密码错误，请重新输入！', 1, 'ip为空，无法获取位置', 'admin', '2021-07-14 10:42:40');
-INSERT INTO `sys_login_log` VALUES (1848, NULL, NULL, '未知错误！！！', 1, 'ip为空，无法获取位置', 'liuxingyu', '2021-07-14 10:42:56');
-INSERT INTO `sys_login_log` VALUES (1849, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-14 11:41:27');
-INSERT INTO `sys_login_log` VALUES (1850, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-14 12:20:16');
-INSERT INTO `sys_login_log` VALUES (1851, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-14 12:30:12');
-INSERT INTO `sys_login_log` VALUES (1852, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-14 12:30:47');
-INSERT INTO `sys_login_log` VALUES (1853, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-14 12:32:00');
-INSERT INTO `sys_login_log` VALUES (1854, NULL, '223.104.194.138', '用户登录成功！', 0, '山东省 移动', 'admin', '2021-07-14 12:49:23');
-INSERT INTO `sys_login_log` VALUES (1855, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-07-14 12:49:47');
-INSERT INTO `sys_login_log` VALUES (1856, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-14 12:55:00');
-INSERT INTO `sys_login_log` VALUES (1857, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-07-14 13:20:36');
-INSERT INTO `sys_login_log` VALUES (1858, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-07-14 13:27:13');
-INSERT INTO `sys_login_log` VALUES (1859, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-18 22:40:13');
-INSERT INTO `sys_login_log` VALUES (1860, NULL, '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-19 10:29:31');
-INSERT INTO `sys_login_log` VALUES (1861, '76e3990a928f4f3db62e69dc0e80cc64', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-24 13:27:30');
-INSERT INTO `sys_login_log` VALUES (1862, '2bf30eb4c31e4098b07aec69755c0506', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-24 14:06:38');
-INSERT INTO `sys_login_log` VALUES (1863, '4d9c0802276a4602a3b0c364706af2a1', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-24 16:15:59');
-INSERT INTO `sys_login_log` VALUES (1864, 'b4945881da4647b9a91f91b18d01ea0a', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-26 15:59:01');
-INSERT INTO `sys_login_log` VALUES (1865, NULL, '60.208.111.213', '用户登录成功！', 0, '山东省济南市 联通', 'admin', '2021-07-28 15:01:17');
-INSERT INTO `sys_login_log` VALUES (1866, NULL, NULL, '用户登录成功！', 0, 'ip为空，无法获取位置', 'admin', '2021-07-28 15:54:43');
-INSERT INTO `sys_login_log` VALUES (1867, '7d019c1415e94a85b08f6ce1074ecc5c', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-28 20:28:27');
-INSERT INTO `sys_login_log` VALUES (1868, 'b99afed9c0934a35b08cc7267762f9da', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'zhangsan', '2021-07-28 20:29:00');
-INSERT INTO `sys_login_log` VALUES (1869, 'e91ad52e92ff4422a0e09330d68cbdcb', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-28 22:09:47');
-INSERT INTO `sys_login_log` VALUES (1870, 'eb4e23d5cab84439baf14d908885298e', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-28 22:11:54');
-INSERT INTO `sys_login_log` VALUES (1871, '6740fcff5f1248ccae6b08f20aaec4b6', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-07-30 21:53:00');
-INSERT INTO `sys_login_log` VALUES (1872, '249512aca0d3456b928e6dc5875e449d', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'zhangsan', '2021-07-30 22:00:46');
-INSERT INTO `sys_login_log` VALUES (1873, NULL, '60.208.111.213', '用户登录成功！', 0, '山东省济南市 联通', 'admin', '2021-08-05 18:19:51');
-INSERT INTO `sys_login_log` VALUES (1874, '0099ce6dcff541b58ff45d840aaa1d7c', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-05 22:17:47');
-INSERT INTO `sys_login_log` VALUES (1875, '', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-07 21:20:29');
-INSERT INTO `sys_login_log` VALUES (1876, '', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-07 21:32:20');
-INSERT INTO `sys_login_log` VALUES (1877, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-07 21:46:00');
-INSERT INTO `sys_login_log` VALUES (1878, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-07 22:31:58');
-INSERT INTO `sys_login_log` VALUES (1879, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-07 22:33:03');
-INSERT INTO `sys_login_log` VALUES (1880, '', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-08 08:53:36');
-INSERT INTO `sys_login_log` VALUES (1881, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-08 12:59:07');
-INSERT INTO `sys_login_log` VALUES (1882, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-08 14:36:55');
-INSERT INTO `sys_login_log` VALUES (1883, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-08 16:04:06');
-INSERT INTO `sys_login_log` VALUES (1884, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-08 16:21:15');
-INSERT INTO `sys_login_log` VALUES (1885, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-08 16:59:41');
-INSERT INTO `sys_login_log` VALUES (1886, '', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-08 17:51:38');
-INSERT INTO `sys_login_log` VALUES (1887, '', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-11 12:40:08');
-INSERT INTO `sys_login_log` VALUES (1888, 'd1cba32a0ce8445b9ad70b7634dfae08', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-11 13:01:16');
-INSERT INTO `sys_login_log` VALUES (1889, '070b3fbc19cb4fb1b3605e85b6a8e7aa', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-11 13:15:56');
-INSERT INTO `sys_login_log` VALUES (1890, '089a3278f6dd4f44ac00f814696e2c49', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-11 20:06:24');
-INSERT INTO `sys_login_log` VALUES (1891, 'ae4b3fe97470454493c289235e7191db', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-11 21:23:06');
-INSERT INTO `sys_login_log` VALUES (1892, '01b7450248ac4e3e9812b9717702b389', '192.168.0.108', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-11 21:40:59');
-INSERT INTO `sys_login_log` VALUES (1893, 'a5aaabad7dad4e56a7d0b191b173d33d', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-12 11:04:29');
-INSERT INTO `sys_login_log` VALUES (1894, '053f827b679e4ac99ad955a98ca80829', '192.168.81.1', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-13 12:57:07');
-INSERT INTO `sys_login_log` VALUES (1895, 'ec1156c20555466faf9e539441cc3120', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 14:54:29');
-INSERT INTO `sys_login_log` VALUES (1896, '2ca1f942f8064e8d942381491d6474c0', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 15:30:36');
-INSERT INTO `sys_login_log` VALUES (1897, 'be3fa6f4e63b4ce2a22bf4286eec34e3', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 15:38:27');
-INSERT INTO `sys_login_log` VALUES (1898, '09f2cc17b13043bfb3a57713b172ad7c', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 15:44:18');
-INSERT INTO `sys_login_log` VALUES (1899, '37f4f138e0c747f19b02eaf66569c2f6', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 15:49:08');
-INSERT INTO `sys_login_log` VALUES (1900, 'db7bd9654a1e4b80a45bb6907b5555c0', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 15:49:54');
-INSERT INTO `sys_login_log` VALUES (1901, 'ff4fccc0d3d04991a20f0fe805b79ede', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 16:01:36');
-INSERT INTO `sys_login_log` VALUES (1902, '9d57e07ee5284cc58fa2b76e744ca4fd', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 16:02:01');
-INSERT INTO `sys_login_log` VALUES (1904, 'b16df8a3073e4e80b4065f50a933d80d', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 19:42:46');
-INSERT INTO `sys_login_log` VALUES (1905, '719db92dd15846119195486b8ca8bf4f', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-21 19:46:59');
-INSERT INTO `sys_login_log` VALUES (1906, '6d7dd1a52dec4f2e8976c055cc27b21a', '127.0.0.1', '用户登录成功！', 0, '局域网，无法获取位置', 'admin', '2021-08-21 20:05:08');
-INSERT INTO `sys_login_log` VALUES (1907, 'c605f1a315284e5489c4d26d67ade389', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-22 15:10:38');
-INSERT INTO `sys_login_log` VALUES (1908, 'de7e67b4e3b447cd92e24bf219c497db', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-22 17:06:57');
-INSERT INTO `sys_login_log` VALUES (1909, '8b1ca9448633426eac55789f581dfa96', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-22 18:36:43');
-INSERT INTO `sys_login_log` VALUES (1910, '2d1b12293e5a41268aa6b3a31529b3ef', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-23 17:16:14');
-INSERT INTO `sys_login_log` VALUES (1911, '1f6b4572113c4b649414dea51498dfbc', '192.168.0.106', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-24 22:12:56');
-INSERT INTO `sys_login_log` VALUES (1912, '5b6a545828ff4c659c129e46bf3b090d', '127.0.0.1', '用户登录成功！', 0, '局域网，无法获取位置', 'admin', '2021-08-25 13:16:03');
-INSERT INTO `sys_login_log` VALUES (1913, 'e218172bcc99414cad3b7f8744eab8f8', '192.168.207.64', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-26 13:36:15');
-INSERT INTO `sys_login_log` VALUES (1914, '97896cca016d4e91a0c9aa4baec9aeb6', '192.168.92.64', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-26 18:53:57');
-INSERT INTO `sys_login_log` VALUES (1915, '852d5bc473c949c9b903d87b6159a473', '192.168.0.102', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-27 20:19:57');
-INSERT INTO `sys_login_log` VALUES (1916, 'a3f21566c36348da886b0dc145489270', '192.168.0.102', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-27 20:22:32');
-INSERT INTO `sys_login_log` VALUES (1917, '34d66bd3896446d4a9f0ecad25db6799', '192.168.0.102', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-27 20:23:05');
-INSERT INTO `sys_login_log` VALUES (1918, 'c3fb26194a2e4045ac43c1186afa8ecd', '192.168.0.102', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-27 22:41:18');
-INSERT INTO `sys_login_log` VALUES (1919, 'a0e6bc2f7614438bae5265e5b23e3ee9', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 09:36:50');
-INSERT INTO `sys_login_log` VALUES (1920, '799a4adecb314aa3b0bc57a91c050078', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 10:27:45');
-INSERT INTO `sys_login_log` VALUES (1921, '216405015fab4715b38349187434faca', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 12:09:19');
-INSERT INTO `sys_login_log` VALUES (1922, '6230f0a08cee4bdf917ed3a30c738594', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 13:03:03');
-INSERT INTO `sys_login_log` VALUES (1923, '3b2ae257dd5d49759fb0c0455fa8d134', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 14:31:05');
-INSERT INTO `sys_login_log` VALUES (1924, 'f5078ae2b9764b818c250d8bcadb007c', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 16:17:36');
-INSERT INTO `sys_login_log` VALUES (1925, 'aa5669af33824f27aec66a2a4ffa04b7', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 16:34:35');
-INSERT INTO `sys_login_log` VALUES (1926, 'ebaec3e0f1704490b8a1323781a33985', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 16:49:34');
-INSERT INTO `sys_login_log` VALUES (1927, '214c4b404a894f43bf6b934d082f7849', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-28 16:57:31');
-INSERT INTO `sys_login_log` VALUES (1928, '82768dfeddd6403384596331a3f1a4d7', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-08-29 13:30:32');
-INSERT INTO `sys_login_log` VALUES (1929, 'fa92ff5645474dcfb4cee4982b18af8c', '192.168.77.64', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-30 18:08:51');
-INSERT INTO `sys_login_log` VALUES (1930, '5c5b3d44ed844e5282f086bee5bccb95', '192.168.77.64', '用户登录成功！', 0, '本地局域网', 'zhangsan', '2021-08-30 18:12:09');
-INSERT INTO `sys_login_log` VALUES (1931, '327753cacac64020b43c7e88643cdce1', '192.168.77.64', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-30 18:13:57');
-INSERT INTO `sys_login_log` VALUES (1932, '736dd9963b4f4b09b2af1e9afd14741a', '192.168.155.64', '用户登录成功！', 0, '本地局域网', 'admin', '2021-08-31 13:13:14');
-INSERT INTO `sys_login_log` VALUES (1933, '0be1310f329944dea349d19d1ec6836a', '192.168.27.64', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-03 13:23:11');
-INSERT INTO `sys_login_log` VALUES (1934, '', '192.168.0.104', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-09-03 23:00:40');
-INSERT INTO `sys_login_log` VALUES (1935, '', '192.168.0.104', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-09-03 23:00:52');
-INSERT INTO `sys_login_log` VALUES (1936, 'a2a7b5b94d2b4f0c9d46e840fa4af186', '192.168.0.104', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-03 23:01:05');
-INSERT INTO `sys_login_log` VALUES (1937, 'd7c6929971a7405a9a31eae21bbb883c', '192.168.0.104', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-03 23:02:41');
-INSERT INTO `sys_login_log` VALUES (1938, '91dacf096b63490bb92000ddf73c9816', '192.168.0.104', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-03 23:07:49');
-INSERT INTO `sys_login_log` VALUES (1939, '', '192.168.0.104', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-09-03 23:15:47');
-INSERT INTO `sys_login_log` VALUES (1940, '', '192.168.0.104', '账户不存在！', 1, '本地局域网', 'admin11111', '2021-09-03 23:18:24');
-INSERT INTO `sys_login_log` VALUES (1941, '', '192.168.0.104', '账户不存在！', 1, '本地局域网', 'admin11111', '2021-09-03 23:18:31');
-INSERT INTO `sys_login_log` VALUES (1942, '818ff36cbceb4048b9f0f725252b2f82', '192.168.0.104', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-03 23:18:46');
-INSERT INTO `sys_login_log` VALUES (1943, '', '127.0.0.1', '密码错误，请重新输入！', 1, '局域网，无法获取位置', 'admin', '2021-09-04 10:25:15');
-INSERT INTO `sys_login_log` VALUES (1944, '305866f9cd7e4e5ea6e43ec0e3ef65df', '0:0:0:0:0:0:0:1', '用户登录成功！', 0, '获取位置失败', 'admin', '2021-09-04 10:25:40');
-INSERT INTO `sys_login_log` VALUES (1945, '', '192.168.149.64', '账户不存在！', 1, '本地局域网', 'ds', '2021-09-04 11:41:04');
-INSERT INTO `sys_login_log` VALUES (1946, '', '192.168.149.64', '账户不存在！', 1, '本地局域网', 'ds', '2021-09-04 11:41:16');
-INSERT INTO `sys_login_log` VALUES (1947, '', '192.168.149.64', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-09-04 11:43:43');
-INSERT INTO `sys_login_log` VALUES (1948, '', '192.168.149.64', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-09-04 11:43:53');
-INSERT INTO `sys_login_log` VALUES (1949, '', '192.168.149.64', '密码错误，请重新输入！', 1, '本地局域网', 'admin', '2021-09-04 11:44:09');
-INSERT INTO `sys_login_log` VALUES (1950, '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', 1, '获取位置失败', 'admin', '2021-09-04 14:00:21');
-INSERT INTO `sys_login_log` VALUES (1951, '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', 1, '获取位置失败', 'admin', '2021-09-04 14:00:31');
-INSERT INTO `sys_login_log` VALUES (1952, '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', 1, '获取位置失败', 'admin', '2021-09-04 14:07:32');
-INSERT INTO `sys_login_log` VALUES (1953, '', '127.0.0.1', '账户不存在！', 1, '局域网，无法获取位置', 'sdadas', '2021-09-04 14:28:45');
-INSERT INTO `sys_login_log` VALUES (1954, '5421f77f99fb4564a5ffe6a6b3055499', '127.0.0.1', '用户登录成功！', 0, '局域网，无法获取位置', 'admin', '2021-09-04 14:29:03');
-INSERT INTO `sys_login_log` VALUES (1955, '', '127.0.0.1', '密码错误，请重新输入！', 1, '局域网，无法获取位置', 'admin', '2021-09-04 14:29:37');
-INSERT INTO `sys_login_log` VALUES (1956, '', '127.0.0.1', '密码错误，请重新输入！', 1, '局域网，无法获取位置', 'admin', '2021-09-04 14:29:43');
-INSERT INTO `sys_login_log` VALUES (1957, '', '0:0:0:0:0:0:0:1', '密码连续输入错误超过5次，账号将被锁定半小时！', 1, '获取位置失败', 'admin', '2021-09-04 14:31:09');
-INSERT INTO `sys_login_log` VALUES (1958, '', '0:0:0:0:0:0:0:1', '密码连续输入错误超过5次，账号将被锁定半小时！', 1, '获取位置失败', 'admin', '2021-09-04 14:31:17');
-INSERT INTO `sys_login_log` VALUES (1959, '39955e1eed68499c9407fb037c1428a7', '192.168.130.206', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-10 12:59:48');
-INSERT INTO `sys_login_log` VALUES (1960, '2cdac82db2c74928bcceb790dd67f7d1', '192.168.3.64', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-11 10:52:50');
-INSERT INTO `sys_login_log` VALUES (1961, '7010d79e7f564a77821d7ceaaf32e1e3', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-13 21:32:26');
-INSERT INTO `sys_login_log` VALUES (1962, '272fbde499f64adeb40f8cf00a23405e', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-13 21:55:06');
-INSERT INTO `sys_login_log` VALUES (1963, '9b6d3e5aa21f48fba307114af417f59d', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-13 22:24:40');
-INSERT INTO `sys_login_log` VALUES (1964, '7e6a263c9d004a1d834255b102f0e5e3', '192.168.0.103', '用户登录成功！', 0, '本地局域网', 'admin', '2021-09-13 22:26:41');
+INSERT INTO `sys_login_log` VALUES (1714, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-05 13:23:56');
+INSERT INTO `sys_login_log` VALUES (1715, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-07 22:42:53');
+INSERT INTO `sys_login_log` VALUES (1716, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-07 22:46:36');
+INSERT INTO `sys_login_log` VALUES (1717, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-07 23:07:17');
+INSERT INTO `sys_login_log` VALUES (1718, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-11 21:50:32');
+INSERT INTO `sys_login_log` VALUES (1719, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-12 15:33:34');
+INSERT INTO `sys_login_log` VALUES (1720, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-12 15:42:37');
+INSERT INTO `sys_login_log` VALUES (1721, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-12 15:44:08');
+INSERT INTO `sys_login_log` VALUES (1722, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-13 22:36:27');
+INSERT INTO `sys_login_log` VALUES (1723, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-14 15:08:02');
+INSERT INTO `sys_login_log` VALUES (1724, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-14 16:03:43');
+INSERT INTO `sys_login_log` VALUES (1725, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-14 22:38:04');
+INSERT INTO `sys_login_log` VALUES (1726, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-14 23:13:06');
+INSERT INTO `sys_login_log` VALUES (1727, NULL, '60.208.111.213', '用户登录成功！', '0', '山东省济南市 联通', 'admin', '2021-06-16 13:52:13');
+INSERT INTO `sys_login_log` VALUES (1728, NULL, '223.104.194.53', '用户登录成功！', '0', '山东省 移动', 'admin', '2021-06-17 14:42:31');
+INSERT INTO `sys_login_log` VALUES (1729, NULL, '223.104.194.53', '用户登录成功！', '0', '山东省 移动', 'admin', '2021-06-17 15:35:55');
+INSERT INTO `sys_login_log` VALUES (1730, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-17 15:42:01');
+INSERT INTO `sys_login_log` VALUES (1731, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-17 15:48:17');
+INSERT INTO `sys_login_log` VALUES (1732, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-17 16:41:50');
+INSERT INTO `sys_login_log` VALUES (1733, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-17 19:43:29');
+INSERT INTO `sys_login_log` VALUES (1734, NULL, '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-06-17 19:44:39');
+INSERT INTO `sys_login_log` VALUES (1735, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-17 19:45:32');
+INSERT INTO `sys_login_log` VALUES (1736, NULL, '111.36.169.230', '用户登录成功！', '0', '山东省济南市 移动', 'admin', '2021-06-17 22:28:41');
+INSERT INTO `sys_login_log` VALUES (1737, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-17 22:38:24');
+INSERT INTO `sys_login_log` VALUES (1738, NULL, '223.104.191.96', '用户登录成功！', '0', '山东省 移动', 'admin', '2021-06-18 13:15:38');
+INSERT INTO `sys_login_log` VALUES (1739, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-18 13:16:24');
+INSERT INTO `sys_login_log` VALUES (1740, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-18 17:10:32');
+INSERT INTO `sys_login_log` VALUES (1741, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-18 17:59:14');
+INSERT INTO `sys_login_log` VALUES (1742, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-18 22:15:11');
+INSERT INTO `sys_login_log` VALUES (1743, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-19 14:57:55');
+INSERT INTO `sys_login_log` VALUES (1744, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-19 15:07:56');
+INSERT INTO `sys_login_log` VALUES (1745, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-19 15:29:24');
+INSERT INTO `sys_login_log` VALUES (1746, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-19 15:59:38');
+INSERT INTO `sys_login_log` VALUES (1747, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 16:39:38');
+INSERT INTO `sys_login_log` VALUES (1748, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 17:17:19');
+INSERT INTO `sys_login_log` VALUES (1749, NULL, '111.36.168.56', '用户登录成功！', '0', '山东省济南市 移动', 'admin', '2021-06-19 18:53:26');
+INSERT INTO `sys_login_log` VALUES (1750, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-19 18:53:30');
+INSERT INTO `sys_login_log` VALUES (1751, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 19:07:23');
+INSERT INTO `sys_login_log` VALUES (1752, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-19 19:08:19');
+INSERT INTO `sys_login_log` VALUES (1753, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 19:11:37');
+INSERT INTO `sys_login_log` VALUES (1754, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 19:13:19');
+INSERT INTO `sys_login_log` VALUES (1755, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 19:13:44');
+INSERT INTO `sys_login_log` VALUES (1756, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 19:14:36');
+INSERT INTO `sys_login_log` VALUES (1757, NULL, '192.168.81.1', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-06-19 19:14:55');
+INSERT INTO `sys_login_log` VALUES (1758, NULL, '192.168.81.1', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-06-19 19:18:28');
+INSERT INTO `sys_login_log` VALUES (1759, NULL, '192.168.81.1', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-06-19 19:18:34');
+INSERT INTO `sys_login_log` VALUES (1760, NULL, '192.168.81.1', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-06-19 19:18:45');
+INSERT INTO `sys_login_log` VALUES (1761, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 19:18:55');
+INSERT INTO `sys_login_log` VALUES (1762, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 19:33:19');
+INSERT INTO `sys_login_log` VALUES (1763, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-19 23:35:08');
+INSERT INTO `sys_login_log` VALUES (1764, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-20 16:17:14');
+INSERT INTO `sys_login_log` VALUES (1765, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-20 17:27:17');
+INSERT INTO `sys_login_log` VALUES (1767, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-20 17:46:20');
+INSERT INTO `sys_login_log` VALUES (1768, NULL, '223.104.190.111', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-21 13:29:38');
+INSERT INTO `sys_login_log` VALUES (1769, NULL, '223.104.190.111', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-21 13:29:45');
+INSERT INTO `sys_login_log` VALUES (1770, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-21 13:29:53');
+INSERT INTO `sys_login_log` VALUES (1771, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-21 22:18:38');
+INSERT INTO `sys_login_log` VALUES (1772, NULL, '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-06-22 13:18:27');
+INSERT INTO `sys_login_log` VALUES (1773, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 13:18:36');
+INSERT INTO `sys_login_log` VALUES (1774, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 13:21:01');
+INSERT INTO `sys_login_log` VALUES (1775, NULL, '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-06-22 13:22:23');
+INSERT INTO `sys_login_log` VALUES (1776, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 13:22:34');
+INSERT INTO `sys_login_log` VALUES (1777, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-22 14:09:50');
+INSERT INTO `sys_login_log` VALUES (1778, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 14:15:36');
+INSERT INTO `sys_login_log` VALUES (1779, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 14:47:52');
+INSERT INTO `sys_login_log` VALUES (1780, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 19:13:32');
+INSERT INTO `sys_login_log` VALUES (1781, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 19:19:02');
+INSERT INTO `sys_login_log` VALUES (1782, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 19:23:47');
+INSERT INTO `sys_login_log` VALUES (1783, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 19:25:31');
+INSERT INTO `sys_login_log` VALUES (1784, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 19:36:26');
+INSERT INTO `sys_login_log` VALUES (1785, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 19:37:10');
+INSERT INTO `sys_login_log` VALUES (1786, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-22 19:37:48');
+INSERT INTO `sys_login_log` VALUES (1787, NULL, '223.104.194.143', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-23 13:32:05');
+INSERT INTO `sys_login_log` VALUES (1788, NULL, '223.104.194.143', '用户登录成功！', '0', '山东省 移动', 'admin', '2021-06-23 13:32:10');
+INSERT INTO `sys_login_log` VALUES (1789, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-23 15:31:58');
+INSERT INTO `sys_login_log` VALUES (1790, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-24 18:59:03');
+INSERT INTO `sys_login_log` VALUES (1791, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-24 23:10:17');
+INSERT INTO `sys_login_log` VALUES (1792, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-25 13:58:31');
+INSERT INTO `sys_login_log` VALUES (1793, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-25 21:55:09');
+INSERT INTO `sys_login_log` VALUES (1794, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-06-25 21:55:28');
+INSERT INTO `sys_login_log` VALUES (1795, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-25 22:10:05');
+INSERT INTO `sys_login_log` VALUES (1796, NULL, '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2021-06-25 22:54:12');
+INSERT INTO `sys_login_log` VALUES (1797, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-26 11:05:28');
+INSERT INTO `sys_login_log` VALUES (1798, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-26 13:30:58');
+INSERT INTO `sys_login_log` VALUES (1799, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-27 17:33:51');
+INSERT INTO `sys_login_log` VALUES (1800, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-27 19:29:33');
+INSERT INTO `sys_login_log` VALUES (1801, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-27 19:33:24');
+INSERT INTO `sys_login_log` VALUES (1802, NULL, '192.168.81.1', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-06-27 19:42:10');
+INSERT INTO `sys_login_log` VALUES (1803, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-27 19:42:20');
+INSERT INTO `sys_login_log` VALUES (1804, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-27 20:01:32');
+INSERT INTO `sys_login_log` VALUES (1805, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-27 21:07:20');
+INSERT INTO `sys_login_log` VALUES (1806, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-28 19:47:39');
+INSERT INTO `sys_login_log` VALUES (1807, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-28 21:39:25');
+INSERT INTO `sys_login_log` VALUES (1808, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-28 21:52:08');
+INSERT INTO `sys_login_log` VALUES (1809, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-06-28 22:00:14');
+INSERT INTO `sys_login_log` VALUES (1810, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-06-29 23:12:49');
+INSERT INTO `sys_login_log` VALUES (1811, NULL, '117.136.94.41', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-30 13:35:37');
+INSERT INTO `sys_login_log` VALUES (1812, NULL, '117.136.94.41', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-30 13:35:50');
+INSERT INTO `sys_login_log` VALUES (1813, NULL, '117.136.94.41', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-30 13:36:02');
+INSERT INTO `sys_login_log` VALUES (1814, NULL, '117.136.94.41', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-30 13:36:30');
+INSERT INTO `sys_login_log` VALUES (1815, NULL, '117.136.94.41', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-06-30 13:36:43');
+INSERT INTO `sys_login_log` VALUES (1816, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-07-01 19:41:53');
+INSERT INTO `sys_login_log` VALUES (1817, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-02 08:24:56');
+INSERT INTO `sys_login_log` VALUES (1818, NULL, NULL, '未知错误！！！', '1', 'ip为空，无法获取位置', 'root', '2021-07-02 14:45:12');
+INSERT INTO `sys_login_log` VALUES (1819, NULL, '223.104.190.37', '密码错误，请重新输入！', '1', '山东省 移动', 'admin', '2021-07-02 14:48:05');
+INSERT INTO `sys_login_log` VALUES (1820, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-03 10:01:18');
+INSERT INTO `sys_login_log` VALUES (1821, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-03 11:03:03');
+INSERT INTO `sys_login_log` VALUES (1822, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-03 13:47:16');
+INSERT INTO `sys_login_log` VALUES (1823, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-05 14:16:06');
+INSERT INTO `sys_login_log` VALUES (1824, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-07 13:33:27');
+INSERT INTO `sys_login_log` VALUES (1825, NULL, '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-07 22:07:03');
+INSERT INTO `sys_login_log` VALUES (1826, NULL, '127.0.0.1', '密码错误，请重新输入！', '1', '局域网，无法获取位置', 'admin', '2021-07-07 22:43:34');
+INSERT INTO `sys_login_log` VALUES (1827, NULL, '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2021-07-07 22:43:46');
+INSERT INTO `sys_login_log` VALUES (1828, NULL, '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2021-07-07 22:50:39');
+INSERT INTO `sys_login_log` VALUES (1829, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-09 22:28:25');
+INSERT INTO `sys_login_log` VALUES (1830, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-10 22:35:00');
+INSERT INTO `sys_login_log` VALUES (1831, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-11 11:20:48');
+INSERT INTO `sys_login_log` VALUES (1832, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-11 13:18:57');
+INSERT INTO `sys_login_log` VALUES (1833, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-11 15:28:51');
+INSERT INTO `sys_login_log` VALUES (1834, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-11 16:31:28');
+INSERT INTO `sys_login_log` VALUES (1835, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-11 20:22:29');
+INSERT INTO `sys_login_log` VALUES (1836, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-12 13:06:32');
+INSERT INTO `sys_login_log` VALUES (1837, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-07-12 16:27:00');
+INSERT INTO `sys_login_log` VALUES (1838, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-12 17:03:52');
+INSERT INTO `sys_login_log` VALUES (1839, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-12 21:11:05');
+INSERT INTO `sys_login_log` VALUES (1840, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-13 19:43:09');
+INSERT INTO `sys_login_log` VALUES (1841, NULL, '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-13 21:27:37');
+INSERT INTO `sys_login_log` VALUES (1842, NULL, '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-13 22:14:32');
+INSERT INTO `sys_login_log` VALUES (1843, NULL, '60.208.111.213', '未知错误！！！', '1', '山东省济南市 联通', 'liuxingyu', '2021-07-14 10:41:29');
+INSERT INTO `sys_login_log` VALUES (1844, NULL, '58.56.96.28', '未知错误！！！', '1', '山东省济南市 电信', 'liuxingyu', '2021-07-14 10:41:38');
+INSERT INTO `sys_login_log` VALUES (1845, NULL, '58.56.96.28', '未知错误！！！', '1', '山东省济南市 电信', 'liuxingyu', '2021-07-14 10:42:02');
+INSERT INTO `sys_login_log` VALUES (1846, NULL, NULL, '密码错误，请重新输入！', '1', 'ip为空，无法获取位置', 'admin', '2021-07-14 10:42:30');
+INSERT INTO `sys_login_log` VALUES (1847, NULL, NULL, '密码错误，请重新输入！', '1', 'ip为空，无法获取位置', 'admin', '2021-07-14 10:42:40');
+INSERT INTO `sys_login_log` VALUES (1848, NULL, NULL, '未知错误！！！', '1', 'ip为空，无法获取位置', 'liuxingyu', '2021-07-14 10:42:56');
+INSERT INTO `sys_login_log` VALUES (1849, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-14 11:41:27');
+INSERT INTO `sys_login_log` VALUES (1850, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-14 12:20:16');
+INSERT INTO `sys_login_log` VALUES (1851, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-14 12:30:12');
+INSERT INTO `sys_login_log` VALUES (1852, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-14 12:30:47');
+INSERT INTO `sys_login_log` VALUES (1853, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-14 12:32:00');
+INSERT INTO `sys_login_log` VALUES (1854, NULL, '223.104.194.138', '用户登录成功！', '0', '山东省 移动', 'admin', '2021-07-14 12:49:23');
+INSERT INTO `sys_login_log` VALUES (1855, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-07-14 12:49:47');
+INSERT INTO `sys_login_log` VALUES (1856, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-14 12:55:00');
+INSERT INTO `sys_login_log` VALUES (1857, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-07-14 13:20:36');
+INSERT INTO `sys_login_log` VALUES (1858, NULL, '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-07-14 13:27:13');
+INSERT INTO `sys_login_log` VALUES (1859, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-18 22:40:13');
+INSERT INTO `sys_login_log` VALUES (1860, NULL, '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-19 10:29:31');
+INSERT INTO `sys_login_log` VALUES (1861, '76e3990a928f4f3db62e69dc0e80cc64', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-24 13:27:30');
+INSERT INTO `sys_login_log` VALUES (1862, '2bf30eb4c31e4098b07aec69755c0506', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-24 14:06:38');
+INSERT INTO `sys_login_log` VALUES (1863, '4d9c0802276a4602a3b0c364706af2a1', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-24 16:15:59');
+INSERT INTO `sys_login_log` VALUES (1864, 'b4945881da4647b9a91f91b18d01ea0a', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-26 15:59:01');
+INSERT INTO `sys_login_log` VALUES (1865, NULL, '60.208.111.213', '用户登录成功！', '0', '山东省济南市 联通', 'admin', '2021-07-28 15:01:17');
+INSERT INTO `sys_login_log` VALUES (1866, NULL, NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-07-28 15:54:43');
+INSERT INTO `sys_login_log` VALUES (1867, '7d019c1415e94a85b08f6ce1074ecc5c', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-28 20:28:27');
+INSERT INTO `sys_login_log` VALUES (1868, 'b99afed9c0934a35b08cc7267762f9da', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'zhangsan', '2021-07-28 20:29:00');
+INSERT INTO `sys_login_log` VALUES (1869, 'e91ad52e92ff4422a0e09330d68cbdcb', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-28 22:09:47');
+INSERT INTO `sys_login_log` VALUES (1870, 'eb4e23d5cab84439baf14d908885298e', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-28 22:11:54');
+INSERT INTO `sys_login_log` VALUES (1871, '6740fcff5f1248ccae6b08f20aaec4b6', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-07-30 21:53:00');
+INSERT INTO `sys_login_log` VALUES (1872, '249512aca0d3456b928e6dc5875e449d', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'zhangsan', '2021-07-30 22:00:46');
+INSERT INTO `sys_login_log` VALUES (1873, NULL, '60.208.111.213', '用户登录成功！', '0', '山东省济南市 联通', 'admin', '2021-08-05 18:19:51');
+INSERT INTO `sys_login_log` VALUES (1874, '0099ce6dcff541b58ff45d840aaa1d7c', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-05 22:17:47');
+INSERT INTO `sys_login_log` VALUES (1875, '', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-07 21:20:29');
+INSERT INTO `sys_login_log` VALUES (1876, '', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-07 21:32:20');
+INSERT INTO `sys_login_log` VALUES (1877, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-07 21:46:00');
+INSERT INTO `sys_login_log` VALUES (1878, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-07 22:31:58');
+INSERT INTO `sys_login_log` VALUES (1879, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-07 22:33:03');
+INSERT INTO `sys_login_log` VALUES (1880, '', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-08 08:53:36');
+INSERT INTO `sys_login_log` VALUES (1881, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-08 12:59:07');
+INSERT INTO `sys_login_log` VALUES (1882, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-08 14:36:55');
+INSERT INTO `sys_login_log` VALUES (1883, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-08 16:04:06');
+INSERT INTO `sys_login_log` VALUES (1884, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-08 16:21:15');
+INSERT INTO `sys_login_log` VALUES (1885, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-08 16:59:41');
+INSERT INTO `sys_login_log` VALUES (1886, '', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-08 17:51:38');
+INSERT INTO `sys_login_log` VALUES (1887, '', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-11 12:40:08');
+INSERT INTO `sys_login_log` VALUES (1888, 'd1cba32a0ce8445b9ad70b7634dfae08', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-11 13:01:16');
+INSERT INTO `sys_login_log` VALUES (1889, '070b3fbc19cb4fb1b3605e85b6a8e7aa', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-11 13:15:56');
+INSERT INTO `sys_login_log` VALUES (1890, '089a3278f6dd4f44ac00f814696e2c49', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-11 20:06:24');
+INSERT INTO `sys_login_log` VALUES (1891, 'ae4b3fe97470454493c289235e7191db', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-11 21:23:06');
+INSERT INTO `sys_login_log` VALUES (1892, '01b7450248ac4e3e9812b9717702b389', '192.168.0.108', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-11 21:40:59');
+INSERT INTO `sys_login_log` VALUES (1893, 'a5aaabad7dad4e56a7d0b191b173d33d', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-12 11:04:29');
+INSERT INTO `sys_login_log` VALUES (1894, '053f827b679e4ac99ad955a98ca80829', '192.168.81.1', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-13 12:57:07');
+INSERT INTO `sys_login_log` VALUES (1895, 'ec1156c20555466faf9e539441cc3120', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 14:54:29');
+INSERT INTO `sys_login_log` VALUES (1896, '2ca1f942f8064e8d942381491d6474c0', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 15:30:36');
+INSERT INTO `sys_login_log` VALUES (1897, 'be3fa6f4e63b4ce2a22bf4286eec34e3', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 15:38:27');
+INSERT INTO `sys_login_log` VALUES (1898, '09f2cc17b13043bfb3a57713b172ad7c', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 15:44:18');
+INSERT INTO `sys_login_log` VALUES (1899, '37f4f138e0c747f19b02eaf66569c2f6', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 15:49:08');
+INSERT INTO `sys_login_log` VALUES (1900, 'db7bd9654a1e4b80a45bb6907b5555c0', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 15:49:54');
+INSERT INTO `sys_login_log` VALUES (1901, 'ff4fccc0d3d04991a20f0fe805b79ede', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 16:01:36');
+INSERT INTO `sys_login_log` VALUES (1902, '9d57e07ee5284cc58fa2b76e744ca4fd', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 16:02:01');
+INSERT INTO `sys_login_log` VALUES (1904, 'b16df8a3073e4e80b4065f50a933d80d', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 19:42:46');
+INSERT INTO `sys_login_log` VALUES (1905, '719db92dd15846119195486b8ca8bf4f', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-21 19:46:59');
+INSERT INTO `sys_login_log` VALUES (1906, '6d7dd1a52dec4f2e8976c055cc27b21a', '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2021-08-21 20:05:08');
+INSERT INTO `sys_login_log` VALUES (1907, 'c605f1a315284e5489c4d26d67ade389', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-22 15:10:38');
+INSERT INTO `sys_login_log` VALUES (1908, 'de7e67b4e3b447cd92e24bf219c497db', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-22 17:06:57');
+INSERT INTO `sys_login_log` VALUES (1909, '8b1ca9448633426eac55789f581dfa96', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-22 18:36:43');
+INSERT INTO `sys_login_log` VALUES (1910, '2d1b12293e5a41268aa6b3a31529b3ef', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-23 17:16:14');
+INSERT INTO `sys_login_log` VALUES (1911, '1f6b4572113c4b649414dea51498dfbc', '192.168.0.106', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-24 22:12:56');
+INSERT INTO `sys_login_log` VALUES (1912, '5b6a545828ff4c659c129e46bf3b090d', '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2021-08-25 13:16:03');
+INSERT INTO `sys_login_log` VALUES (1913, 'e218172bcc99414cad3b7f8744eab8f8', '192.168.207.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-26 13:36:15');
+INSERT INTO `sys_login_log` VALUES (1914, '97896cca016d4e91a0c9aa4baec9aeb6', '192.168.92.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-26 18:53:57');
+INSERT INTO `sys_login_log` VALUES (1915, '852d5bc473c949c9b903d87b6159a473', '192.168.0.102', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-27 20:19:57');
+INSERT INTO `sys_login_log` VALUES (1916, 'a3f21566c36348da886b0dc145489270', '192.168.0.102', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-27 20:22:32');
+INSERT INTO `sys_login_log` VALUES (1917, '34d66bd3896446d4a9f0ecad25db6799', '192.168.0.102', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-27 20:23:05');
+INSERT INTO `sys_login_log` VALUES (1918, 'c3fb26194a2e4045ac43c1186afa8ecd', '192.168.0.102', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-27 22:41:18');
+INSERT INTO `sys_login_log` VALUES (1919, 'a0e6bc2f7614438bae5265e5b23e3ee9', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 09:36:50');
+INSERT INTO `sys_login_log` VALUES (1920, '799a4adecb314aa3b0bc57a91c050078', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 10:27:45');
+INSERT INTO `sys_login_log` VALUES (1921, '216405015fab4715b38349187434faca', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 12:09:19');
+INSERT INTO `sys_login_log` VALUES (1922, '6230f0a08cee4bdf917ed3a30c738594', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 13:03:03');
+INSERT INTO `sys_login_log` VALUES (1923, '3b2ae257dd5d49759fb0c0455fa8d134', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 14:31:05');
+INSERT INTO `sys_login_log` VALUES (1924, 'f5078ae2b9764b818c250d8bcadb007c', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 16:17:36');
+INSERT INTO `sys_login_log` VALUES (1925, 'aa5669af33824f27aec66a2a4ffa04b7', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 16:34:35');
+INSERT INTO `sys_login_log` VALUES (1926, 'ebaec3e0f1704490b8a1323781a33985', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 16:49:34');
+INSERT INTO `sys_login_log` VALUES (1927, '214c4b404a894f43bf6b934d082f7849', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-28 16:57:31');
+INSERT INTO `sys_login_log` VALUES (1928, '82768dfeddd6403384596331a3f1a4d7', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-08-29 13:30:32');
+INSERT INTO `sys_login_log` VALUES (1929, 'fa92ff5645474dcfb4cee4982b18af8c', '192.168.77.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-30 18:08:51');
+INSERT INTO `sys_login_log` VALUES (1930, '5c5b3d44ed844e5282f086bee5bccb95', '192.168.77.64', '用户登录成功！', '0', '本地局域网', 'zhangsan', '2021-08-30 18:12:09');
+INSERT INTO `sys_login_log` VALUES (1931, '327753cacac64020b43c7e88643cdce1', '192.168.77.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-30 18:13:57');
+INSERT INTO `sys_login_log` VALUES (1932, '736dd9963b4f4b09b2af1e9afd14741a', '192.168.155.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-08-31 13:13:14');
+INSERT INTO `sys_login_log` VALUES (1933, '0be1310f329944dea349d19d1ec6836a', '192.168.27.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-03 13:23:11');
+INSERT INTO `sys_login_log` VALUES (1934, '', '192.168.0.104', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-09-03 23:00:40');
+INSERT INTO `sys_login_log` VALUES (1935, '', '192.168.0.104', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-09-03 23:00:52');
+INSERT INTO `sys_login_log` VALUES (1936, 'a2a7b5b94d2b4f0c9d46e840fa4af186', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-03 23:01:05');
+INSERT INTO `sys_login_log` VALUES (1937, 'd7c6929971a7405a9a31eae21bbb883c', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-03 23:02:41');
+INSERT INTO `sys_login_log` VALUES (1938, '91dacf096b63490bb92000ddf73c9816', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-03 23:07:49');
+INSERT INTO `sys_login_log` VALUES (1939, '', '192.168.0.104', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-09-03 23:15:47');
+INSERT INTO `sys_login_log` VALUES (1940, '', '192.168.0.104', '账户不存在！', '1', '本地局域网', 'admin11111', '2021-09-03 23:18:24');
+INSERT INTO `sys_login_log` VALUES (1941, '', '192.168.0.104', '账户不存在！', '1', '本地局域网', 'admin11111', '2021-09-03 23:18:31');
+INSERT INTO `sys_login_log` VALUES (1942, '818ff36cbceb4048b9f0f725252b2f82', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-03 23:18:46');
+INSERT INTO `sys_login_log` VALUES (1943, '', '127.0.0.1', '密码错误，请重新输入！', '1', '局域网，无法获取位置', 'admin', '2021-09-04 10:25:15');
+INSERT INTO `sys_login_log` VALUES (1944, '305866f9cd7e4e5ea6e43ec0e3ef65df', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-09-04 10:25:40');
+INSERT INTO `sys_login_log` VALUES (1945, '', '192.168.149.64', '账户不存在！', '1', '本地局域网', 'ds', '2021-09-04 11:41:04');
+INSERT INTO `sys_login_log` VALUES (1946, '', '192.168.149.64', '账户不存在！', '1', '本地局域网', 'ds', '2021-09-04 11:41:16');
+INSERT INTO `sys_login_log` VALUES (1947, '', '192.168.149.64', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-09-04 11:43:43');
+INSERT INTO `sys_login_log` VALUES (1948, '', '192.168.149.64', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-09-04 11:43:53');
+INSERT INTO `sys_login_log` VALUES (1949, '', '192.168.149.64', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-09-04 11:44:09');
+INSERT INTO `sys_login_log` VALUES (1950, '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-09-04 14:00:21');
+INSERT INTO `sys_login_log` VALUES (1951, '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-09-04 14:00:31');
+INSERT INTO `sys_login_log` VALUES (1952, '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-09-04 14:07:32');
+INSERT INTO `sys_login_log` VALUES (1953, '', '127.0.0.1', '账户不存在！', '1', '局域网，无法获取位置', 'sdadas', '2021-09-04 14:28:45');
+INSERT INTO `sys_login_log` VALUES (1954, '5421f77f99fb4564a5ffe6a6b3055499', '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2021-09-04 14:29:03');
+INSERT INTO `sys_login_log` VALUES (1955, '', '127.0.0.1', '密码错误，请重新输入！', '1', '局域网，无法获取位置', 'admin', '2021-09-04 14:29:37');
+INSERT INTO `sys_login_log` VALUES (1956, '', '127.0.0.1', '密码错误，请重新输入！', '1', '局域网，无法获取位置', 'admin', '2021-09-04 14:29:43');
+INSERT INTO `sys_login_log` VALUES (1957, '', '0:0:0:0:0:0:0:1', '密码连续输入错误超过5次，账号将被锁定半小时！', '1', '获取位置失败', 'admin', '2021-09-04 14:31:09');
+INSERT INTO `sys_login_log` VALUES (1958, '', '0:0:0:0:0:0:0:1', '密码连续输入错误超过5次，账号将被锁定半小时！', '1', '获取位置失败', 'admin', '2021-09-04 14:31:17');
+INSERT INTO `sys_login_log` VALUES (1959, '39955e1eed68499c9407fb037c1428a7', '192.168.130.206', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-10 12:59:48');
+INSERT INTO `sys_login_log` VALUES (1960, '2cdac82db2c74928bcceb790dd67f7d1', '192.168.3.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-11 10:52:50');
+INSERT INTO `sys_login_log` VALUES (1961, '7010d79e7f564a77821d7ceaaf32e1e3', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-13 21:32:26');
+INSERT INTO `sys_login_log` VALUES (1962, '272fbde499f64adeb40f8cf00a23405e', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-13 21:55:06');
+INSERT INTO `sys_login_log` VALUES (1963, '9b6d3e5aa21f48fba307114af417f59d', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-13 22:24:40');
+INSERT INTO `sys_login_log` VALUES (1964, '7e6a263c9d004a1d834255b102f0e5e3', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-13 22:26:41');
+INSERT INTO `sys_login_log` VALUES (1965, '9b8980e3cdb84785bdde70ab10375dde', '192.168.104.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-14 16:08:20');
+INSERT INTO `sys_login_log` VALUES (1966, 'd6469dc6bd07482ea2945ffa4563e037', '192.168.156.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-18 09:30:41');
+INSERT INTO `sys_login_log` VALUES (1967, '', '192.168.0.104', '密码错误，请重新输入！', '1', '本地局域网', 'admin', '2021-09-18 22:21:40');
+INSERT INTO `sys_login_log` VALUES (1968, '65fc9f5160114e2dbafe37ae9af26777', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-18 22:21:51');
+INSERT INTO `sys_login_log` VALUES (1969, '42b735c0d3b94fb5b68ac602b36dea54', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-18 22:24:38');
+INSERT INTO `sys_login_log` VALUES (1970, 'bcad3fa64b6943c097fcc2a2a5f80363', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-18 22:27:37');
+INSERT INTO `sys_login_log` VALUES (1971, '19e888a5f42841fb83e720f7e49f6ea3', '192.168.123.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-19 10:51:07');
+INSERT INTO `sys_login_log` VALUES (1972, 'd241c2270b46412cb89fd0c1822a22f1', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-09-19 11:26:12');
+INSERT INTO `sys_login_log` VALUES (1973, 'bd0323c2977e45048f4276480f12b646', '192.168.98.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-19 17:42:48');
+INSERT INTO `sys_login_log` VALUES (1974, '79ddc5a10670491f917e21cf0500e615', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-09-28 19:01:31');
+INSERT INTO `sys_login_log` VALUES (1975, '6e09da1601ab4b3a8c0e98687498b008', '192.168.25.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-28 20:19:50');
+INSERT INTO `sys_login_log` VALUES (1976, 'be3413e03c904fe69beabf833bce4da4', '192.168.25.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-09-29 12:56:22');
+INSERT INTO `sys_login_log` VALUES (1977, '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-10-05 12:25:24');
+INSERT INTO `sys_login_log` VALUES (1978, 'd824a96c29194c3ea0ef3d3216479d30', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-10-05 12:25:37');
+INSERT INTO `sys_login_log` VALUES (1979, 'bb6f3988b6fa41bd9d9d8e4848955612', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-10-05 12:32:31');
+INSERT INTO `sys_login_log` VALUES (1980, 'a80fd4dde595456183f8fca6a819e983', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-10-05 12:58:22');
+INSERT INTO `sys_login_log` VALUES (1981, 'ec2ab40e181a4491b4a7873724676e9c', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-10-23 14:20:10');
+INSERT INTO `sys_login_log` VALUES (1982, '912b107e44554769bf87d75fa0080ad8', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-10-23 14:51:22');
+INSERT INTO `sys_login_log` VALUES (1983, 'f8178b3e085240c4b339e4c8ad3de465', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-10-23 15:17:28');
+INSERT INTO `sys_login_log` VALUES (1984, '2d9a3842cf4f4850ae8f7fdbf733c113', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-10-23 15:55:32');
+INSERT INTO `sys_login_log` VALUES (1985, 'aa25ba43a824432a94fdc6910d4f19a3', '192.168.19.64', '用户登录成功！', '0', '本地局域网', 'admin', '2021-10-23 16:10:18');
+INSERT INTO `sys_login_log` VALUES (1986, '3c24c92ff7724a8685766b398dce36c4', '192.168.0.102', '用户登录成功！', '0', '本地局域网', 'admin', '2021-10-26 21:46:39');
+INSERT INTO `sys_login_log` VALUES (1987, '193ab67510204272b38569d71e252f04', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-01 11:16:33');
+INSERT INTO `sys_login_log` VALUES (1988, '3d32327b7ae649d79ccefd7ccae71782', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-01 11:17:51');
+INSERT INTO `sys_login_log` VALUES (1989, '64773d6176754ba4bfa93634b3d1f03e', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-01 15:44:14');
 
 -- ----------------------------
 -- Table structure for sys_oper_log
@@ -4298,7 +4399,7 @@ CREATE TABLE `sys_oper_log`  (
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 182 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 215 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -4478,6 +4579,39 @@ INSERT INTO `sys_oper_log` VALUES (178, '数据字典', '分页查询页面', 'c
 INSERT INTO `sys_oper_log` VALUES (179, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.0.103', 77, 1, '2021-09-13 21:59:55');
 INSERT INTO `sys_oper_log` VALUES (180, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '192.168.0.103', 28, 1, '2021-09-13 22:27:33');
 INSERT INTO `sys_oper_log` VALUES (181, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.0.103', 55, 1, '2021-09-13 22:27:33');
+INSERT INTO `sys_oper_log` VALUES (182, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '192.168.104.64', 79, 1, '2021-09-14 16:11:37');
+INSERT INTO `sys_oper_log` VALUES (183, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.104.64', 183, 1, '2021-09-14 16:11:37');
+INSERT INTO `sys_oper_log` VALUES (184, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '192.168.123.64', 57, 1, '2021-09-19 10:51:17');
+INSERT INTO `sys_oper_log` VALUES (185, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.123.64', 222, 1, '2021-09-19 10:51:18');
+INSERT INTO `sys_oper_log` VALUES (186, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 64, 1, '2021-09-28 19:01:53');
+INSERT INTO `sys_oper_log` VALUES (187, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 271, 1, '2021-09-28 19:01:54');
+INSERT INTO `sys_oper_log` VALUES (188, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 49, 1, '2021-09-28 19:06:38');
+INSERT INTO `sys_oper_log` VALUES (189, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 95, 1, '2021-09-28 19:06:39');
+INSERT INTO `sys_oper_log` VALUES (190, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 63, 1, '2021-10-23 14:29:50');
+INSERT INTO `sys_oper_log` VALUES (191, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 104, 1, '2021-10-23 14:29:50');
+INSERT INTO `sys_oper_log` VALUES (192, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 116, 1, '2021-10-23 14:29:59');
+INSERT INTO `sys_oper_log` VALUES (193, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 118, 1, '2021-10-23 14:30:17');
+INSERT INTO `sys_oper_log` VALUES (194, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '192.168.19.64', 263, 1, '2021-10-23 16:33:58');
+INSERT INTO `sys_oper_log` VALUES (195, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 268, 1, '2021-10-23 16:33:59');
+INSERT INTO `sys_oper_log` VALUES (196, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '192.168.19.64', 71, 1, '2021-10-23 16:34:02');
+INSERT INTO `sys_oper_log` VALUES (197, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 138, 1, '2021-10-23 16:34:02');
+INSERT INTO `sys_oper_log` VALUES (198, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 123, 1, '2021-10-23 16:34:08');
+INSERT INTO `sys_oper_log` VALUES (199, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 101, 1, '2021-10-23 16:34:12');
+INSERT INTO `sys_oper_log` VALUES (200, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 102, 1, '2021-10-23 16:34:16');
+INSERT INTO `sys_oper_log` VALUES (201, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 118, 1, '2021-10-23 16:34:19');
+INSERT INTO `sys_oper_log` VALUES (202, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 141, 1, '2021-10-23 16:34:44');
+INSERT INTO `sys_oper_log` VALUES (203, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 106, 1, '2021-10-23 16:34:55');
+INSERT INTO `sys_oper_log` VALUES (204, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 133, 1, '2021-10-23 16:34:58');
+INSERT INTO `sys_oper_log` VALUES (205, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 124, 1, '2021-10-23 16:35:01');
+INSERT INTO `sys_oper_log` VALUES (206, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 64, 1, '2021-10-23 16:35:03');
+INSERT INTO `sys_oper_log` VALUES (207, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 105, 1, '2021-10-23 16:35:05');
+INSERT INTO `sys_oper_log` VALUES (208, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 129, 1, '2021-10-23 16:35:07');
+INSERT INTO `sys_oper_log` VALUES (209, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 115, 1, '2021-10-23 16:35:20');
+INSERT INTO `sys_oper_log` VALUES (210, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 107, 1, '2021-10-23 16:35:26');
+INSERT INTO `sys_oper_log` VALUES (211, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.19.64', 114, 1, '2021-10-23 16:35:29');
+INSERT INTO `sys_oper_log` VALUES (212, '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 88, 1, '2021-11-01 11:18:10');
+INSERT INTO `sys_oper_log` VALUES (213, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 3304, 1, '2021-11-01 11:18:13');
+INSERT INTO `sys_oper_log` VALUES (214, '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 133, 1, '2021-11-01 11:18:18');
 
 -- ----------------------------
 -- Table structure for sys_permission_info
@@ -4488,124 +4622,136 @@ CREATE TABLE `sys_permission_info`  (
   `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '父级ID',
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
-  `type` tinyint(4) NULL DEFAULT 0 COMMENT '类型（0是模块，1是目录，2是菜单，3是按钮）',
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '类型（0是模块，1是目录，2是菜单，3是按钮）',
   `sign` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '资源值',
   `href` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '链接地址',
   `sort` int(11) NULL DEFAULT 0 COMMENT '排序',
   `icon` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
   `target` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '_self' COMMENT '打开方式（_self--内链_blank外链）',
   `descript` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `status` tinyint(4) NULL DEFAULT 0 COMMENT '状态（0--正常1--停用）',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除状态（0--未删除1--已删除）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 107 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单权限信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 108 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单权限信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission_info
 -- ----------------------------
-INSERT INTO `sys_permission_info` VALUES (1, '1356622216053755904', '0', '平台管理', 0, NULL, '', 1, 'fa fa-address-book', '_self', '1级组件', 0, 0, NULL, '2021-02-12 21:19:59', NULL, '2021-06-30 15:27:31');
-INSERT INTO `sys_permission_info` VALUES (2, '1356622327209861120', '0', '业务管理', 0, NULL, '', 2, 'fa fa-lemon-o', '_self', '1级组件', 0, 0, NULL, NULL, NULL, '2021-02-02 23:16:45');
-INSERT INTO `sys_permission_info` VALUES (3, '1356622373770813440', '0', '组件管理', 0, NULL, '', 3, 'fa fa-slideshare', '_self', '1级组件', 0, 0, NULL, NULL, NULL, '2021-02-12 21:18:49');
-INSERT INTO `sys_permission_info` VALUES (4, '1356622845051572224', '1356622373770813440', '多级菜单', 1, '', '', 1, 'fa fa-meetup', '', NULL, 0, 0, NULL, NULL, NULL, '2021-02-02 23:59:53');
-INSERT INTO `sys_permission_info` VALUES (5, '1356622944976826368', '1356622373770813440', '失效菜单', 2, NULL, '/page/error.html', 2, 'fa fa-superpowers', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-07 14:41:16');
-INSERT INTO `sys_permission_info` VALUES (6, '1356623034781810688', '1356622845051572224', '按钮1', 1, NULL, '', 1, 'fa fa-calendar', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-07 14:26:50');
-INSERT INTO `sys_permission_info` VALUES (7, '1356623193826586624', '1356623034781810688', '按钮2', 1, NULL, '', 1, 'fa fa-snowflake-o', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-07 14:27:17');
-INSERT INTO `sys_permission_info` VALUES (8, '1356623247861440512', '1356623193826586624', '按钮3', 2, NULL, '/syscomponents/button', 1, 'fa fa-snowflake-o', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:49:10');
-INSERT INTO `sys_permission_info` VALUES (9, '1356623355334021120', '1356623193826586624', '表单4', 2, NULL, '/syscomponents/form', 2, 'fa fa-calendar', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:49:36');
-INSERT INTO `sys_permission_info` VALUES (10, '1356623395763740672', '1356622373770813440', '图标列表', 2, NULL, '/syscomponents/icon', 3, 'fa fa-dot-circle-o', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:49:45');
-INSERT INTO `sys_permission_info` VALUES (11, '1356623422948618240', '1356622373770813440', '图标选择', 2, NULL, '/syscomponents/iconPicker', 4, 'fa fa-adn', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:50:13');
-INSERT INTO `sys_permission_info` VALUES (12, '1356623540277268480', '1356622373770813440', '颜色选择', 2, NULL, '/syscomponents/colorSelect', 5, 'fa fa-dashboard', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:50:30');
-INSERT INTO `sys_permission_info` VALUES (13, '1356623692622774272', '1356622373770813440', '下拉选择', 2, NULL, '/syscomponents/tableSelect', 6, 'fa fa-angle-double-down', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:50:57');
-INSERT INTO `sys_permission_info` VALUES (14, '1356623692622774273', '1356622373770813440', '文件上传', 2, NULL, '/syscomponents/upload', 7, 'fa fa-arrow-up', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:51:09');
-INSERT INTO `sys_permission_info` VALUES (15, '1356623692622774274', '1356622373770813440', '富文本编辑器', 2, NULL, '/syscomponents/editor', 8, 'fa fa-edit', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:51:15');
-INSERT INTO `sys_permission_info` VALUES (16, '1356623692622774275', '1356622373770813440', '省市县区选择器', 2, NULL, '/syscomponents/area', 9, 'fa fa-rocket', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 20:00:26');
-INSERT INTO `sys_permission_info` VALUES (17, '1356623692622774276', '1356622373770813440', '主页模板', 1, NULL, '', 10, 'fa fa-home', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-02 23:23:35');
-INSERT INTO `sys_permission_info` VALUES (18, '1356623692622774277', '1356622373770813440', '菜单管理', 2, NULL, '/syscomponents/menu', 11, 'fa fa-window-maximize', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:51:31');
-INSERT INTO `sys_permission_info` VALUES (19, '1356623692622774278', '1356622373770813440', '系统设置', 2, NULL, '/syscomponents/setting', 12, 'fa fa-gears', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:51:38');
-INSERT INTO `sys_permission_info` VALUES (20, '1356623692622774279', '1356622373770813440', '表格示例', 2, NULL, '/syscomponents/table', 13, 'fa fa-file-text', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:51:44');
-INSERT INTO `sys_permission_info` VALUES (21, '1356623692622774280', '1356622373770813440', '表单示例', 1, NULL, '', 14, 'fa fa-calendar', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-02 23:23:36');
-INSERT INTO `sys_permission_info` VALUES (22, '1356623692622774281', '1356622373770813440', '登录模板', 1, NULL, '', 15, 'fa fa-flag-o', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-02 23:23:36');
-INSERT INTO `sys_permission_info` VALUES (23, '1356623905446047744', '1356622373770813440', '异常页面', 1, NULL, '', 16, 'fa fa-home', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-09 22:08:20');
-INSERT INTO `sys_permission_info` VALUES (24, '1356623905446047745', '1356622373770813440', '其它界面', 1, NULL, '', 17, 'fa fa-snowflake-o', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-02-02 23:23:37');
-INSERT INTO `sys_permission_info` VALUES (25, '1356623905446047746', '1356623692622774276', '主页一', 2, NULL, '/syscomponents/welcome1', 1, 'fa fa-tachometer', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:51:53');
-INSERT INTO `sys_permission_info` VALUES (26, '1356623905446047747', '1356623692622774276', '主页二', 2, NULL, '/syscomponents/welcome2', 2, 'fa fa-tachometer', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:51:59');
-INSERT INTO `sys_permission_info` VALUES (27, '1356623905446047748', '1356623692622774276', '主页三', 2, NULL, '/syscomponents/welcome3', 3, 'fa fa-tachometer', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:52:10');
-INSERT INTO `sys_permission_info` VALUES (28, '1356623905446047749', '1356623692622774280', '普通表单', 2, NULL, '/syscomponents/form', 1, 'fa fa-list-alt', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:52:18');
-INSERT INTO `sys_permission_info` VALUES (29, '1356623905446047750', '1356623692622774280', '分步表单', 2, NULL, '/syscomponents/formStep', 2, 'fa fa-navicon', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:52:28');
-INSERT INTO `sys_permission_info` VALUES (30, '1356623905446047751', '1356623692622774281', '登录-1', 2, NULL, '/syscomponents/login1', 1, 'fa fa-stumbleupon-circle', '_blank', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:52:40');
-INSERT INTO `sys_permission_info` VALUES (31, '1356623905446047752', '1356623692622774281', '登录-2', 2, NULL, '/syscomponents/login2', 2, 'fa fa-viacoin', '_blank', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:52:48');
-INSERT INTO `sys_permission_info` VALUES (32, '1356623905446047753', '1356623692622774281', '登录-3', 2, NULL, '/syscomponents/login3', 3, 'fa fa-tags', '_blank', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:52:56');
-INSERT INTO `sys_permission_info` VALUES (33, '1356624071998570497', '1356623905446047744', '404页面', 2, NULL, '/syscomponents/html404', 1, 'fa fa-hourglass-end', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:53:33');
-INSERT INTO `sys_permission_info` VALUES (34, '1356624071998570498', '1356623905446047745', '按钮示例', 2, NULL, '/syscomponents/button', 1, 'fa fa-snowflake-o', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:53:04');
-INSERT INTO `sys_permission_info` VALUES (35, '1356624071998570499', '1356623905446047745', '弹出层', 2, NULL, '/syscomponents/layer', 2, 'fa fa-shield', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-04-27 19:53:19');
-INSERT INTO `sys_permission_info` VALUES (36, '1356624071998570500', '1356622216053755904', '权限管理', 1, NULL, '', 2, 'fa fa-gears', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES (37, '1356624071998570501', '1356624071998570500', '用户管理', 2, 'system:user:init', '/sysuser/SysUserInfoInit', 1, 'fa fa-gears', '_self', NULL, 0, 0, NULL, NULL, NULL, '2021-08-08 12:55:41');
-INSERT INTO `sys_permission_info` VALUES (38, '1356624071998570502', '1356624071998570500', '角色管理', 2, 'system:role:init', '/sysrole/SysRoleInfoInit', 2, 'fa fa fa-gears', '_self', '', 0, 0, 0, '2021-01-31 22:58:51', 1, '2021-08-13 13:07:07');
-INSERT INTO `sys_permission_info` VALUES (39, '1356624071998570503', '1356624071998570500', '菜单管理', 2, 'system:permission:init', '/syspermission/SysPermissionInfoInit', 3, 'fa fa fa-gears', '_self', '', 0, 0, 0, '2021-01-31 22:58:51', 1, '2021-08-13 13:07:45');
-INSERT INTO `sys_permission_info` VALUES (46, '1356624071998570504', '1356622216053755904', '系统监控', 1, NULL, NULL, 1, 'fa fa-gears', '_self', NULL, 0, 0, 0, '2021-02-19 13:07:13', 0, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES (47, '1362630867860459520', '1356624071998570504', '登陆日志', 2, 'system:loginlog:init', '/sysloginlog/init', 0, 'fa fa fa-home', '_self', '', 0, 0, 1, '2021-02-19 13:11:30', 1, '2021-08-13 13:21:58');
-INSERT INTO `sys_permission_info` VALUES (48, '1363385220818423808', '1356624071998570504', '服务器监控', 2, 'system:serverlook:init', '/sysserverinfo/init', 2, 'fa fa fa-home', '_self', '', 0, 0, 1, '2021-02-21 15:09:02', 1, '2021-08-13 13:22:44');
-INSERT INTO `sys_permission_info` VALUES (49, '1363856602749427712', '1356622216053755904', '系统设置', 1, 'base:info', '', 0, 'fa fa-bookmark', '_self', '', 0, 0, 1, '2021-02-22 22:22:08', 0, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES (50, '1363856859898011648', '1363856602749427712', '数据字典', 2, 'sys:basedict:init', '/sysdict/baseDictQureyInit', 0, 'fa fa fa-adjust', '_self', '', 0, 0, 1, '2021-02-22 22:23:10', 1, '2021-08-13 13:28:13');
-INSERT INTO `sys_permission_info` VALUES (51, '1366257271839412224', '1356624071998570501', '新增', 3, 'system:user:add', '', 0, 'fa fa-home', '_self', '', 0, 0, 1, '2021-03-01 13:21:32', 0, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES (52, '1366260043151405056', '1356624071998570501', '删除', 3, 'system:user:delete', '', 1, 'fa fa-home', '_self', '', 0, 0, 1, '2021-03-01 13:32:32', 0, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES (53, '1366260043151405057', '1356624071998570501', '编辑', 3, 'system:user:edit', NULL, 2, 'fa fa-home', '_self', NULL, 0, 0, 0, '2021-03-01 13:53:13', 0, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES (54, '1366260043151405058', '1356624071998570501', '角色', 3, 'system:user:authorize', NULL, 3, 'fa fa-home', '_self', NULL, 0, 0, 0, '2021-03-01 13:54:16', 0, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES (55, '1366260043151405059', '1356624071998570501', '修改密码', 3, 'system:user:editpassword', NULL, 4, 'fa fa-home', '_self', NULL, 0, 0, 0, '2021-03-01 13:54:56', 0, '2021-03-01 14:59:17');
-INSERT INTO `sys_permission_info` VALUES (56, '1367001277164482560', '1356624071998570504', 'druid监控', 2, 'system:druidadmin:init', '/druid', 3, 'fa fa fa-adn', '_self', '', 0, 0, 1, '2021-03-03 14:37:56', 1, '2021-08-13 13:23:06');
-INSERT INTO `sys_permission_info` VALUES (57, '1367765397289906176', '1356624071998570504', '操作日志', 2, 'system:operlog:init', '/sysoperlog/init', 1, 'fa fa fa-calendar', '_self', '', 0, 0, 1, '2021-03-05 09:14:17', 1, '2021-08-13 13:22:20');
-INSERT INTO `sys_permission_info` VALUES (58, '1368535527955046400', '1363856602749427712', '定时任务', 2, 'system:quartz:init', '/sysquartz/init', 1, 'fa fa fa-bar-chart-o', '_self', '', 0, 1, 1, '2021-03-07 12:14:33', 1, '2021-08-28 16:34:01');
-INSERT INTO `sys_permission_info` VALUES (59, '1374747437312167936', '1356624071998570504', 'Websocket测试', 2, 'websocket:init', '/websocket/init', 5, 'fa fa-adjust', '_self', '', 0, 0, 1, '2021-03-24 15:38:27', 0, '2021-03-24 15:38:27');
-INSERT INTO `sys_permission_info` VALUES (60, '1375651227775606784', '1356624071998570502', '新增', 3, 'system:role:add', '', 0, 'fa fa-home', '_self', '', 0, 0, 1, '2021-03-27 03:29:46', 0, '2021-03-27 03:29:46');
-INSERT INTO `sys_permission_info` VALUES (61, '1375651443106979840', '1356624071998570502', '删除', 3, 'system:role:delete', '', 1, 'fa fa-home', '_self', '', 0, 0, 1, '2021-03-27 03:30:37', 0, '2021-03-27 03:30:37');
-INSERT INTO `sys_permission_info` VALUES (62, '1375651585042227200', '1356624071998570502', '编辑', 3, 'system:role:update', '', 2, 'fa fa-home', '_self', '', 0, 0, 1, '2021-03-27 03:31:10', 0, '2021-03-27 03:31:10');
-INSERT INTO `sys_permission_info` VALUES (63, '1375651784099700736', '1356624071998570502', '禁用启用', 3, 'system:role:enableordisable', '', 3, 'fa fa fa-home', '_self', '', 0, 0, 1, '2021-03-27 03:31:58', 1, '2021-03-27 03:48:41');
-INSERT INTO `sys_permission_info` VALUES (64, '1375651939947454464', '1356624071998570502', '授权', 3, 'system:role:auth', '', 4, 'fa fa-home', '_self', '', 0, 0, 1, '2021-03-27 03:32:35', 0, '2021-03-27 03:32:35');
-INSERT INTO `sys_permission_info` VALUES (65, '1379079117025284096', '1363856602749427712', '业务流水号', 2, 'system:idtable:init', '/sysidtable/init', 2, 'fa fa fa-database', '_self', '业务流水号', 0, 0, 1, '2021-04-05 14:31:02', 1, '2021-08-13 13:24:22');
-INSERT INTO `sys_permission_info` VALUES (66, '1383248198383104000', '1356622216053755904', '邮件服务', 1, 'email_service', '', 4, 'fa fa-address-book-o', '_self', '', 0, 0, 1, '2021-04-17 02:37:24', 0, '2021-04-17 02:37:24');
-INSERT INTO `sys_permission_info` VALUES (67, '1383248448330067968', '1383248198383104000', '邮件发送', 2, 'email_send', '/sysmail/email/init', 0, 'fa fa-address-book', '_self', '', 0, 0, 1, '2021-04-17 02:38:23', 0, '2021-04-17 02:38:23');
-INSERT INTO `sys_permission_info` VALUES (68, '1384741066913136640', '1363856602749427712', '网页配置', 2, 'system:config:init', '/sysconfig/forUpdate', 4, 'fa fa fa-android', '_self', '', 0, 0, 1, '2021-04-21 05:29:32', 1, '2021-08-13 13:23:44');
-INSERT INTO `sys_permission_info` VALUES (69, '1385520263748186112', '1384741066913136640', '保存', 3, 'system:config:save', '', 0, 'fa fa-home', '_self', '网页配置保存', 0, 0, 1, '2021-04-23 17:05:47', 0, '2021-04-23 17:05:47');
-INSERT INTO `sys_permission_info` VALUES (70, '1401046812895322112', '1356624071998570501', '导出pdf', 3, 'system:user:downloadPdf', '', 5, 'fa fa-home', '_self', '导出pdf', 0, 0, 1, '2021-06-05 13:22:45', 0, '2021-06-05 13:22:45');
-INSERT INTO `sys_permission_info` VALUES (72, '1403617442299260928', '1356622216053755904', '服务管理', 1, 'system:itfc:', '', 5, 'fa fa fa-bookmark', '_self', '服务管理', 0, 0, 1, '2021-06-12 15:37:31', 1, '2021-08-13 13:13:24');
-INSERT INTO `sys_permission_info` VALUES (73, '1403617991660810240', '1403617442299260928', '服务密钥', 2, 'system:itfckey:init', '/sysitfckey/init', 1, 'fa fa fa fa-home', '_self', '', 0, 0, 1, '2021-06-12 15:39:42', 1, '2021-08-13 13:18:26');
-INSERT INTO `sys_permission_info` VALUES (74, '1403618360277217280', '1403617442299260928', '服务权限', 2, 'system:itfcpermission:init', '/sysitfcpermission/init', 2, 'fa fa fa fa-home', '_self', '', 0, 0, 1, '2021-06-12 15:41:10', 1, '2021-08-13 13:18:54');
-INSERT INTO `sys_permission_info` VALUES (75, '1406555413619482624', '1403617442299260928', '测试菜单1', 2, 'dasdasdas', '/skksksksks/sssss', 3, 'fa fa fa-home', '_self', '', 0, 1, 1, '2021-06-20 18:12:00', 1, '2021-06-20 18:13:27');
-INSERT INTO `sys_permission_info` VALUES (76, '1420386404618768384', '1356624071998570504', '在线用户', 2, 'system:useronline:init', '/sysuseronline/init', 6, 'fa fa fa-codepen', '_self', '', 0, 0, 1, '2021-07-28 22:11:23', 1, '2021-08-13 13:23:25');
-INSERT INTO `sys_permission_info` VALUES (77, '1426048058156847104', '1356624071998570503', '删除', 3, 'system:permission:delete', '', 0, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:08:46', 0, '2021-08-13 13:08:46');
-INSERT INTO `sys_permission_info` VALUES (78, '1426048592427290624', '1356624071998570503', '新增', 3, 'system:permission:add', '', 1, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:10:53', 0, '2021-08-13 13:10:53');
-INSERT INTO `sys_permission_info` VALUES (79, '1426048692151062528', '1356624071998570503', '编辑', 3, 'system:permission:edit', '', 2, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:11:17', 0, '2021-08-13 13:11:17');
-INSERT INTO `sys_permission_info` VALUES (80, '1426048926205808640', '1356624071998570503', '禁用启用', 3, 'system:permission:disoren', '', 3, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:12:13', 0, '2021-08-13 13:12:13');
-INSERT INTO `sys_permission_info` VALUES (81, '1426049544312000512', '1403617991660810240', '新增', 3, 'system:itfckey:add', '', 0, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:14:40', 0, '2021-08-13 13:14:40');
-INSERT INTO `sys_permission_info` VALUES (82, '1426049723656245248', '1403617991660810240', '删除', 3, 'system:itfckey:delete', '', 1, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:15:23', 0, '2021-08-13 13:15:23');
-INSERT INTO `sys_permission_info` VALUES (83, '1426049867319545856', '1403617991660810240', '编辑', 3, 'system:itfckey:edit', '', 3, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:15:57', 0, '2021-08-13 13:15:57');
-INSERT INTO `sys_permission_info` VALUES (84, '1426050015730798592', '1403617991660810240', '禁用启用', 3, 'system:itfckey:disoren', '', 4, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:16:33', 0, '2021-08-13 13:16:33');
-INSERT INTO `sys_permission_info` VALUES (85, '1426050236284080128', '1403617991660810240', '授权', 3, 'system:itfckey:authorize', '', 5, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:17:25', 0, '2021-08-13 13:17:25');
-INSERT INTO `sys_permission_info` VALUES (86, '1426050733669814272', '1403618360277217280', '新增', 3, 'system:itfcpermission:add', '', 0, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:19:24', 0, '2021-08-13 13:19:24');
-INSERT INTO `sys_permission_info` VALUES (87, '1426050819334279168', '1403618360277217280', '编辑', 3, 'system:itfcpermission:edit', '', 1, 'fa fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:19:44', 1, '2021-08-13 13:20:41');
-INSERT INTO `sys_permission_info` VALUES (88, '1426050917795565568', '1403618360277217280', '删除', 3, 'system:itfcpermission:delete', '', 2, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:20:08', 0, '2021-08-13 13:20:19');
-INSERT INTO `sys_permission_info` VALUES (89, '1426052156788772864', '1379079117025284096', '新增', 3, 'system:idtable:add', '', 0, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:25:03', 0, '2021-08-13 13:25:03');
-INSERT INTO `sys_permission_info` VALUES (90, '1426052217211916288', '1379079117025284096', '删除', 3, 'system:idtable:delete', '', 1, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:25:18', 0, '2021-08-13 13:25:18');
-INSERT INTO `sys_permission_info` VALUES (91, '1426052294944952320', '1379079117025284096', '编辑', 3, 'system:idtable:edit', '', 2, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:25:36', 0, '2021-08-13 13:25:36');
-INSERT INTO `sys_permission_info` VALUES (92, '1426052565204930560', '1368535527955046400', '删除', 3, 'system:quartz:delete', '', 0, 'fa fa-home', '_self', '', 0, 1, 1, '2021-08-13 13:26:41', 0, '2021-08-28 16:34:01');
-INSERT INTO `sys_permission_info` VALUES (93, '1426052627620368384', '1368535527955046400', '新增', 3, 'system:quartz:add', '', 1, 'fa fa-home', '_self', '', 0, 1, 1, '2021-08-13 13:26:55', 0, '2021-08-28 16:34:01');
-INSERT INTO `sys_permission_info` VALUES (94, '1426052724047417344', '1368535527955046400', '修改', 3, 'system:quartz:edit', '', 2, 'fa fa-home', '_self', '', 0, 1, 1, '2021-08-13 13:27:18', 0, '2021-08-28 16:34:01');
-INSERT INTO `sys_permission_info` VALUES (95, '1426052833216761856', '1368535527955046400', '执行记录', 3, 'system:quartz:history', '', 3, 'fa fa-home', '_self', '', 0, 1, 1, '2021-08-13 13:27:44', 0, '2021-08-28 16:34:01');
-INSERT INTO `sys_permission_info` VALUES (96, '1426053204626575360', '1363856859898011648', '新增', 3, 'sys:basedict:add', '', 0, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:29:13', 0, '2021-08-13 13:29:13');
-INSERT INTO `sys_permission_info` VALUES (97, '1426053263602683904', '1363856859898011648', '删除', 3, 'sys:basedict:delete', '', 1, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:29:27', 0, '2021-08-13 13:29:27');
-INSERT INTO `sys_permission_info` VALUES (98, '1426053344749883392', '1363856859898011648', '编辑', 3, 'sys:basedict:edit', '', 2, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:29:46', 0, '2021-08-13 13:29:46');
-INSERT INTO `sys_permission_info` VALUES (99, '1426053449271939072', '1363856859898011648', '禁用启用', 3, 'sys:basedict:disoren', '', 3, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:30:11', 0, '2021-08-13 13:30:11');
-INSERT INTO `sys_permission_info` VALUES (100, '1426053589923729408', '1363856859898011648', '配置', 3, 'sys:basedict:configuration', '', 4, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-13 13:30:45', 0, '2021-08-13 13:30:45');
-INSERT INTO `sys_permission_info` VALUES (101, '1431230594149711872', '1363856602749427712', '定时任务', 2, 'system:job:init', '/sysjob/init', 5, 'fa fa fa fa-home', '_self', '', 0, 0, 1, '2021-08-27 20:22:19', 1, '2021-08-28 16:48:09');
-INSERT INTO `sys_permission_info` VALUES (102, '1431538412783583232', '1431230594149711872', '新增', 3, 'sys:job:add', '', 0, 'fa fa fa-home', '_self', '', 0, 0, 1, '2021-08-28 16:45:29', 1, '2021-08-28 16:47:14');
-INSERT INTO `sys_permission_info` VALUES (103, '1431538557407379456', '1431230594149711872', '删除', 3, 'sys:job:delete', '', 1, 'fa fa fa-home', '_self', '', 0, 0, 1, '2021-08-28 16:46:03', 1, '2021-08-28 16:47:33');
-INSERT INTO `sys_permission_info` VALUES (104, '1431538629335498752', '1431230594149711872', '编辑', 3, 'sys:job:edit', '', 2, 'fa fa fa-home', '_self', '', 0, 0, 1, '2021-08-28 16:46:20', 1, '2021-08-28 16:47:46');
-INSERT INTO `sys_permission_info` VALUES (105, '1431538723468263424', '1431230594149711872', '执行一次', 3, 'sys:job:executeonce', '', 3, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-28 16:46:43', 0, '2021-08-28 16:46:43');
-INSERT INTO `sys_permission_info` VALUES (106, '1431538808277090304', '1431230594149711872', '执行日志', 3, 'sys:job:record', '', 4, 'fa fa-home', '_self', '', 0, 0, 1, '2021-08-28 16:47:03', 0, '2021-08-28 16:47:03');
+INSERT INTO `sys_permission_info` VALUES (1, '1356622216053755904', '0', '平台管理', '0', NULL, '', 1, 'fa fa-address-book', '_self', '1级组件', '0', '0', NULL, '2021-02-12 21:19:59', NULL, '2021-06-30 15:27:31');
+INSERT INTO `sys_permission_info` VALUES (2, '1356622327209861120', '0', '业务管理', '0', NULL, '', 2, 'fa fa-lemon-o', '_self', '1级组件', '0', '0', NULL, NULL, NULL, '2021-02-02 23:16:45');
+INSERT INTO `sys_permission_info` VALUES (3, '1356622373770813440', '0', '组件管理', '0', NULL, '', 3, 'fa fa-slideshare', '_self', '1级组件', '0', '0', NULL, NULL, NULL, '2021-02-12 21:18:49');
+INSERT INTO `sys_permission_info` VALUES (4, '1356622845051572224', '1356622373770813440', '多级菜单', '1', '', '', 1, 'fa fa-meetup', '', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:59:53');
+INSERT INTO `sys_permission_info` VALUES (5, '1356622944976826368', '1356622373770813440', '失效菜单', '2', NULL, '/page/error.html', 2, 'fa fa-superpowers', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-07 14:41:16');
+INSERT INTO `sys_permission_info` VALUES (6, '1356623034781810688', '1356622845051572224', '按钮1', '1', NULL, '', 1, 'fa fa-calendar', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-07 14:26:50');
+INSERT INTO `sys_permission_info` VALUES (7, '1356623193826586624', '1356623034781810688', '按钮2', '1', NULL, '', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-07 14:27:17');
+INSERT INTO `sys_permission_info` VALUES (8, '1356623247861440512', '1356623193826586624', '按钮3', '2', NULL, '/syscomponents/button', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:49:10');
+INSERT INTO `sys_permission_info` VALUES (9, '1356623355334021120', '1356623193826586624', '表单4', '2', NULL, '/syscomponents/form', 2, 'fa fa-calendar', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:49:36');
+INSERT INTO `sys_permission_info` VALUES (10, '1356623395763740672', '1356622373770813440', '图标列表', '2', NULL, '/syscomponents/icon', 3, 'fa fa-dot-circle-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:49:45');
+INSERT INTO `sys_permission_info` VALUES (11, '1356623422948618240', '1356622373770813440', '图标选择', '2', NULL, '/syscomponents/iconPicker', 4, 'fa fa-adn', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:50:13');
+INSERT INTO `sys_permission_info` VALUES (12, '1356623540277268480', '1356622373770813440', '颜色选择', '2', NULL, '/syscomponents/colorSelect', 5, 'fa fa-dashboard', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:50:30');
+INSERT INTO `sys_permission_info` VALUES (13, '1356623692622774272', '1356622373770813440', '下拉选择', '2', NULL, '/syscomponents/tableSelect', 6, 'fa fa-angle-double-down', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:50:57');
+INSERT INTO `sys_permission_info` VALUES (14, '1356623692622774273', '1356622373770813440', '文件上传', '2', NULL, '/syscomponents/upload', 7, 'fa fa-arrow-up', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:09');
+INSERT INTO `sys_permission_info` VALUES (15, '1356623692622774274', '1356622373770813440', '富文本编辑器', '2', NULL, '/syscomponents/editor', 8, 'fa fa-edit', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:15');
+INSERT INTO `sys_permission_info` VALUES (16, '1356623692622774275', '1356622373770813440', '省市县区选择器', '2', NULL, '/syscomponents/area', 9, 'fa fa-rocket', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 20:00:26');
+INSERT INTO `sys_permission_info` VALUES (17, '1356623692622774276', '1356622373770813440', '主页模板', '1', NULL, '', 10, 'fa fa-home', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:35');
+INSERT INTO `sys_permission_info` VALUES (18, '1356623692622774277', '1356622373770813440', '菜单管理', '2', NULL, '/syscomponents/menu', 11, 'fa fa-window-maximize', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:31');
+INSERT INTO `sys_permission_info` VALUES (19, '1356623692622774278', '1356622373770813440', '系统设置', '2', NULL, '/syscomponents/setting', 12, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:38');
+INSERT INTO `sys_permission_info` VALUES (20, '1356623692622774279', '1356622373770813440', '表格示例', '2', NULL, '/syscomponents/table', 13, 'fa fa-file-text', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:44');
+INSERT INTO `sys_permission_info` VALUES (21, '1356623692622774280', '1356622373770813440', '表单示例', '1', NULL, '', 14, 'fa fa-calendar', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:36');
+INSERT INTO `sys_permission_info` VALUES (22, '1356623692622774281', '1356622373770813440', '登录模板', '1', NULL, '', 15, 'fa fa-flag-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:36');
+INSERT INTO `sys_permission_info` VALUES (23, '1356623905446047744', '1356622373770813440', '异常页面', '1', NULL, '', 16, 'fa fa-home', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-09 22:08:20');
+INSERT INTO `sys_permission_info` VALUES (24, '1356623905446047745', '1356622373770813440', '其它界面', '1', NULL, '', 17, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:37');
+INSERT INTO `sys_permission_info` VALUES (25, '1356623905446047746', '1356623692622774276', '主页一', '2', NULL, '/syscomponents/welcome1', 1, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:53');
+INSERT INTO `sys_permission_info` VALUES (26, '1356623905446047747', '1356623692622774276', '主页二', '2', NULL, '/syscomponents/welcome2', 2, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:59');
+INSERT INTO `sys_permission_info` VALUES (27, '1356623905446047748', '1356623692622774276', '主页三', '2', NULL, '/syscomponents/welcome3', 3, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:10');
+INSERT INTO `sys_permission_info` VALUES (28, '1356623905446047749', '1356623692622774280', '普通表单', '2', NULL, '/syscomponents/form', 1, 'fa fa-list-alt', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:18');
+INSERT INTO `sys_permission_info` VALUES (29, '1356623905446047750', '1356623692622774280', '分步表单', '2', NULL, '/syscomponents/formStep', 2, 'fa fa-navicon', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:28');
+INSERT INTO `sys_permission_info` VALUES (30, '1356623905446047751', '1356623692622774281', '登录-1', '2', NULL, '/syscomponents/login1', 1, 'fa fa-stumbleupon-circle', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:40');
+INSERT INTO `sys_permission_info` VALUES (31, '1356623905446047752', '1356623692622774281', '登录-2', '2', NULL, '/syscomponents/login2', 2, 'fa fa-viacoin', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:48');
+INSERT INTO `sys_permission_info` VALUES (32, '1356623905446047753', '1356623692622774281', '登录-3', '2', NULL, '/syscomponents/login3', 3, 'fa fa-tags', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:56');
+INSERT INTO `sys_permission_info` VALUES (33, '1356624071998570497', '1356623905446047744', '404页面', '2', NULL, '/syscomponents/html404', 1, 'fa fa-hourglass-end', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:53:33');
+INSERT INTO `sys_permission_info` VALUES (34, '1356624071998570498', '1356623905446047745', '按钮示例', '2', NULL, '/syscomponents/button', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:53:04');
+INSERT INTO `sys_permission_info` VALUES (35, '1356624071998570499', '1356623905446047745', '弹出层', '2', NULL, '/syscomponents/layer', 2, 'fa fa-shield', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:53:19');
+INSERT INTO `sys_permission_info` VALUES (36, '1356624071998570500', '1356622216053755904', '权限管理', '1', NULL, '', 2, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-03-01 14:56:43');
+INSERT INTO `sys_permission_info` VALUES (37, '1356624071998570501', '1356624071998570500', '用户管理', '2', 'system:user:init', '/sysuser/SysUserInfoInit', 1, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-08-08 12:55:41');
+INSERT INTO `sys_permission_info` VALUES (38, '1356624071998570502', '1356624071998570500', '角色管理', '2', 'system:role:init', '/sysrole/SysRoleInfoInit', 2, 'fa fa fa-gears', '_self', '', '0', '0', 0, '2021-01-31 22:58:51', 1, '2021-08-13 13:07:07');
+INSERT INTO `sys_permission_info` VALUES (39, '1356624071998570503', '1356624071998570500', '菜单管理', '2', 'system:permission:init', '/syspermission/SysPermissionInfoInit', 3, 'fa fa fa-gears', '_self', '', '0', '0', 0, '2021-01-31 22:58:51', 1, '2021-08-13 13:07:45');
+INSERT INTO `sys_permission_info` VALUES (46, '1356624071998570504', '1356622216053755904', '系统监控', '1', NULL, NULL, 1, 'fa fa-gears', '_self', NULL, '0', '0', 0, '2021-02-19 13:07:13', 0, '2021-03-01 14:56:43');
+INSERT INTO `sys_permission_info` VALUES (47, '1362630867860459520', '1356624071998570504', '登陆日志', '2', 'system:loginlog:init', '/sysloginlog/init', 0, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-02-19 13:11:30', 1, '2021-08-13 13:21:58');
+INSERT INTO `sys_permission_info` VALUES (48, '1363385220818423808', '1356624071998570504', '服务器监控', '2', 'system:serverlook:init', '/sysserverinfo/init', 2, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-02-21 15:09:02', 1, '2021-08-13 13:22:44');
+INSERT INTO `sys_permission_info` VALUES (49, '1363856602749427712', '1356622216053755904', '系统设置', '1', 'base:info', '', 0, 'fa fa-bookmark', '_self', '', '0', '0', 1, '2021-02-22 22:22:08', 0, '2021-03-01 14:56:43');
+INSERT INTO `sys_permission_info` VALUES (50, '1363856859898011648', '1363856602749427712', '数据字典', '2', 'sys:basedict:init', '/sysdict/baseDictQureyInit', 0, 'fa fa fa-adjust', '_self', '', '0', '0', 1, '2021-02-22 22:23:10', 1, '2021-08-13 13:28:13');
+INSERT INTO `sys_permission_info` VALUES (51, '1366257271839412224', '1356624071998570501', '新增', '3', 'system:user:add', '', 0, 'fa fa-home', '_self', '', '0', '0', 1, '2021-03-01 13:21:32', 0, '2021-03-01 14:56:43');
+INSERT INTO `sys_permission_info` VALUES (52, '1366260043151405056', '1356624071998570501', '删除', '3', 'system:user:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', 1, '2021-03-01 13:32:32', 0, '2021-03-01 14:56:43');
+INSERT INTO `sys_permission_info` VALUES (53, '1366260043151405057', '1356624071998570501', '编辑', '3', 'system:user:edit', NULL, 2, 'fa fa-home', '_self', NULL, '0', '0', 0, '2021-03-01 13:53:13', 0, '2021-03-01 14:56:43');
+INSERT INTO `sys_permission_info` VALUES (54, '1366260043151405058', '1356624071998570501', '角色', '3', 'system:user:authorize', NULL, 3, 'fa fa-home', '_self', NULL, '0', '0', 0, '2021-03-01 13:54:16', 0, '2021-03-01 14:56:43');
+INSERT INTO `sys_permission_info` VALUES (55, '1366260043151405059', '1356624071998570501', '修改密码', '3', 'system:user:editpassword', NULL, 4, 'fa fa-home', '_self', NULL, '0', '0', 0, '2021-03-01 13:54:56', 0, '2021-03-01 14:59:17');
+INSERT INTO `sys_permission_info` VALUES (56, '1367001277164482560', '1356624071998570504', 'druid监控', '2', 'system:druidadmin:init', '/druid', 3, 'fa fa fa-adn', '_self', '', '0', '0', 1, '2021-03-03 14:37:56', 1, '2021-08-13 13:23:06');
+INSERT INTO `sys_permission_info` VALUES (57, '1367765397289906176', '1356624071998570504', '操作日志', '2', 'system:operlog:init', '/sysoperlog/init', 1, 'fa fa fa-calendar', '_self', '', '0', '0', 1, '2021-03-05 09:14:17', 1, '2021-08-13 13:22:20');
+INSERT INTO `sys_permission_info` VALUES (59, '1374747437312167936', '1356624071998570504', 'Websocket测试', '2', 'websocket:init', '/websocket/init', 5, 'fa fa-adjust', '_self', '', '0', '0', 1, '2021-03-24 15:38:27', 0, '2021-03-24 15:38:27');
+INSERT INTO `sys_permission_info` VALUES (60, '1375651227775606784', '1356624071998570502', '新增', '3', 'system:role:add', '', 0, 'fa fa-home', '_self', '', '0', '0', 1, '2021-03-27 03:29:46', 0, '2021-03-27 03:29:46');
+INSERT INTO `sys_permission_info` VALUES (61, '1375651443106979840', '1356624071998570502', '删除', '3', 'system:role:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', 1, '2021-03-27 03:30:37', 0, '2021-03-27 03:30:37');
+INSERT INTO `sys_permission_info` VALUES (62, '1375651585042227200', '1356624071998570502', '编辑', '3', 'system:role:update', '', 2, 'fa fa-home', '_self', '', '0', '0', 1, '2021-03-27 03:31:10', 0, '2021-03-27 03:31:10');
+INSERT INTO `sys_permission_info` VALUES (63, '1375651784099700736', '1356624071998570502', '禁用启用', '3', 'system:role:enableordisable', '', 3, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-03-27 03:31:58', 1, '2021-03-27 03:48:41');
+INSERT INTO `sys_permission_info` VALUES (64, '1375651939947454464', '1356624071998570502', '授权', '3', 'system:role:auth', '', 4, 'fa fa-home', '_self', '', '0', '0', 1, '2021-03-27 03:32:35', 0, '2021-03-27 03:32:35');
+INSERT INTO `sys_permission_info` VALUES (65, '1379079117025284096', '1363856602749427712', '业务流水号', '2', 'system:idtable:init', '/sysidtable/init', 2, 'fa fa fa-database', '_self', '业务流水号', '0', '0', 1, '2021-04-05 14:31:02', 1, '2021-08-13 13:24:22');
+INSERT INTO `sys_permission_info` VALUES (66, '1383248198383104000', '1356622216053755904', '邮件服务', '1', 'email_service', '', 4, 'fa fa-address-book-o', '_self', '', '0', '0', 1, '2021-04-17 02:37:24', 0, '2021-04-17 02:37:24');
+INSERT INTO `sys_permission_info` VALUES (67, '1383248448330067968', '1383248198383104000', '邮件发送', '2', 'email_send', '/sysmail/email/init', 0, 'fa fa-address-book', '_self', '', '0', '0', 1, '2021-04-17 02:38:23', 0, '2021-04-17 02:38:23');
+INSERT INTO `sys_permission_info` VALUES (68, '1384741066913136640', '1363856602749427712', '网页配置', '2', 'system:config:init', '/sysconfig/forUpdate', 4, 'fa fa fa-android', '_self', '', '0', '0', 1, '2021-04-21 05:29:32', 1, '2021-08-13 13:23:44');
+INSERT INTO `sys_permission_info` VALUES (69, '1385520263748186112', '1384741066913136640', '保存', '3', 'system:config:save', '', 0, 'fa fa-home', '_self', '网页配置保存', '0', '0', 1, '2021-04-23 17:05:47', 0, '2021-04-23 17:05:47');
+INSERT INTO `sys_permission_info` VALUES (70, '1401046812895322112', '1356624071998570501', '导出pdf', '3', 'system:user:downloadPdf', '', 5, 'fa fa-home', '_self', '导出pdf', '0', '0', 1, '2021-06-05 13:22:45', 0, '2021-06-05 13:22:45');
+INSERT INTO `sys_permission_info` VALUES (72, '1403617442299260928', '1356622216053755904', '服务管理', '1', 'system:itfc:', '', 5, 'fa fa fa-bookmark', '_self', '服务管理', '0', '0', 1, '2021-06-12 15:37:31', 1, '2021-08-13 13:13:24');
+INSERT INTO `sys_permission_info` VALUES (73, '1403617991660810240', '1403617442299260928', '服务密钥', '2', 'system:itfckey:init', '/sysitfckey/init', 1, 'fa fa fa fa-home', '_self', '', '0', '0', 1, '2021-06-12 15:39:42', 1, '2021-08-13 13:18:26');
+INSERT INTO `sys_permission_info` VALUES (74, '1403618360277217280', '1403617442299260928', '服务权限', '2', 'system:itfcpermission:init', '/sysitfcpermission/init', 2, 'fa fa fa fa-home', '_self', '', '0', '0', 1, '2021-06-12 15:41:10', 1, '2021-08-13 13:18:54');
+INSERT INTO `sys_permission_info` VALUES (76, '1420386404618768384', '1356624071998570504', '在线用户', '2', 'system:useronline:init', '/sysuseronline/init', 6, 'fa fa fa-codepen', '_self', '', '0', '0', 1, '2021-07-28 22:11:23', 1, '2021-08-13 13:23:25');
+INSERT INTO `sys_permission_info` VALUES (77, '1426048058156847104', '1356624071998570503', '删除', '3', 'system:permission:delete', '', 0, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:08:46', 0, '2021-08-13 13:08:46');
+INSERT INTO `sys_permission_info` VALUES (78, '1426048592427290624', '1356624071998570503', '新增', '3', 'system:permission:add', '', 1, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:10:53', 0, '2021-08-13 13:10:53');
+INSERT INTO `sys_permission_info` VALUES (79, '1426048692151062528', '1356624071998570503', '编辑', '3', 'system:permission:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:11:17', 0, '2021-08-13 13:11:17');
+INSERT INTO `sys_permission_info` VALUES (80, '1426048926205808640', '1356624071998570503', '禁用启用', '3', 'system:permission:disoren', '', 3, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:12:13', 0, '2021-08-13 13:12:13');
+INSERT INTO `sys_permission_info` VALUES (81, '1426049544312000512', '1403617991660810240', '新增', '3', 'system:itfckey:add', '', 0, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:14:40', 1, '2021-10-23 15:22:10');
+INSERT INTO `sys_permission_info` VALUES (82, '1426049723656245248', '1403617991660810240', '删除', '3', 'system:itfckey:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:15:23', 0, '2021-08-13 13:15:23');
+INSERT INTO `sys_permission_info` VALUES (83, '1426049867319545856', '1403617991660810240', '编辑', '3', 'system:itfckey:edit', '', 3, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:15:57', 0, '2021-08-13 13:15:57');
+INSERT INTO `sys_permission_info` VALUES (84, '1426050015730798592', '1403617991660810240', '禁用启用', '3', 'system:itfckey:disoren', '', 4, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:16:33', 0, '2021-08-13 13:16:33');
+INSERT INTO `sys_permission_info` VALUES (85, '1426050236284080128', '1403617991660810240', '授权', '3', 'system:itfckey:authorize', '', 5, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:17:25', 0, '2021-08-13 13:17:25');
+INSERT INTO `sys_permission_info` VALUES (86, '1426050733669814272', '1403618360277217280', '新增', '3', 'system:itfcpermission:add', '', 0, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:19:24', 0, '2021-08-13 13:19:24');
+INSERT INTO `sys_permission_info` VALUES (87, '1426050819334279168', '1403618360277217280', '编辑', '3', 'system:itfcpermission:edit', '', 1, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:19:44', 1, '2021-08-13 13:20:41');
+INSERT INTO `sys_permission_info` VALUES (88, '1426050917795565568', '1403618360277217280', '删除', '3', 'system:itfcpermission:delete', '', 2, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:20:08', 0, '2021-08-13 13:20:19');
+INSERT INTO `sys_permission_info` VALUES (89, '1426052156788772864', '1379079117025284096', '新增', '3', 'system:idtable:add', '', 0, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:25:03', 0, '2021-08-13 13:25:03');
+INSERT INTO `sys_permission_info` VALUES (90, '1426052217211916288', '1379079117025284096', '删除', '3', 'system:idtable:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:25:18', 0, '2021-08-13 13:25:18');
+INSERT INTO `sys_permission_info` VALUES (91, '1426052294944952320', '1379079117025284096', '编辑', '3', 'system:idtable:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:25:36', 0, '2021-08-13 13:25:36');
+INSERT INTO `sys_permission_info` VALUES (96, '1426053204626575360', '1363856859898011648', '新增', '3', 'sys:basedict:add', '', 0, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:29:13', 0, '2021-08-13 13:29:13');
+INSERT INTO `sys_permission_info` VALUES (97, '1426053263602683904', '1363856859898011648', '删除', '3', 'sys:basedict:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:29:27', 0, '2021-08-13 13:29:27');
+INSERT INTO `sys_permission_info` VALUES (98, '1426053344749883392', '1363856859898011648', '编辑', '3', 'sys:basedict:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:29:46', 0, '2021-08-13 13:29:46');
+INSERT INTO `sys_permission_info` VALUES (99, '1426053449271939072', '1363856859898011648', '禁用启用', '3', 'sys:basedict:disoren', '', 3, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:30:11', 0, '2021-08-13 13:30:11');
+INSERT INTO `sys_permission_info` VALUES (100, '1426053589923729408', '1363856859898011648', '配置', '3', 'sys:basedict:configuration', '', 4, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-13 13:30:45', 0, '2021-08-13 13:30:45');
+INSERT INTO `sys_permission_info` VALUES (101, '1431230594149711872', '1363856602749427712', '定时任务', '2', 'system:job:init', '/sysjob/init', 5, 'fa fa fa fa-home', '_self', '', '0', '0', 1, '2021-08-27 20:22:19', 1, '2021-08-28 16:48:09');
+INSERT INTO `sys_permission_info` VALUES (102, '1431538412783583232', '1431230594149711872', '新增', '3', 'sys:job:add', '', 0, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-08-28 16:45:29', 1, '2021-08-28 16:47:14');
+INSERT INTO `sys_permission_info` VALUES (103, '1431538557407379456', '1431230594149711872', '删除', '3', 'sys:job:delete', '', 1, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-08-28 16:46:03', 1, '2021-08-28 16:47:33');
+INSERT INTO `sys_permission_info` VALUES (104, '1431538629335498752', '1431230594149711872', '编辑', '3', 'sys:job:edit', '', 2, 'fa fa fa-home', '_self', '', '0', '0', 1, '2021-08-28 16:46:20', 1, '2021-08-28 16:47:46');
+INSERT INTO `sys_permission_info` VALUES (105, '1431538723468263424', '1431230594149711872', '执行一次', '3', 'sys:job:executeonce', '', 3, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-28 16:46:43', 0, '2021-08-28 16:46:43');
+INSERT INTO `sys_permission_info` VALUES (106, '1431538808277090304', '1431230594149711872', '执行日志', '3', 'sys:job:record', '', 4, 'fa fa-home', '_self', '', '0', '0', 1, '2021-08-28 16:47:03', 0, '2021-08-28 16:47:03');
+
+-- ----------------------------
+-- Table structure for sys_post_info
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_post_info`;
+CREATE TABLE `sys_post_info`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
+  `post_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
+  `post_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位名称',
+  `post_sort` int(4) NOT NULL COMMENT '显示顺序',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态（0正常 1停用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_role_info
@@ -4617,8 +4763,8 @@ CREATE TABLE `sys_role_info`  (
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称',
   `sign` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色标志',
   `descript` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
-  `status` tinyint(4) NULL DEFAULT 0 COMMENT '状态（0--正常1--停用）',
-  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '删除状态（0--未删除1--已删除）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建者',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
@@ -4629,19 +4775,19 @@ CREATE TABLE `sys_role_info`  (
 -- ----------------------------
 -- Records of sys_role_info
 -- ----------------------------
-INSERT INTO `sys_role_info` VALUES (1, '1263999628210487296', '超级管理员', 'administrator', '超级管理员，拥有至高无上的权力', 0, 0, 0, '2020-09-06 19:40:31', 0, '2021-02-02 16:09:57');
-INSERT INTO `sys_role_info` VALUES (2, '1263999628210487297', '测试人员', 'test', '测试人员', 0, 0, 0, '2020-09-06 19:40:31', 0, '2021-02-02 16:09:57');
-INSERT INTO `sys_role_info` VALUES (3, '1263999628210487298', '测试角色1', '11', '测试角色1', 0, 0, 6, '2020-10-15 21:19:49', 0, '2021-02-02 16:09:58');
-INSERT INTO `sys_role_info` VALUES (4, '1263999628210487291', '测试角色2', 'awc ', '测试角色2', 0, 0, 6, '2020-10-21 22:34:47', 0, '2021-02-02 16:09:58');
-INSERT INTO `sys_role_info` VALUES (5, '1263999628210287296', '测试角色3', 'hjjj', '测试角色3', 0, 0, 6, '2020-10-23 15:48:54', 0, '2021-02-03 00:12:14');
-INSERT INTO `sys_role_info` VALUES (8, '1263999620210087296', '嘿嘿', 'heihei', 'dasdasdsdsa', 0, 1, 1, '2021-02-01 22:29:26', 0, '2021-02-03 00:12:15');
-INSERT INTO `sys_role_info` VALUES (9, '1263999628210487209', '爱吃甜品的猫', 'dasdasdas', '', 0, 1, 1, '2021-02-02 00:11:58', 0, '2021-02-02 16:09:59');
-INSERT INTO `sys_role_info` VALUES (10, '1263999628210487223', 'dasdasd', 'dasdadsdas', '', 0, 0, 1, '2021-02-02 00:14:36', 0, '2021-02-02 16:09:59');
-INSERT INTO `sys_role_info` VALUES (11, '1263999628210487211', 'th', 'ttttt', '', 0, 1, 1, '2021-02-02 00:16:40', 0, '2021-02-02 16:09:59');
-INSERT INTO `sys_role_info` VALUES (12, '1263999628210487222', '刘星宇', 'liuxingyu', '测试一下编辑', 1, 0, 1, '2021-02-02 00:19:06', 0, '2021-06-20 16:54:21');
-INSERT INTO `sys_role_info` VALUES (13, '1356642120790933504', '测试账号', 'dasdasdas', 'dsaddasda', 0, 1, 1, '2021-02-03 00:34:22', 0, '2021-02-03 00:35:20');
-INSERT INTO `sys_role_info` VALUES (14, '1357959313865515008', 'rrdaa', 'dasdsdaewwooo', '', 0, 1, 1, '2021-02-06 15:48:25', 0, '2021-02-06 15:48:51');
-INSERT INTO `sys_role_info` VALUES (15, '1406536194668273664', '新增', 'iooo', '', 0, 1, 1, '2021-06-20 16:55:38', 0, '2021-06-20 16:55:55');
+INSERT INTO `sys_role_info` VALUES (1, '1263999628210487296', '超级管理员', 'administrator', '超级管理员，拥有至高无上的权力', '0', '0', 0, '2020-09-06 19:40:31', 0, '2021-02-02 16:09:57');
+INSERT INTO `sys_role_info` VALUES (2, '1263999628210487297', '测试人员', 'test', '测试人员', '0', '0', 0, '2020-09-06 19:40:31', 0, '2021-02-02 16:09:57');
+INSERT INTO `sys_role_info` VALUES (3, '1263999628210487298', '测试角色1', '11', '测试角色1', '0', '0', 6, '2020-10-15 21:19:49', 0, '2021-02-02 16:09:58');
+INSERT INTO `sys_role_info` VALUES (4, '1263999628210487291', '测试角色2', 'awc ', '测试角色2', '0', '0', 6, '2020-10-21 22:34:47', 0, '2021-02-02 16:09:58');
+INSERT INTO `sys_role_info` VALUES (5, '1263999628210287296', '测试角色3', 'hjjj', '测试角色3', '0', '0', 6, '2020-10-23 15:48:54', 0, '2021-02-03 00:12:14');
+INSERT INTO `sys_role_info` VALUES (8, '1263999620210087296', '嘿嘿', 'heihei', 'dasdasdsdsa', '0', '1', 1, '2021-02-01 22:29:26', 0, '2021-02-03 00:12:15');
+INSERT INTO `sys_role_info` VALUES (9, '1263999628210487209', '爱吃甜品的猫', 'dasdasdas', '', '0', '1', 1, '2021-02-02 00:11:58', 0, '2021-02-02 16:09:59');
+INSERT INTO `sys_role_info` VALUES (10, '1263999628210487223', 'dasdasd', 'dasdadsdas', '', '0', '0', 1, '2021-02-02 00:14:36', 0, '2021-02-02 16:09:59');
+INSERT INTO `sys_role_info` VALUES (11, '1263999628210487211', 'th', 'ttttt', '', '0', '1', 1, '2021-02-02 00:16:40', 0, '2021-02-02 16:09:59');
+INSERT INTO `sys_role_info` VALUES (12, '1263999628210487222', '刘星宇', 'liuxingyu', '测试一下编辑', '1', '0', 1, '2021-02-02 00:19:06', 0, '2021-10-23 14:50:37');
+INSERT INTO `sys_role_info` VALUES (13, '1356642120790933504', '测试账号', 'dasdasdas', 'dsaddasda', '0', '1', 1, '2021-02-03 00:34:22', 0, '2021-02-03 00:35:20');
+INSERT INTO `sys_role_info` VALUES (14, '1357959313865515008', 'rrdaa', 'dasdsdaewwooo', '', '0', '1', 1, '2021-02-06 15:48:25', 0, '2021-02-06 15:48:51');
+INSERT INTO `sys_role_info` VALUES (15, '1406536194668273664', '新增', 'iooo', '', '0', '1', 1, '2021-06-20 16:55:38', 0, '2021-06-20 16:55:55');
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -4654,18 +4800,11 @@ CREATE TABLE `sys_role_permission`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5175 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色-权限关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5206 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色-权限关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_permission
 -- ----------------------------
-INSERT INTO `sys_role_permission` VALUES (3385, '1263999628210487297', '1356622216053755904', '2021-03-01 13:49:29', '2021-03-01 13:49:29');
-INSERT INTO `sys_role_permission` VALUES (3386, '1263999628210487297', '1356624071998570500', '2021-03-01 13:49:29', '2021-03-01 13:49:29');
-INSERT INTO `sys_role_permission` VALUES (3387, '1263999628210487297', '1356624071998570501', '2021-03-01 13:49:29', '2021-03-01 13:49:29');
-INSERT INTO `sys_role_permission` VALUES (3388, '1263999628210487297', '1366257271839412224', '2021-03-01 13:49:29', '2021-03-01 13:49:29');
-INSERT INTO `sys_role_permission` VALUES (3389, '1263999628210487297', '1366260043151405056', '2021-03-01 13:49:29', '2021-03-01 13:49:29');
-INSERT INTO `sys_role_permission` VALUES (3390, '1263999628210487297', '1356624071998570502', '2021-03-01 13:49:29', '2021-03-01 13:49:29');
-INSERT INTO `sys_role_permission` VALUES (3391, '1263999628210487297', '1356624071998570503', '2021-03-01 13:49:29', '2021-03-01 13:49:29');
 INSERT INTO `sys_role_permission` VALUES (4625, '1263999628210487222', '1356622216053755904', '2021-07-12 13:35:24', '2021-07-12 13:35:24');
 INSERT INTO `sys_role_permission` VALUES (4626, '1263999628210487222', '1383248198383104000', '2021-07-12 13:35:24', '2021-07-12 13:35:24');
 INSERT INTO `sys_role_permission` VALUES (4627, '1263999628210487222', '1383248448330067968', '2021-07-12 13:35:24', '2021-07-12 13:35:24');
@@ -4810,6 +4949,26 @@ INSERT INTO `sys_role_permission` VALUES (5160, '1263999628210487291', '14260480
 INSERT INTO `sys_role_permission` VALUES (5161, '1263999628210487291', '1426048592427290624', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES (5162, '1263999628210487291', '1426048692151062528', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES (5163, '1263999628210487291', '1426048926205808640', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
+INSERT INTO `sys_role_permission` VALUES (5175, '1263999628210487297', '1356622216053755904', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5176, '1263999628210487297', '1356624071998570500', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5177, '1263999628210487297', '1356624071998570501', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5178, '1263999628210487297', '1366257271839412224', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5179, '1263999628210487297', '1366260043151405056', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5180, '1263999628210487297', '1366260043151405057', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5181, '1263999628210487297', '1366260043151405058', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5182, '1263999628210487297', '1366260043151405059', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5183, '1263999628210487297', '1401046812895322112', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5184, '1263999628210487297', '1356624071998570502', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5185, '1263999628210487297', '1375651227775606784', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5186, '1263999628210487297', '1375651443106979840', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5187, '1263999628210487297', '1375651585042227200', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5188, '1263999628210487297', '1375651784099700736', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5189, '1263999628210487297', '1375651939947454464', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5190, '1263999628210487297', '1356624071998570503', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5191, '1263999628210487297', '1426048058156847104', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5192, '1263999628210487297', '1426048592427290624', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5193, '1263999628210487297', '1426048692151062528', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
+INSERT INTO `sys_role_permission` VALUES (5194, '1263999628210487297', '1426048926205808640', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
 
 -- ----------------------------
 -- Table structure for sys_user_info
@@ -4822,9 +4981,9 @@ CREATE TABLE `sys_user_info`  (
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户姓名',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电话',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像地址',
-  `sex` tinyint(4) NULL DEFAULT 0 COMMENT '性别（0--未知 1--男 2--女）',
-  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '状态（0--正常 1--冻结）',
-  `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志（0--未删除1--已删除）',
+  `sex` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '性别（0--未知 1--男 2--女）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '状态（0--正常 1--冻结）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0--未删除1--已删除）',
   `create_user` int(11) NULL DEFAULT 0 COMMENT '创建人',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '更新人',
@@ -4835,25 +4994,36 @@ CREATE TABLE `sys_user_info`  (
 -- ----------------------------
 -- Records of sys_user_info
 -- ----------------------------
-INSERT INTO `sys_user_info` VALUES (1, 'admin', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '喵喵(123654)', '17862719592', 'http://halo.lxyccc.top/头像.jpg', 1, 0, 0, 0, '2020-09-06 19:40:49', 1, '2021-08-21 16:03:35');
-INSERT INTO `sys_user_info` VALUES (2, '13888888888', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '测试账号', '13888888886', 'http://halo.lxyccc.top/头像.jpg', 1, 0, 0, 1, '2020-09-30 09:35:28', 0, '2021-08-30 18:10:09');
-INSERT INTO `sys_user_info` VALUES (3, 'zhangsan', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '张三', '13244444444', 'http://halo.lxyccc.top/导航标注_16.png', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-08-30 18:10:35');
-INSERT INTO `sys_user_info` VALUES (4, 'lisi', 'df3db4b61f6d08899d10f5beb578a3699373b24841d9cb43ae123a688168ad2e', '李四', '13067395515', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 1, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-06-28 19:55:17');
-INSERT INTO `sys_user_info` VALUES (5, 'wangwu', 'c6fbfcf124670417dc0b8485171d6bb9', '王五', '13888888886', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-06-19 19:33:55');
-INSERT INTO `sys_user_info` VALUES (6, 'zhaoliu', 'c6fbfcf124670417dc0b8485171d6bb9', '赵六', '18888888888', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-06-28 22:21:26');
-INSERT INTO `sys_user_info` VALUES (7, 'xiaohong', 'c6fbfcf124670417dc0b8485171d6bb9', '小红', '13255667980', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-06-28 22:22:05');
-INSERT INTO `sys_user_info` VALUES (8, 'xiaohuang', 'c6fbfcf124670417dc0b8485171d6bb9', '小黄', '15286779044', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-02-06 15:23:54');
-INSERT INTO `sys_user_info` VALUES (9, 'xiaolv', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '大绿', '1', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-01-29 22:50:10');
-INSERT INTO `sys_user_info` VALUES (10, 'xiaolan', 'c6fbfcf124670417dc0b8485171d6bb9', '小兰', '15286776337', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-08-21 14:59:14');
-INSERT INTO `sys_user_info` VALUES (11, 'xiaozi', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小紫', '0', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:26:01', 0, '2021-01-29 22:50:19');
-INSERT INTO `sys_user_info` VALUES (12, 'xiaoqing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小青', '1', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:22');
-INSERT INTO `sys_user_info` VALUES (13, 'liuxing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '流星雨', '1', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:26');
-INSERT INTO `sys_user_info` VALUES (14, 'huangzai', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '黄二郎', '1', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:30');
-INSERT INTO `sys_user_info` VALUES (15, 'superadmin', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '超级管理员', '17899999999', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', 2, 0, 0, 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:34');
-INSERT INTO `sys_user_info` VALUES (17, 'liuxingyu01', 'c6fbfcf124670417dc0b8485171d6bb9', '黑呵呵', '15286779077', 'http://halo.lxyccc.top/车.png', 2, 1, 0, 1, '2021-01-25 13:06:22', 0, '2021-07-14 13:26:31');
-INSERT INTO `sys_user_info` VALUES (18, '测试上传头像', '31a326b90dee28fad25e4e3b653cd7ea', 'avatar', '15286779044', 'http://halo.lxyccc.top/44dsdsdsds4.jpg', 1, 0, 0, 1, '2021-03-27 08:35:47', 0, '2021-03-27 08:35:47');
-INSERT INTO `sys_user_info` VALUES (22, 'sdasdasa', '124e805e3e0c59443b5026057b7ac4d7', 'dsdasdsadsa', '15286779046', 'http://halo.lxyccc.top/评价-星标1.png', 2, 0, 0, 1, '2021-06-18 22:37:05', 0, '2021-07-14 13:26:12');
-INSERT INTO `sys_user_info` VALUES (23, 'chunmian', 'd86f9966c1baea9f106b33f26305d3b7', '纯棉', '15202843353', 'http://halo.lxyccc.top/loading-1.gif', 1, 0, 0, 1, '2021-06-27 19:32:16', 0, '2021-06-27 19:32:16');
+INSERT INTO `sys_user_info` VALUES (1, 'admin', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '喵喵(123654)', '17862719999', 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', 0, '2020-09-06 19:40:49', 1, '2021-09-28 20:11:29');
+INSERT INTO `sys_user_info` VALUES (2, '13888888888', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '测试账号', '13888888886', 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', 1, '2020-09-30 09:35:28', 0, '2021-08-30 18:10:09');
+INSERT INTO `sys_user_info` VALUES (3, 'zhangsan', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '张三', '13244444444', 'http://halo.lxyccc.top/导航标注_16.png', '2', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-08-30 18:10:35');
+INSERT INTO `sys_user_info` VALUES (4, 'lisi', 'df3db4b61f6d08899d10f5beb578a3699373b24841d9cb43ae123a688168ad2e', '李四', '13067395515', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-06-28 19:55:17');
+INSERT INTO `sys_user_info` VALUES (5, 'wangwu', 'c6fbfcf124670417dc0b8485171d6bb9', '王五', '13888888886', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-06-19 19:33:55');
+INSERT INTO `sys_user_info` VALUES (6, 'zhaoliu', 'c6fbfcf124670417dc0b8485171d6bb9', '赵六', '18888888888', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-06-28 22:21:26');
+INSERT INTO `sys_user_info` VALUES (7, 'xiaohong', 'c6fbfcf124670417dc0b8485171d6bb9', '小红', '13255667980', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-06-28 22:22:05');
+INSERT INTO `sys_user_info` VALUES (8, 'xiaohuang', 'c6fbfcf124670417dc0b8485171d6bb9', '小黄', '15286779044', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-02-06 15:23:54');
+INSERT INTO `sys_user_info` VALUES (9, 'xiaolv', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '大绿', '17862719592', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-10-23 14:32:16');
+INSERT INTO `sys_user_info` VALUES (10, 'xiaolan', 'c6fbfcf124670417dc0b8485171d6bb9', '小兰', '15286776337', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-08-21 14:59:14');
+INSERT INTO `sys_user_info` VALUES (11, 'xiaozi', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小紫', '13288990099', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:26:01', 0, '2021-10-23 14:33:51');
+INSERT INTO `sys_user_info` VALUES (12, 'xiaoqing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小青', '1', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:22');
+INSERT INTO `sys_user_info` VALUES (13, 'liuxing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '流星雨', '1', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:26');
+INSERT INTO `sys_user_info` VALUES (14, 'huangzai', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '黄二郎', '1', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:30');
+INSERT INTO `sys_user_info` VALUES (15, 'superadmin', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '超级管理员', '17899999999', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', 0, '2021-01-07 15:28:30', 0, '2021-01-29 22:50:34');
+INSERT INTO `sys_user_info` VALUES (17, 'liuxingyu01', 'c6fbfcf124670417dc0b8485171d6bb9', '黑呵呵', '15286779077', 'http://halo.lxyccc.top/车.png', '2', '1', '0', 1, '2021-01-25 13:06:22', 0, '2021-07-14 13:26:31');
+INSERT INTO `sys_user_info` VALUES (18, '测试上传头像', '31a326b90dee28fad25e4e3b653cd7ea', 'avatar', '15286779044', 'http://halo.lxyccc.top/44dsdsdsds4.jpg', '1', '0', '0', 1, '2021-03-27 08:35:47', 0, '2021-03-27 08:35:47');
+INSERT INTO `sys_user_info` VALUES (22, 'sdasdasa', '124e805e3e0c59443b5026057b7ac4d7', 'dsdasdsadsa', '15286779046', 'http://halo.lxyccc.top/评价-星标1.png', '2', '0', '0', 1, '2021-06-18 22:37:05', 0, '2021-07-14 13:26:12');
+INSERT INTO `sys_user_info` VALUES (23, 'chunmian', 'd86f9966c1baea9f106b33f26305d3b7', '纯棉', '15202843353', 'http://halo.lxyccc.top/loading-1.gif', '2', '0', '0', 1, '2021-06-27 19:32:16', 0, '2021-10-23 14:34:12');
+
+-- ----------------------------
+-- Table structure for sys_user_post
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_post`;
+CREATE TABLE `sys_user_post`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `post_id` bigint(20) NOT NULL COMMENT '岗位编码',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户岗位关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -4866,7 +5036,7 @@ CREATE TABLE `sys_user_role`  (
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户-角色关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 94 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户-角色关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -4892,10 +5062,15 @@ INSERT INTO `sys_user_role` VALUES (66, 17, '1263999628210487296', '2021-02-07 1
 INSERT INTO `sys_user_role` VALUES (67, 17, '1263999628210487297', '2021-02-07 17:19:39', '2021-02-07 17:19:39');
 INSERT INTO `sys_user_role` VALUES (68, 17, '1263999628210487298', '2021-02-07 17:19:39', '2021-02-07 17:19:39');
 INSERT INTO `sys_user_role` VALUES (69, 17, '1263999628210487291', '2021-02-07 17:19:39', '2021-02-07 17:19:39');
-INSERT INTO `sys_user_role` VALUES (74, 2, '1263999628210487297', '2021-04-20 05:05:21', '2021-04-20 05:05:21');
 INSERT INTO `sys_user_role` VALUES (76, 1, '1263999628210487296', '2021-05-01 23:02:42', '2021-05-01 23:02:42');
 INSERT INTO `sys_user_role` VALUES (83, 20, '1263999628210487223', '2021-06-18 22:18:23', '2021-06-18 22:18:23');
 INSERT INTO `sys_user_role` VALUES (84, 3, '1263999628210487298', '2021-08-30 18:11:48', '2021-08-30 18:11:48');
 INSERT INTO `sys_user_role` VALUES (85, 3, '1263999628210487291', '2021-08-30 18:11:48', '2021-08-30 18:11:48');
+INSERT INTO `sys_user_role` VALUES (87, 2, '1263999628210487297', '2021-10-23 14:49:27', '2021-10-23 14:49:27');
+INSERT INTO `sys_user_role` VALUES (88, 2, '1263999628210487296', '2021-10-23 14:49:27', '2021-10-23 14:49:27');
+INSERT INTO `sys_user_role` VALUES (89, 2, '1263999628210487298', '2021-10-23 14:49:27', '2021-10-23 14:49:27');
+INSERT INTO `sys_user_role` VALUES (90, 2, '1263999628210487291', '2021-10-23 14:49:27', '2021-10-23 14:49:27');
+INSERT INTO `sys_user_role` VALUES (91, 2, '1263999628210287296', '2021-10-23 14:49:27', '2021-10-23 14:49:27');
+INSERT INTO `sys_user_role` VALUES (92, 2, '1263999628210487223', '2021-10-23 14:49:27', '2021-10-23 14:49:27');
 
 SET FOREIGN_KEY_CHECKS = 1;
