@@ -17,14 +17,14 @@ import java.util.concurrent.TimeUnit;
  * @date 2021-02-14-22:20
  * @description OkHttp工具类
  **/
-public class OkHttpUtil {
-    final static Logger log = LoggerFactory.getLogger(OkHttpUtil.class);
+public class OkHttpUtils {
+    final static Logger log = LoggerFactory.getLogger(OkHttpUtils.class);
 
     // 私有化示例要加上volatile，防止jvm重排序，导致空指针
     private static volatile OkHttpClient okHttpClient = null;
 
     // 单例禁止new实例化
-    private OkHttpUtil() {
+    private OkHttpUtils() {
 
     }
 
@@ -35,18 +35,19 @@ public class OkHttpUtil {
      */
     public static OkHttpClient getInstance() {
         if (okHttpClient == null) {
-            synchronized (OkHttpUtil.class) {
+            synchronized (OkHttpUtils.class) {
                 if (okHttpClient == null) {
                     okHttpClient = new OkHttpClient.Builder()
-                            .readTimeout(10, TimeUnit.SECONDS)
-                            .connectTimeout(5, TimeUnit.SECONDS)
+                            .connectTimeout(15, TimeUnit.SECONDS)
+                            .readTimeout(20, TimeUnit.SECONDS)
+                            .writeTimeout(20, TimeUnit.SECONDS)
+                            .retryOnConnectionFailure(true)
                             .build();
                 }
             }
         }
         return okHttpClient;
     }
-
 
 
     /**
@@ -58,13 +59,13 @@ public class OkHttpUtil {
     public static String get(String url) {
         String result = null;
         try {
-            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+            OkHttpClient okHttpClient = OkHttpUtils.getInstance();
             Request request = new Request.Builder().url(url).build();
             Response response = okHttpClient.newCall(request).execute();
             if (response.body() != null && response.isSuccessful()) {
                 result = response.body().string();
             }
-            log.info("Get请求返回：{}", result);
+            log.info("OkHttp[Get}请求返回：{}", result);
             return result;
         } catch (Exception e) {
             log.error("OkHttp[Get]请求异常", e);
@@ -86,10 +87,10 @@ public class OkHttpUtil {
             params = new HashMap<>();
         }
         try {
-            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+            OkHttpClient okHttpClient = OkHttpUtils.getInstance();
             FormBody.Builder formBodyBuilder = new FormBody.Builder();
             // 添加参数
-            log.info("post - params：{}", params);
+            log.info("Post - params：{}", params);
             for (Map.Entry<String, String> map : params.entrySet()) {
                 String key = map.getKey();
                 String value;
@@ -131,7 +132,7 @@ public class OkHttpUtil {
                     .url(url)
                     .post(body)
                     .build();
-            OkHttpClient mOkHttpClient = OkHttpUtil.getInstance();
+            OkHttpClient mOkHttpClient = OkHttpUtils.getInstance();
             Response response = mOkHttpClient.newCall(request).execute();
             if (response.body() != null && response.isSuccessful()) {
                 result = response.body().string();
@@ -153,7 +154,7 @@ public class OkHttpUtil {
     public static String upload(String url, Map<String, File> params) {
         String result = null;
         try {
-            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+            OkHttpClient okHttpClient = OkHttpUtils.getInstance();
             MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
 
             for (Map.Entry<String, File> map : params.entrySet()) {
@@ -189,7 +190,7 @@ public class OkHttpUtil {
     public static String download(String url, String savePath) {
         String result = null;
         try {
-            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+            OkHttpClient okHttpClient = OkHttpUtils.getInstance();
             Request request = new Request.Builder().url(url).build();
             Response response = okHttpClient.newCall(request).execute();
             File file = new File(savePath);
@@ -221,7 +222,7 @@ public class OkHttpUtil {
      */
     public static void asyncGet(String url) {
         try {
-            OkHttpClient okHttpClient = OkHttpUtil.getInstance();
+            OkHttpClient okHttpClient = OkHttpUtils.getInstance();
             Request request = new Request.Builder()
                     //.addHeader("token", "123") // 设置请求头
                     .url(url)

@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.utils;
 
-import com.bluewind.boot.common.utils.http.OkHttpUtil;
+import com.bluewind.boot.common.utils.http.OkHttpUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,7 +27,7 @@ public class AddressUtils {
             return "局域网，无法获取位置";
         }
         String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=6006&format=json&query=" + ip;
-        String result = OkHttpUtil.get(url);
+        String result = OkHttpUtils.get(url);
         Map resultMap = JsonTool.getMapFromJsonString(result);
         String status = Optional.ofNullable(resultMap.get("status")).orElse("").toString();
         if (StringUtils.isNotBlank(status) && status.equals("0")) {
