@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.index.service;
 
-import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.sys.index.mapper.IndexMapper;
 import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.sys.index.util.TreeUtil;

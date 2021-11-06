@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.sysuserrole.service;
 
-import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.sys.sysuserrole.entity.SysUserRole;
 import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.base.BaseResult;

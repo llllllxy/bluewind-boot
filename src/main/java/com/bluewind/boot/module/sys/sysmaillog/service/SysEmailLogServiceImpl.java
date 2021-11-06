@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.sysmaillog.service;
 
-import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.sys.sysmaillog.mapper.SysEmailLogMapper;
 import com.bluewind.boot.module.sys.sysmail.entity.SysEmailLog;
 import com.bluewind.boot.module.sys.sysmail.entity.SysEmailLogVO;

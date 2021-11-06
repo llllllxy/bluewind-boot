@@ -2,7 +2,7 @@ package com.bluewind.boot.module.websocket.controller;
 
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.websocket.config.WebSocketServer;
 import com.bluewind.boot.module.websocket.vo.WebsocketVO;
 import io.swagger.annotations.Api;

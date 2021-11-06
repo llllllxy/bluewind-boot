@@ -1,7 +1,7 @@
 package com.bluewind.boot.module.sys.sysuserinfo.controller;
 
-import com.bluewind.boot.common.configuration.security.SecurityUtil;
-import com.bluewind.boot.common.configuration.security.annotation.RequiresPermissions;
+import com.bluewind.boot.common.config.security.SecurityUtil;
+import com.bluewind.boot.common.config.security.annotation.RequiresPermissions;
 import com.bluewind.boot.module.sys.sysroleinfo.service.SysRoleInfoService;
 import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
 import com.bluewind.boot.module.sys.sysuserinfo.service.SysUserInfoService;

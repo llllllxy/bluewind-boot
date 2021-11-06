@@ -2,7 +2,7 @@ package com.bluewind.boot.module.sys.sysjob.service;
 
 import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
-import com.bluewind.boot.common.configuration.quartz.ScheduleUtils;
+import com.bluewind.boot.common.config.quartz.ScheduleUtils;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
 import com.bluewind.boot.module.sys.sysjob.mapper.SysJobMapper;
 import org.quartz.Scheduler;

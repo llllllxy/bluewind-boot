@@ -2,7 +2,7 @@ package com.bluewind.boot.module.sys.sysjob.controller;
 
 import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
-import com.bluewind.boot.common.configuration.quartz.CronUtils;
+import com.bluewind.boot.common.config.quartz.CronUtils;
 import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
 import com.bluewind.boot.module.sys.sysjob.service.SysJobService;

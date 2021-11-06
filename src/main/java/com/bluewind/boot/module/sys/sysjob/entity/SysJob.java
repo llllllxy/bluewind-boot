@@ -1,7 +1,7 @@
 package com.bluewind.boot.module.sys.sysjob.entity;
 
 import com.bluewind.boot.common.consts.ScheduleConst;
-import com.bluewind.boot.common.configuration.quartz.CronUtils;
+import com.bluewind.boot.common.config.quartz.CronUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;

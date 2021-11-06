@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.sysrolepermission.service;
 
-import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.sys.sysrolepermission.entity.SysRolePermission;
 import com.bluewind.boot.module.sys.sysrolepermission.mapper.SysRolePermissionMapper;
 import com.bluewind.boot.common.consts.SystemConst;

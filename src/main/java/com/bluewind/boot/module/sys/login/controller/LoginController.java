@@ -4,7 +4,7 @@ import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.RedisUtil;
-import com.bluewind.boot.common.configuration.security.JwtTokenUtil;
+import com.bluewind.boot.common.config.security.JwtTokenUtil;
 import com.bluewind.boot.module.sys.sysloginlog.service.SysLoginLogService;
 import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
 import com.bluewind.boot.module.sys.sysuserinfo.service.SysUserInfoService;

@@ -6,7 +6,7 @@ import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.utils.network.IPUtils;
 import com.bluewind.boot.common.utils.RedisUtil;
 import com.bluewind.boot.common.utils.web.CookieUtils;
-import com.bluewind.boot.common.configuration.security.JwtTokenUtil;
+import com.bluewind.boot.common.config.security.JwtTokenUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

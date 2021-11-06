@@ -3,7 +3,7 @@ package com.bluewind.boot.module.sys.index.controller;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.RedisUtil;
-import com.bluewind.boot.common.configuration.security.SecurityUtil;
+import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.sys.index.service.IndexService;
 import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
 import com.bluewind.boot.module.sys.sysuserinfo.service.SysUserInfoService;
