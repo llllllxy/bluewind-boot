@@ -67,10 +67,10 @@
                     <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>添加
                 </button>
                 <button th:if="${#sets.contains(permissionSet, 'system:user:delete')}" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">
-                    <i class="layui-icon layui-icon-subtraction" style="font-size: 10px;"></i>删除
+                    <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>删除
                 </button>
                 <button th:if="${#sets.contains(permissionSet, 'system:user:downloadPdf')}" class="layui-btn layui-btn-sm" lay-event="downloadPdf">
-                    <i class="layui-icon layui-icon-download-circle" style="font-size: 10px;"></i>导出pdf
+                    <i class="layui-icon layui-icon-export" style="font-size: 10px;"></i>导出pdf
                 </button>
             </div>
         </script>
@@ -78,10 +78,18 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a th:if="${#sets.contains(permissionSet, 'system:user:edit')}" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
-            <a th:if="${#sets.contains(permissionSet, 'system:user:delete')}" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
-            <a th:if="${#sets.contains(permissionSet, 'system:user:authorize')}" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="authorize">角色</a>
-            <a th:if="${#sets.contains(permissionSet, 'system:user:editpassword')}" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="editpassword">修改密码</a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:edit')}" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">
+                <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
+            </a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:authorize')}" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="authorize">
+                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>角色
+            </a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:editpassword')}" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="editpassword">
+                <i class="layui-icon layui-icon-key" style="font-size: 10px;"></i>修改密码
+            </a>
+            <a th:if="${#sets.contains(permissionSet, 'system:user:delete')}" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">
+                <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>删除
+            </a>
         </script>
 
         <script type="text/html" id="statusTpl">
@@ -137,7 +145,7 @@
                         }
                     },
                     {field: 'phone', width: '10%', title: '电话', minWidth: 80},
-                    {field: 'status', width: '8%', title: '账户状态', templet: '#statusTpl', sort: true},
+                    {field: 'status', width: '8%', title: '状态', templet: '#statusTpl', sort: true},
                     {field: 'createTime', width: '12%', title: '创建时间', sort: true},
                     {field: 'updateTime', width: '12%', title: '更新时间', sort: true},
                     {title: '操作', width: '22%', toolbar: '#currentTableBar', align: "center"}
