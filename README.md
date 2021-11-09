@@ -31,10 +31,10 @@
 ### 启动教程
 
 - 导入sql文件夹下的数据库脚本到MySQL
-- 修改配置文件application-dev.yml中MySQL数据库的连接信息（ENC部分也替换掉）
-- 如需加密数据库密码，请使用工具类com.bluewind.boot.common.utils.JasyptUtils进行加密后再配置连接信息，然后启动前需要将加密秘钥配置在环境变量中，如下图所示
-    
-    可参考文章：https://juejin.cn/post/6844904137423847438
+- 如果你不需要使用jasypt加密数据库用户名密码，则直接修改application-dev.yml中MySQL数据库的连接信息即可（ENC部分也替换掉）
+- 如需加密数据库用户名密码，请使用工具类com.bluewind.boot.common.utils.JasyptUtils进行加密后再配置连接信息（替换掉ENC包裹的部分），
+  然后在application-dev.yml的jasypt.encryptor.password处配置上你的密钥。
+  可参考文章：https://juejin.cn/post/6844904137423847438
 - 修改配置文件中application-dev.yml中Redis的连接信息
 - 运行启动类BluewindBootApplication，即可正常启动项目
 
