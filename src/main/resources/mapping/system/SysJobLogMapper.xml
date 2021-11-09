@@ -94,7 +94,7 @@
 
     <select id="getLogByJobId" parameterType="java.lang.String" resultMap="SysJobLogResult">
         <include refid="selectJobLogVo"/>
-        where job_id = #{_parameter}
+        where job_id = #{_parameter} order by create_time desc
     </select>
 
 </mapper>
