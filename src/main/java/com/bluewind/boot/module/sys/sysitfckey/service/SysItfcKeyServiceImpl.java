@@ -4,7 +4,7 @@ import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.module.sys.sysitfckey.entity.ItfcPermissionTree;
 import com.bluewind.boot.module.sys.sysitfckey.entity.SysItfcKey;
 import com.bluewind.boot.module.sys.sysitfckey.mapper.SysItfcKeyMapper;
-import com.bluewind.boot.module.sys.sysitfckey.util.TreeUtil;
+import com.bluewind.boot.module.sys.sysitfckey.util.ItfcPermissionTreeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,7 +71,7 @@ public class SysItfcKeyServiceImpl implements SysItfcKeyService {
             return JsonTool.mapToJsonString(resultMap);
         }
 
-        List<ItfcPermissionTree> resultList = TreeUtil.toTree(list, "0");
+        List<ItfcPermissionTree> resultList = ItfcPermissionTreeUtil.toTree(list, "0");
         resultMap.put("data", resultList);
         resultMap.put("code", 0);
         resultMap.put("msg", "");

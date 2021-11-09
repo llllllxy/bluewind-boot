@@ -9,7 +9,7 @@ import java.util.List;
  * @author liuxingyu01
  * @date 2021-02-05-23:19
  **/
-public class TreeUtil {
+public class PermissionTreeUtil {
     /**
      * 获取菜单树(list转tree)
      *
@@ -99,7 +99,6 @@ public class TreeUtil {
     }
 
 
-
     /**
      * 获取某个父节点下的所有子节点
      *
@@ -107,10 +106,10 @@ public class TreeUtil {
      * @param pid 父节点
      * @return
      */
-    public static List<LayuiTree> findChildMenu(List<LayuiTree> menuList, String pid) {
+    public static List<LayuiTree> findChildList(List<LayuiTree> menuList, String pid) {
         // 子节点
         List<LayuiTree> childMenu = new ArrayList<>();
-        return treeMenuList(menuList, pid, childMenu);
+        return recursionChildList(menuList, pid, childMenu);
     }
 
 
@@ -121,16 +120,40 @@ public class TreeUtil {
      * @param pid 父节点
      * @return
      */
-    public static List<LayuiTree> treeMenuList(List<LayuiTree> menuList, String pid, List<LayuiTree> childMenu) {
+    private static List<LayuiTree> recursionChildList(List<LayuiTree> menuList, String pid, List<LayuiTree> childMenu) {
         for (LayuiTree mu : menuList) {
             // 遍历出父id等于参数的id，add进子节点集合
             if (mu.getParentId().equals(pid)) {
                 // 递归遍历下一级
-                treeMenuList(menuList, mu.getPermissionId(), childMenu);
+                recursionChildList(menuList, mu.getPermissionId(), childMenu);
                 childMenu.add(mu);
             }
         }
         return childMenu;
+    }
+
+
+    /**
+     * 获取某个子节点上的所有父节点
+     *
+     * @param menuList 这里传入的是id、pid形式数据，即从菜单表里查出来的原始记录，没经过树化的数据
+     * @param childId 子节点
+     * @return
+     */
+    public static List<LayuiTree> findParentList(List<LayuiTree> menuList, String childId) {
+        // 子节点
+        List<LayuiTree> parentMenu = new ArrayList<>();
+        return recursionParentList(menuList, childId, parentMenu);
+    }
+
+    private static List<LayuiTree> recursionParentList(List<LayuiTree> menuList, String childId, List<LayuiTree> parentMenu) {
+        for (LayuiTree mu : menuList) {
+            if (mu.getPermissionId().equals(childId)) {
+                recursionParentList(menuList, mu.getParentId(), parentMenu);
+                parentMenu.add(mu);
+            }
+        }
+        return parentMenu;
     }
 
 }

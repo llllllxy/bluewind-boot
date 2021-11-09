@@ -9,7 +9,7 @@ import java.util.List;
  * @author liuxingyu01
  * @date 2021-01-05-20:03
  **/
-public class TreeUtil {
+public class MenuTreeUtil {
 
     /**
      * 获取菜单树(list转tree)

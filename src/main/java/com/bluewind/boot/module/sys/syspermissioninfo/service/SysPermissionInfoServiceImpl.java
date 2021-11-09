@@ -3,7 +3,7 @@ package com.bluewind.boot.module.sys.syspermissioninfo.service;
 import com.bluewind.boot.module.sys.syspermissioninfo.entity.LayuiTree;
 import com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo;
 import com.bluewind.boot.module.sys.syspermissioninfo.mapper.SysPermissionInfoMapper;
-import com.bluewind.boot.module.sys.syspermissioninfo.util.TreeUtil;
+import com.bluewind.boot.module.sys.syspermissioninfo.util.PermissionTreeUtil;
 import com.bluewind.boot.common.utils.JsonTool;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
             return JsonTool.mapToJsonString(resultMap);
         }
 
-        List<LayuiTree> resultList = TreeUtil.toTree(list, "0");
+        List<LayuiTree> resultList = PermissionTreeUtil.toTree(list, "0");
         resultMap.put("data", resultList);
         resultMap.put("code", 0);
         resultMap.put("msg", "");
@@ -68,7 +68,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
     @Override
     public int forbid(String permissionId) {
         List<LayuiTree> list = sysPermissionInfoMapper.listTree();
-        List<LayuiTree> childList = TreeUtil.findChildMenu(list, permissionId);
+        List<LayuiTree> childList = PermissionTreeUtil.findChildList(list, permissionId);
 
         List<String> perIdStr = new ArrayList<>();
         perIdStr.add(permissionId);
@@ -94,7 +94,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
     @Override
     public int enable(String permissionId) {
         List<LayuiTree> list = sysPermissionInfoMapper.listTree();
-        List<LayuiTree> childList = TreeUtil.findChildMenu(list, permissionId);
+        List<LayuiTree> childList = PermissionTreeUtil.findChildList(list, permissionId);
 
         List<String> perIdStr = new ArrayList<>();
         perIdStr.add(permissionId);
@@ -120,7 +120,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
     @Override
     public int delete(String permissionId) {
         List<LayuiTree> list = sysPermissionInfoMapper.listTree();
-        List<LayuiTree> childList = TreeUtil.findChildMenu(list, permissionId);
+        List<LayuiTree> childList = PermissionTreeUtil.findChildList(list, permissionId);
 
         List<String> perIdStr = new ArrayList<>();
         perIdStr.add(permissionId);
@@ -170,7 +170,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
             return JsonTool.mapToJsonString(resultMap);
         }
 
-        List<LayuiTree> resultList = TreeUtil.toTree(list, "0");
+        List<LayuiTree> resultList = PermissionTreeUtil.toTree(list, "0");
         resultMap.put("data", resultList);
         resultMap.put("code", 0);
         resultMap.put("msg", "");

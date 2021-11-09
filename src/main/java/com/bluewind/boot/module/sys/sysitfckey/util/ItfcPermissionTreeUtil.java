@@ -10,7 +10,7 @@ import java.util.List;
  * @author liuxingyu01
  * @date 2021-02-05-23:19
  **/
-public class TreeUtil {
+public class ItfcPermissionTreeUtil {
 
     /**
      * 获取菜单树(list转tree)

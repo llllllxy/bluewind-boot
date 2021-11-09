@@ -3,7 +3,7 @@ package com.bluewind.boot.module.sys.index.service;
 import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.sys.index.mapper.IndexMapper;
 import com.bluewind.boot.common.utils.lang.StringUtils;
-import com.bluewind.boot.module.sys.index.util.TreeUtil;
+import com.bluewind.boot.module.sys.index.util.MenuTreeUtil;
 import com.bluewind.boot.module.sys.index.vo.MenuVo;
 import com.bluewind.boot.module.sys.sysconfig.entity.SysConfig;
 import com.bluewind.boot.module.sys.sysconfig.service.SysConfigService;
@@ -102,7 +102,7 @@ public class IndexService {
             menuInfo.add(menuVO);
         }
         // 将菜单转成树结构
-        map.put("menuInfo", TreeUtil.toTree(menuInfo, "0"));
+        map.put("menuInfo", MenuTreeUtil.toTree(menuInfo, "0"));
 
         SysConfig sysConfig = sysConfigService.getSysConfig();
 
