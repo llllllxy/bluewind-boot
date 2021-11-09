@@ -99,14 +99,22 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> <i class="layui-icon">&#xe654;</i>新增 </button>
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="edit"> <i class="layui-icon">&#xe642;</i>编辑 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add">
+                    <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
+                </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
+                    <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
+                </button>
             </div>
         </script>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delFlag">删除</a>
-            <a class="layui-btn layui-btn-xs layui-btn-normal data-count-update" lay-event="update">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delFlag">
+                <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>删除
+            </a>
+            <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="update">
+                <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
+            </a>
         </script>
     </div>
 </div>

@@ -58,7 +58,8 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 新增
+                <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add">
+                    <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
                 </button>
             </div>
         </script>
@@ -66,14 +67,24 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
+                <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
+            </a>
             {{#  if(d.status == '0'){ }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-forbid" lay-event="forbid">停用</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="forbid">
+                    <i class="layui-icon layui-icon-close" style="font-size: 10px;"></i>停用
+                </a>
             {{#  } else { }}
-            <a class="layui-btn layui-btn-warm layui-btn-xs data-count-enable" lay-event="enable">启用</a>
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="enable">
+                    <i class="layui-icon layui-icon-play" style="font-size: 10px;"></i>启用
+                </a>
             {{#  } }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-xs layui-btn-warm data-count-authorize" lay-event="authorize">授权</a>
+            <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="authorize">
+                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>授权
+            </a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">
+                <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>删除
+            </a>
         </script>
 
         <script type="text/html" id="statusTpl">

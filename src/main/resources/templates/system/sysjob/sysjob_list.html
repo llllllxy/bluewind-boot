@@ -49,11 +49,11 @@
                         </div>
 
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit
-                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
+                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn">
+                                <i class="layui-icon"></i> 搜 索
                             </button>
-                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
-                                    lay-filter="data-reset-btn"><i class="layui-icon layui-icon-refresh"></i> 重 置
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn">
+                                <i class="layui-icon layui-icon-refresh"></i> 重 置
                             </button>
                         </div>
                     </div>
@@ -63,17 +63,27 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add">
+                    <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
+                </button>
             </div>
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
-            <a class="layui-btn layui-btn-green layui-btn-xs data-count-edit" lay-event="executeonce">执行一次</a>
-            <a class="layui-btn layui-btn-green layui-btn-xs data-count-edit" lay-event="record">调度日志</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
+                <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
+            </a>
+            <a class="layui-btn layui-btn-green layui-btn-xs" lay-event="executeonce">
+                <i class="layui-icon layui-icon-engine" style="font-size: 10px;"></i>执行一次
+            </a>
+            <a class="layui-btn layui-btn-green layui-btn-xs" lay-event="record">
+                <i class="layui-icon layui-icon-log" style="font-size: 10px;"></i>调度日志
+            </a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">
+                <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>删除
+            </a>
         </script>
 
         <script type="text/html" id="switchTpl">
