@@ -14,8 +14,6 @@ import java.util.Date;
 public class SysRoleInfo implements Serializable {
     private static final long serialVersionUID = -394893622434797995L;
 
-    private Integer id;
-
     private String roleId;
 
     private String name;
@@ -25,10 +23,6 @@ public class SysRoleInfo implements Serializable {
     private String status;
 
     private String descript;
-
-    public Integer getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -75,10 +69,6 @@ public class SysRoleInfo implements Serializable {
     }
 
     private Integer createUser;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -131,7 +121,6 @@ public class SysRoleInfo implements Serializable {
     @Override
     public String toString() {
         return "SysRoleInfo{" +
-                "id=" + id +
                 "roleId=" + roleId +
                 ", name='" + name + '\'' +
                 ", sign='" + sign + '\'' +

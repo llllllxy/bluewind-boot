@@ -143,10 +143,10 @@ public class SysRoleInfoController extends BaseController {
      * 删除一个系统角色（这里用逻辑删除）
      * @return
      */
-    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/delete/{roleId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult delete(@PathVariable int id){
-        int num = sysRoleInfoService.delete(id);
+    public BaseResult delete(@PathVariable String roleId){
+        int num = sysRoleInfoService.delete(roleId);
         if (num > 0) {
             return BaseResult.success("删除成功!");
         } else {
@@ -159,10 +159,10 @@ public class SysRoleInfoController extends BaseController {
      * 禁用一个系统角色
      * @return
      */
-    @RequestMapping(value="/forbid/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/forbid/{roleId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult forbid(@PathVariable int id){
-        int num = sysRoleInfoService.forbid(id);
+    public BaseResult forbid(@PathVariable String roleId){
+        int num = sysRoleInfoService.forbid(roleId);
         if (num > 0) {
             return BaseResult.success("禁用成功!");
         } else {
@@ -176,10 +176,10 @@ public class SysRoleInfoController extends BaseController {
      * 启用一个系统角色
      * @return
      */
-    @RequestMapping(value="/enable/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/enable/{roleId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult enable(@PathVariable int id){
-        int num = sysRoleInfoService.enable(id);
+    public BaseResult enable(@PathVariable String roleId){
+        int num = sysRoleInfoService.enable(roleId);
         if (num > 0) {
             return BaseResult.success("启用成功!");
         } else {
@@ -194,10 +194,9 @@ public class SysRoleInfoController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(Model model,
-                         @PathVariable int id) {
-        SysRoleInfo sysRoleInfo = sysRoleInfoService.getOneRoleById(id);
+    @RequestMapping(value = "/update/{roleId}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable String roleId) {
+        SysRoleInfo sysRoleInfo = sysRoleInfoService.getOneRoleById(roleId);
         model.addAttribute("sysRoleInfo", sysRoleInfo);
         return "system/sysroleinfo/sysroleinfo_update";
     }
@@ -213,13 +212,13 @@ public class SysRoleInfoController extends BaseController {
     @ResponseBody
     public BaseResult doUpdate(@RequestParam(value = "name") String name,
                                @RequestParam(value = "sign") String sign,
-                               @RequestParam(value = "id") Integer id,
+                               @RequestParam(value = "roleId") String roleId,
                                @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
         if (logger.isInfoEnabled()) {
             logger.info("doUpdate -- name =  {}：" + name);
         }
         SysRoleInfo sysRoleInfo = new SysRoleInfo();
-        sysRoleInfo.setId(id);
+        sysRoleInfo.setRoleId(roleId);
         sysRoleInfo.setName(name);
         sysRoleInfo.setSign(sign);
         sysRoleInfo.setDescript(descript);
@@ -251,10 +250,10 @@ public class SysRoleInfoController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/authorize/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/authorize/{roleId}", method = RequestMethod.GET)
     public String authorize(Model model,
-                            @PathVariable int id) {
-        SysRoleInfo sysRoleInfo = sysRoleInfoService.getOneRoleById(id);
+                            @PathVariable String roleId) {
+        SysRoleInfo sysRoleInfo = sysRoleInfoService.getOneRoleById(roleId);
         model.addAttribute("sysRoleInfo", sysRoleInfo);
         return "system/sysroleinfo/sysroleinfo_auth";
     }
@@ -280,8 +279,6 @@ public class SysRoleInfoController extends BaseController {
             return BaseResult.failure("菜单权限更新失败!");
         }
     }
-
-
 
 
 }

@@ -11,8 +11,6 @@ import java.util.Date;
  **/
 public class SysRolePermission {
 
-    private Integer id;
-
     private String roleId;
 
     private String permissionId;
@@ -41,20 +39,12 @@ public class SysRolePermission {
         this.updateTime = updateTime;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getRoleId() {
         return roleId;
     }
 
     public String getPermissionId() {
         return permissionId;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setRoleId(String roleId) {
@@ -68,7 +58,6 @@ public class SysRolePermission {
     @Override
     public String toString() {
         return "SysRolePermission{" +
-                "id=" + id +
                 ", roleId='" + roleId + '\'' +
                 ", permissionId='" + permissionId + '\'' +
                 ", createTime=" + createTime +

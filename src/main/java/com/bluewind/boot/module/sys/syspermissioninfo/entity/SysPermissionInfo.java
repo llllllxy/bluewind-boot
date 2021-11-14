@@ -14,8 +14,6 @@ import java.util.Date;
 public class SysPermissionInfo implements Serializable {
     private static final long serialVersionUID = -6508640424530431598L;
 
-    private Integer id;
-
     private String permissionId;
 
     private String parentId;
@@ -51,10 +49,6 @@ public class SysPermissionInfo implements Serializable {
     private Date updateTime;
 
     private String delFlag;
-
-    public Integer getId() {
-        return id;
-    }
 
     public String getPermissionId() {
         return permissionId;
@@ -118,10 +112,6 @@ public class SysPermissionInfo implements Serializable {
 
     public String getDelFlag() {
         return delFlag;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setPermissionId(String permissionId) {
@@ -191,7 +181,6 @@ public class SysPermissionInfo implements Serializable {
     @Override
     public String toString() {
         return "SysPermissionInfo{" +
-                "id=" + id +
                 ", permissionId='" + permissionId + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", name='" + name + '\'' +

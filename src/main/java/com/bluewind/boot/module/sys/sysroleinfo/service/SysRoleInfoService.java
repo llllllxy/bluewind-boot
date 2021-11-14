@@ -11,7 +11,6 @@ import java.util.Map;
  **/
 public interface SysRoleInfoService {
 
-
     /**
      * 根据用户id查询用户所含角色，给xmselect赋值
      */
@@ -35,34 +34,34 @@ public interface SysRoleInfoService {
 
     /**
      * 删除一个系统角色（这里用逻辑删除）
-     * @param id
+     * @param roleId
      * @return
      */
-    int delete(int id);
+    int delete(String roleId);
 
 
     /**
      * 禁用一个系统角色
-     * @param id
+     * @param roleId
      * @return
      */
-    int forbid(int id);
+    int forbid(String roleId);
 
 
     /**
      * 启用一个系统角色
-     * @param id
+     * @param roleId
      * @return
      */
-    int enable(int id);
+    int enable(String roleId);
 
 
     /**
      * 通过角色id获取一个角色
-     * @param id
+     * @param roleId
      * @return
      */
-    SysRoleInfo getOneRoleById(int id);
+    SysRoleInfo getOneRoleById(String roleId);
 
 
     /**
@@ -71,6 +70,5 @@ public interface SysRoleInfoService {
      * @return
      */
     int doUpdate(SysRoleInfo sysRoleInfo);
-
 
 }

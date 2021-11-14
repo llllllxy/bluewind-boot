@@ -57,46 +57,46 @@ public class SysRoleInfoServiceImpl implements SysRoleInfoService {
 
     /**
      * 删除一个系统角色（这里用逻辑删除）
-     * @param id
+     * @param roleId
      * @return
      */
     @Override
-    public int delete(int id) {
-        return sysRoleInfoMapper.delete(id);
+    public int delete(String roleId) {
+        return sysRoleInfoMapper.delete(roleId);
     }
 
 
 
     /**
      * 禁用一个系统角色
-     * @param id
+     * @param roleId
      * @return
      */
     @Override
-    public int forbid(int id) {
-        return sysRoleInfoMapper.forbid(id);
+    public int forbid(String roleId) {
+        return sysRoleInfoMapper.forbid(roleId);
     }
 
 
     /**
      * 启用一个系统角色
-     * @param id
+     * @param roleId
      * @return
      */
     @Override
-    public int enable(int id) {
-        return sysRoleInfoMapper.enable(id);
+    public int enable(String roleId) {
+        return sysRoleInfoMapper.enable(roleId);
     }
 
 
     /**
      * 通过角色id获取一个角色
-     * @param id
+     * @param roleId
      * @return
      */
     @Override
-    public SysRoleInfo getOneRoleById(int id) {
-        return sysRoleInfoMapper.getOneRoleById(id);
+    public SysRoleInfo getOneRoleById(String roleId) {
+        return sysRoleInfoMapper.getOneRoleById(roleId);
     }
 
 

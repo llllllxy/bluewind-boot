@@ -10,19 +10,9 @@ import java.io.Serializable;
 public class SysUserRole implements Serializable {
     private static final long serialVersionUID = -4505248235480377853L;
 
-    private Integer id;
-
     private Integer userId;
 
     private String roleId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
@@ -43,7 +33,6 @@ public class SysUserRole implements Serializable {
     @Override
     public String toString() {
         return "SysUserRole{" +
-                "id=" + id +
                 ", userId=" + userId +
                 ", roleId='" + roleId + '\'' +
                 '}';

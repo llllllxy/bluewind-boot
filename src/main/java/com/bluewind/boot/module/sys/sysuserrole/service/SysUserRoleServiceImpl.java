@@ -54,9 +54,9 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
      */
     @Override
     public BaseResult doAuthorize(Integer id, String roles) {
-        // 先删除用户旧的角色
+        // 先全部删除用户旧的角色
         int num = sysUserRoleMapper.deleteUserRoleByUserId(id);
-        // 保存用户刚赋予的角色
+        // 保存用户新赋予的角色
         if (StringUtils.isNotBlank(roles)) {
             String[] roleArr = roles.split(",");
             List<SysUserRole> list = new ArrayList<>();
@@ -69,9 +69,9 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
             }
             int numm = sysUserRoleMapper.batchSaveUserRole(list);
             if (numm > 0) {
-                return BaseResult.success("用户角色绑定成功！");
+                return BaseResult.success("用户角色更新成功！");
             } else {
-                return BaseResult.failure("用户角色绑定失败！");
+                return BaseResult.failure("用户角色更新失败！");
             }
         } else {
             return BaseResult.failure("角色信息为空！");

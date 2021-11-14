@@ -3,8 +3,7 @@
 <mapper namespace="com.bluewind.boot.module.sys.syspermissioninfo.mapper.SysPermissionInfoMapper">
 
     <resultMap id="SysPermissionInfo" type="com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
+        <id column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
         <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="type" jdbcType="CHAR" property="type"/>
@@ -28,7 +27,6 @@
         SELECT
             a.`permission_id` as permissionId,
             a.`parent_id` as parentId,
-            a.`id`,
             a.`name` as title,
             a.`type`,
             ( CASE WHEN LENGTH(b.role_id) > 0 THEN 1 ELSE 0 END ) AS checked
@@ -56,7 +54,6 @@
         select
             `permission_id` as permissionId,
             `parent_id` as parentId,
-            `id`,
             `name` as title,
             `type`
         from `sys_permission_info`
@@ -105,7 +102,6 @@
         SELECT
             a.`permission_id` as permissionId,
             a.`parent_id` as parentId,
-            a.`id`,
             a.`name` as title,
             a.`type`,
             a.`name`,
@@ -127,7 +123,6 @@
         SELECT
             a.`permission_id` as permissionId,
             a.`parent_id` as parentId,
-            a.`id`,
             a.`name` as title,
             a.`type`,
             a.`name`,
@@ -142,7 +137,6 @@
             a.parent_id,
             a.sort
     </select>
-
 
     <!-- 修改菜单顺序 -->
     <update id="updateSort" parameterType="com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo">
@@ -190,7 +184,6 @@
         where `permission_id` = #{permissionId}
     </select>
 
-
     <!-- 修改菜单 -->
     <update id="updatePermission" parameterType="com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo">
         update sys_permission_info
@@ -204,6 +197,5 @@
         `update_user` = #{updateUser}
         where `permission_id` = #{permissionId}
     </update>
-
 
 </mapper>

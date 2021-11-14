@@ -67,8 +67,7 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
                 sysRolePermission.setPermissionId(item);
                 list.add(sysRolePermission);
             }
-            int numm = permissionMapper.batchInsertRolePermission(list);
-            return numm;
+            return permissionMapper.batchInsertRolePermission(list);
         } else {
             return 0;
         }

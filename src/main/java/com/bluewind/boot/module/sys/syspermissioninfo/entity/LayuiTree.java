@@ -18,11 +18,6 @@ public class LayuiTree {
     private String permissionId;
 
     /**
-     * 主键id
-     */
-    private Integer id;
-
-    /**
      * 名称
      */
     private String title;
@@ -94,10 +89,6 @@ public class LayuiTree {
         return permissionId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -134,10 +125,6 @@ public class LayuiTree {
         this.permissionId = permissionId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -171,7 +158,6 @@ public class LayuiTree {
         return "LayuiTree{" +
                 "parentId='" + parentId + '\'' +
                 ", permissionId='" + permissionId + '\'' +
-                ", id=" + id +
                 ", title='" + title + '\'' +
                 ", children=" + children +
                 ", checked=" + checked +
