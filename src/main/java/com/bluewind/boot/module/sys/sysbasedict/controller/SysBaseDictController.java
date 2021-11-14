@@ -1,6 +1,7 @@
 package com.bluewind.boot.module.sys.sysbasedict.controller;
 
 import com.bluewind.boot.common.utils.BaseDictUtils;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.sys.sysbasedict.service.SysBaseDictService;
 import com.bluewind.boot.common.annotation.OperLog;
 import com.bluewind.boot.common.base.BaseResult;
@@ -115,6 +116,7 @@ public class SysBaseDictController extends BaseController {
                             @RequestParam("dictCode") String dictCode,
                             @RequestParam("name") String name) {
         SysDict sysDict = new SysDict();
+        sysDict.setId(IdGenerate.nextId());
         sysDict.setDictCode(dictCode);
         sysDict.setDescript(descript);
         sysDict.setName(name);
@@ -135,7 +137,7 @@ public class SysBaseDictController extends BaseController {
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult delete(@PathVariable Integer id) {
+    public BaseResult delete(@PathVariable String id) {
         int num = baseDictService.deleteDict(id);
 
         if (num > 0) {
@@ -151,7 +153,7 @@ public class SysBaseDictController extends BaseController {
      */
     @RequestMapping(value = "/forbid/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult forbid(@PathVariable Integer id) {
+    public BaseResult forbid(@PathVariable String id) {
         int num = baseDictService.forbidDict(id);
 
         if (num > 0) {
@@ -167,7 +169,7 @@ public class SysBaseDictController extends BaseController {
      */
     @RequestMapping(value = "/enable/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult enable(@PathVariable Integer id) {
+    public BaseResult enable(@PathVariable String id) {
         int num = baseDictService.enableDict(id);
 
         if (num > 0) {
@@ -184,8 +186,7 @@ public class SysBaseDictController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/forUpdate/{id}", method = RequestMethod.GET)
-    public String forUpdate(@PathVariable Integer id,
-                            Model model) {
+    public String forUpdate(@PathVariable String id, Model model) {
         SysDict sysDict = baseDictService.findOneBaseDictById(id);
         model.addAttribute("sysDict", sysDict);
         return "system/sysbasedict/sysdict_update";
@@ -201,7 +202,7 @@ public class SysBaseDictController extends BaseController {
     @ResponseBody
     public BaseResult update(@RequestParam(required = false, defaultValue = "", value = "descript") String descript,
                              @RequestParam("name") String name,
-                             @RequestParam("id") Integer id) {
+                             @RequestParam("id") String id) {
         SysDict sysDict = new SysDict();
         sysDict.setDescript(descript);
         sysDict.setName(name);
@@ -275,6 +276,7 @@ public class SysBaseDictController extends BaseController {
                                 @RequestParam("dictCode") String dictCode,
                                 @RequestParam("name") String name) {
         SysDictDetail sysDict = new SysDictDetail();
+        sysDict.setId(IdGenerate.nextId());
         sysDict.setDictCode(dictCode);
         sysDict.setCode(code);
         sysDict.setName(name);
@@ -293,7 +295,7 @@ public class SysBaseDictController extends BaseController {
      */
     @RequestMapping(value = "/deleteDetail/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult deleteDetail(@PathVariable Integer id) {
+    public BaseResult deleteDetail(@PathVariable String id) {
         int num = baseDictService.deleteDetail(id);
         if (num > 0) {
             return BaseResult.success("删除成功");
@@ -309,7 +311,7 @@ public class SysBaseDictController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/forUpdateDetail/{id}", method = RequestMethod.GET)
-    public String forUpdateDetail(@PathVariable Integer id,
+    public String forUpdateDetail(@PathVariable String id,
                                   Model model) {
         SysDictDetail sysDictDetail = baseDictService.findOneDictDetailById(id);
         model.addAttribute("sysDictDetail", sysDictDetail);
@@ -325,7 +327,7 @@ public class SysBaseDictController extends BaseController {
     @RequestMapping(value = "/updateDetail", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult updateDetail(@RequestParam("code") String code,
-                                   @RequestParam("id") Integer id,
+                                   @RequestParam("id") String id,
                                    @RequestParam("dictCode") String dictCode,
                                    @RequestParam("name") String name) {
         SysDictDetail sysDict = new SysDictDetail();

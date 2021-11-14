@@ -26,7 +26,7 @@ public interface SysBaseDictMapper {
      * @param id
      * @return
      */
-    SysDict findOneBaseDictById(Integer id);
+    SysDict findOneBaseDictById(String id);
 
     /**
      * 获取枚举公共方法
@@ -47,21 +47,21 @@ public interface SysBaseDictMapper {
      * @param id
      * @return
      */
-    int deleteDict(Integer id);
+    int deleteDict(String id);
 
     /**
      * 禁用一个枚举
      * @param id
      * @return
      */
-    int forbidDict(Integer id);
+    int forbidDict(String id);
 
     /**
      * 启用一个枚举
      * @param id
      * @return
      */
-    int enableDict(Integer id);
+    int enableDict(String id);
 
     /**
      * 更新一个枚举
@@ -89,14 +89,14 @@ public interface SysBaseDictMapper {
      * @param id
      * @return
      */
-    int deleteDetail(Integer id);
+    int deleteDetail(String id);
 
     /**
      * 获取一个枚举明细的明细
      * @param id
      * @return
      */
-    SysDictDetail findOneDictDetailById(Integer id);
+    SysDictDetail findOneDictDetailById(String id);
 
     /**
      * 修改一个枚举明细

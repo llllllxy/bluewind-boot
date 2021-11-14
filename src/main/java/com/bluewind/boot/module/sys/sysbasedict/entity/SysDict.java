@@ -11,7 +11,7 @@ import java.util.Date;
  **/
 public class SysDict {
 
-    private Integer id;
+    private String id;
 
     private String dictCode;
 
@@ -35,7 +35,7 @@ public class SysDict {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -75,7 +75,7 @@ public class SysDict {
         this.updateTime = updateTime;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

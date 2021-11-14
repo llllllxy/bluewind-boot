@@ -12,7 +12,7 @@
 
 
     <resultMap id="SysDict" type="com.bluewind.boot.module.sys.sysbasedict.entity.SysDict">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -26,7 +26,7 @@
 
 
     <resultMap id="SysDictDetail" type="com.bluewind.boot.module.sys.sysbasedict.entity.SysDictDetail">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -39,17 +39,17 @@
 
     <!--根据条件，查询所有枚举-->
     <select id="getAllBaseDict" resultMap="SysDict" parameterType="map">
-        select * from `sys_dict`
+        select * from sys_dict
         where 1=1
-        and `del_flag` = '0'
+        and del_flag = '0'
         <if test="dictCode != null and dictCode != ''">
-            and `dict_code` like CONCAT('%',#{dictCode},'%')
+            and dict_code like CONCAT('%',#{dictCode},'%')
         </if>
         <if test="name != null and name != ''">
             and `name` like CONCAT('%',#{name},'%')
         </if>
         <if test="status != null and status != ''">
-            and `status` = #{status}
+            and status = #{status}
         </if>
         <choose>
             <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
@@ -63,22 +63,24 @@
 
 
     <!--根据条件，查询所有枚举-->
-    <select id="findOneBaseDictById" resultMap="SysDict" parameterType="java.lang.Integer">
-        select * from `sys_dict` where id = #{_parameter}
+    <select id="findOneBaseDictById" resultMap="SysDict" parameterType="java.lang.String">
+        select * from sys_dict where id = #{_parameter}
     </select>
 
 
     <!--插入一个枚举-->
     <insert id="addOneDict" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDict">
-        insert into `sys_dict` (
-            `dict_code`,
+        insert into sys_dict (
+            id,
+            dict_code,
             `name`,
-            `status`,
-            `create_user`,
-            `del_flag`,
-            `descript`
+            status,
+            create_user,
+            del_flag,
+            descript
         )
         values (
+            #{id},
             #{dictCode},
             #{name},
             #{status},
@@ -89,41 +91,43 @@
     </insert>
 
     <!--逻辑删除一个枚举-->
-    <update id="deleteDict" parameterType="java.lang.Integer">
-        update sys_dict set `del_flag` = '1' where id = #{_parameter}
+    <update id="deleteDict" parameterType="java.lang.String">
+        update sys_dict set del_flag = '1' where id = #{_parameter}
     </update>
 
     <!--禁用一个枚举-->
-    <update id="forbidDict" parameterType="java.lang.Integer">
-        update sys_dict set `status` = '1' where id =  #{_parameter}
+    <update id="forbidDict" parameterType="java.lang.String">
+        update sys_dict set status = '1' where id =  #{_parameter}
     </update>
 
     <!--启用一个枚举-->
-    <update id="enableDict" parameterType="java.lang.Integer">
-        update sys_dict set `status` = '0' where id =  #{_parameter}
+    <update id="enableDict" parameterType="java.lang.String">
+        update sys_dict set status = '0' where id =  #{_parameter}
     </update>
 
 
     <!--更新一个枚举-->
     <update id="updateOneDict" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDict">
-        update sys_dict set `name` = #{name},`descript` = #{descript} where `id` =  #{id}
+        update sys_dict set `name` = #{name},descript = #{descript} where `id` =  #{id}
     </update>
 
     <!--根据条件，查询所有枚举-->
     <select id="getBaseDictDetail" resultMap="SysDictDetail"
             parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDict">
-        select * from `sys_dict_detail` where `dict_code` = #{dictCode}
+        select * from sys_dict_detail where dict_code = #{dictCode}
     </select>
 
     <!--插入一个枚举明细-->
     <insert id="addDetail" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDictDetail">
-        insert into `sys_dict_detail` (
-            `dict_code`,
+        insert into sys_dict_detail (
+            id,
+            dict_code,
             `name`,
-            `create_user`,
-            `code`
+            create_user,
+            code
         )
         values (
+            #{id},
             #{dictCode},
             #{name},
             #{createUser},
@@ -132,22 +136,22 @@
     </insert>
 
     <!--删除一个枚举明细-->
-    <delete id="deleteDetail" parameterType="java.lang.Integer">
-        delete from `sys_dict_detail` where `id` = #{_parameter}
+    <delete id="deleteDetail" parameterType="java.lang.String">
+        delete from sys_dict_detail where id = #{_parameter}
     </delete>
 
     <!--根据条件，查询所有枚举-->
-    <select id="findOneDictDetailById" resultMap="SysDictDetail" parameterType="java.lang.Integer">
-        select * from `sys_dict_detail` where `id` = #{_parameter}
+    <select id="findOneDictDetailById" resultMap="SysDictDetail" parameterType="java.lang.String">
+        select * from sys_dict_detail where id = #{_parameter}
     </select>
 
     <!--更新一个枚举明细-->
     <update id="updateDetail" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDictDetail">
-        update `sys_dict_detail`
+        update sys_dict_detail
         set `name` = #{name},
-        `code` = #{code},
-        `update_user` = #{updateUser}
-        where `id` = #{id}
-        and `dict_code` = #{dictCode}
+        code = #{code},
+        update_user = #{updateUser}
+        where id = #{id}
+        and dict_code = #{dictCode}
     </update>
 </mapper>

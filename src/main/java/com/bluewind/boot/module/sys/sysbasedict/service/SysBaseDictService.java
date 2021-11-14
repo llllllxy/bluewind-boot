@@ -35,7 +35,7 @@ public class SysBaseDictService {
      * @param id
      * @return
      */
-    public SysDict findOneBaseDictById(int id) {
+    public SysDict findOneBaseDictById(String id) {
         return sysBaseDictMapper.findOneBaseDictById(id);
     }
 
@@ -45,15 +45,15 @@ public class SysBaseDictService {
     }
 
 
-    public int deleteDict(Integer id) {
+    public int deleteDict(String id) {
         return sysBaseDictMapper.deleteDict(id);
     }
 
-    public int forbidDict(Integer id) {
+    public int forbidDict(String id) {
         return sysBaseDictMapper.forbidDict(id);
     }
 
-    public int enableDict(Integer id) {
+    public int enableDict(String id) {
         return sysBaseDictMapper.enableDict(id);
     }
 
@@ -70,11 +70,11 @@ public class SysBaseDictService {
         return sysBaseDictMapper.addDetail(sysDictDetail);
     }
 
-    public int deleteDetail(Integer id) {
+    public int deleteDetail(String id) {
         return sysBaseDictMapper.deleteDetail(id);
     }
 
-    public SysDictDetail findOneDictDetailById(Integer id) {
+    public SysDictDetail findOneDictDetailById(String id) {
         return sysBaseDictMapper.findOneDictDetailById(id);
     }
 
