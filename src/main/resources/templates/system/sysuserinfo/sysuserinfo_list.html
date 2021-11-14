@@ -72,6 +72,9 @@
                 <button th:if="${#sets.contains(permissionSet, 'system:user:downloadPdf')}" class="layui-btn layui-btn-sm" lay-event="downloadPdf">
                     <i class="layui-icon layui-icon-export" style="font-size: 10px;"></i>导出pdf
                 </button>
+                <button th:if="${#sets.contains(permissionSet, 'system:user:exportExcel')}" class="layui-btn layui-btn-sm" lay-event="exportExcel">
+                    <i class="layui-icon layui-icon-export" style="font-size: 10px;"></i>导出excel
+                </button>
             </div>
         </script>
 
@@ -310,6 +313,11 @@
                 };
                 // 发送ajax请求
                 xhr.send()
+            } else if (obj.event === 'exportExcel') {
+                console.log("点击导出excel");
+                let a = document.createElement('a');
+                a.href = Util.ctx + 'sysuser/exportExcel';
+                a.click()
             }
         });
 

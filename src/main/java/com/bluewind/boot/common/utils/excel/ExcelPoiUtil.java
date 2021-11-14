@@ -55,7 +55,7 @@ public class ExcelPoiUtil {
             sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, listName.size() - 1));
             rowReportTitle.setHeight((short) 600); // 行高
 
-            //设置表头字体
+            // 设置表头字体
             Font headFont = wb.createFont();
             headFont.setFontName("宋体");
             headFont.setFontHeightInPoints((short) 18);// 字体大小
@@ -67,18 +67,23 @@ public class ExcelPoiUtil {
             // 头部样式添加
             cell1.setCellStyle(headStyle);
 
-            // 全局加线样式
-            CellStyle cellStyle = wb.createCellStyle();
-            cellStyle.setBorderBottom(BorderStyle.THIN); //下边框
-            cellStyle.setBorderLeft(BorderStyle.THIN);//左边框
-            cellStyle.setBorderTop(BorderStyle.THIN);//上边框
-            cellStyle.setBorderRight(BorderStyle.THIN);//右边框
-            cellStyle.setAlignment(HorizontalAlignment.CENTER); // 居中
-            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);// 上下居中
+
+            // 标题样式
+            CellStyle titleStyle = wb.createCellStyle();
+            titleStyle.setBorderBottom(BorderStyle.THIN); //下边框
+            titleStyle.setBorderLeft(BorderStyle.THIN);//左边框
+            titleStyle.setBorderTop(BorderStyle.THIN);//上边框
+            titleStyle.setBorderRight(BorderStyle.THIN);//右边框
+            titleStyle.setAlignment(HorizontalAlignment.CENTER); // 居中
+            titleStyle.setVerticalAlignment(VerticalAlignment.CENTER);// 上下居中
+            titleStyle.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
+            titleStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            Font titleFont = wb.createFont();
+            titleFont.setColor(IndexedColors.WHITE.getIndex());
+            titleStyle.setFont(titleFont);
 
             // 记录标题信息
             TreeMap<String, Integer> headMap = new TreeMap<>();
-
             // 标题写入
             XSSFRow row = sheet.createRow(1);
             for (int i = 0; i < listName.size(); i++) {
@@ -87,8 +92,17 @@ public class ExcelPoiUtil {
                 String headName = listName.get(i);
                 cell.setCellValue(headName); // 写入列名
                 headMap.put(headName, i);
-                cell.setCellStyle(cellStyle);
+                cell.setCellStyle(titleStyle);
             }
+
+            // 数据内容样式
+            CellStyle cellStyle = wb.createCellStyle();
+            cellStyle.setBorderBottom(BorderStyle.THIN); //下边框
+            cellStyle.setBorderLeft(BorderStyle.THIN);//左边框
+            cellStyle.setBorderTop(BorderStyle.THIN);//上边框
+            cellStyle.setBorderRight(BorderStyle.THIN);//右边框
+            cellStyle.setAlignment(HorizontalAlignment.CENTER); // 居中
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);// 上下居中
 
             // 写入内容数据
             int ind = 2;
@@ -182,7 +196,7 @@ public class ExcelPoiUtil {
             OutputStream output = response.getOutputStream();
             response.reset();
             // 设置响应头
-            response.setHeader("Content-Disposition", "attchement; filename=" + URLEncoder.encode(sheetName + ".xls", "UTF-8"));
+            response.setHeader("Content-Disposition", "attchement; filename=" + URLEncoder.encode(sheetName + ".xlsx", "UTF-8"));
             response.setContentType("application/msexcel;charset=utf-8");
             wb.write(output);
             wb.close();

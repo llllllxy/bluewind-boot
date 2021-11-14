@@ -2,6 +2,7 @@ package com.bluewind.boot.module.sys.sysuserinfo.controller;
 
 import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.common.config.security.annotation.RequiresPermissions;
+import com.bluewind.boot.common.utils.excel.ExcelPoiUtil;
 import com.bluewind.boot.module.sys.sysroleinfo.service.SysRoleInfoService;
 import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
 import com.bluewind.boot.module.sys.sysuserinfo.service.SysUserInfoService;
@@ -34,10 +35,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author liuxingyu01
@@ -559,6 +558,44 @@ public class SysUserInfoController extends BaseController {
         }
         out.flush();
         out.close();
+    }
+
+
+    @RequiresPermissions("system:user:exportExcel")
+    @ApiOperation(value = "导出全部用户数据到excel", notes = "导出全部用户数据到excel")
+    @RequestMapping(value = "/exportExcel", method = RequestMethod.GET)
+    @ResponseBody
+    public void exportExcel(HttpServletResponse response) {
+        if (logger.isInfoEnabled()) {
+            logger.info("SysUserInfoController -- exportExcel -- start");
+        }
+        List<SysUserInfo> userInfoList = sysUserInfoService.getSysUserInfoList(new HashMap<>());
+        Map<String,String> userStatus = BaseDictUtils.getDictMap("user_status");
+        Map<String,String> userSex = BaseDictUtils.getDictMap("user_sex");
+        for (SysUserInfo sysUserInfo: userInfoList) {
+            String sex = sysUserInfo.getSex();
+            sex = userSex.get(sex);
+            sysUserInfo.setSex(sex);
+            String status = sysUserInfo.getStatus();
+            status = userStatus.get(status);
+            sysUserInfo.setStatus(status);
+        }
+
+        List<String> listName = Arrays.asList("账号", "姓名", "电话", "性别", "状态", "创建时间", "更新时间");
+        List<Map<String, String>> list = new ArrayList<>();
+        for (SysUserInfo sysUserInfo: userInfoList) {
+            Map<String, String> map = new HashMap<>();
+            map.put("账号", sysUserInfo.getAccount());
+            map.put("姓名", sysUserInfo.getName());
+            map.put("电话", sysUserInfo.getPhone());
+            map.put("性别", sysUserInfo.getSex());
+            map.put("状态", sysUserInfo.getStatus());
+            map.put("创建时间", sysUserInfo.getCreateTime());
+            map.put("更新时间", sysUserInfo.getUpdateTime());
+            list.add(map);
+        }
+
+        ExcelPoiUtil.excelPort("系统用户信息", listName, list, null, response);
     }
 
 }
