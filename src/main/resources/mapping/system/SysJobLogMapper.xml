@@ -47,16 +47,16 @@
         <include refid="selectJobLogVo"/>
     </select>
 
-    <select id="selectJobLogById" parameterType="Long" resultMap="SysJobLogResult">
+    <select id="selectJobLogById" parameterType="java.lang.String" resultMap="SysJobLogResult">
         <include refid="selectJobLogVo"/>
         where job_log_id = #{jobLogId}
     </select>
 
-    <delete id="deleteJobLogById" parameterType="Long">
+    <delete id="deleteJobLogById" parameterType="java.lang.String">
  		delete from sys_job_log where job_log_id = #{jobLogId}
  	</delete>
 
-    <delete id="deleteJobLogByIds" parameterType="Long">
+    <delete id="deleteJobLogByIds" parameterType="java.lang.String">
         delete from sys_job_log where job_log_id in
         <foreach collection="array" item="jobLogId" open="(" separator="," close=")">
             #{jobLogId}
@@ -69,6 +69,7 @@
 
     <insert id="insertJobLog" parameterType="com.bluewind.boot.module.sys.sysjoblog.entity.SysJobLog">
         insert into sys_job_log(
+        <if test="jobLogId != null and jobLogId != ''">job_log_id,</if>
         <if test="jobName != null and jobName != ''">job_name,</if>
         <if test="jobGroup != null and jobGroup != ''">job_group,</if>
         <if test="invokeTarget != null and invokeTarget != ''">invoke_target,</if>
@@ -77,6 +78,7 @@
         <if test="exceptionInfo != null and exceptionInfo != ''">exception_info,</if>
         job_id
         )values(
+        <if test="jobLogId != null and jobLogId != ''">#{jobLogId},</if>
         <if test="jobName != null and jobName != ''">#{jobName},</if>
         <if test="jobGroup != null and jobGroup != ''">#{jobGroup},</if>
         <if test="invokeTarget != null and invokeTarget != ''">#{invokeTarget},</if>

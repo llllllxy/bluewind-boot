@@ -3,8 +3,7 @@
 <mapper namespace="com.bluewind.boot.module.sys.sysjob.mapper.SysJobMapper">
 
     <resultMap type="com.bluewind.boot.module.sys.sysjob.entity.SysJob" id="SysJobResult">
-        <id property="id" column="id"/>
-        <result property="jobId" column="job_id"/>
+        <id property="jobId" column="job_id"/>
         <result property="jobName" column="job_name"/>
         <result property="jobGroup" column="job_group"/>
         <result property="invokeTarget" column="invoke_target"/>

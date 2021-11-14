@@ -2,6 +2,7 @@ package com.bluewind.boot.common.config.quartz;
 
 import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.utils.ExceptionUtil;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.spring.SpringUtil;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
 import com.bluewind.boot.module.sys.sysjoblog.entity.SysJobLog;
@@ -67,6 +68,7 @@ public abstract class AbstractQuartzJob implements Job {
         threadLocal.remove();
 
         final SysJobLog sysJobLog = new SysJobLog();
+        sysJobLog.setJobLogId(IdGenerate.nextId());
         sysJobLog.setJobId(sysJob.getJobId());
         sysJobLog.setJobName(sysJob.getJobName());
         sysJobLog.setJobGroup(sysJob.getJobGroup());

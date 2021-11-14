@@ -37,7 +37,7 @@ public class SysJobLogServiceImpl implements SysJobLogService {
      * @return 调度任务日志对象信息
      */
     @Override
-    public SysJobLog selectJobLogById(Long jobLogId) {
+    public SysJobLog selectJobLogById(String jobLogId) {
         return jobLogMapper.selectJobLogById(jobLogId);
     }
 
@@ -58,7 +58,7 @@ public class SysJobLogServiceImpl implements SysJobLogService {
      * @return 结果
      */
     @Override
-    public int deleteJobLogByIds(Long[] logIds) {
+    public int deleteJobLogByIds(String[] logIds) {
         return jobLogMapper.deleteJobLogByIds(logIds);
     }
 
@@ -68,7 +68,7 @@ public class SysJobLogServiceImpl implements SysJobLogService {
      * @param jobId 调度日志ID
      */
     @Override
-    public int deleteJobLogById(Long jobId) {
+    public int deleteJobLogById(String jobId) {
         return jobLogMapper.deleteJobLogById(jobId);
     }
 

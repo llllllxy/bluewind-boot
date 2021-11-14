@@ -14,7 +14,7 @@ public class SysJobLog implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** ID */
-    private Long jobLogId;
+    private String jobLogId;
 
     /** 任务ID */
     private String jobId;
@@ -50,11 +50,11 @@ public class SysJobLog implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    public Long getJobLogId() {
+    public String getJobLogId() {
         return jobLogId;
     }
 
-    public void setJobLogId(Long jobLogId) {
+    public void setJobLogId(String jobLogId) {
         this.jobLogId = jobLogId;
     }
 

@@ -220,7 +220,7 @@ public class SysJobController extends BaseController {
         // 判断Cron表达式是否正确
         if (CronExpression.isValidExpression(cronExpression)) {
             SysJob sysJob = new SysJob();
-            sysJob.setJobId(IdGenerate.uuid());
+            sysJob.setJobId(IdGenerate.nextId());
             sysJob.setJobName(jobName);
             sysJob.setJobGroup(jobGroup);
             sysJob.setInvokeTarget(invokeTarget);

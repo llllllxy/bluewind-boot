@@ -17,8 +17,6 @@ import java.util.Date;
 public class SysJob implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int id;
-
     /**
      * 任务ID
      */
@@ -87,14 +85,6 @@ public class SysJob implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateTime;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getJobId() {
         return jobId;
