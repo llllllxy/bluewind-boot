@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class SysOperLog implements Serializable {
     private static final long serialVersionUID = -4516808988241959991L;
 
-    private Integer id;
+    private String logId;
 
     private String model;
 
@@ -35,16 +35,12 @@ public class SysOperLog implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public String getLogId() {
+        return logId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLogId(String logId) {
+        this.logId = logId;
     }
 
     public String getModel() {
@@ -122,7 +118,7 @@ public class SysOperLog implements Serializable {
     @Override
     public String toString() {
         return "SysOperLog{" +
-                "id=" + id +
+                "logId=" + logId +
                 ", model='" + model + '\'' +
                 ", url='" + url + '\'' +
                 ", method='" + method + '\'' +

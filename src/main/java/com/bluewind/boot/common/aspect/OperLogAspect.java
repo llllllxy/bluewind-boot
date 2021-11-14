@@ -1,5 +1,6 @@
 package com.bluewind.boot.common.aspect;
 
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.network.IPUtils;
 import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.module.sys.sysoperlog.entity.SysOperLog;
@@ -78,6 +79,7 @@ public class OperLogAspect {
         long end = System.currentTimeMillis();
         // 获取方法从开始到结束的时长
         sysOperLog.setSpendTime((int) (end - start));
+        sysOperLog.setLogId(IdGenerate.nextId());
         // 插入sys_oper_log表
         sysOperLogService.saveOperLog(sysOperLog);
 
