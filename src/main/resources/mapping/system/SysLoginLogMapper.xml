@@ -3,7 +3,7 @@
 <mapper namespace="com.bluewind.boot.module.sys.sysloginlog.mapper.SysLoginLogMapper">
 
     <resultMap id="SysLoginLog" type="com.bluewind.boot.module.sys.sysloginlog.entity.SysLoginLog">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="log_id" jdbcType="VARCHAR" property="logId"/>
         <result column="account" jdbcType="VARCHAR" property="account"/>
         <result column="session_id" jdbcType="VARCHAR" property="sessionId"/>
         <result column="ip" jdbcType="VARCHAR" property="ip"/>
@@ -13,7 +13,6 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
 
-
     <!--查询所有日志-->
     <select id="getLoginLoglist" resultMap="SysLoginLog" parameterType="map">
         select * from sys_login_log
@@ -22,45 +21,44 @@
             and account like CONCAT('%',#{account},'%')
         </if>
         <if test="status != null and status != ''">
-            and `status` = #{status}
+            and status = #{status}
         </if>
         <if test="createTime != null and createTime != ''">
-            and `create_time` like CONCAT('%',#{createTime},'%')
+            and create_time like CONCAT('%',#{createTime},'%')
         </if>
-
         <choose>
             <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
                 order by ${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by id asc
+                order by log_id asc
             </otherwise>
         </choose>
-
     </select>
-
 
     <!-- 新增登陆日志 -->
     <insert id="saveLoginlog" parameterType="com.bluewind.boot.module.sys.sysloginlog.entity.SysLoginLog">
         insert into sys_login_log (
-            `ip`,
-            `session_id`,
-            `account`,
-            `descript`,
-            `location`,
-            `status`
+            log_id,
+            ip,
+            session_id,
+            account,
+            descript,
+            location,
+            status
         ) values (
-             #{ip},
-             #{sessionId},
-             #{account},
-             #{descript},
-             #{location},
-             #{status}
+            #{logId},
+            #{ip},
+            #{sessionId},
+            #{account},
+            #{descript},
+            #{location},
+            #{status}
         )
     </insert>
 
 
-    <!--查询在线用户日志-->
+    <!--查询在线用户-->
     <select id="onlineList" resultType="map" parameterType="map">
         select sll.*, sui.name from sys_login_log sll
         inner join sys_user_info sui on sui.account = sll.account
@@ -75,7 +73,7 @@
         <foreach item="item" index="index" collection="keysList" open="(" separator="," close=")">
             #{item}
         </foreach>
-        order by sll.id asc
+        order by sll.log_id asc
     </select>
 
 </mapper>

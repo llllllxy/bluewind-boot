@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class SysLoginLog implements Serializable {
     private static final long serialVersionUID = -8623198361955748757L;
 
-    private Integer id;
+    private String logId;
 
     private String sessionId;
 
@@ -30,8 +30,12 @@ public class SysLoginLog implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    public Integer getId() {
-        return id;
+    public String getLogId() {
+        return logId;
+    }
+
+    public String getSessionId() {
+        return sessionId;
     }
 
     public String getAccount() {
@@ -58,12 +62,8 @@ public class SysLoginLog implements Serializable {
         return createTime;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getSessionId() {
-        return sessionId;
+    public void setLogId(String logId) {
+        this.logId = logId;
     }
 
     public void setSessionId(String sessionId) {
@@ -97,7 +97,7 @@ public class SysLoginLog implements Serializable {
     @Override
     public String toString() {
         return "SysLoginLog{" +
-                "id=" + id +
+                "logId=" + logId +
                 ", sessionId='" + sessionId + '\'' +
                 ", account='" + account + '\'' +
                 ", ip='" + ip + '\'' +

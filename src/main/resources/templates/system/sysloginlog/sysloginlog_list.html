@@ -99,12 +99,16 @@
             elem: '#currentTableId',
             url: Util.ctx + 'sysloginlog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
-            where: {sortName:'id', sortOrder:'asc'}, // 初始化时带的参数
+            where: {sortName:'log_id', sortOrder:'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print'],
             cols: [
                 [
-                    {field: 'id', width: '8%', title: '序号', sort: true, align: 'center'},
+                    {
+                        field: '', width: '8%', title: '序号', type: 'numbers', templet: function (d) {
+                            return d.LAY_TABLE_INDEX + 1;
+                        }
+                    },
                     {field: 'ip', width: '17%', title: '登录IP', align: 'center'},
                     {field: 'account', width: '14%',title: '登录账户', sort: true},
                     {field: 'descript', width: '20%',title: '登录描述'},
