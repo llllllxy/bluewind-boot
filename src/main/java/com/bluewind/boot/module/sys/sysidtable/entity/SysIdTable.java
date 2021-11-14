@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class SysIdTable implements Serializable {
     private static final long serialVersionUID = 8766108666045790590L;
 
-    private Integer id;
+    private String id;
 
     private String idId;
 
@@ -45,11 +45,11 @@ public class SysIdTable implements Serializable {
     private Integer updateUser;
 
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,5 +1,6 @@
 package com.bluewind.boot.module.sys.sysidtable.controller;
 
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.sys.sysidtable.service.SysIdTableService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -112,6 +113,7 @@ public class SysIdTableController extends BaseController {
                           @RequestParam(required = false, defaultValue = "", value = "idSuffix") String idSuffix,
                           @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
         SysIdTable sysIdTable = new SysIdTable();
+        sysIdTable.setId(IdGenerate.nextId());
         sysIdTable.setIdId(idId);
         sysIdTable.setIdName(idName);
         sysIdTable.setIdLength(idLength);
@@ -147,7 +149,7 @@ public class SysIdTableController extends BaseController {
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult delete(@PathVariable int id) {
+    public BaseResult delete(@PathVariable String id) {
         int num = sysIdTableService.deleteOne(id);
         if (num > 0) {
             return BaseResult.success("删除成功!");
@@ -163,8 +165,7 @@ public class SysIdTableController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/forUpdate/{id}", method = RequestMethod.GET)
-    public String forUpdate(@PathVariable int id,
-                            Model model) {
+    public String forUpdate(@PathVariable String id, Model model) {
         SysIdTable sysIdTable = sysIdTableService.getOneIdTable(id);
         model.addAttribute("sysIdTable", sysIdTable);
         return "system/sysidtable/sysidtable_update";
@@ -178,7 +179,7 @@ public class SysIdTableController extends BaseController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult update(@RequestParam(value = "id") Integer id,
+    public BaseResult update(@RequestParam(value = "id") String id,
                              @RequestParam(value = "idId") String idId,
                              @RequestParam(value = "idName") String idName,
                              @RequestParam(value = "idLength") Integer idLength,

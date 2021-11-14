@@ -3,7 +3,7 @@
 <mapper namespace="com.bluewind.boot.module.sys.sysidtable.mapper.SysIdTableMapper">
 
     <resultMap id="SysIdTable" type="com.bluewind.boot.module.sys.sysidtable.entity.SysIdTable">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="id_id" jdbcType="VARCHAR" property="idId"/>
         <result column="id_name" jdbcType="VARCHAR" property="idName"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
@@ -19,19 +19,18 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
 
-
     <!-- 查询所有操作日志 -->
     <select id="getSysIdTableList" resultMap="SysIdTable" parameterType="map">
-        select * from `sys_id_table`
+        select * from sys_id_table
         where 1=1
         <if test="idId != null and idId != ''">
-            and `id_id` like CONCAT('%',#{idId},'%')
+            and id_id like CONCAT('%',#{idId},'%')
         </if>
         <if test="idName != null and idName != ''">
-            and `id_name` like CONCAT('%',#{idName},'%')
+            and id_name like CONCAT('%',#{idName},'%')
         </if>
         <if test="createTime != null and createTime != ''">
-            and `create_time` like CONCAT('%',#{createTime},'%')
+            and create_time like CONCAT('%',#{createTime},'%')
         </if>
         <choose>
             <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
@@ -47,53 +46,55 @@
     <!-- 新增业务流水号 -->
     <insert id="addOneIdTable" parameterType="com.bluewind.boot.module.sys.sysidtable.entity.SysIdTable">
         insert into sys_id_table (
-            `id_id`,
-            `id_name`,
-            `id_length`,
-            `id_value`,
-            `has_prefix`,
-            `id_prefix`,
-            `has_suffix`,
-            `id_suffix`,
-            `create_user`,
-            `descript`
+            id,
+            id_id,
+            id_name,
+            id_length,
+            id_value,
+            has_prefix,
+            id_prefix,
+            has_suffix,
+            id_suffix,
+            create_user,
+            descript
         ) values (
-             #{idId},
-             #{idName},
-             #{idLength},
-             #{idValue},
-             #{hasPrefix},
-             #{idPrefix},
-             #{hasSuffix},
-             #{idSuffix},
-             #{createUser},
-             #{descript}
+            #{id},
+            #{idId},
+            #{idName},
+            #{idLength},
+            #{idValue},
+            #{hasPrefix},
+            #{idPrefix},
+            #{hasSuffix},
+            #{idSuffix},
+            #{createUser},
+            #{descript}
         )
     </insert>
 
 
-    <delete id="deleteOne" parameterType="java.lang.Integer">
-        delete from `sys_id_table` where `id` = #{_parameter}
+    <delete id="deleteOne" parameterType="java.lang.String">
+        delete from sys_id_table where id = #{_parameter}
     </delete>
 
 
-    <select id="getOneIdTable" parameterType="java.lang.Integer" resultMap="SysIdTable">
-        select * from `sys_id_table` where `id` = #{_parameter}
+    <select id="getOneIdTable" parameterType="java.lang.String" resultMap="SysIdTable">
+        select * from sys_id_table where id = #{_parameter}
     </select>
 
 
     <update id="updateIdTable" parameterType="com.bluewind.boot.module.sys.sysidtable.entity.SysIdTable">
-        update `sys_id_table`
-        set `id_name` = #{idName},
-        `id_length` =  #{idLength},
-        `id_value` = #{idValue},
-        `has_prefix` = #{hasPrefix},
-        `id_prefix` =  #{idPrefix},
-        `has_suffix` = #{hasSuffix},
-        `id_suffix` = #{idSuffix},
-        `update_user` = #{updateUser},
-        `descript` = #{descript}
-        where `id` = #{id}
+        update sys_id_table
+        set id_name = #{idName},
+        id_length =  #{idLength},
+        id_value = #{idValue},
+        has_prefix = #{hasPrefix},
+        id_prefix =  #{idPrefix},
+        has_suffix = #{hasSuffix},
+        id_suffix = #{idSuffix},
+        update_user = #{updateUser},
+        descript = #{descript}
+        where id = #{id}
     </update>
 
 </mapper>
