@@ -3,8 +3,8 @@
 <mapper namespace="com.bluewind.boot.module.sys.sysidtable.mapper.SysIdTableMapper">
 
     <resultMap id="SysIdTable" type="com.bluewind.boot.module.sys.sysidtable.entity.SysIdTable">
-        <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="id_id" jdbcType="VARCHAR" property="idId"/>
+        <id column="id_id" jdbcType="VARCHAR" property="idId"/>
+        <result column="id_code" jdbcType="VARCHAR" property="idCode"/>
         <result column="id_name" jdbcType="VARCHAR" property="idName"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="id_length" jdbcType="INTEGER" property="idLength"/>
@@ -23,8 +23,8 @@
     <select id="getSysIdTableList" resultMap="SysIdTable" parameterType="map">
         select * from sys_id_table
         where 1=1
-        <if test="idId != null and idId != ''">
-            and id_id like CONCAT('%',#{idId},'%')
+        <if test="idCode != null and idCode != ''">
+            and id_code like CONCAT('%',#{idCode},'%')
         </if>
         <if test="idName != null and idName != ''">
             and id_name like CONCAT('%',#{idName},'%')
@@ -37,7 +37,7 @@
                 order by ${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by id asc
+                order by id_id asc
             </otherwise>
         </choose>
     </select>
@@ -46,8 +46,8 @@
     <!-- 新增业务流水号 -->
     <insert id="addOneIdTable" parameterType="com.bluewind.boot.module.sys.sysidtable.entity.SysIdTable">
         insert into sys_id_table (
-            id,
             id_id,
+            id_code,
             id_name,
             id_length,
             id_value,
@@ -58,8 +58,8 @@
             create_user,
             descript
         ) values (
-            #{id},
             #{idId},
+            #{idCode},
             #{idName},
             #{idLength},
             #{idValue},
@@ -74,12 +74,12 @@
 
 
     <delete id="deleteOne" parameterType="java.lang.String">
-        delete from sys_id_table where id = #{_parameter}
+        delete from sys_id_table where id_id = #{_parameter}
     </delete>
 
 
     <select id="getOneIdTable" parameterType="java.lang.String" resultMap="SysIdTable">
-        select * from sys_id_table where id = #{_parameter}
+        select * from sys_id_table where id_id = #{_parameter}
     </select>
 
 
@@ -94,7 +94,7 @@
         id_suffix = #{idSuffix},
         update_user = #{updateUser},
         descript = #{descript}
-        where id = #{id}
+        where id_id = #{idId}
     </update>
 
 </mapper>

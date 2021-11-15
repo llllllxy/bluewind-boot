@@ -38,22 +38,22 @@ public class IdTableUtils {
     /**
      * 获取下一个流水号字符串
      *
-     * @param idId 流水号编码
+     * @param idCode 流水号编码
      * @return String 流水号字符串
      */
-    public synchronized static String nextId(String idId) {
-        return takeNextId(idId);
+    public synchronized static String nextId(String idCode) {
+        return takeNextId(idCode);
     }
 
 
     /**
      * 获取下一个流水号字符串
      *
-     * @param idId 流水号编码
+     * @param idCode 流水号编码
      * @return String 流水号字符串
      */
-    public static String takeNextId(String idId) {
-        String cacheKey = SystemConst.SYSTEM_ID_TABLE + ":" + idId;
+    public static String takeNextId(String idCode) {
+        String cacheKey = SystemConst.SYSTEM_ID_TABLE + ":" + idCode;
         // 获取list缓存的长度，判断是否大于0
         if (getRedisUtil().lGetListSize(cacheKey) > 0) {
             Object value = getRedisUtil().lLeftPop(cacheKey);
@@ -61,28 +61,28 @@ public class IdTableUtils {
                 return value.toString();
             }
         }
-        List<Object> ids = generateNextIds(idId);
+        List<Object> ids = generateNextIds(idCode);
         getRedisUtil().lRightPushAll(cacheKey, ids);
         // 递归调用，直到lGetListSize > 0
-        return takeNextId(idId);
+        return takeNextId(idCode);
     }
 
 
     /**
      * 批类构造流水号字符串
-     * @param idId 流水号编码
+     * @param idCode 流水号编码
      * @return List<Object> 流水号列表
      */
-    private static List<Object> generateNextIds(String idId) {
+    private static List<Object> generateNextIds(String idCode) {
         List<Object> nextIds = new ArrayList<>();
-        String sql = "select * from sys_id_table where id_id= '" + idId + "'";
+        String sql = "select * from sys_id_table where id_code= '" + idCode + "'";
         Map idTable = MybatisSqlTool.selectMapAnySql(sql);
         if (idTable != null && !idTable.isEmpty()) {
             // 获取流水号的当前值
             int idValue = idTable.get("id_value") == null ? 0 : Integer.parseInt(idTable.get("id_value").toString());
             int maxId = idValue + IDTABLE_CACHE_NUMBER;
             // 更新id_value为最新值(加上IDTABLE_CACHE_NUMBER)
-            String sql2 = "update sys_id_table set id_value= " + maxId + " where id_id= '" + idId + "'";
+            String sql2 = "update sys_id_table set id_value= " + maxId + " where id_code= '" + idCode + "'";
             MybatisSqlTool.updateAnySql(sql2);
             // 循环获取100个流水号，放入nextIds中去
             for (int i = 1; i <= IDTABLE_CACHE_NUMBER; i++) {
@@ -92,7 +92,7 @@ public class IdTableUtils {
             }
             return nextIds;
         } else {
-            throw new RuntimeException("未找到ID_ID 为【" + idId + "】的最大号记录！");
+            throw new RuntimeException("未找到ID_CODE 为【" + idCode + "】的最大号记录！");
         }
     }
 

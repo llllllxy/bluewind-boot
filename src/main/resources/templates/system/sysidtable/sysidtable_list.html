@@ -33,7 +33,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">编码：</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="idId" name="idId" autocomplete="off" class="layui-input"
+                                <input type="text" id="idCode" name="idCode" autocomplete="off" class="layui-input"
                                        placeholder="请输入流水号编码">
                             </div>
                         </div>
@@ -109,7 +109,7 @@
             elem: '#currentTableId',
             url: Util.ctx + 'sysidtable/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
-            where: {sortName: 'id', sortOrder: 'asc'}, // 初始化时带的参数
+            where: {sortName: 'id_id', sortOrder: 'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print'],
             cols: [
@@ -119,7 +119,7 @@
                             return d.LAY_TABLE_INDEX + 1;
                         }
                     },
-                    {field: 'idId', width: '10%', title: '编码', sort: true, align: 'center'},
+                    {field: 'idCode', width: '10%', title: '编码', sort: true, align: 'center'},
                     {field: 'idName', width: '10%', title: '名称', sort: true, align: 'center'},
                     {field: 'idPrefix', width: '10%', title: '前缀', align: 'center'},
                     {field: 'idSuffix', width: '10%', title: '后缀', align: 'center'},
@@ -151,7 +151,7 @@
                     curr: 1 // 页码从1开始
                 },
                 where: {
-                    idId: data.field.idId,
+                    idCode: data.field.idCode,
                     idName: data.field.idName,
                     createTime: data.field.createTime
                 }
@@ -163,7 +163,7 @@
         // 监听重置操作
         form.on('submit(data-reset-btn)', function (data) {
             form.val("search-form", {
-                "idId": '',
+                "idCode": '',
                 "idName": '',
                 "createTime": ''
             });
@@ -232,7 +232,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysidtable/forUpdate/' + data.id,
+                    content: Util.ctx + 'sysidtable/forUpdate/' + data.idId,
                     end: function (index) {
                         currTable.reload();
                     }
@@ -245,7 +245,7 @@
                 layer.confirm('确定删除此流水号吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysidtable/delete/" + data.id,
+                        url: Util.ctx + "sysidtable/delete/" + data.idId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

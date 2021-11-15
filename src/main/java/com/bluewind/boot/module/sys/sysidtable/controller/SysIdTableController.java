@@ -1,6 +1,7 @@
 package com.bluewind.boot.module.sys.sysidtable.controller;
 
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
+import com.bluewind.boot.common.utils.idtable.IdTableUtils;
 import com.bluewind.boot.module.sys.sysidtable.service.SysIdTableService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -57,17 +58,18 @@ public class SysIdTableController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public BaseResult list(@RequestParam("page") Integer pageNum,
                            @RequestParam("limit") Integer pageSize,
-                           @RequestParam(required = false, defaultValue = "", value = "idId") String idId,
+                           @RequestParam(required = false, defaultValue = "", value = "idCode") String idCode,
                            @RequestParam(required = false, defaultValue = "", value = "idName") String idName,
                            @RequestParam(required = false, defaultValue = "", value = "createTime") String createTime,
                            @RequestParam(required = false, defaultValue = "", value = "sortName") String sortName,
                            @RequestParam(required = false, defaultValue = "", value = "sortOrder") String sortOrder) {
         PageHelper.startPage(pageNum, pageSize);
         if (logger.isInfoEnabled()) {
-            logger.info("getSysUserInfoList -- 页面大小：" + pageSize + "--页码:" + pageNum);
+            logger.info("SysIdTableController -- 页面大小：" + pageSize + "--页码:" + pageNum);
         }
+
         Map<String, String> paraMap = new HashMap<>();
-        paraMap.put("idId", idId);
+        paraMap.put("idCode", idCode);
         paraMap.put("idName", idName);
         paraMap.put("createTime", createTime);
         paraMap.put("sortName", sortName);
@@ -105,7 +107,7 @@ public class SysIdTableController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult add(@RequestParam(value = "idId") String idId,
+    public BaseResult add(@RequestParam(value = "idCode") String idCode,
                           @RequestParam(value = "idName") String idName,
                           @RequestParam(value = "idLength") Integer idLength,
                           @RequestParam(value = "idValue") Integer idValue,
@@ -113,8 +115,8 @@ public class SysIdTableController extends BaseController {
                           @RequestParam(required = false, defaultValue = "", value = "idSuffix") String idSuffix,
                           @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
         SysIdTable sysIdTable = new SysIdTable();
-        sysIdTable.setId(IdGenerate.nextId());
-        sysIdTable.setIdId(idId);
+        sysIdTable.setIdId(IdGenerate.nextId());
+        sysIdTable.setIdCode(idCode);
         sysIdTable.setIdName(idName);
         sysIdTable.setIdLength(idLength);
         sysIdTable.setIdValue(idValue);
@@ -147,10 +149,10 @@ public class SysIdTableController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{idId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult delete(@PathVariable String id) {
-        int num = sysIdTableService.deleteOne(id);
+    public BaseResult delete(@PathVariable String idId) {
+        int num = sysIdTableService.deleteOne(idId);
         if (num > 0) {
             return BaseResult.success("删除成功!");
         } else {
@@ -164,9 +166,9 @@ public class SysIdTableController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/forUpdate/{id}", method = RequestMethod.GET)
-    public String forUpdate(@PathVariable String id, Model model) {
-        SysIdTable sysIdTable = sysIdTableService.getOneIdTable(id);
+    @RequestMapping(value = "/forUpdate/{idId}", method = RequestMethod.GET)
+    public String forUpdate(@PathVariable String idId, Model model) {
+        SysIdTable sysIdTable = sysIdTableService.getOneIdTable(idId);
         model.addAttribute("sysIdTable", sysIdTable);
         return "system/sysidtable/sysidtable_update";
     }
@@ -179,8 +181,8 @@ public class SysIdTableController extends BaseController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult update(@RequestParam(value = "id") String id,
-                             @RequestParam(value = "idId") String idId,
+    public BaseResult update(@RequestParam(value = "idId") String idId,
+                             @RequestParam(value = "idCode") String idCode,
                              @RequestParam(value = "idName") String idName,
                              @RequestParam(value = "idLength") Integer idLength,
                              @RequestParam(value = "idValue") Integer idValue,
@@ -188,8 +190,8 @@ public class SysIdTableController extends BaseController {
                              @RequestParam(required = false, defaultValue = "", value = "idSuffix") String idSuffix,
                              @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
         SysIdTable sysIdTable = new SysIdTable();
-        sysIdTable.setId(id);
         sysIdTable.setIdId(idId);
+        sysIdTable.setIdCode(idCode);
         sysIdTable.setIdName(idName);
         sysIdTable.setIdLength(idLength);
         sysIdTable.setIdValue(idValue);

@@ -12,9 +12,9 @@ import java.io.Serializable;
 public class SysIdTable implements Serializable {
     private static final long serialVersionUID = 8766108666045790590L;
 
-    private String id;
-
     private String idId;
+
+    private String idCode;
 
     private String idName;
 
@@ -44,13 +44,12 @@ public class SysIdTable implements Serializable {
 
     private Integer updateUser;
 
-
-    public String getId() {
-        return id;
+    public String getIdCode() {
+        return idCode;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdCode(String idCode) {
+        this.idCode = idCode;
     }
 
     public String getIdId() {
@@ -160,7 +159,7 @@ public class SysIdTable implements Serializable {
     @Override
     public String toString() {
         return "SysIdTable{" +
-                "id=" + id +
+                "idCode=" + idCode +
                 ", idId='" + idId + '\'' +
                 ", idName='" + idName + '\'' +
                 ", idValue=" + idValue +

@@ -30,13 +30,13 @@ public class SysIdTableServiceImpl implements SysIdTableService {
 
 
     @Override
-    public int deleteOne(String id) {
-        return sysIdTableMapper.deleteOne(id);
+    public int deleteOne(String idId) {
+        return sysIdTableMapper.deleteOne(idId);
     }
 
     @Override
-    public SysIdTable getOneIdTable(String id) {
-        return sysIdTableMapper.getOneIdTable(id);
+    public SysIdTable getOneIdTable(String idId) {
+        return sysIdTableMapper.getOneIdTable(idId);
     }
 
     @Override

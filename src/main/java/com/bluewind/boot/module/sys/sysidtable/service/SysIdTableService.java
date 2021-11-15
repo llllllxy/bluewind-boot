@@ -15,9 +15,9 @@ public interface SysIdTableService {
 
     int addOneIdTable(SysIdTable sysIdTable);
 
-    int deleteOne(String id);
+    int deleteOne(String idId);
 
-    SysIdTable getOneIdTable(String id);
+    SysIdTable getOneIdTable(String idId);
 
     int updateIdTable(SysIdTable sysIdTable);
 

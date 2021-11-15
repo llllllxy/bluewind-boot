@@ -19,7 +19,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">编码</label>
         <div class="layui-input-block">
-            <input type="text" name="idId" lay-verify="required|idId" lay-reqtext="请输入流水号编码" placeholder="请输入流水号编码"
+            <input type="text" name="idCode" lay-verify="required|idCode" lay-reqtext="请输入流水号编码" placeholder="请输入流水号编码"
                    class="layui-input">
         </div>
     </div>
@@ -132,7 +132,7 @@
         });
 
         form.verify({
-            idId: function (value, item) { //value：表单的值、item：表单的DOM对象
+            idCode: function (value, item) { //value：表单的值、item：表单的DOM对象
                 if (!new RegExp("^\\w{3,20}$").test(value)) {
                     return '编码请设置为由数字、26个英文字母或者下划线组成的字符串';
                 }
