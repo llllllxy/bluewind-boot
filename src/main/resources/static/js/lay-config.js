@@ -156,7 +156,7 @@ const Util = {
     /**
      * upload 文件上传 请求
      */
-    upload: function (options, succback, errback) {
+    upload: function (options) {
         if (!options.url) {
             alert('请求错误，url不可为空!');
             return false;
