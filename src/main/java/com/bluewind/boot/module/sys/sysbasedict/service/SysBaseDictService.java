@@ -32,11 +32,11 @@ public class SysBaseDictService {
     /**
      * 枚举修改，获取一条枚举记录
      *
-     * @param id
+     * @param dictId
      * @return
      */
-    public SysDict findOneBaseDictById(String id) {
-        return sysBaseDictMapper.findOneBaseDictById(id);
+    public SysDict findOneBaseDictById(String dictId) {
+        return sysBaseDictMapper.findOneBaseDictById(dictId);
     }
 
 
@@ -45,16 +45,16 @@ public class SysBaseDictService {
     }
 
 
-    public int deleteDict(String id) {
-        return sysBaseDictMapper.deleteDict(id);
+    public int deleteDict(String dictId) {
+        return sysBaseDictMapper.deleteDict(dictId);
     }
 
-    public int forbidDict(String id) {
-        return sysBaseDictMapper.forbidDict(id);
+    public int forbidDict(String dictId) {
+        return sysBaseDictMapper.forbidDict(dictId);
     }
 
-    public int enableDict(String id) {
-        return sysBaseDictMapper.enableDict(id);
+    public int enableDict(String dictId) {
+        return sysBaseDictMapper.enableDict(dictId);
     }
 
     public int updateOneDict(SysDict sysDict) {

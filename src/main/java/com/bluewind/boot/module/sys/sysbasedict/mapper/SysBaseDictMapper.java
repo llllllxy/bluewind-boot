@@ -23,17 +23,17 @@ public interface SysBaseDictMapper {
 
     /**
      * 枚举修改，获取一条枚举记录
-     * @param id
-     * @return
-     */
-    SysDict findOneBaseDictById(String id);
-
-    /**
-     * 获取枚举公共方法
      * @param dictId
      * @return
      */
-    List<Map<String,String>> getBaseDictByDictId(String dictId);
+    SysDict findOneBaseDictById(String dictId);
+
+    /**
+     * 获取枚举公共方法
+     * @param dictCode
+     * @return
+     */
+    List<Map<String,String>> getBaseDictByDictId(String dictCode);
 
     /**
      * 新增一个枚举
@@ -47,21 +47,21 @@ public interface SysBaseDictMapper {
      * @param id
      * @return
      */
-    int deleteDict(String id);
+    int deleteDict(String dictId);
 
     /**
      * 禁用一个枚举
      * @param id
      * @return
      */
-    int forbidDict(String id);
+    int forbidDict(String dictId);
 
     /**
      * 启用一个枚举
      * @param id
      * @return
      */
-    int enableDict(String id);
+    int enableDict(String dictId);
 
     /**
      * 更新一个枚举

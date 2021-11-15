@@ -36,19 +36,19 @@ public class BaseDictUtils {
 
     /**
      * 根据字典id和key获取对应的值
-     * @param dictId
+     * @param dictCode
      * @param key
      * @return
      */
-    public static String getDictValue(String dictId, String key) {
-        if (StringUtils.isBlank(dictId)) {
+    public static String getDictValue(String dictCode, String key) {
+        if (StringUtils.isBlank(dictCode)) {
             return "字典id不能为空";
         }
         if (StringUtils.isBlank(key)) {
             return "字典key不能为空";
         }
         String dictValue = "";
-        List<Map<String, String>> dictList = getBaseDictService().getBaseDictByDictId(dictId);
+        List<Map<String, String>> dictList = getBaseDictService().getBaseDictByDictId(dictCode);
         if (CollectionUtils.isNotEmpty(dictList)) {
             for (Map tempMap : dictList) {
                 if (!MapUtils.isEmpty(tempMap)) {
@@ -66,14 +66,14 @@ public class BaseDictUtils {
     /**
      * 获取指定的枚举列表
      *
-     * @param dictId
+     * @param dictCode
      * @return
      */
-    public static List<Map<String, String>> getDictList(String dictId) {
-        if (StringUtils.isBlank(dictId)) {
+    public static List<Map<String, String>> getDictList(String dictCode) {
+        if (StringUtils.isBlank(dictCode)) {
             return null;
         }
-        List<Map<String, String>> dictList = getBaseDictService().getBaseDictByDictId(dictId);
+        List<Map<String, String>> dictList = getBaseDictService().getBaseDictByDictId(dictCode);
         if (!CollectionUtils.isEmpty(dictList)) {
             return dictList;
         } else {
@@ -83,15 +83,15 @@ public class BaseDictUtils {
 
     /**
      * 获取指定的枚举Map
-     * @param dictId
+     * @param dictCode
      * @return
      */
-    public static Map<String, String> getDictMap(String dictId) {
-        if (StringUtils.isBlank(dictId)) {
+    public static Map<String, String> getDictMap(String dictCode) {
+        if (StringUtils.isBlank(dictCode)) {
             return null;
         }
         Map<String, String> result = new HashMap<>();
-        List<Map<String, String>> dictList = getBaseDictService().getBaseDictByDictId(dictId);
+        List<Map<String, String>> dictList = getBaseDictService().getBaseDictByDictId(dictCode);
         if (!CollectionUtils.isEmpty(dictList)) {
             for (int i = 0; i < dictList.size(); i++) {
                 Map<String, String> tempMap = dictList.get(i);
@@ -105,11 +105,11 @@ public class BaseDictUtils {
 
     /**
      * 获取指定的枚举JSON
-     * @param dictId
+     * @param dictCode
      * @return
      */
-    public static String getDictJson(String dictId) {
-        List<Map<String, String>> list = getDictList(dictId);
+    public static String getDictJson(String dictCode) {
+        List<Map<String, String>> list = getDictList(dictCode);
         if (!CollectionUtils.isEmpty(list)) {
             return JsonTool.listToJsonString(list);
         } else {

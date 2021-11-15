@@ -116,7 +116,7 @@ public class SysBaseDictController extends BaseController {
                             @RequestParam("dictCode") String dictCode,
                             @RequestParam("name") String name) {
         SysDict sysDict = new SysDict();
-        sysDict.setId(IdGenerate.nextId());
+        sysDict.setDictId(IdGenerate.nextId());
         sysDict.setDictCode(dictCode);
         sysDict.setDescript(descript);
         sysDict.setName(name);
@@ -135,11 +135,10 @@ public class SysBaseDictController extends BaseController {
     /**
      * 枚举删除
      */
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{dictId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult delete(@PathVariable String id) {
-        int num = baseDictService.deleteDict(id);
-
+    public BaseResult delete(@PathVariable String dictId) {
+        int num = baseDictService.deleteDict(dictId);
         if (num > 0) {
             return BaseResult.success("删除成功");
         } else {
@@ -151,11 +150,10 @@ public class SysBaseDictController extends BaseController {
     /**
      * 枚举禁用
      */
-    @RequestMapping(value = "/forbid/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/forbid/{dictId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult forbid(@PathVariable String id) {
-        int num = baseDictService.forbidDict(id);
-
+    public BaseResult forbid(@PathVariable String dictId) {
+        int num = baseDictService.forbidDict(dictId);
         if (num > 0) {
             return BaseResult.success("禁用成功");
         } else {
@@ -167,10 +165,10 @@ public class SysBaseDictController extends BaseController {
     /**
      * 枚举启用
      */
-    @RequestMapping(value = "/enable/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/enable/{dictId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult enable(@PathVariable String id) {
-        int num = baseDictService.enableDict(id);
+    public BaseResult enable(@PathVariable String dictId) {
+        int num = baseDictService.enableDict(dictId);
 
         if (num > 0) {
             return BaseResult.success("启用成功");
@@ -185,9 +183,9 @@ public class SysBaseDictController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/forUpdate/{id}", method = RequestMethod.GET)
-    public String forUpdate(@PathVariable String id, Model model) {
-        SysDict sysDict = baseDictService.findOneBaseDictById(id);
+    @RequestMapping(value = "/forUpdate/{dictId}", method = RequestMethod.GET)
+    public String forUpdate(@PathVariable String dictId, Model model) {
+        SysDict sysDict = baseDictService.findOneBaseDictById(dictId);
         model.addAttribute("sysDict", sysDict);
         return "system/sysbasedict/sysdict_update";
     }
@@ -202,11 +200,11 @@ public class SysBaseDictController extends BaseController {
     @ResponseBody
     public BaseResult update(@RequestParam(required = false, defaultValue = "", value = "descript") String descript,
                              @RequestParam("name") String name,
-                             @RequestParam("id") String id) {
+                             @RequestParam("dictId") String dictId) {
         SysDict sysDict = new SysDict();
         sysDict.setDescript(descript);
         sysDict.setName(name);
-        sysDict.setId(id);
+        sysDict.setDictId(dictId);
         sysDict.setCreateUser(getSysUserId());
         sysDict.setStatus("0");
         sysDict.setDelFlag("0");
@@ -225,8 +223,7 @@ public class SysBaseDictController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/forSetting/{dictCode}", method = RequestMethod.GET)
-    public String forSetting(@PathVariable String dictCode,
-                             Model model) {
+    public String forSetting(@PathVariable String dictCode, Model model) {
         model.addAttribute("dictCode", dictCode);
         return "system/sysbasedict/sysdict_detail_list";
     }

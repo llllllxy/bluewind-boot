@@ -19,7 +19,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">编码</label>
         <div class="layui-input-block">
-            <input type="hidden" name="id" th:value="${sysDict.id}">
+            <input type="hidden" name="dictId" th:value="${sysDict.dictId}">
             <input type="text" name="dictCode" lay-verify="required|letter" lay-reqtext="请输入字典编码" placeholder="请输入字典编码" th:value="${sysDict.dictCode}" class="layui-input" readonly>
         </div>
     </div>

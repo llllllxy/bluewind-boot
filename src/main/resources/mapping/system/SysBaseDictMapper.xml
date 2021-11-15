@@ -7,12 +7,12 @@
         select sdd.*
         from sys_dict sd
         left join sys_dict_detail sdd on sdd.dict_code = sd.dict_code
-        where sd.dict_code = #{dictId}
+        where sd.dict_code = #{_parameter}
     </select>
 
 
     <resultMap id="SysDict" type="com.bluewind.boot.module.sys.sysbasedict.entity.SysDict">
-        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <id column="dict_id" jdbcType="VARCHAR" property="dictId"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -56,7 +56,7 @@
                 order by ${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by id asc
+                order by dict_id asc
             </otherwise>
         </choose>
     </select>
@@ -64,14 +64,14 @@
 
     <!--根据条件，查询所有枚举-->
     <select id="findOneBaseDictById" resultMap="SysDict" parameterType="java.lang.String">
-        select * from sys_dict where id = #{_parameter}
+        select * from sys_dict where dict_id = #{_parameter}
     </select>
 
 
     <!--插入一个枚举-->
     <insert id="addOneDict" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDict">
         insert into sys_dict (
-            id,
+            dict_id,
             dict_code,
             `name`,
             status,
@@ -80,7 +80,7 @@
             descript
         )
         values (
-            #{id},
+            #{dictId},
             #{dictCode},
             #{name},
             #{status},
@@ -92,23 +92,22 @@
 
     <!--逻辑删除一个枚举-->
     <update id="deleteDict" parameterType="java.lang.String">
-        update sys_dict set del_flag = '1' where id = #{_parameter}
+        update sys_dict set del_flag = '1' where dict_id = #{_parameter}
     </update>
 
     <!--禁用一个枚举-->
     <update id="forbidDict" parameterType="java.lang.String">
-        update sys_dict set status = '1' where id =  #{_parameter}
+        update sys_dict set status = '1' where dict_id =  #{_parameter}
     </update>
 
     <!--启用一个枚举-->
     <update id="enableDict" parameterType="java.lang.String">
-        update sys_dict set status = '0' where id =  #{_parameter}
+        update sys_dict set status = '0' where dict_id =  #{_parameter}
     </update>
-
 
     <!--更新一个枚举-->
     <update id="updateOneDict" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDict">
-        update sys_dict set `name` = #{name},descript = #{descript} where `id` =  #{id}
+        update sys_dict set `name` = #{name},descript = #{descript} where dict_id =  #{dictId}
     </update>
 
     <!--根据条件，查询所有枚举-->

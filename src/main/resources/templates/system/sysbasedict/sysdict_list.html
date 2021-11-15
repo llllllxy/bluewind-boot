@@ -104,8 +104,8 @@
         var currTable = table.render({
             elem: '#currentTableId',
             url: Util.ctx + 'sysdict/getSysDictList',
-            method: 'post', //如果无需自定义HTTP类型，可不加该参数
-            where: {sortName:'id', sortOrder:'asc'}, // 初始化时带的参数
+            method: 'post',
+            where: {sortName:'dict_id', sortOrder:'asc'},
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print'],
             cols: [
@@ -123,8 +123,8 @@
             limits: [10, 15, 20, 25, 50, 100],
             limit: 10,
             page: true,
-            skin: 'line', // 行边框风格
-            parseData: function(res){ //res 即为原始返回的数据
+            skin: 'line',
+            parseData: function(res) { //res 即为原始返回的数据
                 return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
@@ -223,7 +223,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content:  Util.ctx + 'sysdict/forUpdate/' + data.id,
+                    content:  Util.ctx + 'sysdict/forUpdate/' + data.dictId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -237,7 +237,7 @@
                 layer.confirm('确定删除该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "sysdict/delete/" + data.id,
+                        url:  Util.ctx + "sysdict/delete/" + data.dictId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -276,7 +276,7 @@
                 layer.confirm('确定禁用该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "sysdict/forbid/" + data.id,
+                        url:  Util.ctx + "sysdict/forbid/" + data.dictId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -296,7 +296,7 @@
                 layer.confirm('确定启用该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "sysdict/enable/" + data.id,
+                        url:  Util.ctx + "sysdict/enable/" + data.dictId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
