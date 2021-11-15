@@ -114,6 +114,11 @@ public class SysIdTableController extends BaseController {
                           @RequestParam(required = false, defaultValue = "", value = "idPrefix") String idPrefix,
                           @RequestParam(required = false, defaultValue = "", value = "idSuffix") String idSuffix,
                           @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
+        Integer exist = sysIdTableService.checkExistByIdCode(idCode);
+        if (exist != null ) {
+            return BaseResult.failure("新增业务流水号失败，此流水号编码已存在!");
+        }
+
         SysIdTable sysIdTable = new SysIdTable();
         sysIdTable.setIdId(IdGenerate.nextId());
         sysIdTable.setIdCode(idCode);

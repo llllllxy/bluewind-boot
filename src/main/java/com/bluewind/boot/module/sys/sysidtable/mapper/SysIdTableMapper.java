@@ -15,6 +15,8 @@ public interface SysIdTableMapper {
 
     List<SysIdTable> getSysIdTableList(Map<String, String> map);
 
+    Integer checkExistByIdCode(String idCode);
+
     int addOneIdTable(SysIdTable sysIdTable);
 
     int deleteOne(String idId);

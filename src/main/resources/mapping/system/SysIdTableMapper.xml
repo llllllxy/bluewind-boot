@@ -42,6 +42,10 @@
         </choose>
     </select>
 
+    <!-- 判断流水号是否已存在 -->
+    <select id="checkExistByIdCode" parameterType="string" resultType="integer">
+        SELECT 1 FROM sys_id_table WHERE id_code = #{_parameter} LIMIT 1
+    </select>
 
     <!-- 新增业务流水号 -->
     <insert id="addOneIdTable" parameterType="com.bluewind.boot.module.sys.sysidtable.entity.SysIdTable">
@@ -72,16 +76,13 @@
         )
     </insert>
 
-
     <delete id="deleteOne" parameterType="java.lang.String">
         delete from sys_id_table where id_id = #{_parameter}
     </delete>
 
-
     <select id="getOneIdTable" parameterType="java.lang.String" resultMap="SysIdTable">
         select * from sys_id_table where id_id = #{_parameter}
     </select>
-
 
     <update id="updateIdTable" parameterType="com.bluewind.boot.module.sys.sysidtable.entity.SysIdTable">
         update sys_id_table

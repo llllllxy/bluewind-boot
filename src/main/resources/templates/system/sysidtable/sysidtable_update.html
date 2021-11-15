@@ -111,13 +111,13 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             var index = layer.alert('确认提交吗？', function () {
+                layer.close(index);
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
                     url: Util.ctx + "sysidtable/update",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
-                            layer.close(index);
                             layer.close(loading);
                             Message.success(1500, res.message, function () {
                                 // 重载表格

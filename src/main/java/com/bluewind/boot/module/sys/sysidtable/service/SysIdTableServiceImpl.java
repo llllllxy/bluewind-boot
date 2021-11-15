@@ -24,6 +24,11 @@ public class SysIdTableServiceImpl implements SysIdTableService {
     }
 
     @Override
+    public Integer checkExistByIdCode(String idCode) {
+        return sysIdTableMapper.checkExistByIdCode(idCode);
+    }
+
+    @Override
     public int addOneIdTable(SysIdTable sysIdTable) {
         return sysIdTableMapper.addOneIdTable(sysIdTable);
     }
