@@ -273,7 +273,7 @@ public class SysBaseDictController extends BaseController {
                                 @RequestParam("dictCode") String dictCode,
                                 @RequestParam("name") String name) {
         SysDictDetail sysDict = new SysDictDetail();
-        sysDict.setId(IdGenerate.nextId());
+        sysDict.setDictDetailId(IdGenerate.nextId());
         sysDict.setDictCode(dictCode);
         sysDict.setCode(code);
         sysDict.setName(name);
@@ -290,10 +290,10 @@ public class SysBaseDictController extends BaseController {
     /**
      * 枚举删除
      */
-    @RequestMapping(value = "/deleteDetail/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteDetail/{dictDetailId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult deleteDetail(@PathVariable String id) {
-        int num = baseDictService.deleteDetail(id);
+    public BaseResult deleteDetail(@PathVariable String dictDetailId) {
+        int num = baseDictService.deleteDetail(dictDetailId);
         if (num > 0) {
             return BaseResult.success("删除成功");
         } else {
@@ -307,10 +307,10 @@ public class SysBaseDictController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/forUpdateDetail/{id}", method = RequestMethod.GET)
-    public String forUpdateDetail(@PathVariable String id,
+    @RequestMapping(value = "/forUpdateDetail/{dictDetailId}", method = RequestMethod.GET)
+    public String forUpdateDetail(@PathVariable String dictDetailId,
                                   Model model) {
-        SysDictDetail sysDictDetail = baseDictService.findOneDictDetailById(id);
+        SysDictDetail sysDictDetail = baseDictService.findOneDictDetailById(dictDetailId);
         model.addAttribute("sysDictDetail", sysDictDetail);
         return "system/sysbasedict/sysdict_detail_update";
     }
@@ -324,14 +324,14 @@ public class SysBaseDictController extends BaseController {
     @RequestMapping(value = "/updateDetail", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult updateDetail(@RequestParam("code") String code,
-                                   @RequestParam("id") String id,
+                                   @RequestParam("dictDetailId") String dictDetailId,
                                    @RequestParam("dictCode") String dictCode,
                                    @RequestParam("name") String name) {
         SysDictDetail sysDict = new SysDictDetail();
         sysDict.setDictCode(dictCode);
         sysDict.setCode(code);
         sysDict.setName(name);
-        sysDict.setId(id);
+        sysDict.setDictDetailId(dictDetailId);
         sysDict.setUpdateUser(getSysUserId());
         int num = baseDictService.updateDetail(sysDict);
         if (num > 0) {

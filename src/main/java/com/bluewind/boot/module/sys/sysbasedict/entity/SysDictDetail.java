@@ -11,7 +11,7 @@ import java.util.Date;
  **/
 public class SysDictDetail {
 
-    private String id;
+    private String dictDetailId;
 
     private String dictCode;
 
@@ -31,12 +31,12 @@ public class SysDictDetail {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
-    public String getId() {
-        return id;
+    public String getDictDetailId() {
+        return dictDetailId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDictDetailId(String dictDetailId) {
+        this.dictDetailId = dictDetailId;
     }
 
     public String getDictCode() {
@@ -98,7 +98,7 @@ public class SysDictDetail {
     @Override
     public String toString() {
         return "SysDictDetail{" +
-                "id=" + id +
+                "dictDetailId='" + dictDetailId + '\'' +
                 ", dictCode='" + dictCode + '\'' +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +

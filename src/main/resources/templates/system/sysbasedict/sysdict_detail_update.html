@@ -22,24 +22,26 @@
 <body>
 <div class="layui-form layuimini-form">
     <input type="hidden" name="dictCode" th:value="${sysDictDetail.dictCode}">
-    <input type="hidden" name="id" th:value="${sysDictDetail.id}">
+    <input type="hidden" name="dictDetailId" th:value="${sysDictDetail.dictDetailId}">
     <div class="layui-form-item">
-        <label class="layui-form-label required" style="width: 35px!important;">编码</label>
-        <div class="layui-input-block" style="margin-left: 10px!important;">
+        <label class="layui-form-label required">字典值</label>
+        <div class="layui-input-block">
             <input type="text" name="code" lay-verify="required|letter" lay-reqtext="请输入字典值" placeholder="请输入" class="layui-input" th:value="${sysDictDetail.code}">
             <tip>字典值作为唯一标识，请输入英文或数字</tip>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required" style="width: 35px!important;">名称</label>
-        <div class="layui-input-block" style="margin-left: 10px!important;">
+        <label class="layui-form-label required">名称</label>
+        <div class="layui-input-block">
             <input type="text" name="name" lay-verify="required|name" lay-reqtext="请输入字典值名称" placeholder="请输入" class="layui-input" th:value="${sysDictDetail.name}">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <div class="layui-input-block" style="width: 35px!important;">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"><i class="layui-icon layui-icon-ok"></i> 保 存 </button>
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">
+                <i class="layui-icon layui-icon-ok"></i>保存
+            </button>
         </div>
     </div>
 </div>

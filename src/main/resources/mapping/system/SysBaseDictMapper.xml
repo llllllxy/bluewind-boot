@@ -26,7 +26,7 @@
 
 
     <resultMap id="SysDictDetail" type="com.bluewind.boot.module.sys.sysbasedict.entity.SysDictDetail">
-        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <id column="dict_detail_id" jdbcType="VARCHAR" property="dictDetailId"/>
         <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -119,14 +119,14 @@
     <!--插入一个枚举明细-->
     <insert id="addDetail" parameterType="com.bluewind.boot.module.sys.sysbasedict.entity.SysDictDetail">
         insert into sys_dict_detail (
-            id,
+            dict_detail_id,
             dict_code,
             `name`,
             create_user,
             code
         )
         values (
-            #{id},
+            #{dictDetailId},
             #{dictCode},
             #{name},
             #{createUser},
@@ -136,12 +136,12 @@
 
     <!--删除一个枚举明细-->
     <delete id="deleteDetail" parameterType="java.lang.String">
-        delete from sys_dict_detail where id = #{_parameter}
+        delete from sys_dict_detail where dict_detail_id = #{_parameter}
     </delete>
 
     <!--根据条件，查询所有枚举-->
     <select id="findOneDictDetailById" resultMap="SysDictDetail" parameterType="java.lang.String">
-        select * from sys_dict_detail where id = #{_parameter}
+        select * from sys_dict_detail where dict_detail_id = #{_parameter}
     </select>
 
     <!--更新一个枚举明细-->
@@ -150,7 +150,7 @@
         set `name` = #{name},
         code = #{code},
         update_user = #{updateUser}
-        where id = #{id}
+        where dict_detail_id = #{dictDetailId}
         and dict_code = #{dictCode}
     </update>
 </mapper>

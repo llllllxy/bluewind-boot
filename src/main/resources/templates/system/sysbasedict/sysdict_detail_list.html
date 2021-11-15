@@ -45,7 +45,6 @@
             table = layui.table;
 
         var dictCode = $('input[name="dictCode"]').val();
-
         var currTable = table.render({
             elem: '#currentTableId',
             url: Util.ctx + 'sysdict/getSysDictDetailList',
@@ -106,7 +105,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['50%', '70%'],
-                    content: Util.ctx + 'sysdict/forUpdateDetail/' + data.id,
+                    content: Util.ctx + 'sysdict/forUpdateDetail/' + data.dictDetailId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -118,7 +117,7 @@
                     layer.close(index);
                     let loading = layer.load(0, {shade: 0.1});
                     Util.get({
-                        url: Util.ctx + "sysdict/deleteDetail/" + data.id,
+                        url: Util.ctx + "sysdict/deleteDetail/" + data.dictDetailId,
                         success: function (res) {
                             layer.close(loading);
                             if (res.code === 0) {

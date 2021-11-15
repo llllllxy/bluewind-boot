@@ -70,17 +70,16 @@ public class SysBaseDictService {
         return sysBaseDictMapper.addDetail(sysDictDetail);
     }
 
-    public int deleteDetail(String id) {
-        return sysBaseDictMapper.deleteDetail(id);
+    public int deleteDetail(String dictDetailId) {
+        return sysBaseDictMapper.deleteDetail(dictDetailId);
     }
 
-    public SysDictDetail findOneDictDetailById(String id) {
-        return sysBaseDictMapper.findOneDictDetailById(id);
+    public SysDictDetail findOneDictDetailById(String dictDetailId) {
+        return sysBaseDictMapper.findOneDictDetailById(dictDetailId);
     }
 
     public int updateDetail(SysDictDetail sysDictDetail) {
         return sysBaseDictMapper.updateDetail(sysDictDetail);
     }
-
 
 }

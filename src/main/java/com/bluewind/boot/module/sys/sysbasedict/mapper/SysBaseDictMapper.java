@@ -86,17 +86,17 @@ public interface SysBaseDictMapper {
 
     /**
      * 删除一个枚举明细
-     * @param id
+     * @param dictDetailId
      * @return
      */
-    int deleteDetail(String id);
+    int deleteDetail(String dictDetailId);
 
     /**
      * 获取一个枚举明细的明细
-     * @param id
+     * @param dictDetailId
      * @return
      */
-    SysDictDetail findOneDictDetailById(String id);
+    SysDictDetail findOneDictDetailById(String dictDetailId);
 
     /**
      * 修改一个枚举明细
