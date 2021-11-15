@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.sysmaillog.mapper;
 
-import com.bluewind.boot.module.sys.sysmail.entity.SysEmailLogVO;
+import com.bluewind.boot.module.sys.sysmail.entity.SysEmailLog;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SysEmailLogMapper {
 
-    int saveSysEmailLog(SysEmailLogVO sysEmailLogVO);
+    int saveSysEmailLog(SysEmailLog sysEmailLog);
 
 }

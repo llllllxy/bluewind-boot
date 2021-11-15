@@ -1,6 +1,7 @@
 package com.bluewind.boot.module.sys.sysmaillog.service;
 
 import com.bluewind.boot.common.config.security.SecurityUtil;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.sys.sysmaillog.mapper.SysEmailLogMapper;
 import com.bluewind.boot.module.sys.sysmail.entity.SysEmailLog;
 import com.bluewind.boot.module.sys.sysmail.entity.SysEmailLogVO;
@@ -23,7 +24,8 @@ public class SysEmailLogServiceImpl implements SysEmailLogService {
         // 属性复制
         BeanUtils.copyProperties(sysEmailLogVO, sysEmailLog);
         sysEmailLog.setCreateUser(SecurityUtil.getSysUserId());
-        return sysEmailLogMapper.saveSysEmailLog(sysEmailLogVO);
+        sysEmailLog.setLogId(IdGenerate.nextId());
+        return sysEmailLogMapper.saveSysEmailLog(sysEmailLog);
     }
 
 }

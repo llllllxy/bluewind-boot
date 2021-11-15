@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class SysEmailLog implements Serializable {
     private static final long serialVersionUID = -7864731594551886798L;
 
-    private Integer id;
+    private String logId;
 
     private String address;
 
@@ -36,12 +36,12 @@ public class SysEmailLog implements Serializable {
 
     private String delFlag;
 
-    public Integer getId() {
-        return id;
+    public String getLogId() {
+        return logId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLogId(String logId) {
+        this.logId = logId;
     }
 
     public String getAddress() {
@@ -119,7 +119,7 @@ public class SysEmailLog implements Serializable {
     @Override
     public String toString() {
         return "SysEmailLog{" +
-                "id=" + id +
+                "logId=" + logId +
                 ", address='" + address + '\'' +
                 ", subject='" + subject + '\'' +
                 ", type=" + type +
