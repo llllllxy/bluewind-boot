@@ -1,3 +1,4 @@
+@charset "utf-8";
 /**
 配色方案（如有需要，请自行配置）
  */
@@ -44,22 +45,26 @@
 }
 
 .layuimini-header-menu, .layui-header {
-    height: 60px !important;
+    height: 50px !important;
 }
 
 .layuimini-header-menu > .layui-nav-item {
     color: #1b1d21;
-    height: 60px !important;
-    line-height: 60px !important;
+    height: 50px !important;
+    line-height: 50px !important;
+}
+
+.layuimini-header-content .layui-nav .layui-nav-item {
+    line-height: 50px !important;
 }
 
 .layui-header > .layui-layout-right > .layui-nav-item {
-    height: 60px !important;
-    line-height: 60px !important;
+    height: 50px !important;
+    line-height: 50px !important;
 }
 
 .layui-layout-left {
-    left: 295px !important;
+    left: 265px !important;
 }
 
 .layui-nav.layui-layout-left.layuimini-header-menu.layuimini-pc-show {
@@ -72,10 +77,9 @@
 .layui-layout-admin .layuimini-logo {
     font-weight: bold;
     color: #ffffff !important;
-    height: 60px !important;
-    line-height: 60px !important;
+    height: 50px !important;
+    line-height: 50px !important;
     overflow: hidden;
-    line-height: 64px;
     transition: all .2s !important;
 }
 
@@ -99,10 +103,10 @@
 .layuimini-tool {
     position: absolute !important;
     top: 0;
-    left: 235px;
+    left: 215px;
     width: 60px;
     height: 100%;
-    line-height: 60px;
+    line-height: 50px;
     text-align: center;
     color: #ffffff !important;
     transition: all .2s;
@@ -117,7 +121,7 @@
     line-height: 32px;
     border-radius: 3px;
     text-align: center;
-    margin-top: 15px;
+    margin-top: 10px;
     cursor: pointer;
 }
 
@@ -391,7 +395,7 @@
 .layui-layout-admin .layui-body {
     overflow: hidden;
     bottom: 0px !important;
-    top: 60px !important;
+    top: 50px !important;
     transition: all .2s;
 }
 
@@ -486,7 +490,7 @@
 }
 
 .layui-layout-admin .layui-side {
-    top: 60px !important;
+    top: 50px !important;
 }
 
 .layui-tab-card {
@@ -741,7 +745,7 @@
 @media screen and (min-width: 1025px) {
     /**头部样式（缩放） */
     .layuimini-mini .layui-layout-left.layuimini-header-menu.layuimini-pc-show {
-        left: 155px !important;
+        left: 125px !important;
     }
 
     /**logo演示（缩放） */
@@ -783,7 +787,7 @@
     }
 
     .layuimini-mini .layuimini-tool {
-        left: 95px !important;
+        left: 75px !important;
     }
 
     .layuimini-pc-show{
