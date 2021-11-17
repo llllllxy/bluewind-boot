@@ -3,7 +3,7 @@
 <mapper namespace="com.bluewind.boot.module.sys.sysbasedict.mapper.SysBaseDictMapper">
 
     <!--查询一个枚举,公共方法-->
-    <select id="getBaseDictByDictId" parameterType="string" resultType="map">
+    <select id="getDictByCode" parameterType="string" resultType="map">
         select sdd.*
         from sys_dict sd
         left join sys_dict_detail sdd on sdd.dict_code = sd.dict_code

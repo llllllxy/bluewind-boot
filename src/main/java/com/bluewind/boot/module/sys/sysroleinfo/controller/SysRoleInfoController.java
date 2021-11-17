@@ -1,12 +1,12 @@
 package com.bluewind.boot.module.sys.sysroleinfo.controller;
 
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.module.sys.sysroleinfo.entity.SysRoleInfo;
 import com.bluewind.boot.module.sys.sysroleinfo.service.SysRoleInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.utils.BaseDictUtils;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.sys.syspermissioninfo.service.SysPermissionInfoService;
@@ -48,7 +48,7 @@ public class SysRoleInfoController extends BaseController {
     @RequestMapping(value = "/SysRoleInfoInit", method = RequestMethod.GET)
     public String SysRoleInfoInit(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String, String>> baseDictList = BaseDictUtils.getDictList("role_status");
+        List<Map<String, String>> baseDictList = DictUtils.getDictList("role_status");
         model.addAttribute("baseDictList", baseDictList);
         return "system/sysroleinfo/sysroleinfo_list";
     }

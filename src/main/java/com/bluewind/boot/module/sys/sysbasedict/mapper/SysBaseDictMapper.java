@@ -33,7 +33,7 @@ public interface SysBaseDictMapper {
      * @param dictCode
      * @return
      */
-    List<Map<String,String>> getBaseDictByDictId(String dictCode);
+    List<Map<String,String>> getDictByCode(String dictCode);
 
     /**
      * 新增一个枚举

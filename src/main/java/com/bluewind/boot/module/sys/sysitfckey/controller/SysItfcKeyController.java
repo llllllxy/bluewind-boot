@@ -6,7 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.consts.SystemConst;
-import com.bluewind.boot.common.utils.BaseDictUtils;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.DateTool;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.RedisUtil;
@@ -49,7 +49,7 @@ public class SysItfcKeyController extends BaseController {
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String, String>> dictList = BaseDictUtils.getDictList("itfc_key_status");
+        List<Map<String, String>> dictList = DictUtils.getDictList("itfc_key_status");
         model.addAttribute("dictList", dictList);
 
         return "system/sysitfckey/sysitfckey_list";

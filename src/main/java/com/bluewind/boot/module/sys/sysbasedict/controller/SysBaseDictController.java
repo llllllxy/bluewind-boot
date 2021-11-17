@@ -1,6 +1,6 @@
 package com.bluewind.boot.module.sys.sysbasedict.controller;
 
-import com.bluewind.boot.common.utils.BaseDictUtils;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.sys.sysbasedict.service.SysBaseDictService;
 import com.bluewind.boot.common.annotation.OperLog;
@@ -51,7 +51,7 @@ public class SysBaseDictController extends BaseController {
     @RequestMapping(value = "/baseDictQureyInit")
     public String baseDictQureyInit(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String, String>> baseDictList = BaseDictUtils.getDictList("dict_status");
+        List<Map<String, String>> baseDictList = DictUtils.getDictList("dict_status");
         model.addAttribute("baseDictList", baseDictList);
         return "system/sysbasedict/sysdict_list";
     }

@@ -3,7 +3,7 @@ package com.bluewind.boot.module.sys.syspermissioninfo.controller;
 import com.bluewind.boot.module.sys.syspermissioninfo.entity.SysPermissionInfo;
 import com.bluewind.boot.module.sys.syspermissioninfo.service.SysPermissionInfoService;
 import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.utils.BaseDictUtils;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import org.apache.commons.lang3.StringUtils;
@@ -212,7 +212,7 @@ public class SysPermissionInfoController extends BaseController {
         model.addAttribute("parentName", parentInfo == null ? "" : parentInfo.getName());
 
         // 获取下拉栏枚举值
-        List<Map<String, String>> baseDictList = BaseDictUtils.getDictList("permission_target");
+        List<Map<String, String>> baseDictList = DictUtils.getDictList("permission_target");
         model.addAttribute("baseDictList", baseDictList);
 
         return "system/syspermissioninfo/syspermissioninfo_update";

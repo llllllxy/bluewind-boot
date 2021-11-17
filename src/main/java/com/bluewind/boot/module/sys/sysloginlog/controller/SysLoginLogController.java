@@ -7,7 +7,7 @@ import com.bluewind.boot.common.annotation.DataSourceWith;
 import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.enums.DataSourceType;
-import com.bluewind.boot.common.utils.BaseDictUtils;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.module.sys.sysloginlog.service.SysLoginLogService;
 import org.slf4j.Logger;
@@ -47,7 +47,7 @@ public class SysLoginLogController extends BaseController {
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String,String>> baseDictList = BaseDictUtils.getDictList("login_status");
+        List<Map<String,String>> baseDictList = DictUtils.getDictList("login_status");
         model.addAttribute("baseDictList", baseDictList);
         return "system/sysloginlog/sysloginlog_list";
     }

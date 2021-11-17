@@ -1,36 +1,34 @@
 package com.bluewind.boot.common.utils;
 
 import com.bluewind.boot.module.sys.sysbasedict.mapper.SysBaseDictMapper;
+import com.bluewind.boot.common.utils.spring.SpringUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author liuxingyu01
- * @date 2020-11-10-14:07
- * @description 动态获取bean第二种实现方式
- * 被@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器调用一次，类似于Serclet的inti()方法。
- * 被@PostConstruct修饰的方法会在构造函数之后，init()方法之前运行。
+ * @date 2020-05-30-0:28
+ * @description 获取枚举值 公共方法类 - 使用SpringUtil工具类获取bean
  **/
-@Component
-public class BaseDictUtils2 {
 
-    @Autowired
-    private SysBaseDictMapper sysBaseDictMapper;
+public class DictUtils {
+    final static Logger logger = LoggerFactory.getLogger(DictUtils.class);
 
-    private static BaseDictUtils2 baseDictUtils2;
+    private static SysBaseDictMapper sysBaseDictMapper;
 
-    @PostConstruct
-    public void init() {
-        baseDictUtils2 = this;
-        baseDictUtils2.sysBaseDictMapper = this.sysBaseDictMapper;
+    private static SysBaseDictMapper getBaseDictService() {
+        if (sysBaseDictMapper == null) {
+            Object bean = SpringUtil.getBean("sysBaseDictMapper");
+            sysBaseDictMapper = (SysBaseDictMapper) bean;
+        }
+        return sysBaseDictMapper;
     }
 
     /**
@@ -47,7 +45,7 @@ public class BaseDictUtils2 {
             return "字典key不能为空";
         }
         String dictValue = "";
-        List<Map<String, String>> dictList = baseDictUtils2.sysBaseDictMapper.getBaseDictByDictId(dictCode);
+        List<Map<String, String>> dictList = getBaseDictService().getDictByCode(dictCode);
         if (CollectionUtils.isNotEmpty(dictList)) {
             for (Map tempMap : dictList) {
                 if (!MapUtils.isEmpty(tempMap)) {
@@ -72,7 +70,7 @@ public class BaseDictUtils2 {
         if (StringUtils.isBlank(dictCode)) {
             return null;
         }
-        List<Map<String, String>> dictList = baseDictUtils2.sysBaseDictMapper.getBaseDictByDictId(dictCode);
+        List<Map<String, String>> dictList = getBaseDictService().getDictByCode(dictCode);
         if (!CollectionUtils.isEmpty(dictList)) {
             return dictList;
         } else {
@@ -90,7 +88,7 @@ public class BaseDictUtils2 {
             return null;
         }
         Map<String, String> result = new HashMap<>();
-        List<Map<String, String>> dictList = baseDictUtils2.sysBaseDictMapper.getBaseDictByDictId(dictCode);
+        List<Map<String, String>> dictList = getBaseDictService().getDictByCode(dictCode);
         if (!CollectionUtils.isEmpty(dictList)) {
             for (int i = 0; i < dictList.size(); i++) {
                 Map<String, String> tempMap = dictList.get(i);

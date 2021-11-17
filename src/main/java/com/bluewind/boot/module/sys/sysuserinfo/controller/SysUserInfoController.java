@@ -15,7 +15,7 @@ import com.bluewind.boot.common.utils.DateTool;
 import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.common.utils.encrypt.SHA256Utils;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
-import com.bluewind.boot.common.utils.BaseDictUtils;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.base.BaseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -73,7 +73,7 @@ public class SysUserInfoController extends BaseController {
     @RequestMapping(value = "/SysUserInfoInit", method = RequestMethod.GET)
     public String SysUserInfoInit(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String,String>> baseDictList = BaseDictUtils.getDictList("user_status");
+        List<Map<String,String>> baseDictList = DictUtils.getDictList("user_status");
         model.addAttribute("baseDictList", baseDictList);
         return "system/sysuserinfo/sysuserinfo_list";
     }
@@ -244,7 +244,7 @@ public class SysUserInfoController extends BaseController {
     public String update(Model model,
                          @PathVariable int id) {
         // 获取下拉栏枚举值
-        List<Map<String,String>> baseDictList = BaseDictUtils.getDictList("user_status");
+        List<Map<String,String>> baseDictList = DictUtils.getDictList("user_status");
         model.addAttribute("baseDictList", baseDictList);
         SysUserInfo sysUserInfo = sysUserInfoService.getOneById(id);
         model.addAttribute("sysUserInfo", sysUserInfo);
@@ -570,8 +570,8 @@ public class SysUserInfoController extends BaseController {
             logger.info("SysUserInfoController -- exportExcel -- start");
         }
         List<SysUserInfo> userInfoList = sysUserInfoService.getSysUserInfoList(new HashMap<>());
-        Map<String,String> userStatus = BaseDictUtils.getDictMap("user_status");
-        Map<String,String> userSex = BaseDictUtils.getDictMap("user_sex");
+        Map<String,String> userStatus = DictUtils.getDictMap("user_status");
+        Map<String,String> userSex = DictUtils.getDictMap("user_sex");
         for (SysUserInfo sysUserInfo: userInfoList) {
             String sex = sysUserInfo.getSex();
             sex = userSex.get(sex);

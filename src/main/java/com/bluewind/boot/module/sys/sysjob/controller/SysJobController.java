@@ -3,6 +3,7 @@ package com.bluewind.boot.module.sys.sysjob.controller;
 import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
 import com.bluewind.boot.common.config.quartz.CronUtils;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
 import com.bluewind.boot.module.sys.sysjob.service.SysJobService;
@@ -10,7 +11,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.utils.BaseDictUtils;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import io.swagger.annotations.ApiOperation;
 import org.quartz.CronExpression;
@@ -48,8 +48,8 @@ public class SysJobController extends BaseController {
     @GetMapping("/init")
     public String init(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String, String>> sysJobGroupDict = BaseDictUtils.getDictList("sys_job_group");
-        List<Map<String, String>> sysJobStatusDict = BaseDictUtils.getDictList("sys_job_status");
+        List<Map<String, String>> sysJobGroupDict = DictUtils.getDictList("sys_job_group");
+        List<Map<String, String>> sysJobStatusDict = DictUtils.getDictList("sys_job_status");
         model.addAttribute("sysJobGroupDict", sysJobGroupDict);
         model.addAttribute("sysJobStatusDict", sysJobStatusDict);
         return "system/sysjob/sysjob_list";
@@ -93,7 +93,7 @@ public class SysJobController extends BaseController {
 
         List<SysJob> sysJobList = pageinfo.getList();
 
-        Map<String, String> sysJobGroupDict = BaseDictUtils.getDictMap("sys_job_group");
+        Map<String, String> sysJobGroupDict = DictUtils.getDictMap("sys_job_group");
 
         sysJobList.forEach(item -> {
             item.setJobGroup(sysJobGroupDict.get(item.getJobGroup()));
@@ -187,7 +187,7 @@ public class SysJobController extends BaseController {
     @GetMapping("/forAdd")
     public String forAdd(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String, String>> sysJobGroupDict = BaseDictUtils.getDictList("sys_job_group");
+        List<Map<String, String>> sysJobGroupDict = DictUtils.getDictList("sys_job_group");
         model.addAttribute("sysJobGroupDict", sysJobGroupDict);
         return "system/sysjob/sysjob_add";
     }
@@ -251,7 +251,7 @@ public class SysJobController extends BaseController {
     @GetMapping("/forUpdate/{jobId}")
     public String forUpdate(@PathVariable String jobId, Model model) {
         // 获取下拉栏枚举值
-        List<Map<String, String>> sysJobGroupDict = BaseDictUtils.getDictList("sys_job_group");
+        List<Map<String, String>> sysJobGroupDict = DictUtils.getDictList("sys_job_group");
         model.addAttribute("sysJobGroupDict", sysJobGroupDict);
 
         SysJob sysJob = sysJobService.getOne(jobId);
