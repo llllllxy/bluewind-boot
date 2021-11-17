@@ -48,11 +48,11 @@ public class SysRoleInfo implements Serializable {
         this.roleId = roleId;
     }
 
-    public Integer getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public Integer getUpdateUser() {
+    public String getUpdateUser() {
         return updateUser;
     }
 
@@ -68,7 +68,7 @@ public class SysRoleInfo implements Serializable {
         return delFlag;
     }
 
-    private Integer createUser;
+    private String createUser;
 
     public void setName(String name) {
         this.name = name;
@@ -86,11 +86,11 @@ public class SysRoleInfo implements Serializable {
         this.descript = descript;
     }
 
-    public void setCreateUser(Integer createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
-    public void setUpdateUser(Integer updateUser) {
+    public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
 
@@ -106,7 +106,7 @@ public class SysRoleInfo implements Serializable {
         this.delFlag = delFlag;
     }
 
-    private Integer updateUser;
+    private String updateUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

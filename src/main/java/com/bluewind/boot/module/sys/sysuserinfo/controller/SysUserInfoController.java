@@ -134,10 +134,10 @@ public class SysUserInfoController extends BaseController {
      */
     @RequiresPermissions("system:user:delete")
     @ApiOperation(value = "删除一个系统用户", notes = "删除一个系统用户")
-    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/delete/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult delete(@PathVariable int id){
-        int num = sysUserInfoService.delete(id);
+    public BaseResult delete(@PathVariable String userId){
+        int num = sysUserInfoService.delete(userId);
         if (num > 0) {
             return BaseResult.success("删除成功!");
         } else {
@@ -160,9 +160,9 @@ public class SysUserInfoController extends BaseController {
             logger.info("batchDelete -- data：" + data);
         }
         List<SysUserInfo> userList = JsonTool.getListFromJsonString(data, SysUserInfo.class);
-        List<Integer> idList = new ArrayList<>();
+        List<String> idList = new ArrayList<>();
         userList.forEach(item -> {
-            idList.add(item.getId());
+            idList.add(item.getUserId());
         });
         if (logger.isInfoEnabled()) {
             logger.info("batchDelete -- idList：{}", idList);
@@ -213,6 +213,7 @@ public class SysUserInfoController extends BaseController {
             return BaseResult.failure("新增用户'" + account + "'失败，登录账号已存在!");
         }
         SysUserInfo sysUserInfo = new SysUserInfo();
+        sysUserInfo.setUserId(IdGenerate.nextId());
         sysUserInfo.setAccount(account);
         // 再进行加密两次，才是正确密码
         password = SHA256Utils.SHA256Encode(salt + password);
@@ -240,13 +241,12 @@ public class SysUserInfoController extends BaseController {
      */
     @RequiresPermissions("system:user:edit")
     @ApiOperation(value = "用户修改页面初始化", notes = "用户修改页面初始化")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(Model model,
-                         @PathVariable int id) {
+    @RequestMapping(value = "/update/{userId}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable String userId) {
         // 获取下拉栏枚举值
         List<Map<String,String>> baseDictList = DictUtils.getDictList("user_status");
         model.addAttribute("baseDictList", baseDictList);
-        SysUserInfo sysUserInfo = sysUserInfoService.getOneById(id);
+        SysUserInfo sysUserInfo = sysUserInfoService.getOneById(userId);
         model.addAttribute("sysUserInfo", sysUserInfo);
         return "system/sysuserinfo/sysuserinfo_update";
     }
@@ -259,12 +259,12 @@ public class SysUserInfoController extends BaseController {
      */
     @RequiresPermissions("system:user:editpassword")
     @ApiOperation(value = "用户密码修改", notes = "用户密码修改")
-    @RequestMapping(value = "/updatePassword/{id}/{password}", method = RequestMethod.GET)
+    @RequestMapping(value = "/updatePassword/{userId}/{password}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult updatePassword(@PathVariable(value = "id") Integer id,
+    public BaseResult updatePassword(@PathVariable(value = "userId") String userId,
                                      @PathVariable(value = "password") String password) {
         SysUserInfo sysUserInfo = new SysUserInfo();
-        sysUserInfo.setId(id);
+        sysUserInfo.setUserId(userId);
         // 再进行加密两次，才是正确密码
         password = SHA256Utils.SHA256Encode(salt + password);
         sysUserInfo.setPassword(password);
@@ -286,20 +286,20 @@ public class SysUserInfoController extends BaseController {
     @ApiOperation(value = "用户信息修改", notes = "用户信息修改")
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult doUpdate(@RequestParam(value = "id") Integer id,
+    public BaseResult doUpdate(@RequestParam(value = "userId") String userId,
                                @RequestParam(value = "name") String name,
                                @RequestParam(value = "sex") String sex,
                                @RequestParam(value = "phone") String phone,
                                @RequestParam(value = "status") String status,
                                @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar) {
         SysUserInfo sysUserInfo = new SysUserInfo();
-        sysUserInfo.setId(id);
+        sysUserInfo.setUserId(userId);
         sysUserInfo.setName(name);
         sysUserInfo.setSex(sex);
         sysUserInfo.setStatus(status);
         sysUserInfo.setPhone(phone);
         sysUserInfo.setAvatar(avatar);
-
+        sysUserInfo.setUpdateUser(getSysUserId());
         int num = sysUserInfoService.doUpdate(sysUserInfo);
         if (num > 0) {
             return BaseResult.success("修改用户成功!");
@@ -316,9 +316,9 @@ public class SysUserInfoController extends BaseController {
      */
     @RequiresPermissions("system:user:authorize")
     @ApiOperation(value = "用户授权页面初始化", notes = "用户授权页面初始化")
-    @RequestMapping(value = "/authorize/{id}", method = RequestMethod.GET)
-    public String authorize(Model model, @PathVariable int id) {
-        SysUserInfo sysUserInfo = sysUserInfoService.getOneById(id);
+    @RequestMapping(value = "/authorize/{userId}", method = RequestMethod.GET)
+    public String authorize(Model model, @PathVariable String userId) {
+        SysUserInfo sysUserInfo = sysUserInfoService.getOneById(userId);
         model.addAttribute("sysUserInfo", sysUserInfo);
         return "system/sysuserinfo/sysuserinfo_auth";
     }
@@ -326,20 +326,20 @@ public class SysUserInfoController extends BaseController {
 
     @RequiresPermissions("system:user:authorize")
     @ApiOperation(value = "根据用户id查询用户角色", notes = "根据用户id查询用户角色")
-    @RequestMapping(value = "/listRoleForSelect/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/listRoleForSelect/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public String listRoleForSelect(@PathVariable Integer id) {
-        return sysRoleInfoService.listXmSelectPojo(id);
+    public String listRoleForSelect(@PathVariable String userId) {
+        return sysRoleInfoService.listXmSelectPojo(userId);
     }
 
 
     @RequiresPermissions("system:user:authorize")
     @ApiOperation(value = "根据用户id赋予用户角色", notes = "根据用户id赋予用户角色")
-    @RequestMapping(value = "doAuthorize/{id}/{roles}", method = RequestMethod.GET)
+    @RequestMapping(value = "doAuthorize/{userId}/{roles}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult doAuthorize(@PathVariable("id") Integer id,
+    public BaseResult doAuthorize(@PathVariable("userId") String userId,
                                   @PathVariable("roles") String roles) {
-        return sysUserRoleService.doAuthorize(id, roles);
+        return sysUserRoleService.doAuthorize(userId, roles);
     }
 
 

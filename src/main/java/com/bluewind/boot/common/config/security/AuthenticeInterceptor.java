@@ -132,9 +132,9 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
 
         try {
             // 获取用户角色信息
-            Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
+            Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getUserId());
             // 获取用户权限列表
-            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
+            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getUserId());
 
             if (!ServletUtils.isAjaxRequest(request) && modelAndView != null) {
                 modelAndView.addObject("roleSet", roleSet);

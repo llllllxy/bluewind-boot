@@ -31,7 +31,7 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
     private RedisUtil redisUtil;
 
     @Override
-    public Set<String> listRolePermissionByUserId(Integer userId) {
+    public Set<String> listRolePermissionByUserId(String userId) {
         String token = SecurityUtil.getUserKey();
 
         Object object = redisUtil.get(SystemConst.SYSTEM_USER_PERMISSION + ":" + token);
@@ -72,6 +72,5 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
             return 0;
         }
     }
-
 
 }

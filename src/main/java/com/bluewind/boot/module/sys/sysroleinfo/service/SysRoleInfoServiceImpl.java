@@ -26,7 +26,7 @@ public class SysRoleInfoServiceImpl implements SysRoleInfoService {
      * 根据用户id查询角色，给xmselect赋值
      */
     @Override
-    public String listXmSelectPojo(Integer userId) {
+    public String listXmSelectPojo(String userId) {
         List<XmSelect> list = sysRoleInfoMapper.listXmSelectPojo(userId);
         Map<String, Object> selectMap = new HashMap<>();
         selectMap.put("data", list);

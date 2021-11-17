@@ -8,14 +8,14 @@
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="status" jdbcType="CHAR" property="status"/>
-        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
-        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
     </resultMap>
 
-    <select id="listXmSelectPojo" resultType="com.bluewind.boot.module.sys.sysroleinfo.entity.XmSelect">
+    <select id="listXmSelectPojo" resultType="com.bluewind.boot.module.sys.sysroleinfo.entity.XmSelect" parameterType="string">
         SELECT
             a.role_id AS `value`,
             a.name,
@@ -37,7 +37,7 @@
             and sign like CONCAT('%',#{sign},'%')
         </if>
         <if test="name != null and name != ''">
-            and `name` like CONCAT('%',#{name},'%')
+            and name like CONCAT('%',#{name},'%')
         </if>
         <if test="status != null and status != ''">
             and status = #{status}
@@ -82,20 +82,17 @@
         update sys_role_info set status = '0' where role_id = #{_parameter}
     </update>
 
-
     <!--通过角色id获取一个角色-->
     <select id="getOneRoleById" resultMap="SysRoleInfo" parameterType="java.lang.String">
         select * from sys_role_info where role_id = #{_parameter}
     </select>
 
-
     <!--更新一个角色-->
     <update id="doUpdate" parameterType="com.bluewind.boot.module.sys.sysroleinfo.entity.SysRoleInfo">
         update sys_role_info
-        set `name` = #{name},
+        set name = #{name},
         sign = #{sign},
         descript = #{descript}
         where role_id = #{roleId}
     </update>
-
 </mapper>

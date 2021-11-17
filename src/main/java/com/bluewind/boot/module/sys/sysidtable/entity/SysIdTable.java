@@ -40,9 +40,9 @@ public class SysIdTable implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateTime;
 
-    private Integer createUser;
+    private String createUser;
 
-    private Integer updateUser;
+    private String updateUser;
 
     public String getIdCode() {
         return idCode;
@@ -140,19 +140,19 @@ public class SysIdTable implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Integer getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Integer createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
-    public Integer getUpdateUser() {
+    public String getUpdateUser() {
         return updateUser;
     }
 
-    public void setUpdateUser(Integer updateUser) {
+    public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
 

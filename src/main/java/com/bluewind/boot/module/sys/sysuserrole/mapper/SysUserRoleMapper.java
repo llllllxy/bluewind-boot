@@ -17,10 +17,9 @@ public interface SysUserRoleMapper {
     /**
      * 登录时，根据用户id查询全部角色标识
      */
-    Set<String> listUserRoleByUserId(@Param("userId") Integer userId);
+    Set<String> listUserRoleByUserId(@Param("userId") String userId);
 
-
-    int deleteUserRoleByUserId(@Param("userId") Integer userId);
+    int deleteUserRoleByUserId(@Param("userId") String userId);
 
     int batchSaveUserRole(List<SysUserRole> list);
 }

@@ -19,7 +19,7 @@ public interface SysRoleInfoMapper {
     /**
      * 根据用户id查询角色，给xmselect赋值
      */
-    List<XmSelect> listXmSelectPojo(@Param("userId") Integer userId);
+    List<XmSelect> listXmSelectPojo(@Param("userId") String userId);
 
 
     /**

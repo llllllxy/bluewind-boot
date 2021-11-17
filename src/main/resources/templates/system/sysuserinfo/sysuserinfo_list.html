@@ -50,7 +50,7 @@
 
                         <div class="layui-inline">
                             <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn">
-                                <i class="layui-icon"></i> 搜 索
+                                <i class="layui-icon"></i> 搜 索
                             </button>
                             <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn">
                                 <i class="layui-icon layui-icon-refresh"></i> 重 置
@@ -121,7 +121,7 @@
             elem: '#currentTableId',
             url: Util.ctx + 'sysuser/getSysUserInfoList',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
-            where: {sortName:'id', sortOrder:'asc'}, // 初始化时带的参数
+            where: {sortName:'user_id', sortOrder:'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print'],
             cols: [
@@ -252,7 +252,7 @@
                     layer.close(index);
                     Util.post({
                         url: Util.ctx + "sysuser/batchDelete",
-                        contentType: "application/json", // 默认是："application/x-www-form-urlencoded"
+                        contentType: "application/json",
                         data: JSON.stringify(data),
                         success: function (res) {
                             if (res.code === 0) {
@@ -339,7 +339,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysuser/update/' + data.id,
+                    content: Util.ctx + 'sysuser/update/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -353,7 +353,7 @@
                 layer.confirm('确定删除该用户吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysuser/delete/" + data.id,
+                        url: Util.ctx + "sysuser/delete/" + data.userId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, res.message, function () {
@@ -377,7 +377,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysuser/authorize/' + data.id,
+                    content: Util.ctx + 'sysuser/authorize/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -406,7 +406,7 @@
                     var index = layer.load(0, {shade: 0.1});
                     value = md5('' + value);
                     Util.get({
-                        url: Util.ctx + 'sysuser/updatePassword/' + data.id + "/" + value,
+                        url: Util.ctx + 'sysuser/updatePassword/' + data.userId + "/" + value,
                         success: function (res) {
                             if (0 === res.code) {
                                 layer.closeAll('dialog');

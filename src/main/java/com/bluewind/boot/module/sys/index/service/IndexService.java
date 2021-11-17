@@ -34,7 +34,7 @@ public class IndexService {
     /**
      * 根据用户名查询一个账户
      */
-    public Map findAccountByUserId(Integer userId) {
+    public Map findAccountByUserId(String userId) {
         return indexMapper.findAccountByUserId(userId);
     }
 
@@ -55,12 +55,12 @@ public class IndexService {
      * @return
      */
     public Map<String, Object> menuInit() {
-        Integer userId = SecurityUtil.getSysUserId();
+        String userId = SecurityUtil.getSysUserId();
         if (logger.isInfoEnabled()) {
             logger.info("IndexService -- menuInit -- userId = {} , contextPath = {}", userId, contextPath);
         }
 
-        if (null == userId || 0 == userId) {
+        if (null == userId || "".equals(userId)) {
             return null;
         }
 

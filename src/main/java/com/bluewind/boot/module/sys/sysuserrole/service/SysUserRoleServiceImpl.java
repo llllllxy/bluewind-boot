@@ -31,7 +31,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
     private RedisUtil redisUtil;
 
     @Override
-    public Set<String> listUserRoleByUserId(Integer userId) {
+    public Set<String> listUserRoleByUserId(String userId) {
         String token = SecurityUtil.getUserKey();
 
         Object object = redisUtil.get(SystemConst.SYSTEM_USER_ROLE + ":" + token);
@@ -48,14 +48,14 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 
     /**
      * 用户授权
-     * @param id
+     * @param userId
      * @param roles
      * @return
      */
     @Override
-    public BaseResult doAuthorize(Integer id, String roles) {
+    public BaseResult doAuthorize(String userId, String roles) {
         // 先全部删除用户旧的角色
-        int num = sysUserRoleMapper.deleteUserRoleByUserId(id);
+        int num = sysUserRoleMapper.deleteUserRoleByUserId(userId);
         // 保存用户新赋予的角色
         if (StringUtils.isNotBlank(roles)) {
             String[] roleArr = roles.split(",");
@@ -63,7 +63,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
             SysUserRole sysUserRole = null;
             for (String item : roleArr) {
                 sysUserRole = new SysUserRole();
-                sysUserRole.setUserId(id);
+                sysUserRole.setUserId(userId);
                 sysUserRole.setRoleId(item);
                 list.add(sysUserRole);
             }

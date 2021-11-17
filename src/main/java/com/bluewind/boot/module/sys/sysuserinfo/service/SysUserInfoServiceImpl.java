@@ -22,8 +22,8 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
     private SysUserInfoMapper sysUserInfoMapper;
 
     @Override
-    public SysUserInfo getOne(String userName) {
-        return sysUserInfoMapper.getOne(userName);
+    public SysUserInfo getOne(String account) {
+        return sysUserInfoMapper.getOne(account);
     }
 
 
@@ -40,12 +40,12 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 
     /**
      * 删除一个系统用户
-     * @param id
+     * @param userId
      * @return
      */
     @Override
-    public int delete(int id) {
-        return sysUserInfoMapper.delete(id);
+    public int delete(String userId) {
+        return sysUserInfoMapper.delete(userId);
     }
 
 
@@ -55,7 +55,7 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
      * @return
      */
     @Override
-    public int batchDelete(List<Integer> idList) {
+    public int batchDelete(List<String> idList) {
         return sysUserInfoMapper.batchDelete(idList);
     }
 
@@ -73,12 +73,12 @@ public class SysUserInfoServiceImpl implements SysUserInfoService {
 
     /**
      * 通过id获取一条记录
-     * @param id
+     * @param userId
      * @return
      */
     @Override
-    public SysUserInfo getOneById(int id) {
-        return sysUserInfoMapper.getOneById(id);
+    public SysUserInfo getOneById(String userId) {
+        return sysUserInfoMapper.getOneById(userId);
     }
 
     /**

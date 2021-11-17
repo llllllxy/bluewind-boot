@@ -122,7 +122,7 @@ public class IndexController extends BaseController {
                                        @RequestParam("new_password") String new_password) {
         logger.info("IndexController - doUpdatePassword - start - old_password = " + old_password);
         logger.info("IndexController - doUpdatePassword - start - new_password = " + new_password);
-        Integer userId = getSysUserId();
+        String userId = getSysUserId();
         Map resultMap = indexService.findAccountByUserId(userId);
         // 获取数据库库里的加密后的密码
         String md5Password = (String) resultMap.get("password");

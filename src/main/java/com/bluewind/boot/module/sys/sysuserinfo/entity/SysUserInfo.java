@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class SysUserInfo implements Serializable {
     private static final long serialVersionUID = 6460626203515194126L;
 
-    private Integer id;
+    private String userId;
 
     private String account;
 
@@ -29,13 +29,13 @@ public class SysUserInfo implements Serializable {
 
     private String status;
 
-    private Integer createUser;
+    private String createUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    private Integer updateUser;
+    private String updateUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -71,7 +71,7 @@ public class SysUserInfo implements Serializable {
         this.status = status;
     }
 
-    public void setCreateUser(Integer createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
@@ -79,7 +79,7 @@ public class SysUserInfo implements Serializable {
         this.createTime = createTime;
     }
 
-    public void setUpdateUser(Integer updateUser) {
+    public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
 
@@ -91,12 +91,12 @@ public class SysUserInfo implements Serializable {
         this.delFlag = delFlag;
     }
 
-    public Integer getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getAccount() {
@@ -127,7 +127,7 @@ public class SysUserInfo implements Serializable {
         return status;
     }
 
-    public Integer getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
@@ -135,7 +135,7 @@ public class SysUserInfo implements Serializable {
         return createTime;
     }
 
-    public Integer getUpdateUser() {
+    public String getUpdateUser() {
         return updateUser;
     }
 
@@ -150,7 +150,7 @@ public class SysUserInfo implements Serializable {
     @Override
     public String toString() {
         return "SysUserInfo{" +
-                "id=" + id +
+                "userId=" + userId +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +

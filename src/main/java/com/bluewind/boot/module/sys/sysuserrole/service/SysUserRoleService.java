@@ -12,15 +12,13 @@ public interface SysUserRoleService {
     /**
      * 登录时，根据用户id查询全部角色标识
      */
-    Set<String> listUserRoleByUserId(Integer userId);
-
-
+    Set<String> listUserRoleByUserId(String userId);
 
     /**
      * 用户授权
-     * @param id
+     * @param userId
      * @param roles
      * @return
      */
-    BaseResult doAuthorize(Integer id, String roles);
+    BaseResult doAuthorize(String userId, String roles);
 }

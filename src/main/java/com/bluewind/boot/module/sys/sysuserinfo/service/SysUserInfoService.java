@@ -12,10 +12,10 @@ import java.util.Map;
 public interface SysUserInfoService {
     /**
      * 获取一个用户的全部信息
-     * @param userName
+     * @param account
      * @return
      */
-    SysUserInfo getOne(String userName);
+    SysUserInfo getOne(String account);
 
     /**
      * 获取用户列表
@@ -26,10 +26,10 @@ public interface SysUserInfoService {
 
     /**
      * 删除一个系统用户
-     * @param id
+     * @param userId
      * @return
      */
-    int delete(int id);
+    int delete(String userId);
 
 
     /**
@@ -37,7 +37,7 @@ public interface SysUserInfoService {
      * @param idList
      * @return
      */
-    int batchDelete(List<Integer> idList);
+    int batchDelete(List<String> idList);
 
     /**
      * 新增用户
@@ -48,10 +48,10 @@ public interface SysUserInfoService {
 
     /**
      * 通过id获取一条记录
-     * @param id
+     * @param userId
      * @return
      */
-    SysUserInfo getOneById(int id);
+    SysUserInfo getOneById(String userId);
 
 
     /**

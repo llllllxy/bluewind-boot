@@ -81,12 +81,12 @@ public class SecurityUtil {
      *
      * @return
      */
-    public static Integer getSysUserId() {
+    public static String getSysUserId() {
         try {
             String userKey = getUserKey();
             SysUserInfo userInfo = (SysUserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_KEY + ":" + userKey);
             if (null != userInfo) {
-                return userInfo.getId();
+                return userInfo.getUserId();
             }
         } catch (Exception e) {
             logger.error("SecurityUtil -- getSysUserId:{e}", e);

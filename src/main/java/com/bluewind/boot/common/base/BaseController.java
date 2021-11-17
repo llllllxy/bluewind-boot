@@ -32,7 +32,7 @@ public abstract class BaseController {
      *
      * @return
      */
-    public Integer getSysUserId() {
+    public String getSysUserId() {
         return SecurityUtil.getSysUserId();
     }
 

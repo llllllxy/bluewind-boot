@@ -15,7 +15,7 @@ public interface IndexMapper {
     /**
      * 根据用户名查询一个账户
      */
-    Map findAccountByUserId(Integer userId);
+    Map findAccountByUserId(String userId);
 
     /**
      * 修改密码
@@ -26,6 +26,6 @@ public interface IndexMapper {
      * 获取菜单列表
      * @return
      */
-    List<Map> menuInit(@Param("id") Integer id);
+    List<Map> menuInit(@Param("userId") String userId);
 
 }

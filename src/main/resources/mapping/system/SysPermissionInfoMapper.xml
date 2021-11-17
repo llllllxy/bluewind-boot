@@ -14,28 +14,28 @@
         <result column="status" jdbcType="CHAR" property="status"/>
         <result column="target" jdbcType="VARCHAR" property="target"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
-        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
-        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
     </resultMap>
 
     <!-- 角色赋权，根据角色id获取权限树tree组件 -->
     <select id="listPermissionForTree" parameterType="java.lang.String"
             resultType="com.bluewind.boot.module.sys.syspermissioninfo.entity.LayuiTree">
         SELECT
-            a.`permission_id` as permissionId,
-            a.`parent_id` as parentId,
-            a.`name` as title,
-            a.`type`,
+            a.permission_id as permissionId,
+            a.parent_id as parentId,
+            a.name as title,
+            a.type,
             ( CASE WHEN LENGTH(b.role_id) > 0 THEN 1 ELSE 0 END ) AS checked
         FROM
             sys_permission_info a
             LEFT JOIN sys_role_permission b ON ( a.permission_id = b.permission_id AND b.role_id = #{_parameter} )
         WHERE
             a.del_flag = '0'
-            AND a.`status` = '0'
+            AND a.status = '0'
         ORDER BY
             a.type,
             a.parent_id,
@@ -44,9 +44,9 @@
 
     <!-- 查询所有菜单列表 -->
     <select id="list" resultMap="SysPermissionInfo">
-        select * from `sys_permission_info`
-        where `del_flag` = '0'
-        order by `type`,`parent_id`,`sort`
+        select * from sys_permission_info
+        where del_flag = '0'
+        order by type,parent_id,sort
     </select>
 
     <!-- 启/禁用菜单前获取所有菜单列表 -->

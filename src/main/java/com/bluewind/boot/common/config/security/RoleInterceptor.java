@@ -86,7 +86,7 @@ public class RoleInterceptor implements HandlerInterceptor {
             }
             SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
             // 获取用户权限列表
-            Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getId());
+            Set<String> roleSet = sysUserRoleService.listUserRoleByUserId(userInfo.getUserId());
             if (logger.isInfoEnabled()) {
                 logger.info("RoleInterceptor -- preHandle -- roleSet = {}", roleSet);
             }

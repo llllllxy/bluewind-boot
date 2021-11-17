@@ -17,7 +17,7 @@ public interface SysRolePermissionMapper {
     /**
      * 登录时，根据用户id查询所有的权限标识(资源值)
      */
-    Set<String> listRolePermissionByUserId(@Param("userId") Integer userId);
+    Set<String> listRolePermissionByUserId(@Param("userId") String userId);
 
     /**
      * 根据roleId删除表里的记录

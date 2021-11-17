@@ -122,6 +122,7 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             var index = layer.alert('确认提交吗？', function () {
+                layer.close(index);
                 data.field.password = md5(data.field.password);
                 var loading = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
                 Util.post({
@@ -129,7 +130,6 @@
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
-                            layer.close(index);
                             layer.close(loading);
                             Message.success(1500, res.message, function () {
                                 // 重载表格

@@ -29,7 +29,7 @@ public class SysOperLog implements Serializable {
 
     private Integer spendTime;
 
-    private Integer createUser;
+    private String createUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -91,11 +91,11 @@ public class SysOperLog implements Serializable {
         this.spendTime = spendTime;
     }
 
-    public Integer getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Integer createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 

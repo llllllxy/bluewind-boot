@@ -11,7 +11,7 @@ public interface SysRolePermissionService {
     /**
      * 登录时，根据用户id查询所有的权限标识
      */
-    Set<String> listRolePermissionByUserId(Integer userId);
+    Set<String> listRolePermissionByUserId(String userId);
 
 
     /**

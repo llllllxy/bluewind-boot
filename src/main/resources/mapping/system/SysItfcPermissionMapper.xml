@@ -11,11 +11,11 @@
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="status" jdbcType="CHAR" property="status"/>
-        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
-        <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
     </resultMap>
 
     <!-- 查询所有功能权限列表 -->

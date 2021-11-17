@@ -14,7 +14,7 @@ public interface SysRoleInfoService {
     /**
      * 根据用户id查询用户所含角色，给xmselect赋值
      */
-    String listXmSelectPojo(Integer userId);
+    String listXmSelectPojo(String userId);
 
     /**
      * 获取角色列表

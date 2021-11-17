@@ -11,7 +11,7 @@
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="method" jdbcType="VARCHAR" property="method"/>
         <result column="spend_time" jdbcType="INTEGER" property="spendTime"/>
-        <result column="create_user" jdbcType="INTEGER" property="createUser"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
 

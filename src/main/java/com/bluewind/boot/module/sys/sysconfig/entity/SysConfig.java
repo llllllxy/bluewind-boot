@@ -75,7 +75,7 @@ public class SysConfig implements Serializable {
     /**
      * 创建者
      */
-    private Integer createUser;
+    private String createUser;
 
     /**
      * 创建时间
@@ -87,7 +87,7 @@ public class SysConfig implements Serializable {
     /**
      * 更新人
      */
-    private Integer updateUser;
+    private String updateUser;
 
     /**
      * 更新时间
@@ -184,11 +184,11 @@ public class SysConfig implements Serializable {
         this.loginBackImg = loginBackImg;
     }
 
-    public Integer getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Integer createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
@@ -200,11 +200,11 @@ public class SysConfig implements Serializable {
         this.createTime = createTime;
     }
 
-    public Integer getUpdateUser() {
+    public String getUpdateUser() {
         return updateUser;
     }
 
-    public void setUpdateUser(Integer updateUser) {
+    public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
 

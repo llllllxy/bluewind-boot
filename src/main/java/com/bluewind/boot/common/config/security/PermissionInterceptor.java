@@ -88,7 +88,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             }
             SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
             // 获取用户权限列表
-            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getId());
+            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getUserId());
             if (logger.isInfoEnabled()) {
                 logger.info("PermissionInterceptor -- preHandle -- permissionSet = {}", permissionSet);
             }

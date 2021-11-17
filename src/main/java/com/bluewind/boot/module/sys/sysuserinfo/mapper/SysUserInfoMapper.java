@@ -13,7 +13,8 @@ import java.util.Map;
  **/
 @Repository
 public interface SysUserInfoMapper {
-    SysUserInfo getOne(String userName);
+
+    SysUserInfo getOne(String account);
 
     /**
      * 获取用户列表
@@ -25,10 +26,10 @@ public interface SysUserInfoMapper {
 
     /**
      * 删除一个系统用户
-     * @param id
+     * @param userId
      * @return
      */
-    int delete(int id);
+    int delete(String userId);
 
 
     /**
@@ -36,7 +37,7 @@ public interface SysUserInfoMapper {
      * @param idList
      * @return
      */
-    int batchDelete(@Param("idList")List<Integer> idList);
+    int batchDelete(@Param("idList")List<String> idList);
 
 
     /**
@@ -49,10 +50,10 @@ public interface SysUserInfoMapper {
 
     /**
      * 通过id获取一条记录
-     * @param id
+     * @param userId
      * @return
      */
-    SysUserInfo getOneById(int id);
+    SysUserInfo getOneById(String userId);
 
 
     /**
