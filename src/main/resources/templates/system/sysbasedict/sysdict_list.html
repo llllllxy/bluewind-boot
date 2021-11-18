@@ -65,7 +65,7 @@
                 <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
             </a>
             <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="setting">
-                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>配置
+                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>字典项
             </a>
             {{#  if(d.status == '0'){ }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="forbid">
@@ -256,7 +256,7 @@
             } else if (obj.event === 'setting') {
 
                 var index = layer.open({
-                    title: '字典配置',
+                    title: '字典项配置',
                     type: 2,
                     shade: 0.2,
                     maxmin: true,
