@@ -159,7 +159,7 @@ public class SysUserInfoController extends BaseController {
         if (logger.isInfoEnabled()) {
             logger.info("batchDelete -- data：" + data);
         }
-        List<SysUserInfo> userList = JsonTool.getListFromJsonString(data, SysUserInfo.class);
+        List<SysUserInfo> userList = JsonTool.parseArray(data, SysUserInfo.class);
         List<String> idList = new ArrayList<>();
         userList.forEach(item -> {
             idList.add(item.getUserId());

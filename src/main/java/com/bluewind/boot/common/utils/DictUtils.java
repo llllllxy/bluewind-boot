@@ -108,7 +108,7 @@ public class DictUtils {
     public static String getDictJson(String dictCode) {
         List<Map<String, String>> list = getDictList(dictCode);
         if (!CollectionUtils.isEmpty(list)) {
-            return JsonTool.listToJsonString(list);
+            return JsonTool.toJsonString(list);
         } else {
             return "获取字典列表为空";
         }

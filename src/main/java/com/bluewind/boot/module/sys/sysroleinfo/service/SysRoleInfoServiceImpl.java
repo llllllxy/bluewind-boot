@@ -30,7 +30,7 @@ public class SysRoleInfoServiceImpl implements SysRoleInfoService {
         List<XmSelect> list = sysRoleInfoMapper.listXmSelectPojo(userId);
         Map<String, Object> selectMap = new HashMap<>();
         selectMap.put("data", list);
-        return JsonTool.mapToJsonString(selectMap);
+        return JsonTool.toJsonString(selectMap);
     }
 
     /**

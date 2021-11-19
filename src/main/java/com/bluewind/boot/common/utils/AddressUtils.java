@@ -28,7 +28,7 @@ public class AddressUtils {
         }
         String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=6006&format=json&query=" + ip;
         String result = OkHttpUtils.get(url);
-        Map resultMap = JsonTool.getMapFromJsonString(result);
+        Map resultMap = JsonTool.parseMap(result);
         String status = Optional.ofNullable(resultMap.get("status")).orElse("").toString();
         if (StringUtils.isNotBlank(status) && status.equals("0")) {
             List resultList = (List) resultMap.get("data");

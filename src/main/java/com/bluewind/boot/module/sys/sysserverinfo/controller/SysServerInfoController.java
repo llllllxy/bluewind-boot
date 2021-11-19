@@ -51,7 +51,7 @@ public class SysServerInfoController {
         Object object = redisUtil.get(SystemConst.SYS_SERVER_INFO + ":" + mac);
         if (null != object) {
             logger.info("SysServerInfoController - list - 从redis获取缓存成功");
-            return BaseResult.success(JsonTool.getMapFromJsonString(object.toString()));
+            return BaseResult.success(JsonTool.parseMap(object.toString()));
         }
         ServerInfo serverInfo = new ServerInfo();
         try {
@@ -60,7 +60,7 @@ public class SysServerInfoController {
             Map<String, Object> infoMap = new HashMap<>();
             infoMap.put("data", serverInfo);
             infoMap.put("updateTime", DateTool.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
-            redisUtil.set(SystemConst.SYS_SERVER_INFO + ":" + mac, JsonTool.mapToJsonString(infoMap), 120);
+            redisUtil.set(SystemConst.SYS_SERVER_INFO + ":" + mac, JsonTool.toJsonString(infoMap), 120);
             return BaseResult.success(infoMap);
         } catch (Exception e) {
             logger.error("SysServerInfoController - list - Exception = ", e);

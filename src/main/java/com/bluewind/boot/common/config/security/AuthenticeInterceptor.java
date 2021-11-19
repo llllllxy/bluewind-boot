@@ -71,21 +71,18 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
             logger.info("AuthenticeInterceptor -- preHandle -- token = {}", token);
         }
         if (StringUtils.isBlank(token)) {
-            // 拦截后跳转至登录页
-            response.sendRedirect(contextPath + "/admin/login");
+            responseError(request, response);
             return false;
         } else {
             if (token.startsWith(SystemConst.TOKEN_PREFIX)) {
                 token = token.replace(SystemConst.TOKEN_PREFIX, "");
             } else { // token不是以SystemConst.TOKEN_PREFIX开头的，返回false
-                // 拦截后跳转至登录页
-                response.sendRedirect(contextPath + "/admin/login");
+                responseError(request, response);
                 return false;
             }
             token = JwtTokenUtil.parseJWT(token);
             if (StringUtils.isBlank(token)) { // JWT验证未通过，返回false
-                // 拦截后跳转至登录页
-                response.sendRedirect(contextPath + "/admin/login");
+                responseError(request, response);
                 return false;
             }
 
@@ -99,8 +96,7 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
                 redisUtil.expire(SystemConst.SYSTEM_USER_KEY + ":" + token, 1800);
                 return true;
             } else {
-                // 拦截后跳转至登录页
-                response.sendRedirect(contextPath + "/admin/login");
+                responseError(request, response);
                 return false;
             }
         }
@@ -153,13 +149,33 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
         //System.out.println("执行到了afterCompletion方法");
     }
 
+
+    /**
+     * 无权限时的返回
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    private void responseError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 如果是ajax请求，直接返回302状态码
+        if (ServletUtils.isAjaxRequest(request)) {
+            // 返回302状态码；
+            response.setStatus(302);
+        } else {
+            // 拦截后跳转到登陆页面
+            response.sendRedirect(contextPath + "/admin/login");
+        }
+    }
+
+
     public void outWrite(HttpServletResponse response, String code, String message) throws IOException {
         Map<String, String> data = new HashMap<>();
         data.put("code", code);
         data.put("message", message);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        out.write(JsonTool.mapToJsonString(data));
+        out.write(JsonTool.toJsonString(data));
         out.close();
     }
 

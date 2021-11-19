@@ -68,14 +68,14 @@ public class SysItfcKeyServiceImpl implements SysItfcKeyService {
             resultMap.put("data", null);
             resultMap.put("code", 0);
             resultMap.put("msg", "");
-            return JsonTool.mapToJsonString(resultMap);
+            return JsonTool.toJsonString(resultMap);
         }
 
         List<ItfcPermissionTree> resultList = ItfcPermissionTreeUtil.toTree(list, "0");
         resultMap.put("data", resultList);
         resultMap.put("code", 0);
         resultMap.put("msg", "");
-        return JsonTool.mapToJsonString(resultMap);
+        return JsonTool.toJsonString(resultMap);
     }
 
     @Override

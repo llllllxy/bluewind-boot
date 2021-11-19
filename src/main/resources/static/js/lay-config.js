@@ -102,6 +102,26 @@ $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox",
 });
 
 
+
+/**
+ * 设置AJAX的全局默认选项，
+ * 当会话过期时，返回到登陆页面
+ */
+$.ajaxSetup({
+    complete: function(XMLHttpRequest, textStatus){
+        if (XMLHttpRequest.status == 302) {
+            layer.alert('会话已过期，请重新登录', function(index){
+                layer.close(index);
+                window.location.href = Util.ctx + "admin/login";
+            });
+        }
+    }
+} );
+
+
+
+
+
 /**
  * Ajax请求封装
  */

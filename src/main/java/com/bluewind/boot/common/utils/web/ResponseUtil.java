@@ -18,7 +18,7 @@ public class ResponseUtil {
 
     public static void sendJson(ServletResponse response, Object responseObject) {
         //将实体对象转换为JSON Object转换
-        String jsonStr = JsonTool.objectToJsonString(responseObject);
+        String jsonStr = JsonTool.toJsonString(responseObject);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = null;

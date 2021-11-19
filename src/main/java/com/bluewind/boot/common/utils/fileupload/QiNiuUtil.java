@@ -70,7 +70,7 @@ public class QiNiuUtil {
             if (response.statusCode == 200) {
                 // 解析上传成功的结果
                 String bodyString = response.bodyString();
-                Map map = JsonTool.getMapFromJsonString(bodyString);
+                Map map = JsonTool.parseMap(bodyString);
                 String key = (String) map.get("key");
                 if (StringUtils.isNotEmpty(key)) {
                     return QINIU_IMG_URL_PRE + key;
@@ -112,7 +112,7 @@ public class QiNiuUtil {
             if (response.statusCode == 200) {
                 //解析上传成功的结果
                 String bodyString = response.bodyString();
-                Map map = JsonTool.getMapFromJsonString(bodyString);
+                Map map = JsonTool.parseMap(bodyString);
                 String key = (String) map.get("key");
                 if (StringUtils.isNotEmpty(key)) {
                     return QINIU_IMG_URL_PRE + key;
@@ -165,7 +165,7 @@ public class QiNiuUtil {
             if (response.statusCode == 200) {
                 // 解析上传成功的结果
                 String bodyString = response.bodyString();
-                Map map = JsonTool.getMapFromJsonString(bodyString);
+                Map map = JsonTool.parseMap(bodyString);
                 String key = (String) map.get("key");
                 if (StringUtils.isNotEmpty(key)) {
                     return QINIU_IMG_URL_PRE + key;

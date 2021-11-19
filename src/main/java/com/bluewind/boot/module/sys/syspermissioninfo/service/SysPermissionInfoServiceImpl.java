@@ -40,14 +40,14 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
             resultMap.put("data", null);
             resultMap.put("code", 0);
             resultMap.put("msg", "");
-            return JsonTool.mapToJsonString(resultMap);
+            return JsonTool.toJsonString(resultMap);
         }
 
         List<LayuiTree> resultList = PermissionTreeUtil.toTree(list, "0");
         resultMap.put("data", resultList);
         resultMap.put("code", 0);
         resultMap.put("msg", "");
-        return JsonTool.mapToJsonString(resultMap);
+        return JsonTool.toJsonString(resultMap);
     }
 
 
@@ -79,7 +79,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
         }
         // 这样就拿到了自己和子节点的permissionId，再去数据库里做禁用就可以了
         if (logger.isInfoEnabled()) {
-            logger.info("SysPermissionInfoServiceImpl - forbid - perIdStr={}", JsonTool.listToJsonString(perIdStr));
+            logger.info("SysPermissionInfoServiceImpl - forbid - perIdStr={}", perIdStr);
         }
         int num = sysPermissionInfoMapper.forbid(perIdStr);
         return num;
@@ -105,7 +105,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
         }
         // 这样就拿到了自己和子节点的permissionId，再去数据库里做禁用就可以了
         if (logger.isInfoEnabled()) {
-            logger.info("SysPermissionInfoServiceImpl - enable - perIdStr={}", JsonTool.listToJsonString(perIdStr));
+            logger.info("SysPermissionInfoServiceImpl - enable - perIdStr={}", perIdStr);
         }
         int num = sysPermissionInfoMapper.enable(perIdStr);
         return num;
@@ -131,7 +131,7 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
         }
         // 这样就拿到了自己和子节点的permissionId，再去数据库里做禁用就可以了
         if (logger.isInfoEnabled()) {
-            logger.info("SysPermissionInfoServiceImpl - delete - perIdStr={}", JsonTool.listToJsonString(perIdStr));
+            logger.info("SysPermissionInfoServiceImpl - delete - perIdStr={}", perIdStr);
         }
         int num = sysPermissionInfoMapper.delete(perIdStr);
         return num;
@@ -167,14 +167,14 @@ public class SysPermissionInfoServiceImpl implements SysPermissionInfoService {
             resultMap.put("data", null);
             resultMap.put("code", 0);
             resultMap.put("msg", "");
-            return JsonTool.mapToJsonString(resultMap);
+            return JsonTool.toJsonString(resultMap);
         }
 
         List<LayuiTree> resultList = PermissionTreeUtil.toTree(list, "0");
         resultMap.put("data", resultList);
         resultMap.put("code", 0);
         resultMap.put("msg", "");
-        return JsonTool.mapToJsonString(resultMap);
+        return JsonTool.toJsonString(resultMap);
     }
 
 

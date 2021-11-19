@@ -154,7 +154,7 @@ public class MinioStorageUtils {
             storageStreamFile.setFileName(headers.get("X-Amz-Meta-Filename"));
             String Extendinfo = headers.get("X-Amz-Meta-Extendinfo");
             if (StringUtils.isNotEmpty(Extendinfo)) {
-                storageStreamFile.setMetaData(JsonTool.getMapFromJsonString(Extendinfo));
+                storageStreamFile.setMetaData(JsonTool.parseMap(Extendinfo));
             }
             storageStreamFile.setContentType(statObjectResponse.contentType());
             storageStreamFile.setLength(statObjectResponse.size());

@@ -176,7 +176,7 @@ public class ItfcInterceptor implements HandlerInterceptor {
         data.put("message", message);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        out.write(JsonTool.mapToJsonString(data));
+        out.write(JsonTool.toJsonString(data));
         out.close();
     }
 

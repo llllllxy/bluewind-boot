@@ -146,7 +146,7 @@ public class RoleInterceptor implements HandlerInterceptor {
         BaseResult baseResult = new BaseResult(BaseResult.CODE_NO_PERMISSION, "接口无权限，请联系系统管理员", null);
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.write(JsonTool.objectToJsonString(baseResult));
+        out.write(JsonTool.toJsonString(baseResult));
         out.close();
     }
 

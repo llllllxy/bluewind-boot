@@ -217,7 +217,7 @@ public class EmailUtils {
         try {
             Context context = new Context();
             // 这里的id与html文件中的${id}必须对应
-            Map textJson = JsonTool.getMapFromJsonString(text);
+            Map textJson = JsonTool.parseMap(text);
             context.setVariable("param", textJson);
             textJson.forEach((k, v) -> {
                 context.setVariable(k.toString(), v);
@@ -278,7 +278,7 @@ public class EmailUtils {
         if (!content.startsWith("{") || !content.endsWith("}")) {
             return false;
         }
-        Map result = JsonTool.getMapFromJsonString(content);
+        Map result = JsonTool.parseMap(content);
         if (result == null || result.isEmpty()) {
             return false;
         } else {
