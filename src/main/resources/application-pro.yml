@@ -13,6 +13,11 @@ spring:
       charset: UTF-8
       force: true
       enabled: true
+  # 设置上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   #数据库配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
