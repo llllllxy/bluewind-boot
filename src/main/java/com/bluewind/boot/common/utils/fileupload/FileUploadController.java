@@ -46,7 +46,7 @@ public class FileUploadController extends BaseController {
         if (logger.isInfoEnabled()) {
             logger.info("FileUploadController -- uploadFileAjax -- returnStr = {}", returnStr);
         }
-        if (returnStr != null && returnStr.contains(filesName)) {
+        if (returnStr != null && returnStr.startsWith("http:")) {
             return BaseResult.success("上传成功!", returnStr);
         } else {
             return BaseResult.failure("上传失败!");
@@ -67,6 +67,5 @@ public class FileUploadController extends BaseController {
 
         return MinioStorageUtils.uploadFile(file, filesName);
     }
-
 
 }
