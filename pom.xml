@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.12.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.bluewind.boot</groupId>
     <artifactId>bluewind-boot</artifactId>
@@ -18,9 +18,9 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <mybatis.version>2.1.2</mybatis.version>
-        <pagehelper.version>1.3.0</pagehelper.version>
-        <druid.version>1.2.5</druid.version>
+        <mybatis.version>2.2.0</mybatis.version>
+        <pagehelper.version>1.4.0</pagehelper.version>
+        <druid.version>1.2.8</druid.version>
         <knife4j.version>2.0.5</knife4j.version>
         <swagger-ui>2.9.2</swagger-ui>
         <jasypt.version>2.1.1</jasypt.version>
@@ -34,8 +34,8 @@
         <qiniu-sdk.version>7.2.29</qiniu-sdk.version>
         <gson.version>2.8.5</gson.version>
         <okhttp.version>3.14.7</okhttp.version>
-        <oshi.version>3.9.1</oshi.version>
-        <jna.version>4.5.2</jna.version>
+        <oshi.version>5.8.3</oshi.version>
+        <jna.version>5.9.0</jna.version>
         <minio.version>8.1.0</minio.version>
         <oss.version>3.9.1</oss.version>
         <itext-asian.version>5.2.0</itext-asian.version>
