@@ -22,6 +22,8 @@ import java.util.Properties;
  * @description 服务器相关信息
  **/
 public class Server implements Serializable {
+    private static final long serialVersionUID = -4483226576287340415L;
+
     private static final int OSHI_WAIT_SECOND = 1000;
 
     /**
