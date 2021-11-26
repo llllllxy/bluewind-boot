@@ -1,9 +1,20 @@
 package com.bluewind.boot.common.utils.web;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author liuxingyu01
@@ -11,6 +22,7 @@ import java.util.Map;
  * @description request工具类
  **/
 public class RequestUtil {
+    private final static Logger log = LoggerFactory.getLogger(RequestUtil.class);
 
     /**
      * 移除request指定参数
@@ -96,5 +108,33 @@ public class RequestUtil {
         return result;
     }
 
+    /**
+     * 从request中读取输入流
+     * 接收用户端传来的JSON字符串（body体里的数据）
+     * @param request
+     * @return
+     */
+    public static String getBodyString(ServletRequest request) {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader reader = null;
+        try (InputStream inputStream = request.getInputStream()) {
+            reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            log.warn("获取 Request Body String 出现问题!");
+        } finally {
+            if (Objects.nonNull(reader)) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    log.error(ExceptionUtils.getStackTrace(e));
+                }
+            }
+        }
+        return sb.toString();
+    }
 
 }
