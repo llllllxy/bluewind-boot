@@ -31,7 +31,7 @@
                 order by ${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by log_id asc
+                order by create_time desc
             </otherwise>
         </choose>
     </select>
@@ -75,5 +75,21 @@
         </foreach>
         order by sll.log_id asc
     </select>
+
+
+    <!--批量删除登陆日志-->
+    <delete id="batchDelete" parameterType="java.util.ArrayList">
+        delete from sys_login_log
+        where log_id in
+        <foreach item="item" index="index" collection="logIdList" open = "(" separator = "," close = ")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <!--清空登陆日志-->
+    <update id="emptyLog">
+        truncate table sys_login_log
+    </update>
 
 </mapper>

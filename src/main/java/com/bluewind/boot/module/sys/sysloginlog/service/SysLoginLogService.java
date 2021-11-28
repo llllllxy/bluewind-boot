@@ -27,4 +27,17 @@ public interface SysLoginLogService {
      * 获取当前登陆用户记录
      */
     List<Map> onlineList(Map paraMap);
+
+
+    /**
+     * 批量删除登陆日志
+     * @param logIdList
+     * @return
+     */
+    int batchDelete(List<String> logIdList);
+
+    /**
+     * 清空登陆日志
+     */
+    void emptyLog();
 }

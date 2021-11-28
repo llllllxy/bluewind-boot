@@ -71,4 +71,22 @@ public class SysLoginLogServiceImpl implements SysLoginLogService {
         return sysLoginLogMapper.onlineList(paraMap);
     }
 
+    /**
+     * 批量删除登陆日志
+     * @param logIdList
+     * @return
+     */
+    @Override
+    public int batchDelete(List<String> logIdList) {
+        return sysLoginLogMapper.batchDelete(logIdList);
+    }
+
+    /**
+     * 清空登陆日志
+     */
+    @Override
+    public void emptyLog() {
+        sysLoginLogMapper.emptyLog();
+    }
+
 }

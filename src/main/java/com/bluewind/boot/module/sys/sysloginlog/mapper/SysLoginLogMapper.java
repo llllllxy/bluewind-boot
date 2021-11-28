@@ -1,6 +1,7 @@
 package com.bluewind.boot.module.sys.sysloginlog.mapper;
 
 import com.bluewind.boot.module.sys.sysloginlog.entity.SysLoginLog;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface SysLoginLogMapper {
 
     List<Map> onlineList(Map paraMap);
 
+    int batchDelete(@Param("logIdList") List<String> logIdList);
+
+    void emptyLog();
 }
