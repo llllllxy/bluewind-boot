@@ -25,4 +25,16 @@ public interface SysOperLogService {
      * @return
      */
     int saveOperLog(SysOperLog sysOperLog);
+
+    /**
+     * 批量删除操作日志
+     * @param logIdList
+     * @return
+     */
+    int batchDelete(List<String> logIdList);
+
+    /**
+     * 清空操作日志
+     */
+    void emptyLog();
 }

@@ -34,4 +34,22 @@ public class SysOperLogServiceImpl implements SysOperLogService {
     public int saveOperLog(SysOperLog sysOperLog) {
         return sysOperLogMapper.saveOperLog(sysOperLog);
     }
+
+    /**
+     * 批量删除操作日志
+     * @param logIdList
+     * @return
+     */
+    @Override
+    public int batchDelete(List<String> logIdList) {
+        return sysOperLogMapper.batchDelete(logIdList);
+    }
+
+    /**
+     * 清空操作日志
+     */
+    @Override
+    public void emptyLog() {
+        sysOperLogMapper.emptyLog();
+    }
 }

@@ -23,7 +23,7 @@
             and model like CONCAT('%',#{model},'%')
         </if>
         <if test="type != null and type != ''">
-            and `type` like CONCAT('%',#{type},'%')
+            and type like CONCAT('%',#{type},'%')
         </if>
         <if test="createTime != null and createTime != ''">
             and create_time like CONCAT('%',#{createTime},'%')
@@ -33,7 +33,7 @@
                 order by ${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by log_id asc
+                order by create_time desc
             </otherwise>
         </choose>
     </select>
@@ -44,7 +44,7 @@
         insert into sys_oper_log (
             log_id,
             model,
-            `type`,
+            type,
             method,
             url,
             descript,
@@ -63,5 +63,21 @@
             #{spendTime}
         )
     </insert>
+
+
+    <!--批量删除登陆日志-->
+    <delete id="batchDelete" parameterType="java.util.ArrayList">
+        delete from sys_oper_log
+        where log_id in
+        <foreach item="item" index="index" collection="logIdList" open = "(" separator = "," close = ")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <!--清空登陆日志-->
+    <update id="emptyLog">
+        truncate table sys_oper_log
+    </update>
 
 </mapper>

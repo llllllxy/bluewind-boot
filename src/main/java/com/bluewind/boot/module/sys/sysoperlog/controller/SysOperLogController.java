@@ -1,5 +1,6 @@
 package com.bluewind.boot.module.sys.sysoperlog.controller;
 
+import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.module.sys.sysoperlog.entity.SysOperLog;
 import com.bluewind.boot.module.sys.sysoperlog.service.SysOperLogService;
 import com.github.pagehelper.PageHelper;
@@ -8,14 +9,12 @@ import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.annotation.RequestLimit;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +90,37 @@ public class SysOperLogController extends BaseController {
         result.put(RESULT_TOTLAL, total);
 
         return BaseResult.success(result);
+    }
+
+
+
+    /**
+     * 批量删除操作日志
+     * @return
+     */
+    @ApiOperation(value = "批量删除登操作日志", notes = "批量删除操作日志")
+    @RequestMapping(value="/batchDelete", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult batchDelete(@RequestBody String data){
+        if (logger.isInfoEnabled()) {
+            logger.info("SysLoginLogController -- batchDelete -- data：{}", data);
+        }
+        List<String> logIdList = JsonTool.parseArray(data, String.class);
+        int num = sysOperLogService.batchDelete(logIdList);
+        if (num > 0) {
+            return BaseResult.success("批量删除操作日志成功!");
+        } else {
+            return BaseResult.failure("批量删除操作日志失败!");
+        }
+    }
+
+
+    @ApiOperation(value = "清空操作日志", notes = "清空操作日志")
+    @ResponseBody
+    @RequestMapping(value = "/emptyLog", method = RequestMethod.POST)
+    public BaseResult emptyLog() {
+        sysOperLogService.emptyLog();
+        return BaseResult.success("清空操作日志成功!");
     }
 
 }

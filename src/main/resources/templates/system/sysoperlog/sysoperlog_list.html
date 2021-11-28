@@ -17,7 +17,7 @@
             margin-top: -15px;
             cursor: pointer;
             font-size: 30px;
-            color: #1E9FFF;
+            color: #C2C2C2;
         }
     </style>
 </head>
@@ -70,6 +70,17 @@
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
+        <script type="text/html" id="toolbarLeft">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete">
+                    <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>批量删除
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="emptyLog">
+                    <i class="layui-icon layui-icon-close" style="font-size: 10px;"></i>清空日志
+                </button>
+            </div>
+        </script>
+
     </div>
 </div>
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
@@ -94,12 +105,17 @@
             elem: '#currentTableId',
             url: Util.ctx + 'sysoperlog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
-            where: {sortName: 'log_id', sortOrder: 'desc'}, // 初始化时带的参数
-            toolbar: '#toolbarDemo',
+            where: {sortName: 'create_time', sortOrder: 'desc'},
+            toolbar: '#toolbarLeft',
             defaultToolbar: ['filter', 'exports', 'print'],
             cols: [
                 [
-                    {field: 'id', width: '6%', title: '序号', sort: true, align: 'center'},
+                    {type: "checkbox", width: '5%', fixed: 'left'},
+                    {
+                        field: '', width: '6%', title: '序号', type: 'numbers', templet: function (d) {
+                            return d.LAY_TABLE_INDEX + 1;
+                        }
+                    },
                     {field: 'model', width: '9%', title: '操作模块', align: 'center'},
                     {field: 'type', width: '10%', title: '操作类型', sort: true},
                     {field: 'method', width: '15%', title: '操作方法'},
@@ -178,6 +194,60 @@
             });
         });
 
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'emptyLog') {  // 监听清空日志操作
+                layer.confirm('确定清空操作日志吗？', function (index) {
+                    layer.close(index);
+                    Util.post({
+                        url: Util.ctx + "sysoperlog/emptyLog",
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1500, res.message, function () {
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
+                        }
+                    });
+                });
+            } else if (obj.event === 'batchDelete') {  // 监听批量删除操作
+                var checkStatus = table.checkStatus('currentTableId')
+                    ,data = checkStatus.data;
+                if (data == null || data.length === 0) {
+                    Message.warning("请至少选择一行！", 1000);
+                    return;
+                }
+                var logIds = [];
+                for (var i = 0, len = data.length; i < len; i++) {
+                    logIds.push(data[i].logId);
+                }
+                layer.confirm('确定批量删除操作日志吗？', function (index) {
+                    layer.close(index);
+                    Util.post({
+                        url: Util.ctx + "sysoperlog/batchDelete",
+                        contentType: "application/json",
+                        data: JSON.stringify(logIds),
+                        success: function (res) {
+                            if (res.code === 0) {
+                                Message.success(1500, res.message, function () {
+                                    currTable.reload();
+                                });
+                            } else {
+                                Message.error(res.message, 1000);
+                            }
+                        },
+                        error: function (error) {
+                        }
+                    });
+                });
+            }
+        });
     });
 </script>
 
