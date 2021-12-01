@@ -65,7 +65,7 @@
                 <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
             </a>
             <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="setting">
-                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>字典项
+                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>配置
             </a>
             {{#  if(d.status == '0'){ }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="forbid">
@@ -97,8 +97,9 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form', 'table'], function () {
+    layui.use(['form', 'table', 'miniTab'], function () {
         var form = layui.form,
+            miniTab = layui.miniTab,
             table = layui.table;
 
         var currTable = table.render({
@@ -254,22 +255,10 @@
                 });
                 return false;
             } else if (obj.event === 'setting') {
-
-                var index = layer.open({
-                    title: '字典项配置',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    area: ['100%', '100%'],
-                    content:  Util.ctx + 'sysdict/forSetting/' + data.dictCode,
-                    end: function (index) {
-                        // 重载表格
-                        currTable.reload();
-                    }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
+                // 打开新的窗口
+                miniTab.openNewTabByIframe({
+                    href: Util.ctx + 'sysdict/forSetting/' + data.dictCode,
+                    title: "数据字典配置",
                 });
                 return false;
             } else if (obj.event === 'forbid') {
