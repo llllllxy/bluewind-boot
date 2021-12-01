@@ -55,6 +55,12 @@ body {
     color: #6b6b6b;
 }
 
+/**新版Chrome调整了table单元格边框的渲染机制，导致table边框线条粗细不协调。暂时通过这段 css 解决*/
+table {
+    border-collapse: inherit !important;
+}
+
+
 /**自定义滚动条样式 */
 /*::-webkit-scrollbar {*/
 /*    width: 6px;*/
