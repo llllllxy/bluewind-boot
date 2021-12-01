@@ -24,9 +24,8 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
     final static Logger log = LoggerFactory.getLogger(RedisUtil.class);
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-
+    // 构造函数注入
+    private final RedisTemplate<String, Object> redisTemplate;
     public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }

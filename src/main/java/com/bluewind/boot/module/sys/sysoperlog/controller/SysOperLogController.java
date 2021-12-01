@@ -30,9 +30,8 @@ import java.util.Map;
 public class SysOperLogController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(SysOperLogController.class);
 
-    private SysOperLogService sysOperLogService;
-
-    @Autowired
+    // 基于构造函数注入
+    private final SysOperLogService sysOperLogService;
     public SysOperLogController(SysOperLogService sysOperLogService) {
         this.sysOperLogService = sysOperLogService;
     }

@@ -30,8 +30,8 @@ import java.util.Map;
 public class SysLoginLogController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(SysLoginLogController.class);
 
-    private SysLoginLogService sysLoginLogService;
-    //  这里是基于构造函数的依赖注入，而不是@Autowired
+    // 基于构造函数注入
+    private final SysLoginLogService sysLoginLogService;
     public SysLoginLogController(SysLoginLogService sysLoginLogService) {
         this.sysLoginLogService = sysLoginLogService;
     }

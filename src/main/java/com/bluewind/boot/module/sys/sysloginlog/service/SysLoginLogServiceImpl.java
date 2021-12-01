@@ -22,8 +22,8 @@ import java.util.Map;
 public class SysLoginLogServiceImpl implements SysLoginLogService {
     final static Logger logger = LoggerFactory.getLogger(SysLoginLogServiceImpl.class);
 
-    private SysLoginLogMapper sysLoginLogMapper;
-    //  这里是基于构造函数的依赖注入，而不是@Autowired
+    private final SysLoginLogMapper sysLoginLogMapper;
+    // 基于构造函数的依赖注入，不需要@Autowired注解
     public SysLoginLogServiceImpl(SysLoginLogMapper sysLoginLogMapper) {
         this.sysLoginLogMapper = sysLoginLogMapper;
     }
