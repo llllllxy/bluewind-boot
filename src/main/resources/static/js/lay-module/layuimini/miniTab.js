@@ -3,6 +3,8 @@
  * author:Mr.Chung
  * version:2.0
  * description:layuimini tab框架扩展
+ * 新增功能: 点击左侧菜单，如果标签存在则刷新，不存在则新建
+ * 修改bug: 打开多个标签时，点击关闭当前标签时会把当前标签及后面的标签全部关闭的bug，364行
  */
 layui.define(["element", "layer", "jquery"], function (exports) {
     var element = layui.element,
@@ -225,6 +227,17 @@ layui.define(["element", "layer", "jquery"], function (exports) {
 
                 if (tabId === null || tabId === undefined) tabId = new Date().getTime();
                 var checkTab = miniTab.check(tabId);
+                if(checkTab){
+                    miniTab.delete(tabId);
+                    miniTab.create({
+                        tabId: tabId,
+                        href: href,
+                        title: title,
+                        isIframe: false,
+                        maxTabNum: options.maxTabNum,
+                    });
+                    miniTab.change(tabId);
+                }
                 if (!checkTab) {
                     miniTab.create({
                         tabId: tabId,
@@ -347,6 +360,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                         } else {
                             if (closeType === 'current' && currentTabId === tabId) {
                                 miniTab.delete(tabId);
+                                return false;
                             } else if (closeType === 'other' && currentTabId !== tabId) {
                                 miniTab.delete(tabId);
                             }
