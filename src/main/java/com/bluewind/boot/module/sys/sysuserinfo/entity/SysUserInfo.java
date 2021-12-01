@@ -23,6 +23,10 @@ public class SysUserInfo implements Serializable {
 
     private String phone;
 
+    private String email;
+
+    private String deptId;
+
     private String avatar;
 
     private String sex;
@@ -147,6 +151,22 @@ public class SysUserInfo implements Serializable {
         return delFlag;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
     @Override
     public String toString() {
         return "SysUserInfo{" +
@@ -155,6 +175,8 @@ public class SysUserInfo implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
+                ", deptId='" + deptId + '\'' +
+                ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", sex=" + sex + '\'' +
                 ", status=" + status + '\'' +

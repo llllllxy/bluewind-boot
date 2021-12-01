@@ -65,6 +65,29 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md6">
             <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <select name="status" th:value="${sysUserInfo.status}">
+                        <option th:each="item:${baseDictList}" th:text="${item.name}" th:value="${item.code}"
+                                th:selected="(${sysUserInfo.status} eq ${item.code})"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email" lay-verify="required|email" placeholder="请输入邮箱"
+                           th:value="${sysUserInfo.email}" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md6">
+            <div class="layui-form-item">
                 <label class="layui-form-label">用户头像</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="avatar" th:value="${sysUserInfo.avatar}">
@@ -82,20 +105,6 @@
                 <label class="layui-form-label">备注信息</label>
                 <div class="layui-input-block">
                     <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息" th:text="${sysUserInfo.account}"></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md6">
-            <div class="layui-form-item">
-                <label class="layui-form-label">状态</label>
-                <div class="layui-input-block">
-                    <select name="status" th:value="${sysUserInfo.status}">
-                        <option th:each="item:${baseDictList}" th:text="${item.name}" th:value="${item.code}"
-                                th:selected="(${sysUserInfo.status} eq ${item.code})"></option>
-                    </select>
                 </div>
             </div>
         </div>

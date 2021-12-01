@@ -205,6 +205,7 @@ public class SysUserInfoController extends BaseController {
                             @RequestParam(required = false, defaultValue = "", value = "name") String name,
                             @RequestParam(required = false, defaultValue = "1", value = "sex") String sex,
                             @RequestParam(required = false, defaultValue = "", value = "phone") String phone,
+                            @RequestParam(required = false, defaultValue = "", value = "email") String email,
                             @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar) {
         if (logger.isInfoEnabled()) {
             logger.info("SysUserInfoController -- doAdd -- account =  {}：" + account);
@@ -221,6 +222,7 @@ public class SysUserInfoController extends BaseController {
         sysUserInfo.setName(name);
         sysUserInfo.setSex(sex);
         sysUserInfo.setPhone(phone);
+        sysUserInfo.setEmail(email);
         sysUserInfo.setAvatar(avatar);
         sysUserInfo.setDelFlag("0");
         sysUserInfo.setStatus("0");
@@ -291,6 +293,7 @@ public class SysUserInfoController extends BaseController {
                                @RequestParam(value = "sex") String sex,
                                @RequestParam(value = "phone") String phone,
                                @RequestParam(value = "status") String status,
+                               @RequestParam(required = false, defaultValue = "", value = "email") String email,
                                @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar) {
         SysUserInfo sysUserInfo = new SysUserInfo();
         sysUserInfo.setUserId(userId);
@@ -298,6 +301,7 @@ public class SysUserInfoController extends BaseController {
         sysUserInfo.setSex(sex);
         sysUserInfo.setStatus(status);
         sysUserInfo.setPhone(phone);
+        sysUserInfo.setEmail(email);
         sysUserInfo.setAvatar(avatar);
         sysUserInfo.setUpdateUser(getSysUserId());
         int num = sysUserInfoService.doUpdate(sysUserInfo);

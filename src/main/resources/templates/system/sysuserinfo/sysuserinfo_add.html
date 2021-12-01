@@ -62,9 +62,18 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md6">
             <div class="layui-form-item">
-                <label class="layui-form-label required">手机</label>
+                <label class="layui-form-label required">电话</label>
                 <div class="layui-input-block">
-                    <input type="phone" name="phone" lay-verify="required|phone" lay-reqtext="手机不能为空" placeholder="请输入手机"
+                    <input type="text" name="phone" lay-verify="required|phone|number" lay-reqtext="电话不能为空" placeholder="请输入电话"
+                           value="" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email" lay-verify="required|email" placeholder="请输入邮箱"
                            value="" class="layui-input">
                 </div>
             </div>

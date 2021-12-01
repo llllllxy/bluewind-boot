@@ -8,6 +8,8 @@
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="dept_id" jdbcType="VARCHAR" property="deptId"/>
         <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
         <result column="sex" jdbcType="CHAR" property="sex"/>
         <result column="status" jdbcType="CHAR" property="status"/>
@@ -58,13 +60,14 @@
     </delete>
 
     <insert id="doAdd" parameterType="com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo">
-        insert into sys_user_info (user_id,account,password,name,phone,avatar,sex,status,del_flag,create_user)
+        insert into sys_user_info (user_id,account,password,name,phone,email,avatar,sex,status,del_flag,create_user)
         values (
             #{userId},
             #{account},
             #{password},
             #{name},
             #{phone},
+            #{email},
             #{avatar},
             #{sex},
             #{status},
@@ -87,6 +90,7 @@
         sex = #{sex},
         status = #{status},
         phone = #{phone},
+        email = #{email},
         avatar = #{avatar},
         update_user = #{updateUser}
         where user_id = #{userId}
