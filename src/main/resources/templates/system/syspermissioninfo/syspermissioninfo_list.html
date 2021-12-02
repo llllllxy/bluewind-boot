@@ -58,6 +58,7 @@
         var insTb = treeTable.render({
             elem: '#currentTableId',
             url: Util.ctx + 'syspermission/list',
+            skin: 'line',
             tree: {
                 treeColIndex: 1,
                 treeSpid: "0",
@@ -108,7 +109,7 @@
                             }
                         }
                     },
-                    {title: '操作', minWidth: 170, toolbar: '#currentTableBar', align: "center", fixed: 'right'}
+                    {title: '操作', minWidth: 200, toolbar: '#currentTableBar', align: "center", fixed: 'right'}
                 ]
             ]
         });
