@@ -214,8 +214,8 @@ public class MapUtils extends org.apache.commons.collections.MapUtils {
     }
 
     /**
-     * 将Map的Keys去下划线<br>
-     * (例:branch_no -> branchNo )<br>
+     * 将Map的Keys下划线转驼峰
+     * (例:branch_no -> branchNo)
      *
      * @param map 待转换Map
      * @return
