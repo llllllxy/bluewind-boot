@@ -118,6 +118,10 @@
             layer = layui.layer,
             iconPickerFa = layui.iconPickerFa;
 
+        var demo1;
+        var demo2;
+
+
         // 一进来默认选择的是模块
         $('#uppermenu_div').hide(); // 隐藏上级菜单
         $('#href_div').hide(); // 隐藏路径
@@ -203,9 +207,8 @@
                     el: '#demo1',
                     tips: '请选择上级菜单',
                     model: { label: { type: 'text' } },
-                    radio: true, // 单选模式（显示单选按钮）
-                    clickClose: true,
                     height: 'auto',
+                    clickClose: true,
                     data: res.data,
                     theme: {
                         color:'#1E9FFF'
@@ -218,8 +221,8 @@
                         clickCheck: true, // 点击节点是否选中
                     },
                     //处理方式
-                    on: function(data){
-                        if(data.isAdd){
+                    on: function(data) {
+                        if (data.isAdd) {
                             console.log("选中：" + data.change.slice(0, 1)[0].value);
                             // 赋值给上级菜单input框
                             $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
@@ -238,13 +241,12 @@
         Util.get({
             url: Util.ctx + 'syspermission/listPermissionByType/' + '2',
             success: function (res) {
-                demo1 = xmSelect.render({
+                demo2 = xmSelect.render({
                     el: '#demo2',
                     tips: '请选择上级菜单',
                     model: { label: { type: 'text' } },
-                    radio: true, // 单选模式（显示单选按钮）
-                    clickClose: true, // 选中时是否关闭
                     height: 'auto',
+                    clickClose: true,
                     data: res.data,
                     theme: {
                         color:'#1E9FFF'
