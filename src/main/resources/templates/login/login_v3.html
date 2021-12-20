@@ -465,7 +465,7 @@
                 var username = $("input[name='username']").val();
                 var password = $("input[name='password']").val();
                 // 加密输入的密码
-                password = md5(password);
+                password = md5.MD5(password);
                 let data = {
                     "username": username,
                     "password": password,

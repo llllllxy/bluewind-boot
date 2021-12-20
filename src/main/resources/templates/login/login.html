@@ -433,7 +433,7 @@
                 localStorage.removeItem("wowosign");
             }
 
-            let password = md5(formdata.password); // 加密输入的密码
+            let password = md5.MD5(formdata.password); // 加密输入的密码
             // 设置按钮为登陆中，此时禁止点击
             logining();
 
