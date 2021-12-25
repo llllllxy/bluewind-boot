@@ -361,7 +361,10 @@ function toDateString(time, format) {
         , that.digit(date.getSeconds())
     ];
 
-    if (!date.getDate()) return hint.error('Invalid Msec for "util.toDateString(Msec)"'), '';
+    if (!date.getDate()) {
+        console.error('Invalid Msec for "util.toDateString(Msec)');
+        return '';
+    }
 
     format = format || 'yyyy-MM-dd HH:mm:ss';
     return format.replace(/yyyy/g, ymd[0])
