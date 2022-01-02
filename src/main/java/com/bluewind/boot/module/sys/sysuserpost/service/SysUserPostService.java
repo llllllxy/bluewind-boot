@@ -1,7 +1,5 @@
 package com.bluewind.boot.module.sys.sysuserpost.service;
 
-import com.bluewind.boot.common.base.BaseResult;
-
 /**
  * @author liuxingyu01
  * @date 2022-01-02-10:10
