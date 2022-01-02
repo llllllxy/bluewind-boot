@@ -2,10 +2,13 @@ package com.bluewind.boot.module.sys.sysuserinfo.controller;
 
 import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.common.config.security.annotation.RequiresPermissions;
+import com.bluewind.boot.common.config.security.enums.Logical;
 import com.bluewind.boot.common.utils.excel.ExcelPoiUtil;
+import com.bluewind.boot.module.sys.syspostinfo.service.SysPostInfoService;
 import com.bluewind.boot.module.sys.sysroleinfo.service.SysRoleInfoService;
 import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
 import com.bluewind.boot.module.sys.sysuserinfo.service.SysUserInfoService;
+import com.bluewind.boot.module.sys.sysuserpost.service.SysUserPostService;
 import com.bluewind.boot.module.sys.sysuserrole.service.SysUserRoleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -56,6 +59,14 @@ public class SysUserInfoController extends BaseController {
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
+
+    @Autowired
+    private SysPostInfoService sysPostInfoService;
+
+    @Autowired
+    private SysUserPostService sysUserPostService;
+
+
 
     /**
      * 盐
@@ -206,7 +217,8 @@ public class SysUserInfoController extends BaseController {
                             @RequestParam(required = false, defaultValue = "1", value = "sex") String sex,
                             @RequestParam(required = false, defaultValue = "", value = "phone") String phone,
                             @RequestParam(required = false, defaultValue = "", value = "email") String email,
-                            @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar) {
+                            @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar,
+                            @RequestParam(required = false, defaultValue = "", value = "postStr") String postStr) {
         if (logger.isInfoEnabled()) {
             logger.info("SysUserInfoController -- doAdd -- account =  {}：" + account);
         }
@@ -214,7 +226,8 @@ public class SysUserInfoController extends BaseController {
             return BaseResult.failure("新增用户'" + account + "'失败，登录账号已存在!");
         }
         SysUserInfo sysUserInfo = new SysUserInfo();
-        sysUserInfo.setUserId(IdGenerate.nextId());
+        String userId = IdGenerate.nextId();
+        sysUserInfo.setUserId(userId);
         sysUserInfo.setAccount(account);
         // 再进行加密两次，才是正确密码
         password = SHA256Utils.SHA256Encode(salt + password);
@@ -228,7 +241,9 @@ public class SysUserInfoController extends BaseController {
         sysUserInfo.setStatus("0");
         sysUserInfo.setCreateUser(getSysUserId());
         int num = sysUserInfoService.doAdd(sysUserInfo);
+
         if (num > 0) {
+            int num2 = sysUserPostService.userPostBind(userId, postStr);
             return BaseResult.success("新增用户'" + account + "'成功!");
         } else {
             return BaseResult.failure("新增用户'" + account + "'失败!");
@@ -294,7 +309,8 @@ public class SysUserInfoController extends BaseController {
                                @RequestParam(value = "phone") String phone,
                                @RequestParam(value = "status") String status,
                                @RequestParam(required = false, defaultValue = "", value = "email") String email,
-                               @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar) {
+                               @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar,
+                               @RequestParam(required = false, defaultValue = "", value = "postStr") String postStr) {
         SysUserInfo sysUserInfo = new SysUserInfo();
         sysUserInfo.setUserId(userId);
         sysUserInfo.setName(name);
@@ -306,6 +322,7 @@ public class SysUserInfoController extends BaseController {
         sysUserInfo.setUpdateUser(getSysUserId());
         int num = sysUserInfoService.doUpdate(sysUserInfo);
         if (num > 0) {
+            int num2 = sysUserPostService.userPostBind(userId, postStr);
             return BaseResult.success("修改用户成功!");
         } else {
             return BaseResult.failure("修改用户失败!");
@@ -344,6 +361,15 @@ public class SysUserInfoController extends BaseController {
     public BaseResult doAuthorize(@PathVariable("userId") String userId,
                                   @PathVariable("roles") String roles) {
         return sysUserRoleService.doAuthorize(userId, roles);
+    }
+
+
+    @RequiresPermissions(value={"system:user:add", "system:user:edit"},logical= Logical.OR)
+    @ApiOperation(value = "根据用户id查询岗位信息", notes = "根据用户id查询岗位信息")
+    @RequestMapping(value = "/listPostForSelect", method = RequestMethod.GET)
+    @ResponseBody
+    public String listPostForSelect(@RequestParam(required = false, defaultValue = "", value = "userId") String userId) {
+        return sysPostInfoService.listPostForSelect(userId);
     }
 
 

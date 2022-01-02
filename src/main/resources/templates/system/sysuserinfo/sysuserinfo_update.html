@@ -88,6 +88,17 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md6">
             <div class="layui-form-item">
+                <label class="layui-form-label">岗位</label>
+                <div class="layui-input-block">
+                    <div id="demo1" class="xm-select-demo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md6">
+            <div class="layui-form-item">
                 <label class="layui-form-label">用户头像</label>
                 <div class="layui-input-block">
                     <input type="hidden" name="avatar" th:value="${sysUserInfo.avatar}">
@@ -124,6 +135,7 @@
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/lib/xm-select-v1.2.2/xm-select.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
@@ -131,7 +143,36 @@
         var form = layui.form,
             layer = layui.layer;
 
+        redenXmSelect();
+
+        var demo1;
+        function redenXmSelect() {
+            var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+
+            Util.get({
+                url: Util.ctx + 'sysuser/listPostForSelect?userId=' + $('input[name="userId"]').val(),
+                success: function (res) {
+                    layer.close(index);
+                    demo1 = xmSelect.render({
+                        el: '#demo1',
+                        data: res.data,
+                        theme: {
+                            color: '#1E9FFF'
+                        }
+                    })
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error('获取岗位信息失败！', 1000);
+                }
+            });
+        }
+
+
         form.on('submit(saveBtn)', function (data) {
+            var selectArr = demo1.getValue('valueStr');
+            console.log("selectArr = " + selectArr);
+            data.field.postStr = selectArr;
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
                 Util.post({

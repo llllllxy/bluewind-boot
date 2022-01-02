@@ -1,10 +1,14 @@
 package com.bluewind.boot.module.sys.syspostinfo.service;
 
+import com.bluewind.boot.common.utils.JsonTool;
+import com.bluewind.boot.module.sys.syspostinfo.entity.PostXmSelect;
 import com.bluewind.boot.module.sys.syspostinfo.entity.SysPostInfo;
 import com.bluewind.boot.module.sys.syspostinfo.mapper.SysPostInfoMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,5 +69,20 @@ public class SysPostInfoService {
         return sysPostInfoMapper.deleteOne(postId);
     }
 
+
+    /**
+     * 根据用户id查询用户岗位信息，给xmselect赋值
+     */
+    public String listPostForSelect(String userId) {
+        List<PostXmSelect> list;
+        if (StringUtils.isBlank(userId)) {
+            list = sysPostInfoMapper.listAllPostForSelect();
+        } else {
+            list = sysPostInfoMapper.listUserPostForSelect(userId);
+        }
+        Map<String, Object> selectMap = new HashMap<>();
+        selectMap.put("data", list);
+        return JsonTool.toJsonString(selectMap);
+    }
 
 }
