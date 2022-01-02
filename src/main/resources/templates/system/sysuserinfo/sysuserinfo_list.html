@@ -405,7 +405,7 @@
                     }
 
                     var index = layer.load(0, {shade: 0.1});
-                    value = md5('' + value);
+                    value = md5.MD5('' + value);
                     Util.get({
                         url: Util.ctx + 'sysuser/updatePassword/' + data.userId + "/" + value,
                         success: function (res) {
