@@ -75,6 +75,9 @@
                 <button th:if="${#sets.contains(permissionSet, 'system:user:exportExcel')}" class="layui-btn layui-btn-sm" lay-event="exportExcel">
                     <i class="layui-icon layui-icon-export" style="font-size: 10px;"></i>导出excel
                 </button>
+                <button th:if="${#sets.contains(permissionSet, 'system:user:exportExcel')}" class="layui-btn layui-btn-sm" lay-event="downloadTemplate">
+                    <i class="layui-icon layui-icon-export" style="font-size: 10px;"></i>下载excel模板
+                </button>
             </div>
         </script>
 
@@ -319,6 +322,11 @@
                 let a = document.createElement('a');
                 a.href = Util.ctx + 'sysuser/exportExcel';
                 a.click()
+            } else if (obj.event === 'downloadTemplate') {
+                let a = document.createElement('a');
+                a.href = Util.ctx + 'sysuser/downloadTemplate';
+                a.click();
+                a.parentNode.removeChild(a);
             }
         });
 

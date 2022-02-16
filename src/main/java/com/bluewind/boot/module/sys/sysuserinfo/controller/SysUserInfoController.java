@@ -22,10 +22,12 @@ import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.base.BaseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +37,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
@@ -66,6 +72,8 @@ public class SysUserInfoController extends BaseController {
     @Autowired
     private SysUserPostService sysUserPostService;
 
+    @Autowired
+    private ResourceLoader resourceLoader;
 
 
     /**
@@ -84,7 +92,7 @@ public class SysUserInfoController extends BaseController {
     @RequestMapping(value = "/SysUserInfoInit", method = RequestMethod.GET)
     public String SysUserInfoInit(Model model) {
         // 获取下拉栏枚举值
-        List<Map<String,String>> baseDictList = DictUtils.getDictList("user_status");
+        List<Map<String, String>> baseDictList = DictUtils.getDictList("user_status");
         model.addAttribute("baseDictList", baseDictList);
         return "system/sysuserinfo/sysuserinfo_list";
     }
@@ -113,7 +121,7 @@ public class SysUserInfoController extends BaseController {
         //分页查询
         PageHelper.startPage(pageNum, pageSize);
         if (logger.isInfoEnabled()) {
-            logger.info("getSysUserInfoList -- 页面大小："+pageSize+"--页码:" + pageNum);
+            logger.info("getSysUserInfoList -- 页面大小：" + pageSize + "--页码:" + pageNum);
             logger.info("getSysUserInfoList -- getSysUserAccount：" + getSysUserAccount());
         }
 
@@ -138,16 +146,16 @@ public class SysUserInfoController extends BaseController {
     }
 
 
-
     /**
      * 删除一个系统用户（这里后面可能会改为逻辑删除）
+     *
      * @return
      */
     @RequiresPermissions("system:user:delete")
     @ApiOperation(value = "删除一个系统用户", notes = "删除一个系统用户")
-    @RequestMapping(value="/delete/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult delete(@PathVariable String userId){
+    public BaseResult delete(@PathVariable String userId) {
         int num = sysUserInfoService.delete(userId);
         if (num > 0) {
             return BaseResult.success("删除成功!");
@@ -157,16 +165,16 @@ public class SysUserInfoController extends BaseController {
     }
 
 
-
     /**
      * 批量删除系统用户
+     *
      * @return
      */
     @RequiresPermissions("system:user:delete")
     @ApiOperation(value = "批量删除系统用户", notes = "批量删除系统用户")
-    @RequestMapping(value="/batchDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult batchDelete(@RequestBody String data){
+    public BaseResult batchDelete(@RequestBody String data) {
         if (logger.isInfoEnabled()) {
             logger.info("batchDelete -- data：" + data);
         }
@@ -199,7 +207,6 @@ public class SysUserInfoController extends BaseController {
     public String add(Model model) {
         return "system/sysuserinfo/sysuserinfo_add";
     }
-
 
 
     /**
@@ -261,7 +268,7 @@ public class SysUserInfoController extends BaseController {
     @RequestMapping(value = "/update/{userId}", method = RequestMethod.GET)
     public String update(Model model, @PathVariable String userId) {
         // 获取下拉栏枚举值
-        List<Map<String,String>> baseDictList = DictUtils.getDictList("user_status");
+        List<Map<String, String>> baseDictList = DictUtils.getDictList("user_status");
         model.addAttribute("baseDictList", baseDictList);
         SysUserInfo sysUserInfo = sysUserInfoService.getOneById(userId);
         model.addAttribute("sysUserInfo", sysUserInfo);
@@ -364,7 +371,7 @@ public class SysUserInfoController extends BaseController {
     }
 
 
-    @RequiresPermissions(value={"system:user:add", "system:user:edit"},logical= Logical.OR)
+    @RequiresPermissions(value = {"system:user:add", "system:user:edit"}, logical = Logical.OR)
     @ApiOperation(value = "根据用户id查询岗位信息", notes = "根据用户id查询岗位信息")
     @RequestMapping(value = "/listPostForSelect", method = RequestMethod.GET)
     @ResponseBody
@@ -600,9 +607,9 @@ public class SysUserInfoController extends BaseController {
             logger.info("SysUserInfoController -- exportExcel -- start");
         }
         List<SysUserInfo> userInfoList = sysUserInfoService.getSysUserInfoList(new HashMap<>());
-        Map<String,String> userStatus = DictUtils.getDictMap("user_status");
-        Map<String,String> userSex = DictUtils.getDictMap("user_sex");
-        for (SysUserInfo sysUserInfo: userInfoList) {
+        Map<String, String> userStatus = DictUtils.getDictMap("user_status");
+        Map<String, String> userSex = DictUtils.getDictMap("user_sex");
+        for (SysUserInfo sysUserInfo : userInfoList) {
             String sex = sysUserInfo.getSex();
             sex = userSex.get(sex);
             sysUserInfo.setSex(sex);
@@ -613,7 +620,7 @@ public class SysUserInfoController extends BaseController {
 
         List<String> listName = Arrays.asList("账号", "姓名", "电话", "性别", "状态", "创建时间", "更新时间");
         List<Map<String, String>> list = new ArrayList<>();
-        for (SysUserInfo sysUserInfo: userInfoList) {
+        for (SysUserInfo sysUserInfo : userInfoList) {
             Map<String, String> map = new HashMap<>();
             map.put("账号", sysUserInfo.getAccount());
             map.put("姓名", sysUserInfo.getName());
@@ -626,6 +633,53 @@ public class SysUserInfoController extends BaseController {
         }
 
         ExcelPoiUtil.excelPort("系统用户信息", listName, list, null, response);
+    }
+
+
+    /**
+     * 描述：下载用户导入excel模板
+     * @param response
+     * @param req
+     * @throws Exception
+     */
+    @ApiOperation(value = "下载用户导入excel模板", notes = "下载用户导入excel模板")
+    @RequestMapping(value = "/downloadTemplate", method = RequestMethod.GET)
+    @ResponseBody
+    public void downloadTemplate(HttpServletResponse response, HttpServletRequest req) throws Exception {
+        String filename = "sys_user_template.xlsx";
+        InputStream inputStream = null;
+        ServletOutputStream servletOutputStream = null;
+        try {
+
+            String path = "static/excel/";
+            org.springframework.core.io.Resource resource = resourceLoader.getResource("classpath:" + path + filename);
+
+            response.setContentType("application/vnd.ms-excel");
+            response.addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            response.addHeader("charset", "utf-8");
+            response.addHeader("Pragma", "no-cache");
+            String encodeName = URLEncoder.encode(filename, StandardCharsets.UTF_8.toString());
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + encodeName + "\"; filename*=utf-8''" + encodeName);
+
+            inputStream = resource.getInputStream();
+            servletOutputStream = response.getOutputStream();
+            IOUtils.copy(inputStream, servletOutputStream);
+            response.flushBuffer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (servletOutputStream != null) {
+                    servletOutputStream.close();
+                }
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }
