@@ -12,7 +12,9 @@ import java.util.Map;
 /**
  * @author liuxingyu01
  * @date 2021-05-07-10:59
- * @description bean工具类
+ * @description bean工具类，使用Spring BeanUtils封装实现
+ * @additional 避免用 Apache Beanutils 进行属性的 copy。因为Apache BeanUtils 性能较差，
+ *             可以使用其他方案比如 Spring BeanUtils, Cglib BeanCopier，注意均是浅拷贝。
  **/
 public class BeanUtils {
     private static final Logger logger = LoggerFactory.getLogger(BeanUtils.class);
