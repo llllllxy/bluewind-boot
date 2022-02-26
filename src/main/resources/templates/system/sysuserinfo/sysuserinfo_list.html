@@ -78,8 +78,15 @@
                 <button th:if="${#sets.contains(permissionSet, 'system:user:exportExcel')}" class="layui-btn layui-btn-sm" lay-event="downloadTemplate">
                     <i class="layui-icon layui-icon-export" style="font-size: 10px;"></i>下载excel模板
                 </button>
+                <button th:if="${#sets.contains(permissionSet, 'system:user:exportExcel')}" class="layui-btn layui-btn-sm" lay-event="excelUpload">
+                    <i class="layui-icon layui-icon-export" style="font-size: 10px;"></i>根据excel导入
+                </button>
             </div>
         </script>
+
+        <input id="excelFile" type="file" style="display: none"
+               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
@@ -321,12 +328,17 @@
                 console.log("点击导出excel");
                 let a = document.createElement('a');
                 a.href = Util.ctx + 'sysuser/exportExcel';
-                a.click()
+                a.click();
+                a.parentNode.removeChild(a);
             } else if (obj.event === 'downloadTemplate') {
+                console.log("点击下载excel模板");
                 let a = document.createElement('a');
                 a.href = Util.ctx + 'sysuser/downloadTemplate';
                 a.click();
                 a.parentNode.removeChild(a);
+            } else if (obj.event === 'excelUpload') {
+                console.log("点击上传excel模板");
+                $("#excelFile").trigger("click");
             }
         });
 
@@ -450,6 +462,31 @@
                     });
                 }
             }
+        });
+
+        // 选完excel模板后的操作
+        $('#excelFile').change(function () {
+            var formData = new FormData();
+            formData.append("files", $("#excelFile")[0].files[0]);
+            formData.append("files_name", $("#excelFile")[0].files[0].name); // 文件名字
+            var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+
+            Util.upload({
+                url: Util.ctx + 'sysuser/excelUpload',
+                data: formData,
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        Message.success(res.message, 1000);
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 1000);
+                }
+            });
         });
 
     });

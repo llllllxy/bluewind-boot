@@ -4,6 +4,7 @@ import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.common.config.security.annotation.RequiresPermissions;
 import com.bluewind.boot.common.config.security.enums.Logical;
 import com.bluewind.boot.common.utils.excel.ExcelPoiUtil;
+import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.sys.syspostinfo.service.SysPostInfoService;
 import com.bluewind.boot.module.sys.sysroleinfo.service.SysRoleInfoService;
 import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
@@ -23,6 +24,11 @@ import com.bluewind.boot.common.base.BaseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +42,12 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -681,5 +687,76 @@ public class SysUserInfoController extends BaseController {
         }
 
     }
+
+
+
+    @ApiOperation(value = "导入excel模板", notes = "导入excel模板")
+    @RequestMapping(value = "/excelUpload", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult excelUpload(@RequestParam("files") MultipartFile excelFile) throws IOException {
+        if (excelFile.isEmpty()) {
+            return BaseResult.failure("文件为空");
+        } else {
+            String fileSuffix = excelFile.getOriginalFilename();
+            if (StringUtils.isNotBlank(fileSuffix) && fileSuffix.endsWith(".xlsx")) {
+                String message = "";
+                int errorNum = 0;
+                int okNum = 0;
+                StringBuilder errorMsg = new StringBuilder();
+
+                /*根据文件格式解析文件*/
+                List<SysUserInfo> list = new ArrayList<>();
+
+                InputStream is = excelFile.getInputStream();
+                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(is);
+
+                // 循环工作表Sheet
+                // 循环行Row
+                XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
+                for (int rowNum = 2; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
+                    XSSFRow xssfRow = xssfSheet.getRow(rowNum);
+                    if (xssfRow != null) {
+                        SysUserInfo entity = new SysUserInfo();
+                        XSSFCell accountCell = xssfRow.getCell(0);
+                        if (accountCell == null) {
+                            errorNum += 1;
+                            errorMsg.append("第").append(rowNum + 1).append("行（数据）格式错误,不能为空&");
+                            continue;
+                        }
+                        accountCell.setCellType(CellType.STRING);
+                        if(StringUtils.isBlank(accountCell.getStringCellValue())){
+                            errorNum += 1;
+                            errorMsg.append("第").append(rowNum + 1).append("行（数据）格式错误,不能为空&");
+                            continue;
+                        }
+                        entity.setAccount(accountCell.getStringCellValue());
+
+
+                        entity.setStatus("0");
+                        entity.setDelFlag("0");
+                        entity.setCreateUser(getSysUserId());
+                        list.add(entity);
+                        okNum += 1;
+                    }
+                }
+                message = "导入结果:&成功导入" + okNum + "条数据 失败" + errorNum + "条&错误记录:&"
+                        + errorMsg.toString();
+                if(null != is){
+                    is.close();
+                }
+
+                // 后续待完善，先测试成功可以解析，暂不做插库处理
+
+                if (logger.isInfoEnabled()) {
+                    logger.info("excelUpload -- list：{}", list);
+                }
+                return BaseResult.success(message, list);
+            } else {
+                return BaseResult.failure("文件格式错误，请重试");
+            }
+        }
+    }
+
+
 
 }
