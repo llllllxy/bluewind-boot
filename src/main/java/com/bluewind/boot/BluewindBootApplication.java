@@ -29,8 +29,12 @@ public class BluewindBootApplication {
         String ip = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         String path = env.getProperty("server.servlet.context-path");
-        logger.info("\n----------------------------------------------------------\n\t" +
-                "MecoApplication started successfully! Access URLs:\n\t" +
+
+        logger.info("BluewindBootApplication 启动成功！\n" +
+                "┌─┐┬ ┬┌─┐┌─┐┌─┐┌─┐┌─┐  ┌─┐┌┬┐┌─┐┬─┐┌┬┐┌─┐┌┬┐   ┬\n" +
+                "└─┐│ ││  │  ├┤ └─┐└─┐  └─┐ │ ├─┤├┬┘ │ ├┤  ││   │\n" +
+                "└─┘└─┘└─┘└─┘└─┘└─┘└─┘  └─┘ ┴ ┴ ┴┴└─ ┴ └─┘─┴┘   o\n" +
+                "-----------------------------------------------------------" + "/\n\t" +
                 "Local: \t\thttp://localhost:" + port + path + "/\n\t" +
                 "External: \thttp://" + ip + ":" + port + path + "/\n\t" +
                 "Swagger-UI: \thttp://" + ip + ":" + port + path + "/doc.html\n\t" +
@@ -47,7 +51,6 @@ public class BluewindBootApplication {
 //        }
         // 打印系统环境变量
 //        Map<String,String> envMap = System.getenv();
-
 
     }
 
