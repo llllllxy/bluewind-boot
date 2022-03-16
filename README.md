@@ -1,5 +1,10 @@
 # bluewind-boot
 
+<a href='https://gitee.com/leisureLXY/bluewind-boot/stargazers'><img src='https://gitee.com/leisureLXY/bluewind-boot/badge/star.svg?theme=dark' alt='star'></img></a>
+<a href='https://gitee.com/leisureLXY/bluewind-boot/members'><img src='https://gitee.com/leisureLXY/bluewind-boot/badge/fork.svg?theme=dark' alt='fork'></img></a>
+
+<a href='https://gitee.com/leisureLXY/bluewind-boot'><img src='https://gitee.com/leisureLXY/bluewind-boot/widgets/widget_3.svg' alt='Fork me on Gitee'></img></a>
+
 ### 项目介绍
 📚bluewind-boot 一个基于SpringBoot + MyBatis 的后台权限管理系统，代码简洁易懂、界面美观大方，内部封装了权限系统常用的功能，可直接作为快速开发JavaWEB项目的脚手架使用。
 
