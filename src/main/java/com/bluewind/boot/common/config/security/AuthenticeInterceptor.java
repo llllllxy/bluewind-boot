@@ -46,6 +46,12 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
     private String contextPath;
 
     /**
+     * 会话失效时间(单位秒)
+     */
+    @Value("${bluewind.session-timeout}")
+    private int sessionTimeout;
+
+    /**
      * 进入controller层之前拦截请求
      * 返回值：表示是否将当前的请求拦截下来  false：拦截请求，请求别终止。true：请求不被拦截，继续执行
      * Object obj:表示被拦的请求的目标对象（controller中方法）
@@ -93,7 +99,7 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
                     logger.info("AuthenticeInterceptor --> preHandle --> " + token + "会话验证通过！");
                 }
                 // 刷新会话缓存时间
-                redisUtil.expire(SystemConst.SYSTEM_USER_KEY + ":" + token, 1800);
+                redisUtil.expire(SystemConst.SYSTEM_USER_KEY + ":" + token, sessionTimeout);
                 return true;
             } else {
                 responseError(request, response);
@@ -140,6 +146,7 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
             logger.error("AuthenticeInterceptor -- postHandle -- Exception = {e}", e);
         }
     }
+
 
     /**
      * 在整个请求结束之后被调用，也就是视图渲染完毕之后的操作（主要是用于进行性能监控、资源清理工作）

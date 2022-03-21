@@ -56,10 +56,16 @@ public class LoginController {
     private CaptchaService captchaService;
 
     /**
-     * 盐
+     * 加密盐值
      */
     @Value("${hash.salt}")
     private String salt;
+
+    /**
+     * 会话失效时间(单位秒)
+     */
+    @Value("${bluewind.session-timeout}")
+    private int sessionTimeout;
 
     @LogAround(value = "跳转到登陆页面")
     @ApiOperation(value = "跳转到登陆页面")
@@ -118,8 +124,8 @@ public class LoginController {
             Map<String, Object> resultMap = new HashMap<>();
             String redisKey = IdGenerate.uuid();
             logger.info("LoginController - doLogin - redisKey = {}", redisKey);
-            // 存储用户信息到redis
-            redisUtil.set(SystemConst.SYSTEM_USER_KEY + ":" + redisKey, userInfo, 1800);
+            // 存储用户会话信息到redis
+            redisUtil.set(SystemConst.SYSTEM_USER_KEY + ":" + redisKey, userInfo, sessionTimeout);
 
             String token = SystemConst.TOKEN_PREFIX + JwtTokenUtil.createJWT(redisKey);
             resultMap.put(SystemConst.SYSTEM_USER_TOKEN, token);
