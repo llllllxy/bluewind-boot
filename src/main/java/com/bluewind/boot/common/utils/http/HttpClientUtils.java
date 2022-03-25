@@ -220,7 +220,7 @@ public class HttpClientUtils {
             httpPost.setHeader("Accept", "application/json");
             if (StringUtils.isNotBlank(jsonStr)) {
                 StringEntity stringEntity = new StringEntity(jsonStr, Charset.forName("UTF-8"));
-                stringEntity.setContentEncoding("UTF-8");
+                // stringEntity.setContentEncoding("UTF-8"); // 这个参数设置有问题，部分接口在设置这个参数后无法访问
                 stringEntity.setContentType("application/json");
                 httpPost.setEntity(stringEntity);
             }
