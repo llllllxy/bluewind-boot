@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增部门</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <style>
+        .layui-form-item .layui-input-company {
+            width: auto;
+            padding-right: 10px;
+            line-height: 38px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <form class="layui-form" action="" lay-filter="formDemo">
+            <div class="layui-form layuimini-form">
+
+                <div class="layui-form-item" id="parent_div">
+                    <label class="layui-form-label required">上级部门</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="parentName" name="parentName" />
+                        <input type="hidden" id="parentId" name="parentId" />
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="deptName_div">
+                    <label class="layui-form-label required">部门名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="deptName" id="deptName" lay-verify="required" lay-reqtext="请输入部门名称" placeholder="请输入部门名称" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="phone_div">
+                    <label class="layui-form-label">联系电话</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="phone" id="phone" placeholder="请输入" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="email_div">
+                    <label class="layui-form-label">邮箱</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="email" id="email" placeholder="请输入邮箱" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" id="orderNum_div">
+                    <label class="layui-form-label required">排序</label>
+                    <div class="layui-input-block">
+                        <input type="number" min="0" name="orderNum" id="orderNum" lay-verify="required" lay-reqtext="请输入排序" placeholder="请输入" class="layui-input" value="0">
+                        <tip>值越小，越靠前</tip>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"> 保存 </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/lib/xm-select-v1.2.2/xm-select.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'layCascader'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            layCascader = layui.layCascader;
+
+        var cascader;
+        var index = layer.load(0, {shade: 0.1});
+        Util.get({
+            url: Util.ctx + 'sysdeptinfo/list',
+            success: function (res) {
+                layer.close(index);
+
+                var datalist = [];
+                for(let item of res.data) {
+                    item.value = item.deptId;
+                    item.label = item.deptName;
+                    datalist.push(item);
+                }
+
+                console.log(datalist)
+
+                // 扁平数据转树
+                var options = arrayToTree(datalist, "0");
+
+                console.log(options)
+
+                // 初始化cascader实例
+                cascader = layCascader({
+                    elem: '#parentName',
+                    options: options
+                });
+
+                // 监听cascader变化
+                cascader.changeEvent(function (value, node) {
+                    layer.msg('value:' + value + ',Node:' + JSON.stringify(node.data));
+                    $("#parentId").val(value);
+                });
+            },
+            error: function (error) {
+                layer.close(index);
+                Message.error('获取上级部门信息失败！', 1000);
+            }
+        });
+
+        // 监听提交
+        form.on('submit(saveBtn)', function (res) {
+            var data = res.field;
+
+            var index = layer.load(0, {shade: 0.1});
+            Util.post({
+                url: Util.ctx + "syspermission/doAdd",
+                data: data,
+                success: function (res) {
+                    layer.close(index);
+                    if (0 === res.code) {
+                        Message.success(1000, res.message, function () {
+                            var windowIndex = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(windowIndex);
+                        });
+                    } else {
+                        Message.warning(res.message, 500);
+                    }
+                },
+                error: function (error) {
+                    layer.close(index);
+                    Message.error("服务器异常！", 500);
+                }
+            });
+            return false;
+        });
+    });
+
+
+    /**
+     *  扁平数据转树结构
+     * @returns {[]}
+     * @param data
+     * @param firstPid
+     */
+    function arrayToTree(data, firstPid) {
+        const result = [];
+        getChildren(data, result, firstPid)
+        return result;
+    }
+
+    function getChildren(data, result, parentId) {
+        for (const item of data) {
+            if (item.parentId === parentId) {
+                const newItem = {...item, children: []};
+                result.push(newItem);
+                getChildren(data, newItem.children, item.deptId);
+            }
+        }
+    }
+</script>
+</body>
+</html>

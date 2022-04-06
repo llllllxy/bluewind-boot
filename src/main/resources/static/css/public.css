@@ -16,7 +16,19 @@ body {
 }
 
 .layuimini-form {
-    padding-right: 30px !important;
+    padding-right: 40px !important;
+}
+
+/** 右下角悬浮按钮 */
+.layuimini-form > .right-bottom-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 50px;
+    line-height: 70px;
+    text-align: center;
+    color: #FFF;
+    z-index: 999;
+    cursor: pointer;
 }
 
 /**必填红点 */
@@ -32,11 +44,11 @@ body {
 }
 
 .layuimini-form > .layui-form-item > .layui-form-label {
-    width: 120px !important;
+    /*width: 120px !important;*/
 }
 
 .layuimini-form > .layui-form-item > .layui-input-block {
-    margin-left: 150px !important;
+    /*margin-left: 150px !important;*/
 }
 
 .layuimini-form > .layui-form-item > .layui-input-block > tip {
