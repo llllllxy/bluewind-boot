@@ -40,7 +40,7 @@ public class ServerInfoController {
      */
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() {
-        return "system/sysserverinfo/serverinfo";
+        return "system/serverinfo/index";
     }
 
 

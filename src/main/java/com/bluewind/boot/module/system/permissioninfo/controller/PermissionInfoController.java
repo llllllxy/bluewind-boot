@@ -38,7 +38,7 @@ public class PermissionInfoController extends BaseController {
      */
     @RequestMapping(value = "/SysPermissionInfoInit", method = RequestMethod.GET)
     public String SysRoleInfoInit() {
-        return "system/syspermissioninfo/syspermissioninfo_list";
+        return "system/permissioninfo/list";
     }
 
 
@@ -117,7 +117,7 @@ public class PermissionInfoController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add() {
-        return "system/syspermissioninfo/syspermissioninfo_add";
+        return "system/permissioninfo/add";
     }
 
 
@@ -215,7 +215,7 @@ public class PermissionInfoController extends BaseController {
         List<Map<String, String>> baseDictList = DictUtils.getDictList("permission_target");
         model.addAttribute("baseDictList", baseDictList);
 
-        return "system/syspermissioninfo/syspermissioninfo_update";
+        return "system/permissioninfo/update";
     }
 
 

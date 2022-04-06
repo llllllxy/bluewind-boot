@@ -100,7 +100,7 @@ public class UserInfoController extends BaseController {
         // 获取下拉栏枚举值
         List<Map<String, String>> baseDictList = DictUtils.getDictList("user_status");
         model.addAttribute("baseDictList", baseDictList);
-        return "system/sysuserinfo/sysuserinfo_list";
+        return "system/userinfo/list";
     }
 
 
@@ -211,7 +211,7 @@ public class UserInfoController extends BaseController {
     @ApiOperation(value = "用户新增页面初始化", notes = "用户新增页面初始化")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(Model model) {
-        return "system/sysuserinfo/sysuserinfo_add";
+        return "system/userinfo/add";
     }
 
 
@@ -278,7 +278,7 @@ public class UserInfoController extends BaseController {
         model.addAttribute("baseDictList", baseDictList);
         UserInfo userInfo = userInfoService.getOneById(userId);
         model.addAttribute("userInfo", userInfo);
-        return "system/sysuserinfo/sysuserinfo_update";
+        return "system/userinfo/update";
     }
 
 
@@ -354,7 +354,7 @@ public class UserInfoController extends BaseController {
     public String authorize(Model model, @PathVariable String userId) {
         UserInfo userInfo = userInfoService.getOneById(userId);
         model.addAttribute("userInfo", userInfo);
-        return "system/sysuserinfo/sysuserinfo_auth";
+        return "system/userinfo/auth";
     }
 
 

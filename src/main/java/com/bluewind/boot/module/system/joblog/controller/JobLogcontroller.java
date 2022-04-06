@@ -39,7 +39,7 @@ public class JobLogcontroller extends BaseController {
     public String init(@PathVariable String jobId,
                        Model model) {
         model.addAttribute("jobId", jobId);
-        return "system/sysjob/sysjob_log";
+        return "system/job/log";
     }
 
 

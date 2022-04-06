@@ -50,7 +50,7 @@ public class RoleInfoController extends BaseController {
         // 获取下拉栏枚举值
         List<Map<String, String>> baseDictList = DictUtils.getDictList("role_status");
         model.addAttribute("baseDictList", baseDictList);
-        return "system/sysroleinfo/sysroleinfo_list";
+        return "system/roleinfo/list";
     }
 
 
@@ -104,7 +104,7 @@ public class RoleInfoController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add() {
-        return "system/sysroleinfo/sysroleinfo_add";
+        return "system/roleinfo/add";
     }
 
 
@@ -198,7 +198,7 @@ public class RoleInfoController extends BaseController {
     public String update(Model model, @PathVariable String roleId) {
         RoleInfo roleInfo = roleInfoService.getOneRoleById(roleId);
         model.addAttribute("roleInfo", roleInfo);
-        return "system/sysroleinfo/sysroleinfo_update";
+        return "system/roleinfo/update";
     }
 
 
@@ -255,7 +255,7 @@ public class RoleInfoController extends BaseController {
                             @PathVariable String roleId) {
         RoleInfo roleInfo = roleInfoService.getOneRoleById(roleId);
         model.addAttribute("roleInfo", roleInfo);
-        return "system/sysroleinfo/sysroleinfo_auth";
+        return "system/roleinfo/auth";
     }
 
 

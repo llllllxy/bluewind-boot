@@ -34,7 +34,7 @@ public class ConfigController extends BaseController {
     public String forUpdateDetail(Model model) {
         Config config = configService.getSysConfig();
         model.addAttribute("config", config);
-        return "system/sysconfig/sysconfig_update";
+        return "system/config/index";
     }
 
 

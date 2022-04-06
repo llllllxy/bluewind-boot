@@ -46,7 +46,7 @@ public class PostInfoController extends BaseController {
         // 获取下拉栏枚举值
         List<Map<String,String>> baseDictList = DictUtils.getDictList("syspostinfo_status");
         model.addAttribute("baseDictList", baseDictList);
-        return "system/syspostinfo/syspostinfo_list";
+        return "system/postinfo/list";
     }
 
 
@@ -102,7 +102,7 @@ public class PostInfoController extends BaseController {
         // 获取下拉栏枚举值
         List<Map<String,String>> baseDictList = DictUtils.getDictList("syspostinfo_status");
         model.addAttribute("baseDictList", baseDictList);
-        return "system/syspostinfo/syspostinfo_add";
+        return "system/postinfo/add";
     }
 
 
@@ -149,7 +149,7 @@ public class PostInfoController extends BaseController {
         PostInfo postInfo = postInfoService.getOne(postId);
         model.addAttribute("baseDictList", baseDictList);
         model.addAttribute("postInfo", postInfo);
-        return "system/syspostinfo/syspostinfo_update";
+        return "system/postinfo/update";
     }
 
 

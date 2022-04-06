@@ -51,8 +51,7 @@ public class ItfcKeyController extends BaseController {
         // 获取下拉栏枚举值
         List<Map<String, String>> dictList = DictUtils.getDictList("itfc_key_status");
         model.addAttribute("dictList", dictList);
-
-        return "system/sysitfckey/sysitfckey_list";
+        return "system/itfckey/list";
     }
 
 
@@ -112,7 +111,7 @@ public class ItfcKeyController extends BaseController {
     @ApiOperation(value = "新增页面初始化")
     @RequestMapping(value = "/forAdd", method = RequestMethod.GET)
     public String forAdd(Model model) {
-        return "system/sysitfckey/sysitfckey_add";
+        return "system/itfckey/add";
     }
 
 
@@ -157,7 +156,7 @@ public class ItfcKeyController extends BaseController {
         String validPeriod = DateTool.dateFormat(itfcKey.getValidPeriod(),"yyyyMMdd", "yyyy-MM-dd");
         itfcKey.setValidPeriod(validPeriod);
         model.addAttribute("itfcKey", itfcKey);
-        return "system/sysitfckey/sysitfckey_update";
+        return "system/itfckey/update";
     }
 
 
@@ -265,7 +264,7 @@ public class ItfcKeyController extends BaseController {
     public String forAuthorize(Model model, @PathVariable Integer id) {
         ItfcKey itfcKey = itfcKeyService.getOneSysItfcKey(id);
         model.addAttribute("itfcKey", itfcKey);
-        return "system/sysitfckey/sysitfckey_auth";
+        return "system/itfckey/auth";
     }
 
 

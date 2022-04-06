@@ -52,7 +52,7 @@ public class JobController extends BaseController {
         List<Map<String, String>> sysJobStatusDict = DictUtils.getDictList("sys_job_status");
         model.addAttribute("sysJobGroupDict", sysJobGroupDict);
         model.addAttribute("sysJobStatusDict", sysJobStatusDict);
-        return "system/sysjob/sysjob_list";
+        return "system/job/list";
     }
 
 
@@ -189,7 +189,7 @@ public class JobController extends BaseController {
         // 获取下拉栏枚举值
         List<Map<String, String>> sysJobGroupDict = DictUtils.getDictList("sys_job_group");
         model.addAttribute("sysJobGroupDict", sysJobGroupDict);
-        return "system/sysjob/sysjob_add";
+        return "system/job/add";
     }
 
 
@@ -256,8 +256,7 @@ public class JobController extends BaseController {
 
         Job job = jobService.getOne(jobId);
         model.addAttribute("job", job);
-
-        return "system/sysjob/sysjob_update";
+        return "system/job/update";
     }
 
 
@@ -325,7 +324,7 @@ public class JobController extends BaseController {
             logger.info("SysJobController - forCron - cronExpression：" + cronExpression);
         }
         model.addAttribute("cronExpression", cronExpression);
-        return "system/sysjob/sysjob_cron";
+        return "system/job/cron";
     }
 
 

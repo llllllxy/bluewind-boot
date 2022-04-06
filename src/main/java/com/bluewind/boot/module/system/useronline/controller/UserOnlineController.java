@@ -42,7 +42,7 @@ public class UserOnlineController extends BaseController {
     @ApiOperation(value = "分页查询页面初始化")
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() {
-        return "system/sysuseronline/sysuseronline_list";
+        return "system/useronline/list";
     }
 
 

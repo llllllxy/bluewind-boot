@@ -41,7 +41,7 @@ public class IdTableController extends BaseController {
      */
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() {
-        return "system/sysidtable/sysidtable_list";
+        return "system/idtable/list";
     }
 
 
@@ -95,7 +95,7 @@ public class IdTableController extends BaseController {
      */
     @RequestMapping(value = "/forAdd", method = RequestMethod.GET)
     public String forAdd() {
-        return "system/sysidtable/sysidtable_add";
+        return "system/idtable/add";
     }
 
 
@@ -174,7 +174,7 @@ public class IdTableController extends BaseController {
     public String forUpdate(@PathVariable String idId, Model model) {
         IdTable idTable = idTableService.getOneIdTable(idId);
         model.addAttribute("idTable", idTable);
-        return "system/sysidtable/sysidtable_update";
+        return "system/idtable/update";
     }
 
 

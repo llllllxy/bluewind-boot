@@ -42,7 +42,7 @@ public class ItfcPermissionController extends BaseController {
     @ApiOperation(value = "页面初始化")
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() {
-        return "system/sysitfcpermission/sysitfcpermission_list";
+        return "system/itfcpermission/list";
     }
 
 

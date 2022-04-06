@@ -42,7 +42,7 @@ public class OperLogController extends BaseController {
      */
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() {
-        return "system/sysoperlog/sysoperlog_list";
+        return "system/operlog/list";
     }
 
 

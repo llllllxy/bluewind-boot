@@ -36,7 +36,7 @@ public class DeptInfoController extends BaseController {
      */
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() {
-        return "system/sysdeptinfo/sysdeptinfo_list";
+        return "system/deptinfo/list";
     }
 
 
@@ -67,7 +67,7 @@ public class DeptInfoController extends BaseController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add() {
-        return "system/sysdeptinfo/sysdeptinfo_add";
+        return "system/deptinfo/add";
     }
 
 }

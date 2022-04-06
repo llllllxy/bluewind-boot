@@ -46,7 +46,7 @@ public class LoginLogController extends BaseController {
         // 获取下拉栏枚举值
         List<Map<String,String>> baseDictList = DictUtils.getDictList("login_status");
         model.addAttribute("baseDictList", baseDictList);
-        return "system/sysloginlog/sysloginlog_list";
+        return "system/loginlog/list";
     }
 
 
