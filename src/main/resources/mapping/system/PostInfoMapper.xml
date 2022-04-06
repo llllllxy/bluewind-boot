@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewind.boot.module.system.postinfo.mapper.PostInfoMapper">
+
+    <resultMap id="SysPostInfo" type="com.bluewind.boot.module.system.postinfo.entity.PostInfo">
+        <id column="post_id" jdbcType="VARCHAR" property="postId"/>
+        <result column="post_code" jdbcType="VARCHAR" property="postCode"/>
+        <result column="post_name" jdbcType="VARCHAR" property="postName"/>
+        <result column="post_sort" jdbcType="INTEGER" property="postSort"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
+
+    <sql id="selectPostInfoVo">
+        select post_id, post_code, post_name, post_sort, descript, status, create_time, update_time, create_user, update_user
+		from sys_post_info
+    </sql>
+
+    <!--查询所有岗位-->
+    <select id="getSysPostInfoList" resultMap="SysPostInfo" parameterType="map">
+        <include refid="selectPostInfoVo"/>
+        <where>
+            <if test="postCode != null and postCode != ''">
+                and post_code like CONCAT('%',#{postCode},'%')
+            </if>
+            <if test="postName != null and postName != ''">
+                and post_name like CONCAT('%',#{postName},'%')
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by post_sort asc
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--查询一个岗位-->
+    <select id="getOne" resultMap="SysPostInfo" parameterType="string">
+        <include refid="selectPostInfoVo"/>
+        where post_id = #{_parameter}
+        order by create_time desc
+    </select>
+
+    <!--新增一个岗位-->
+    <insert id="addPostInfo" parameterType="com.bluewind.boot.module.system.postinfo.entity.PostInfo">
+        insert into sys_post_info(
+        <if test="postCode != null and postCode != ''">post_code,</if>
+        <if test="postName != null and postName != ''">post_name,</if>
+        <if test="postSort != null and postSort != ''">post_sort,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="descript != null and descript != ''">descript,</if>
+        <if test="createUser != null and createUser != ''">create_user,</if>
+        post_id
+        )values(
+        <if test="postCode != null and postCode != ''">#{postCode},</if>
+        <if test="postName != null and postName != ''">#{postName},</if>
+        <if test="postSort != null and postSort != ''">#{postSort},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="descript != null and descript != ''">#{descript},</if>
+        <if test="createUser != null and createUser != ''">#{createUser},</if>
+        #{postId}
+        )
+    </insert>
+
+    <!--更新一个岗位-->
+    <update id="updatePostInfo" parameterType="com.bluewind.boot.module.system.postinfo.entity.PostInfo">
+        update sys_post_info
+        <set>
+            <if test="postCode != null and postCode != ''">
+                post_code = #{postCode},
+            </if>
+            <if test="postName != null and postName != ''">
+                post_name = #{postName},
+            </if>
+            <if test="postSort != null and postSort != ''">
+                post_sort = #{postSort},
+            </if>
+            <if test="descript != null and descript != ''">
+                descript = #{descript},
+            </if>
+            <if test="updateUser != null and updateUser != ''">
+                update_user = #{updateUser},
+            </if>
+            status = #{status}
+        </set>
+        where post_id = #{postId}
+    </update>
+
+    <!--删除一个岗位-->
+    <delete id="deleteOne" parameterType="string">
+        delete from sys_post_info where post_id = #{_parameter}
+    </delete>
+
+    <!--获取用户岗位信息XmSelect列表-->
+    <select id="listUserPostForSelect" resultType="com.bluewind.boot.module.system.postinfo.entity.PostXmSelect" parameterType="string">
+        SELECT
+            a.post_id AS `value`,
+            a.post_name AS name,
+            ( CASE WHEN b.user_id IS NULL THEN 0 ELSE 1 END ) AS selected
+        FROM
+            sys_post_info a
+            LEFT JOIN sys_user_post b ON ( a.post_id = b.post_id AND b.user_id = #{userId} )
+        WHERE a.status = '0'
+    </select>
+
+    <!--获取全部岗位信息XmSelect列表-->
+    <select id="listAllPostForSelect" resultType="com.bluewind.boot.module.system.postinfo.entity.PostXmSelect" parameterType="string">
+        SELECT
+            a.post_id AS `value`,
+            a.post_name AS name,
+            0 AS selected
+        FROM sys_post_info a
+        WHERE a.status = '0'
+    </select>
+
+</mapper>

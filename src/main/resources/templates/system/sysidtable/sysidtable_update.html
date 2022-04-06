@@ -19,16 +19,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">编码</label>
         <div class="layui-input-block">
-            <input type="hidden" name="idId" th:value="${sysIdTable.idId}">
+            <input type="hidden" name="idId" th:value="${idTable.idId}">
             <input type="text" name="idCode" lay-verify="required|idCode" lay-reqtext="请输入流水号编码" placeholder="请输入流水号编码"
-                   class="layui-input" th:value="${sysIdTable.idCode}" readonly>
+                   class="layui-input" th:value="${idTable.idCode}" readonly>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">名称</label>
         <div class="layui-input-block">
             <input type="text" name="idName" lay-verify="required" lay-reqtext="请输入流水号名称" placeholder="请输入流水号名称"
-                   class="layui-input" th:value="${sysIdTable.idName}">
+                   class="layui-input" th:value="${idTable.idName}">
         </div>
     </div>
 
@@ -36,7 +36,7 @@
         <label class="layui-form-label required">流水号长度</label>
         <div class="layui-input-block">
             <input type="number" min="0" name="idLength" value="10" lay-verify="required|numbe" lay-reqtext="请输入流水号长度"
-                   placeholder="请输入流水号长度" class="layui-input" th:value="${sysIdTable.idLength}">
+                   placeholder="请输入流水号长度" class="layui-input" th:value="${idTable.idLength}">
         </div>
     </div>
 
@@ -44,7 +44,7 @@
         <label class="layui-form-label required">当前值</label>
         <div class="layui-input-block">
             <input type="number" min="0" name="idValue" value="1" lay-verify="required|numbe" lay-reqtext="请输入流水号当前值"
-                   placeholder="请输入流水号当前值" class="layui-input" th:value="${sysIdTable.idValue}">
+                   placeholder="请输入流水号当前值" class="layui-input" th:value="${idTable.idValue}">
         </div>
     </div>
 
@@ -52,7 +52,7 @@
         <label class="layui-form-label">前缀<i class="layui-icon layui-icon-about" id="layui-icon-about1"></i></label>
         <div class="layui-input-block">
             <input type="text" name="idPrefix" placeholder="请输入流水号前缀" class="layui-input"
-                   th:value="${sysIdTable.idPrefix}">
+                   th:value="${idTable.idPrefix}">
         </div>
     </div>
 
@@ -60,7 +60,7 @@
         <label class="layui-form-label">后缀<i class="layui-icon layui-icon-about" id="layui-icon-about2"></i></label>
         <div class="layui-input-block">
             <input type="text" name="idSuffix" placeholder="请输入流水号后缀" class="layui-input"
-                   th:value="${sysIdTable.idSuffix}">
+                   th:value="${idTable.idSuffix}">
         </div>
     </div>
 
@@ -68,7 +68,7 @@
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block">
             <textarea name="descript" class="layui-textarea" placeholder="请输入描述信息"
-                      th:text="${sysIdTable.descript}"></textarea>
+                      th:text="${idTable.descript}"></textarea>
         </div>
     </div>
 

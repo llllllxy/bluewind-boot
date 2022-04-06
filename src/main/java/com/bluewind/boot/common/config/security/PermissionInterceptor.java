@@ -8,8 +8,8 @@ import com.bluewind.boot.common.utils.web.CookieUtils;
 import com.bluewind.boot.common.utils.web.ServletUtils;
 import com.bluewind.boot.common.config.security.annotation.RequiresPermissions;
 import com.bluewind.boot.common.config.security.enums.Logical;
-import com.bluewind.boot.module.sys.sysrolepermission.service.SysRolePermissionService;
-import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
+import com.bluewind.boot.module.system.rolepermission.service.RolePermissionService;
+import com.bluewind.boot.module.system.userinfo.entity.UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
     private RedisUtil redisUtil;
 
     @Autowired
-    private SysRolePermissionService sysRolePermissionService;
+    private RolePermissionService rolePermissionService;
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
@@ -86,9 +86,9 @@ public class PermissionInterceptor implements HandlerInterceptor {
             if (logger.isInfoEnabled()) {
                 logger.info("PermissionInterceptor -- preHandle -- token = {}", token);
             }
-            SysUserInfo userInfo = (SysUserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
+            UserInfo userInfo = (UserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
             // 获取用户权限列表
-            Set<String> permissionSet = sysRolePermissionService.listRolePermissionByUserId(userInfo.getUserId());
+            Set<String> permissionSet = rolePermissionService.listRolePermissionByUserId(userInfo.getUserId());
             if (logger.isInfoEnabled()) {
                 logger.info("PermissionInterceptor -- preHandle -- permissionSet = {}", permissionSet);
             }

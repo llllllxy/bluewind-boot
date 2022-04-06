@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewind.boot.module.system.basedict.mapper.BaseDictMapper">
+
+    <!--查询一个枚举,公共方法-->
+    <select id="getDictByCode" parameterType="string" resultType="map">
+        select sdd.*
+        from sys_dict sd
+        left join sys_dict_detail sdd on sdd.dict_code = sd.dict_code
+        where sd.dict_code = #{_parameter}
+    </select>
+
+    <resultMap id="SysDict" type="com.bluewind.boot.module.system.basedict.entity.Dict">
+        <id column="dict_id" jdbcType="VARCHAR" property="dictId"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
+
+
+    <resultMap id="SysDictDetail" type="com.bluewind.boot.module.system.basedict.entity.DictDetail">
+        <id column="dict_detail_id" jdbcType="VARCHAR" property="dictDetailId"/>
+        <result column="dict_code" jdbcType="VARCHAR" property="dictCode"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
+
+
+    <!--根据条件，查询所有枚举-->
+    <select id="getAllBaseDict" resultMap="SysDict" parameterType="map">
+        select * from sys_dict
+        where 1=1
+        and del_flag = '0'
+        <if test="dictCode != null and dictCode != ''">
+            and dict_code like CONCAT('%',#{dictCode},'%')
+        </if>
+        <if test="name != null and name != ''">
+            and `name` like CONCAT('%',#{name},'%')
+        </if>
+        <if test="status != null and status != ''">
+            and status = #{status}
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by dict_id asc
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--根据条件，查询所有枚举-->
+    <select id="findOneBaseDictById" resultMap="SysDict" parameterType="java.lang.String">
+        select * from sys_dict where dict_id = #{_parameter}
+    </select>
+
+
+    <!--插入一个枚举-->
+    <insert id="addOneDict" parameterType="com.bluewind.boot.module.system.basedict.entity.Dict">
+        insert into sys_dict (
+            dict_id,
+            dict_code,
+            `name`,
+            status,
+            create_user,
+            del_flag,
+            descript
+        )
+        values (
+            #{dictId},
+            #{dictCode},
+            #{name},
+            #{status},
+            #{createUser},
+            #{delFlag},
+            #{descript}
+        )
+    </insert>
+
+    <!--逻辑删除一个枚举-->
+    <update id="deleteDict" parameterType="java.lang.String">
+        update sys_dict set del_flag = '1' where dict_id = #{_parameter}
+    </update>
+
+    <!--禁用一个枚举-->
+    <update id="forbidDict" parameterType="java.lang.String">
+        update sys_dict set status = '1' where dict_id =  #{_parameter}
+    </update>
+
+    <!--启用一个枚举-->
+    <update id="enableDict" parameterType="java.lang.String">
+        update sys_dict set status = '0' where dict_id =  #{_parameter}
+    </update>
+
+    <!--更新一个枚举-->
+    <update id="updateOneDict" parameterType="com.bluewind.boot.module.system.basedict.entity.Dict">
+        update sys_dict set `name` = #{name},descript = #{descript} where dict_id =  #{dictId}
+    </update>
+
+    <!--根据条件，查询所有枚举-->
+    <select id="getBaseDictDetail" resultMap="SysDictDetail"
+            parameterType="com.bluewind.boot.module.system.basedict.entity.Dict">
+        select * from sys_dict_detail where dict_code = #{dictCode}
+    </select>
+
+    <!--插入一个枚举明细-->
+    <insert id="addDetail" parameterType="com.bluewind.boot.module.system.basedict.entity.DictDetail">
+        insert into sys_dict_detail (
+            dict_detail_id,
+            dict_code,
+            `name`,
+            create_user,
+            code
+        )
+        values (
+            #{dictDetailId},
+            #{dictCode},
+            #{name},
+            #{createUser},
+            #{code}
+        )
+    </insert>
+
+    <!--删除一个枚举明细-->
+    <delete id="deleteDetail" parameterType="java.lang.String">
+        delete from sys_dict_detail where dict_detail_id = #{_parameter}
+    </delete>
+
+    <!--根据条件，查询所有枚举-->
+    <select id="findOneDictDetailById" resultMap="SysDictDetail" parameterType="java.lang.String">
+        select * from sys_dict_detail where dict_detail_id = #{_parameter}
+    </select>
+
+    <!--更新一个枚举明细-->
+    <update id="updateDetail" parameterType="com.bluewind.boot.module.system.basedict.entity.DictDetail">
+        update sys_dict_detail
+        set `name` = #{name},
+        code = #{code},
+        update_user = #{updateUser}
+        where dict_detail_id = #{dictDetailId}
+        and dict_code = #{dictCode}
+    </update>
+</mapper>

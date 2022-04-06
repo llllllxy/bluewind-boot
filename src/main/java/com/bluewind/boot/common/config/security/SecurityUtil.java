@@ -6,7 +6,7 @@ import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.common.utils.spring.SpringUtil;
 import com.bluewind.boot.common.utils.web.CookieUtils;
 import com.bluewind.boot.common.utils.web.ServletUtils;
-import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
+import com.bluewind.boot.module.system.userinfo.entity.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,10 +66,10 @@ public class SecurityUtil {
      *
      * @return
      */
-    public static SysUserInfo getSysUserInfo() {
+    public static UserInfo getSysUserInfo() {
         try {
             String userKey = getUserKey();
-            return (SysUserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_KEY + ":" + userKey);
+            return (UserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_KEY + ":" + userKey);
         } catch (Exception e) {
             logger.error("SecurityUtil -- getSysUserInfo:{e}", e);
         }
@@ -84,7 +84,7 @@ public class SecurityUtil {
     public static String getSysUserId() {
         try {
             String userKey = getUserKey();
-            SysUserInfo userInfo = (SysUserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_KEY + ":" + userKey);
+            UserInfo userInfo = (UserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_KEY + ":" + userKey);
             if (null != userInfo) {
                 return userInfo.getUserId();
             }
@@ -102,7 +102,7 @@ public class SecurityUtil {
     public static String getSysUserAccount() {
         try {
             String userKey = getUserKey();
-            SysUserInfo userInfo = (SysUserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_KEY + ":" + userKey);
+            UserInfo userInfo = (UserInfo) getRedisUtil().get(SystemConst.SYSTEM_USER_KEY + ":" + userKey);
             if (null != userInfo) {
                 return userInfo.getAccount();
             }

@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.utils;
 
-import com.bluewind.boot.module.sys.sysbasedict.mapper.SysBaseDictMapper;
+import com.bluewind.boot.module.system.basedict.mapper.BaseDictMapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,14 +23,14 @@ import java.util.Map;
 public class DictUtils2 {
 
     @Autowired
-    private SysBaseDictMapper sysBaseDictMapper;
+    private BaseDictMapper baseDictMapper;
 
     private static DictUtils2 dictUtils2;
 
     @PostConstruct
     public void init() {
         dictUtils2 = this;
-        dictUtils2.sysBaseDictMapper = this.sysBaseDictMapper;
+        dictUtils2.baseDictMapper = this.baseDictMapper;
     }
 
     /**
@@ -47,7 +47,7 @@ public class DictUtils2 {
             return "字典key不能为空";
         }
         String dictValue = "";
-        List<Map<String, String>> dictList = dictUtils2.sysBaseDictMapper.getDictByCode(dictCode);
+        List<Map<String, String>> dictList = dictUtils2.baseDictMapper.getDictByCode(dictCode);
         if (CollectionUtils.isNotEmpty(dictList)) {
             for (Map tempMap : dictList) {
                 if (!MapUtils.isEmpty(tempMap)) {
@@ -72,7 +72,7 @@ public class DictUtils2 {
         if (StringUtils.isBlank(dictCode)) {
             return null;
         }
-        List<Map<String, String>> dictList = dictUtils2.sysBaseDictMapper.getDictByCode(dictCode);
+        List<Map<String, String>> dictList = dictUtils2.baseDictMapper.getDictByCode(dictCode);
         if (!CollectionUtils.isEmpty(dictList)) {
             return dictList;
         } else {
@@ -90,7 +90,7 @@ public class DictUtils2 {
             return null;
         }
         Map<String, String> result = new HashMap<>();
-        List<Map<String, String>> dictList = dictUtils2.sysBaseDictMapper.getDictByCode(dictCode);
+        List<Map<String, String>> dictList = dictUtils2.baseDictMapper.getDictByCode(dictCode);
         if (!CollectionUtils.isEmpty(dictList)) {
             for (int i = 0; i < dictList.size(); i++) {
                 Map<String, String> tempMap = dictList.get(i);

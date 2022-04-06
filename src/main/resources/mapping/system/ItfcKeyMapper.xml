@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewind.boot.module.system.itfckey.mapper.ItfcKeyMapper">
+
+    <resultMap id="SysItfcKey" type="com.bluewind.boot.module.system.itfckey.entity.ItfcKey">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="itfc_key" jdbcType="VARCHAR" property="itfcKey"/>
+        <result column="owner" jdbcType="VARCHAR" property="owner"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="valid_period" jdbcType="CHAR" property="validPeriod"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <!-- 查询所有itfc_key -->
+    <select id="getSysItfcKeyList" resultMap="SysItfcKey" parameterType="java.util.Map">
+        select * from `sys_itfc_key`
+        where `del_flag` = '0'
+        <if test="itfcKey != null and itfcKey != ''">
+            and `itfc_key` like CONCAT('%',#{itfcKey},'%')
+        </if>
+        <if test="owner != null and owner != ''">
+            and `owner` like CONCAT('%',#{owner},'%')
+        </if>
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by id asc
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询一个rest_key -->
+    <select id="getOneSysItfcKey" resultMap="SysItfcKey" parameterType="java.lang.Integer">
+        select * from `sys_itfc_key` where id = #{_parameter}
+    </select>
+
+    <!-- 新增服务密钥 -->
+    <insert id="addOneSysItfcKey" parameterType="com.bluewind.boot.module.system.itfckey.entity.ItfcKey">
+        insert into `sys_itfc_key` (
+            `itfc_key`,
+            `owner`,
+            `valid_period`,
+            `descript`,
+            `status`,
+            `del_flag`,
+            `create_user`
+        ) values (
+             #{itfcKey},
+             #{owner},
+             #{validPeriod},
+             #{descript},
+             #{status},
+             #{delFlag},
+             #{createUser}
+        )
+    </insert>
+
+    <update id="updateSysItfcKey" parameterType="com.bluewind.boot.module.system.itfckey.entity.ItfcKey">
+        update `sys_itfc_key` set
+        `owner` = #{owner},
+        `valid_period` = #{validPeriod},
+        `descript` = #{descript},
+        `update_user` = #{updateUser}
+        where `id` = #{id}
+    </update>
+
+    <update id="deleteSysItfcKey" parameterType="java.lang.Integer">
+        update `sys_itfc_key` set
+        `del_flag` = '1'
+        where `id` = #{_parameter}
+    </update>
+
+    <update id="forbidSysItfcKey" parameterType="java.lang.Integer">
+        update `sys_itfc_key` set
+        `status` = '1'
+        where `id` = #{_parameter}
+    </update>
+
+    <update id="enableSysItfcKey" parameterType="java.lang.Integer">
+        update `sys_itfc_key` set
+        `status` = '0'
+        where `id` = #{_parameter}
+    </update>
+
+    <select id="listPermissionForTree" parameterType="java.lang.String"
+            resultType="com.bluewind.boot.module.system.itfckey.entity.ItfcPermissionTree">
+        SELECT
+            a.`permission_id` as permissionId,
+            a.`parent_id` as parentId,
+            a.`id`,
+            a.`name` as title,
+            ( CASE WHEN LENGTH(b.itfc_key) > 0 THEN 1 ELSE 0 END ) AS checked
+        FROM sys_itfc_permission a
+        LEFT JOIN sys_itfc_key_permission b ON ( a.permission_id = b.itfc_permission AND b.itfc_key	= #{_parameter} )
+        WHERE a.`del_flag` = '0'
+          AND a.`status` = '0'
+        ORDER BY a.`type`,a.`parent_id`
+    </select>
+
+    <delete id="deletePermissionByItfcKey" parameterType="java.lang.String">
+        delete from `sys_itfc_key_permission` where itfc_key = #{_parameter}
+    </delete>
+
+    <insert id="batchInsertPermission" parameterType="java.util.List">
+        insert into sys_itfc_key_permission(itfc_key,itfc_permission)
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            select
+            #{item.itfcKey, jdbcType=VARCHAR},
+            #{item.permId, jdbcType=VARCHAR}
+            from dual
+        </foreach>
+    </insert>
+
+</mapper>

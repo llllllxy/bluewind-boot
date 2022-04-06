@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewind.boot.module.system.userpost.mapper.UserPostMapper">
+
+    <delete id="deleteUserPostByUserId" parameterType="java.lang.String">
+        delete from sys_user_post where user_id = #{_parameter}
+    </delete>
+
+    <insert id="batchSaveUserPost" parameterType="java.util.List">
+        insert into sys_user_post(user_id,post_id)
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            select
+            #{item.userId, jdbcType=VARCHAR},
+            #{item.postId, jdbcType=VARCHAR}
+            from dual
+        </foreach>
+    </insert>
+
+</mapper>

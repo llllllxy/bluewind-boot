@@ -1,7 +1,7 @@
 package com.bluewind.boot.common.base;
 
 import com.bluewind.boot.common.config.security.SecurityUtil;
-import com.bluewind.boot.module.sys.sysuserinfo.entity.SysUserInfo;
+import com.bluewind.boot.module.system.userinfo.entity.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public abstract class BaseController {
      *
      * @return
      */
-    public SysUserInfo getSysUserInfo() {
+    public UserInfo getSysUserInfo() {
         return SecurityUtil.getSysUserInfo();
     }
 

@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.config.quartz;
 
-import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
+import com.bluewind.boot.module.system.job.entity.Job;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 
@@ -17,7 +17,7 @@ import org.quartz.JobExecutionContext;
 public class QuartzDisallowConcurrentExecution extends AbstractQuartzJob {
 
     @Override
-    protected void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception {
-        JobInvokeUtil.invokeMethod(sysJob);
+    protected void doExecute(JobExecutionContext context, Job job) throws Exception {
+        JobInvokeUtil.invokeMethod(job);
     }
 }

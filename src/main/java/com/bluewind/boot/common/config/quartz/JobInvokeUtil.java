@@ -1,7 +1,7 @@
 package com.bluewind.boot.common.config.quartz;
 
 import com.bluewind.boot.common.utils.spring.SpringUtil;
-import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
+import com.bluewind.boot.module.system.job.entity.Job;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,10 +19,10 @@ public class JobInvokeUtil {
     /**
      * 执行方法
      *
-     * @param sysJob 系统任务
+     * @param job 系统任务
      */
-    public static void invokeMethod(SysJob sysJob) throws Exception {
-        String invokeTarget = sysJob.getInvokeTarget();
+    public static void invokeMethod(Job job) throws Exception {
+        String invokeTarget = job.getInvokeTarget();
         String beanName = getBeanName(invokeTarget);
         String methodName = getMethodName(invokeTarget);
         List<Object[]> methodParams = getMethodParams(invokeTarget);

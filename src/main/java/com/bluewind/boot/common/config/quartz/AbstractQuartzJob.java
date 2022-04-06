@@ -4,11 +4,10 @@ import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.utils.ExceptionUtil;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.spring.SpringUtil;
-import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
-import com.bluewind.boot.module.sys.sysjoblog.entity.SysJobLog;
-import com.bluewind.boot.module.sys.sysjoblog.service.SysJobLogService;
+import com.bluewind.boot.module.system.job.entity.Job;
+import com.bluewind.boot.module.system.joblog.entity.JobLog;
+import com.bluewind.boot.module.system.joblog.service.JobLogService;
 import org.apache.commons.lang3.StringUtils;
-import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -23,7 +22,7 @@ import java.util.Date;
  * @author liuxingyu01
  * @date 2021-08-27-12:45
  **/
-public abstract class AbstractQuartzJob implements Job {
+public abstract class AbstractQuartzJob implements org.quartz.Job {
     private static final Logger log = LoggerFactory.getLogger(AbstractQuartzJob.class);
 
     /**
@@ -33,17 +32,17 @@ public abstract class AbstractQuartzJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        SysJob sysJob = new SysJob();
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConst.TASK_PROPERTIES), sysJob);
+        Job job = new Job();
+        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConst.TASK_PROPERTIES), job);
         try {
-            before(context, sysJob);
-            if (sysJob != null) {
-                doExecute(context, sysJob);
+            before(context, job);
+            if (job != null) {
+                doExecute(context, job);
             }
-            after(context, sysJob, null);
+            after(context, job, null);
         } catch (Exception e) {
             log.error("任务执行异常  - ：", e);
-            after(context, sysJob, e);
+            after(context, job, e);
         }
     }
 
@@ -51,9 +50,9 @@ public abstract class AbstractQuartzJob implements Job {
      * 执行前
      *
      * @param context 工作执行上下文对象
-     * @param sysJob  系统计划任务
+     * @param job  系统计划任务
      */
-    protected void before(JobExecutionContext context, SysJob sysJob) {
+    protected void before(JobExecutionContext context, Job job) {
         threadLocal.set(new Date());
     }
 
@@ -61,41 +60,41 @@ public abstract class AbstractQuartzJob implements Job {
      * 执行后
      *
      * @param context 工作执行上下文对象
-     * @param sysJob  系统计划任务
+     * @param job  系统计划任务
      */
-    protected void after(JobExecutionContext context, SysJob sysJob, Exception e) {
+    protected void after(JobExecutionContext context, Job job, Exception e) {
         Date startTime = threadLocal.get();
         threadLocal.remove();
 
-        final SysJobLog sysJobLog = new SysJobLog();
-        sysJobLog.setJobLogId(IdGenerate.nextId());
-        sysJobLog.setJobId(sysJob.getJobId());
-        sysJobLog.setJobName(sysJob.getJobName());
-        sysJobLog.setJobGroup(sysJob.getJobGroup());
-        sysJobLog.setInvokeTarget(sysJob.getInvokeTarget());
-        sysJobLog.setStartTime(startTime);
-        sysJobLog.setStopTime(new Date());
-        long runMs = sysJobLog.getStopTime().getTime() - sysJobLog.getStartTime().getTime();
-        sysJobLog.setJobMessage(sysJobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
+        final JobLog jobLog = new JobLog();
+        jobLog.setJobLogId(IdGenerate.nextId());
+        jobLog.setJobId(job.getJobId());
+        jobLog.setJobName(job.getJobName());
+        jobLog.setJobGroup(job.getJobGroup());
+        jobLog.setInvokeTarget(job.getInvokeTarget());
+        jobLog.setStartTime(startTime);
+        jobLog.setStopTime(new Date());
+        long runMs = jobLog.getStopTime().getTime() - jobLog.getStartTime().getTime();
+        jobLog.setJobMessage(jobLog.getJobName() + " 总共耗时：" + runMs + "毫秒");
         if (e != null) {
-            sysJobLog.setStatus("1"); // 失败
+            jobLog.setStatus("1"); // 失败
 
             String errorMsg = StringUtils.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
-            sysJobLog.setExceptionInfo(errorMsg);
+            jobLog.setExceptionInfo(errorMsg);
         } else {
-            sysJobLog.setStatus("0"); // 成功
+            jobLog.setStatus("0"); // 成功
         }
 
         // 写入数据库当中
-        SpringUtil.getBean(SysJobLogService.class).addJobLog(sysJobLog);
+        SpringUtil.getBean(JobLogService.class).addJobLog(jobLog);
     }
 
     /**
      * 执行方法，由子类重载
      *
      * @param context 工作执行上下文对象
-     * @param sysJob  系统计划任务
+     * @param job  系统计划任务
      * @throws Exception 执行过程中的异常
      */
-    protected abstract void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception;
+    protected abstract void doExecute(JobExecutionContext context, Job job) throws Exception;
 }

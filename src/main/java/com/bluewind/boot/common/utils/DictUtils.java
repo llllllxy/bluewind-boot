@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.utils;
 
-import com.bluewind.boot.module.sys.sysbasedict.mapper.SysBaseDictMapper;
+import com.bluewind.boot.module.system.basedict.mapper.BaseDictMapper;
 import com.bluewind.boot.common.utils.spring.SpringUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -21,14 +21,14 @@ import java.util.Map;
 public class DictUtils {
     final static Logger logger = LoggerFactory.getLogger(DictUtils.class);
 
-    private static SysBaseDictMapper sysBaseDictMapper;
+    private static BaseDictMapper baseDictMapper;
 
-    private static SysBaseDictMapper getBaseDictService() {
-        if (sysBaseDictMapper == null) {
-            Object bean = SpringUtil.getBean("sysBaseDictMapper");
-            sysBaseDictMapper = (SysBaseDictMapper) bean;
+    private static BaseDictMapper getBaseDictService() {
+        if (baseDictMapper == null) {
+            Object bean = SpringUtil.getBean("baseDictMapper");
+            baseDictMapper = (BaseDictMapper) bean;
         }
-        return sysBaseDictMapper;
+        return baseDictMapper;
     }
 
     /**

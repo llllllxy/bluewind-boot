@@ -35,7 +35,7 @@
                         <div style="height: 100px;width: 100px;position: relative;">
                             <input type="file" accept="image/*" id="pic-input1"
                                    style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
-                            <img th:src="${sysConfig.websiteIcon}" alt="" id="pic-img1"
+                            <img th:src="${config.websiteIcon}" alt="" id="pic-img1"
                                  style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
                         </div>
                         <tip>浏览器tab栏的图标，一般为.ico文件</tip>
@@ -95,7 +95,7 @@
                         <div style="height: 100px;width: 100px;position: relative;">
                             <input type="file" accept="image/*" id="pic-input"
                                    style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
-                            <img th:src="${sysConfig.systemLogo}" alt="" id="pic-img"
+                            <img th:src="${config.systemLogo}" alt="" id="pic-img"
                                  style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         <div style="height: 100px;width: 200px;position: relative;">
                             <input type="file" accept="image/*" id="pic-input2"
                                    style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
-                            <img th:src="${sysConfig.loginBackImg}" alt="" id="pic-img2"
+                            <img th:src="${config.loginBackImg}" alt="" id="pic-img2"
                                  style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
                         </div>
                     </div>
@@ -134,7 +134,7 @@
         var form = layui.form,
             layer = layui.layer;
 
-        form.val("formDemo", [[${sysConfig}]]);
+        form.val("formDemo", [[${config}]]);
 
         $('#pic-input').change(function () {
             var formData = new FormData();

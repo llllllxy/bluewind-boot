@@ -30,22 +30,22 @@
     <div class="layui-form-item">
         <label class="layui-form-label">KEY：</label>
         <div class="layui-input-block"><!-- 加上 style="border:none;" 是为了隐藏input输入框的边框-->
-            <input type="text" name="itfcKey" th:value="${sysItfcKey.itfcKey}" readonly="readonly" class="layui-input" style="border:none;">
+            <input type="text" name="itfcKey" th:value="${itfcKey.itfcKey}" readonly="readonly" class="layui-input" style="border:none;">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <input type="hidden" name="id" th:value="${sysItfcKey.id}">
+        <input type="hidden" name="id" th:value="${itfcKey.id}">
         <label class="layui-form-label required">使用方：</label>
         <div class="layui-input-block">
-            <input type="text" name="owner" lay-verify="required" lay-reqtext="使用方不能为空" th:value="${sysItfcKey.owner}"
+            <input type="text" name="owner" lay-verify="required" lay-reqtext="使用方不能为空" th:value="${itfcKey.owner}"
                    placeholder="请输入使用方，公司或者个人" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">有效期：</label>
         <div class="layui-input-block">
-            <input type="text" name="validPeriod" id="validPeriod" lay-verify="required" lay-reqtext="有效期不能为空" th:value="${sysItfcKey.validPeriod}"
+            <input type="text" name="validPeriod" id="validPeriod" lay-verify="required" lay-reqtext="有效期不能为空" th:value="${itfcKey.validPeriod}"
                    placeholder="请输入有效期" value="" class="layui-input">
             <i class="layui-icon layui-icon-date"></i>
             <tip>此key在此之前可用</tip>
@@ -55,7 +55,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述：</label>
         <div class="layui-input-block">
-            <textarea name="descript" class="layui-textarea" placeholder="请输入描述" th:text="${sysItfcKey.descript}"></textarea>
+            <textarea name="descript" class="layui-textarea" placeholder="请输入描述" th:text="${itfcKey.descript}"></textarea>
         </div>
     </div>
 

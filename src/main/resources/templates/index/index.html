@@ -65,11 +65,11 @@
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
-                <li class="layui-nav-item" lay-unselect th:if="${not #strings.isEmpty(sysUserInfo.avatar)}">
-                    <img class="avatar-index" th:src="${sysUserInfo.avatar}">
+                <li class="layui-nav-item" lay-unselect th:if="${not #strings.isEmpty(userInfo.avatar)}">
+                    <img class="avatar-index" th:src="${userInfo.avatar}">
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;" th:text="${sysUserInfo.account}"></a>
+                    <a href="javascript:;" th:text="${userInfo.account}"></a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" layuimini-content-href="/admin/userInfo" data-title="基本资料" id="userInfo"
@@ -145,7 +145,7 @@
     <form class="layui-form" action="" lay-filter="formLock">
         <div class="admin-header-lock" id="lock-box">
             <div class="admin-header-lock-img">
-                <img th:if="${not #strings.isEmpty(sysUserInfo.avatar)}" th:src="${sysUserInfo.avatar}"/>
+                <img th:if="${not #strings.isEmpty(userInfo.avatar)}" th:src="${userInfo.avatar}"/>
             </div>
             <div class="input_btn">
                 <input type="text" class="layui-input admin-header-lock-input" placeholder="请输入登录密码" name="password"
@@ -226,7 +226,7 @@
             var data = res.field;
 
             // Thymeleaf在js中直接获取model中的值
-            let account = [[${sysUserInfo.account}]];
+            let account = [[${userInfo.account}]];
             let password = md5(data.password)
 
             if (!data.password) {

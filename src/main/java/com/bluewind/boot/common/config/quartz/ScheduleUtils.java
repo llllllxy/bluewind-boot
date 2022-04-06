@@ -2,7 +2,7 @@ package com.bluewind.boot.common.config.quartz;
 
 import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
-import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
+import com.bluewind.boot.module.system.job.entity.Job;
 import org.quartz.*;
 
 /**
@@ -15,11 +15,11 @@ public class ScheduleUtils {
     /**
      * 得到quartz任务类
      *
-     * @param sysJob 执行计划
+     * @param job 执行计划
      * @return 具体执行任务类
      */
-    private static Class<? extends Job> getQuartzJobClass(SysJob sysJob) {
-        boolean isConcurrent = "0".equals(sysJob.getConcurrent());
+    private static Class<? extends org.quartz.Job> getQuartzJobClass(com.bluewind.boot.module.system.job.entity.Job job) {
+        boolean isConcurrent = "0".equals(job.getConcurrent());
         return isConcurrent ? QuartzJobExecution.class : QuartzDisallowConcurrentExecution.class;
     }
 
@@ -40,8 +40,8 @@ public class ScheduleUtils {
     /**
      * 创建定时任务
      */
-    public static void createScheduleJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException {
-        Class<? extends Job> jobClass = getQuartzJobClass(job);
+    public static void createScheduleJob(Scheduler scheduler, Job job) throws SchedulerException, TaskException {
+        Class<? extends org.quartz.Job> jobClass = getQuartzJobClass(job);
         // 构建job信息
         String jobId = job.getJobId();
         String jobGroup = job.getJobGroup();
@@ -75,7 +75,7 @@ public class ScheduleUtils {
     /**
      * 设置定时任务策略
      */
-    public static CronScheduleBuilder handleCronScheduleMisfirePolicy(SysJob job, CronScheduleBuilder cb)
+    public static CronScheduleBuilder handleCronScheduleMisfirePolicy(Job job, CronScheduleBuilder cb)
             throws TaskException {
         switch (job.getMisfirePolicy()) {
             case ScheduleConst.MISFIRE_DEFAULT:
@@ -96,14 +96,14 @@ public class ScheduleUtils {
     /**
      * 执行一次
      */
-    public static void executeonceScheduler(Scheduler scheduler, SysJob sysJob) throws SchedulerException, TaskException {
+    public static void executeonceScheduler(Scheduler scheduler, Job job) throws SchedulerException, TaskException {
         try {
             JobDataMap dataMap = new JobDataMap();
-            dataMap.put(ScheduleConst.TASK_PROPERTIES, sysJob);
-            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            dataMap.put(ScheduleConst.TASK_PROPERTIES, job);
+            JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
             // 如果不存在，则新建一个quartz实例
             if (!scheduler.checkExists(jobKey)) {
-                createScheduleJob(scheduler, sysJob);
+                createScheduleJob(scheduler, job);
                 scheduler.triggerJob(jobKey, dataMap);
             } else {
                 scheduler.triggerJob(jobKey, dataMap);
@@ -117,9 +117,9 @@ public class ScheduleUtils {
     /**
      * 删除定时任务
      */
-    public static void deleteSchedulerJob(Scheduler scheduler, SysJob sysJob) throws SchedulerException {
+    public static void deleteSchedulerJob(Scheduler scheduler, Job job) throws SchedulerException {
         try {
-            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
             if (!scheduler.checkExists(jobKey)) {
                 return;
             }
@@ -133,12 +133,12 @@ public class ScheduleUtils {
     /**
      * 暂停任务
      */
-    public static void pauseSchedulerJob(Scheduler scheduler, SysJob sysJob) throws SchedulerException, TaskException {
+    public static void pauseSchedulerJob(Scheduler scheduler, Job job) throws SchedulerException, TaskException {
         try {
-            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
             if (!scheduler.checkExists(jobKey)) {
                 // 任务之前不存在，则新建，新建的同时，createQuartzTask方法内会暂停任务，所以这里无需再次操作
-                createScheduleJob(scheduler, sysJob);
+                createScheduleJob(scheduler, job);
                 return;
             }
             scheduler.pauseJob(jobKey);
@@ -151,12 +151,12 @@ public class ScheduleUtils {
     /**
      * 恢复任务
      */
-    public static void resumeSchedulerJob(Scheduler scheduler, SysJob sysJob) throws SchedulerException, TaskException {
+    public static void resumeSchedulerJob(Scheduler scheduler, com.bluewind.boot.module.system.job.entity.Job job) throws SchedulerException, TaskException {
         try {
-            JobKey jobKey = getJobKey(sysJob.getJobId(), sysJob.getJobGroup());
+            JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
             if (!scheduler.checkExists(jobKey)) {
                 // 任务之前不存在，则新建，新建的同时，createQuartzTask方法内会自动开始任务，所以这里无需再次操作
-                createScheduleJob(scheduler, sysJob);
+                createScheduleJob(scheduler, job);
                 return;
             }
             scheduler.resumeJob(jobKey);
@@ -172,7 +172,7 @@ public class ScheduleUtils {
      * @param job       任务对象
      * @param scheduler 任务调度器
      */
-    public static void updateSchedulerJob(Scheduler scheduler, SysJob job) throws SchedulerException, TaskException {
+    public static void updateSchedulerJob(Scheduler scheduler, com.bluewind.boot.module.system.job.entity.Job job) throws SchedulerException, TaskException {
         // 判断是否存在
         JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
         if (scheduler.checkExists(jobKey)) {

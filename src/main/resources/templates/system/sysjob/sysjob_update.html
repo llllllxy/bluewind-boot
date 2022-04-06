@@ -20,18 +20,18 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">任务名称</label>
         <div class="layui-input-block">
-            <input type="hidden" name="jobId" th:value="${sysJob.jobId}">
-            <input type="hidden" name="status" th:value="${sysJob.status}">
+            <input type="hidden" name="jobId" th:value="${job.jobId}">
+            <input type="hidden" name="status" th:value="${job.status}">
             <input type="text" name="jobName" lay-verify="required" lay-reqtext="任务名不能为空"
-                   placeholder="请输入任务名称" th:value="${sysJob.jobName}" class="layui-input">
+                   placeholder="请输入任务名称" th:value="${job.jobName}" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">调用分组</label>
         <div class="layui-input-block">
-            <select name="jobGroup" id="jobGroup" lay-filter="jobGroup" th:value="${sysJob.jobGroup}">
+            <select name="jobGroup" id="jobGroup" lay-filter="jobGroup" th:value="${job.jobGroup}">
                 <option th:each="item: ${sysJobGroupDict}" th:text="${item.name}" th:value="${item.code}"
-                        th:selected="(${sysJob.status} == ${item.code})"></option>
+                        th:selected="(${job.status} == ${item.code})"></option>
             </select>
         </div>
     </div>
@@ -39,14 +39,14 @@
         <label class="layui-form-label required">调用方法<i class="layui-icon layui-icon-about" id="layui-icon-about"></i></label>
         <div class="layui-input-block">
             <input type="text" name="invokeTarget" lay-verify="required" lay-reqtext="请输入调用方法"
-                   placeholder="请输入调用方法" th:value="${sysJob.invokeTarget}" class="layui-input">
+                   placeholder="请输入调用方法" th:value="${job.invokeTarget}" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">cron表达式</label>
         <div class="layui-input-inline">
             <input type="text" name="cronExpression" lay-verify="required" lay-reqtext="请输入cron表达式"
-                   placeholder="请输入cron表达式" th:value="${sysJob.cronExpression}" class="layui-input">
+                   placeholder="请输入cron表达式" th:value="${job.cronExpression}" class="layui-input">
         </div>
         <div class="layui-form-mid layui-word-aux">
             <button class="layui-btn layui-btn-xs layui-btn-normal" id="generateCron">cron生成器</button>
@@ -55,11 +55,11 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label required">是否并发执行</label>
-        <div class="layui-input-block" th:if="${sysJob.concurrent == '0'}">
+        <div class="layui-input-block" th:if="${job.concurrent == '0'}">
             <input type="radio" name="concurrent" value="0" title="允许" checked>
             <input type="radio" name="concurrent" value="1" title="禁止">
         </div>
-        <div class="layui-input-block" th:if="${sysJob.concurrent == '1'}">
+        <div class="layui-input-block" th:if="${job.concurrent == '1'}">
             <input type="radio" name="concurrent" value="0" title="允许">
             <input type="radio" name="concurrent" value="1" title="禁止" checked>
         </div>
@@ -67,17 +67,17 @@
 
     <div class="layui-form-item">
         <label class="layui-form-label required">错误策略</label>
-        <div class="layui-input-block" th:if="${sysJob.misfirePolicy == '1'}">
+        <div class="layui-input-block" th:if="${job.misfirePolicy == '1'}">
             <input type="radio" name="misfirePolicy" value="1" title="立即执行" checked>
             <input type="radio" name="misfirePolicy" value="2" title="执行一次">
             <input type="radio" name="misfirePolicy" value="3" title="放弃执行">
         </div>
-        <div class="layui-input-block" th:if="${sysJob.misfirePolicy == '2'}">
+        <div class="layui-input-block" th:if="${job.misfirePolicy == '2'}">
             <input type="radio" name="misfirePolicy" value="1" title="立即执行">
             <input type="radio" name="misfirePolicy" value="2" title="执行一次" checked>
             <input type="radio" name="misfirePolicy" value="3" title="放弃执行">
         </div>
-        <div class="layui-input-block" th:if="${sysJob.misfirePolicy == '3'}">
+        <div class="layui-input-block" th:if="${job.misfirePolicy == '3'}">
             <input type="radio" name="misfirePolicy" value="1" title="立即执行">
             <input type="radio" name="misfirePolicy" value="2" title="执行一次">
             <input type="radio" name="misfirePolicy" value="3" title="放弃执行" checked>

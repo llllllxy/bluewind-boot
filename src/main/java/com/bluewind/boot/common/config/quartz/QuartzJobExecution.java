@@ -1,6 +1,6 @@
 package com.bluewind.boot.common.config.quartz;
 
-import com.bluewind.boot.module.sys.sysjob.entity.SysJob;
+import com.bluewind.boot.module.system.job.entity.Job;
 import org.quartz.JobExecutionContext;
 
 
@@ -11,7 +11,7 @@ import org.quartz.JobExecutionContext;
 public class QuartzJobExecution extends AbstractQuartzJob {
 
     @Override
-    protected void doExecute(JobExecutionContext context, SysJob sysJob) throws Exception {
-        JobInvokeUtil.invokeMethod(sysJob);
+    protected void doExecute(JobExecutionContext context, Job job) throws Exception {
+        JobInvokeUtil.invokeMethod(job);
     }
 }

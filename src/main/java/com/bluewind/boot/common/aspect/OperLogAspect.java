@@ -3,9 +3,8 @@ package com.bluewind.boot.common.aspect;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.network.IPUtils;
 import com.bluewind.boot.common.config.security.SecurityUtil;
-import com.bluewind.boot.module.sys.sysoperlog.entity.SysOperLog;
-import com.bluewind.boot.module.sys.sysoperlog.service.SysOperLogService;
-import com.bluewind.boot.common.annotation.OperLog;
+import com.bluewind.boot.module.system.operlog.entity.OperLog;
+import com.bluewind.boot.module.system.operlog.service.OperLogService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -28,14 +27,14 @@ import java.lang.reflect.Method;
 public class OperLogAspect {
 
     @Autowired
-    SysOperLogService sysOperLogService;
+    OperLogService operLogService;
 
     /**
      * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
      */
     @Around("@annotation(com.bluewind.boot.common.annotation.OperLog)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        SysOperLog sysOperLog = new SysOperLog();
+        OperLog operLog = new OperLog();
         long start = System.currentTimeMillis();
 
         // 获取RequestAttributes
@@ -48,15 +47,15 @@ public class OperLogAspect {
         // 获取切入点所在的方法
         Method method = methodSignature.getMethod();
         // 获取方法上的注解
-        OperLog opLog = method.getAnnotation(OperLog.class);
+        com.bluewind.boot.common.annotation.OperLog opLog = method.getAnnotation(com.bluewind.boot.common.annotation.OperLog.class);
 
         if (opLog != null) {
             String operModul = opLog.operModul();
             String operType = opLog.operType();
             String operDesc = opLog.operDesc();
-            sysOperLog.setModel(operModul);
-            sysOperLog.setType(operType);
-            sysOperLog.setDescript(operDesc);
+            operLog.setModel(operModul);
+            operLog.setType(operType);
+            operLog.setDescript(operDesc);
         }
 
         // 获取请求的类名（com.liuxingyu.industry.sys.sysbasedict.controller.SysBaseDictController）
@@ -66,22 +65,22 @@ public class OperLogAspect {
         String methodName = method.getName();
         methodName = className + "." + methodName;
         // 请求方法
-        sysOperLog.setMethod(methodName);
+        operLog.setMethod(methodName);
         // 请求Uri
-        sysOperLog.setUrl(request.getRequestURI()); // 请求Uri
+        operLog.setUrl(request.getRequestURI()); // 请求Uri
         // 请求ip
-        sysOperLog.setIp(IPUtils.getIpAddress(request));
+        operLog.setIp(IPUtils.getIpAddress(request));
         // 操作人
-        sysOperLog.setCreateUser(SecurityUtil.getSysUserId());
+        operLog.setCreateUser(SecurityUtil.getSysUserId());
 
         Object o = joinPoint.proceed();
 
         long end = System.currentTimeMillis();
         // 获取方法从开始到结束的时长
-        sysOperLog.setSpendTime((int) (end - start));
-        sysOperLog.setLogId(IdGenerate.nextId());
+        operLog.setSpendTime((int) (end - start));
+        operLog.setLogId(IdGenerate.nextId());
         // 插入sys_oper_log表
-        sysOperLogService.saveOperLog(sysOperLog);
+        operLogService.saveOperLog(operLog);
 
         return o;
     }

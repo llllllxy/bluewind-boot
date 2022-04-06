@@ -19,14 +19,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">名称</label>
         <div class="layui-input-block">
-            <input type="hidden" name="roleId" th:value="${sysRoleInfo.roleId}">
-            <input type="text" name="name" lay-verify="required|name" lay-reqtext="请输入角色名称" placeholder="请输入角色名称" th:value="${sysRoleInfo.name}" class="layui-input">
+            <input type="hidden" name="roleId" th:value="${roleInfo.roleId}">
+            <input type="text" name="name" lay-verify="required|name" lay-reqtext="请输入角色名称" placeholder="请输入角色名称" th:value="${roleInfo.name}" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">标识</label>
         <div class="layui-input-block">
-            <input type="text" name="sign" lay-verify="required|letter" lay-reqtext="请输入角色标识" placeholder="请输入角色标识" th:value="${sysRoleInfo.sign}" class="layui-input">
+            <input type="text" name="sign" lay-verify="required|letter" lay-reqtext="请输入角色标识" placeholder="请输入角色标识" th:value="${roleInfo.sign}" class="layui-input">
             <tip>角色标识作为唯一标识，请输入全英文</tip>
         </div>
     </div>
@@ -34,7 +34,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block">
-            <textarea name="descript" class="layui-textarea" placeholder="请输入描述信息" th:text="${sysRoleInfo.descript}"></textarea>
+            <textarea name="descript" class="layui-textarea" placeholder="请输入描述信息" th:text="${roleInfo.descript}"></textarea>
         </div>
     </div>
 

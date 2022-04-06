@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewind.boot.module.system.roleinfo.mapper.RoleInfoMapper">
+
+    <resultMap id="SysRoleInfo" type="com.bluewind.boot.module.system.roleinfo.entity.RoleInfo">
+        <id column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="sign" jdbcType="VARCHAR" property="sign"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
+
+    <select id="listXmSelectPojo" resultType="com.bluewind.boot.module.system.roleinfo.entity.XmSelect" parameterType="string">
+        SELECT
+            a.role_id AS `value`,
+            a.name,
+            ( CASE WHEN b.user_id IS NULL THEN 0 ELSE 1 END ) AS selected
+        FROM
+            sys_role_info a
+            LEFT JOIN sys_user_role b ON ( a.role_id = b.role_id AND b.user_id = #{userId} )
+        WHERE
+            a.del_flag = '0'
+            AND a.status = '0'
+    </select>
+
+    <!--查询所有角色-->
+    <select id="getSysRoleInfoList" resultMap="SysRoleInfo" parameterType="map">
+        select * from sys_role_info
+        where 1=1
+        and del_flag = 0
+        <if test="sign != null and sign != ''">
+            and sign like CONCAT('%',#{sign},'%')
+        </if>
+        <if test="name != null and name != ''">
+            and name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="status != null and status != ''">
+            and status = #{status}
+        </if>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by role_id asc
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--新增一个角色-->
+    <insert id="doAdd" parameterType="com.bluewind.boot.module.system.roleinfo.entity.RoleInfo">
+        insert into sys_role_info (role_id,`name`,sign,descript,status,del_flag,create_user)
+        values (
+            #{roleId},
+            #{name},
+            #{sign},
+            #{descript},
+            #{status},
+            #{delFlag},
+            #{createUser}
+        )
+    </insert>
+
+    <!--逻辑删除一个角色-->
+    <update id="delete" parameterType="java.lang.String">
+        update sys_role_info set del_flag = '1' where role_id = #{_parameter}
+    </update>
+
+    <!--禁用一个角色-->
+    <update id="forbid" parameterType="java.lang.String">
+        update sys_role_info set status = '1' where role_id = #{_parameter}
+    </update>
+
+    <!--启用一个角色-->
+    <update id="enable" parameterType="java.lang.String">
+        update sys_role_info set status = '0' where role_id = #{_parameter}
+    </update>
+
+    <!--通过角色id获取一个角色-->
+    <select id="getOneRoleById" resultMap="SysRoleInfo" parameterType="java.lang.String">
+        select * from sys_role_info where role_id = #{_parameter}
+    </select>
+
+    <!--更新一个角色-->
+    <update id="doUpdate" parameterType="com.bluewind.boot.module.system.roleinfo.entity.RoleInfo">
+        update sys_role_info
+        set name = #{name},
+        sign = #{sign},
+        descript = #{descript}
+        where role_id = #{roleId}
+    </update>
+</mapper>
