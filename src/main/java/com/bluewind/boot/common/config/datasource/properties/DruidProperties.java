@@ -35,6 +35,9 @@ public class DruidProperties {
     @Value("${spring.datasource.druid.minEvictableIdleTimeMillis}")
     private int minEvictableIdleTimeMillis;
 
+    @Value("${spring.datasource.druid.maxEvictableIdleTimeMillis}")
+    private int maxEvictableIdleTimeMillis;
+
     @Value("${spring.datasource.druid.validationQuery}")
     private String validationQuery;
 
@@ -74,7 +77,7 @@ public class DruidProperties {
              * 配置一个连接在池中最小、最大生存的时间, 单位是毫秒
              */
             dataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-            // dataSource.setMaxEvictableIdleTimeMillis(maxEvictableIdleTimeMillis);
+            dataSource.setMaxEvictableIdleTimeMillis(maxEvictableIdleTimeMillis);
 
             /*
              * 用来检测连接是否有效的sql, 要求是一个查询语句, 常用select 'x'
