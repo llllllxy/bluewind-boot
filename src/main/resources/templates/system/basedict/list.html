@@ -104,7 +104,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysdict/getSysDictList',
+            url: Util.ctx + 'dict/list',
             method: 'post',
             where: {sortName:'dict_id', sortOrder:'asc'},
             toolbar: '#toolbarDemo',
@@ -199,7 +199,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content:  Util.ctx + 'sysdict/add',
+                    content:  Util.ctx + 'dict/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -224,7 +224,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content:  Util.ctx + 'sysdict/forUpdate/' + data.dictId,
+                    content:  Util.ctx + 'dict/forUpdate/' + data.dictId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -238,7 +238,7 @@
                 layer.confirm('确定删除该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "sysdict/delete/" + data.dictId,
+                        url:  Util.ctx + "dict/delete/" + data.dictId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -257,7 +257,7 @@
             } else if (obj.event === 'setting') {
                 // 打开新的窗口
                 miniTab.openNewTabByIframe({
-                    href: Util.ctx + 'sysdict/forSetting/' + data.dictCode,
+                    href: Util.ctx + 'dict/forSetting/' + data.dictCode,
                     title: "数据字典配置",
                 });
                 return false;
@@ -265,7 +265,7 @@
                 layer.confirm('确定禁用该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "sysdict/forbid/" + data.dictId,
+                        url:  Util.ctx + "dict/forbid/" + data.dictId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -285,7 +285,7 @@
                 layer.confirm('确定启用该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "sysdict/enable/" + data.dictId,
+                        url:  Util.ctx + "dict/enable/" + data.dictId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

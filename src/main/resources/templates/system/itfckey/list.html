@@ -114,7 +114,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysitfckey/list',
+            url: Util.ctx + 'itfckey/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName: 'id', sortOrder: 'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -214,7 +214,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysitfckey/forAdd',
+                    content: Util.ctx + 'itfckey/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -239,7 +239,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysitfckey/forUpdate/' + data.id,
+                    content: Util.ctx + 'itfckey/forUpdate/' + data.id,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -253,7 +253,7 @@
                 layer.confirm('确定删除该密钥吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysitfckey/delete/" + data.id + "/" + data.itfcKey,
+                        url: Util.ctx + "itfckey/delete/" + data.id + "/" + data.itfcKey,
                         success: function (res) {
                             // obj.del(); 删除该行
                             if (res.code === 0) {
@@ -277,7 +277,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + '/sysitfckey/forAuthorize/' + data.id,
+                    content: Util.ctx + '/itfckey/forAuthorize/' + data.id,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -291,7 +291,7 @@
                 layer.confirm('确定停用该密钥吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "/sysitfckey/forbid/" + data.id + "/" + data.itfcKey,
+                        url: Util.ctx + "/itfckey/forbid/" + data.id + "/" + data.itfcKey,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -308,7 +308,7 @@
                 layer.confirm('确定启用该密钥吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "/sysitfckey/enable/" + data.id + "/" + data.itfcKey + "/" + data.validPeriod,
+                        url: Util.ctx + "/itfckey/enable/" + data.id + "/" + data.itfcKey + "/" + data.validPeriod,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

@@ -29,7 +29,7 @@ import java.util.*;
  * @description itfc-key管理
  **/
 @Controller
-@RequestMapping("/sysitfckey")
+@RequestMapping("/itfckey")
 @Api(value = "服务密钥管理控制器", tags = "服务密钥管理控制器")
 public class ItfcKeyController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(ItfcKeyController.class);

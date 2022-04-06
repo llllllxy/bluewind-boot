@@ -25,7 +25,7 @@ import java.util.Map;
  * @description itfc-permission管理
  **/
 @Controller
-@RequestMapping("/sysitfcpermission")
+@RequestMapping("/itfcpermission")
 @Api(value = "itfc服务权限管理控制器", tags = "itfc服务权限管理控制器")
 public class ItfcPermissionController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(ItfcPermissionController.class);

@@ -110,7 +110,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysloginlog/list',
+            url: Util.ctx + 'loginlog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName:'create_time', sortOrder:'desc'}, // 初始化时带的参数
             toolbar: '#toolbarLeft',
@@ -204,7 +204,7 @@
                 layer.confirm('确定清空登陆日志吗？', function (index) {
                     layer.close(index);
                     Util.post({
-                        url: Util.ctx + "sysloginlog/emptyLog",
+                        url: Util.ctx + "loginlog/emptyLog",
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, res.message, function () {
@@ -232,7 +232,7 @@
                 layer.confirm('确定批量删除登陆日志吗？', function (index) {
                     layer.close(index);
                     Util.post({
-                        url: Util.ctx + "sysloginlog/batchDelete",
+                        url: Util.ctx + "loginlog/batchDelete",
                         contentType: "application/json",
                         data: JSON.stringify(logIds),
                         success: function (res) {

@@ -24,7 +24,7 @@ import java.util.Map;
  * @date 2021-02-19-12:47
  **/
 @Controller
-@RequestMapping("/sysloginlog")
+@RequestMapping("/loginlog")
 public class LoginLogController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(LoginLogController.class);
 

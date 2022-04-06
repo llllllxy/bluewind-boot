@@ -25,7 +25,7 @@ import java.util.Map;
  * @description
  **/
 @Controller
-@RequestMapping("/sysoperlog")
+@RequestMapping("/operlog")
 public class OperLogController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(OperLogController.class);
 

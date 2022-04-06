@@ -84,7 +84,7 @@
         var cascader;
         var index = layer.load(0, {shade: 0.1});
         Util.get({
-            url: Util.ctx + 'sysdeptinfo/list',
+            url: Util.ctx + 'deptinfo/list',
             success: function (res) {
                 layer.close(index);
 
@@ -126,7 +126,7 @@
 
             var index = layer.load(0, {shade: 0.1});
             Util.post({
-                url: Util.ctx + "syspermission/doAdd",
+                url: Util.ctx + "deptinfo/doAdd",
                 data: data,
                 success: function (res) {
                     layer.close(index);

@@ -31,7 +31,7 @@ import java.util.Map;
  * @date 2021-08-27-16:38
  **/
 @Controller
-@RequestMapping("/sysjob")
+@RequestMapping("/job")
 public class JobController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(JobController.class);
 

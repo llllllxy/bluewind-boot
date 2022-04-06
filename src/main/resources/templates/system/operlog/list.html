@@ -103,7 +103,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysoperlog/list',
+            url: Util.ctx + 'operlog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName: 'create_time', sortOrder: 'desc'},
             toolbar: '#toolbarLeft',
@@ -202,7 +202,7 @@
                 layer.confirm('确定清空操作日志吗？', function (index) {
                     layer.close(index);
                     Util.post({
-                        url: Util.ctx + "sysoperlog/emptyLog",
+                        url: Util.ctx + "operlog/emptyLog",
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, res.message, function () {
@@ -230,7 +230,7 @@
                 layer.confirm('确定批量删除操作日志吗？', function (index) {
                     layer.close(index);
                     Util.post({
-                        url: Util.ctx + "sysoperlog/batchDelete",
+                        url: Util.ctx + "operlog/batchDelete",
                         contentType: "application/json",
                         data: JSON.stringify(logIds),
                         success: function (res) {

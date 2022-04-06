@@ -60,7 +60,7 @@
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
             Util.get({
-                url: Util.ctx + 'sysuser/listRoleForSelect/' + $('input[name="userId"]').val(),
+                url: Util.ctx + 'userinfo/listRoleForSelect/' + $('input[name="userId"]').val(),
                 success: function (res) {
                     layer.close(index);
                     demo1 = xmSelect.render({
@@ -90,7 +90,7 @@
             var index = layer.load(0, {shade: 0.1});
 
             Util.get({
-                url: Util.ctx + 'sysuser/doAuthorize/' + data.userId + '/' + selectArr,
+                url: Util.ctx + 'userinfo/doAuthorize/' + data.userId + '/' + selectArr,
                 success: function (res) {
                     layer.close(index);
                     if (0 === res.code) {

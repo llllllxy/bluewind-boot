@@ -63,7 +63,7 @@
 
         var el = eleTree({
             el: '#test1',
-            url: Util.ctx + 'sysitfckey/listPermissionForTree/' + $('input[name="itfcKey"]').val(),
+            url: Util.ctx + 'itfckey/listPermissionForTree/' + $('input[name="itfcKey"]').val(),
             method: 'get',      // 接口http请求类型
             highlightCurrent: true,
             defaultExpandAll: false,
@@ -159,7 +159,7 @@
             var data = res.field;
             var index = layer.load(0, {shade: 0.1});
             Util.post({
-                url:  Util.ctx + 'sysitfckey/authorize',
+                url:  Util.ctx + 'itfckey/authorize',
                 data: {
                     "itfcKey": data.itfcKey,
                     "permIds": permIds.toString()

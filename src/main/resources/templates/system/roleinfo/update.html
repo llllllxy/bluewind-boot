@@ -59,7 +59,7 @@
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
-                    url: Util.ctx + "sysrole/doUpdate",
+                    url: Util.ctx + "roleinfo/doUpdate",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {

@@ -27,7 +27,7 @@ import java.util.Map;
  * @description 岗位信息管理
  **/
 @Controller
-@RequestMapping("/syspostinfo")
+@RequestMapping("/postinfo")
 public class PostInfoController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(PostInfoController.class);
 

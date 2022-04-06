@@ -21,7 +21,7 @@ import java.util.Map;
  * @description
  **/
 @Controller
-@RequestMapping("/sysdeptinfo")
+@RequestMapping("/deptinfo")
 public class DeptInfoController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(DeptInfoController.class);
 

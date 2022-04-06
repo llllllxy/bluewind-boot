@@ -97,7 +97,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'syspostinfo/list',
+            url: Util.ctx + 'postinfo/list',
             method: 'post',
             where: {sortName:'post_sort', sortOrder:'asc'},
             toolbar: '#toolbarDemo',
@@ -186,7 +186,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'syspostinfo/forAdd',
+                    content: Util.ctx + 'postinfo/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -209,7 +209,7 @@
                 layer.confirm('确定批量删除所选择岗位信息吗？', function (index) {
                     layer.close(index);
                     Util.post({
-                        url: Util.ctx + "syspostinfo/batchDelete",
+                        url: Util.ctx + "postinfo/batchDelete",
                         contentType: "application/json",
                         data: JSON.stringify(postIds),
                         success: function (res) {
@@ -241,7 +241,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'syspostinfo/forUpdate/' + data.postId,
+                    content: Util.ctx + 'postinfo/forUpdate/' + data.postId,
                     end: function (index) {
                         currTable.reload();
                     }
@@ -254,7 +254,7 @@
                 layer.confirm('确定删除该岗位吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "syspostinfo/delete/" + data.postId + "/" + data.postName,
+                        url: Util.ctx + "postinfo/delete/" + data.postId + "/" + data.postName,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

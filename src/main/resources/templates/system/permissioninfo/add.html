@@ -200,7 +200,7 @@
 
         var index = layer.load(0, {shade: 0.1});
         Util.get({
-            url: Util.ctx + 'syspermission/listPermissionByType/' + '1',
+            url: Util.ctx + 'permission/listPermissionByType/' + '1',
             success: function (res) {
                 layer.close(index);
                 demo1 = xmSelect.render({
@@ -239,7 +239,7 @@
 
 
         Util.get({
-            url: Util.ctx + 'syspermission/listPermissionByType/' + '2',
+            url: Util.ctx + 'permission/listPermissionByType/' + '2',
             success: function (res) {
                 demo2 = xmSelect.render({
                     el: '#demo2',
@@ -331,7 +331,7 @@
 
             var index = layer.load(0, {shade: 0.1});
             Util.post({
-                url: Util.ctx + "syspermission/doAdd",
+                url: Util.ctx + "permission/doAdd",
                 data: data,
                 success: function (res) {
                     layer.close(index);

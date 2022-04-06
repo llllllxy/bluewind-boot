@@ -26,7 +26,7 @@ import java.util.Map;
  * @description 业务流水号Controller
  **/
 @Controller
-@RequestMapping("/sysidtable")
+@RequestMapping("/idtable")
 public class IdTableController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(IdTableController.class);
 

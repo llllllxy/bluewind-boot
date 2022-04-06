@@ -55,7 +55,7 @@
             let index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
             Util.post({
-                url: Util.ctx + "sysdict/addDetail",
+                url: Util.ctx + "dict/addDetail",
                 data: data.field,
                 success: function (res) {
                     layer.close(index);

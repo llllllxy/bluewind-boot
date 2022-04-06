@@ -119,7 +119,7 @@
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
-                    url: Util.ctx + "sysjob/update",
+                    url: Util.ctx + "job/update",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
@@ -161,7 +161,7 @@
                 maxmin: true,
                 shadeClose: true,
                 area: ['850px', '570px'],
-                content: Util.ctx + 'sysjob/forCron?cronExpression=' + cronExpression,
+                content: Util.ctx + 'job/forCron?cronExpression=' + cronExpression,
                 end: function (index) {
                     // 重载表格
 

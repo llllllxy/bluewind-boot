@@ -63,7 +63,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysuseronline/list',
+            url: Util.ctx + 'useronline/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName:'sll.id', sortOrder:'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -155,7 +155,7 @@
                 layer.confirm('确定强退该用户吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysuseronline/forceLogout/" + data.session_id,
+                        url: Util.ctx + "useronline/forceLogout/" + data.session_id,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, data.name + '强退成功', function () {

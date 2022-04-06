@@ -33,7 +33,7 @@ import com.bluewind.boot.common.base.BaseController;
  * @description BaseDict枚举公共类
  **/
 @Controller
-@RequestMapping("/sysdict")
+@RequestMapping("/dict")
 @Api(value = "basedict控制器", description = "字典管理")
 public class BaseDictController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(BaseDictController.class);
@@ -48,8 +48,8 @@ public class BaseDictController extends BaseController {
      * @return
      */
     @OperLog(operModul = "数据字典", operType = OperLogConst.LIST_PAGE, operDesc = "分页查询页面初始化")
-    @RequestMapping(value = "/baseDictQureyInit")
-    public String baseDictQureyInit(Model model) {
+    @RequestMapping(value = "/init")
+    public String init(Model model) {
         // 获取下拉栏枚举值
         List<Map<String, String>> baseDictList = DictUtils.getDictList("dict_status");
         model.addAttribute("baseDictList", baseDictList);
@@ -67,8 +67,8 @@ public class BaseDictController extends BaseController {
     @OperLog(operModul = "数据字典", operType = OperLogConst.LIST, operDesc = "分页查询")
     @ApiOperation(value = "查询全部字典信息")
     @ResponseBody
-    @RequestMapping(value = "/getSysDictList", method = RequestMethod.POST)
-    public BaseResult getSysDictList(@RequestParam("limit") Integer pageSize,
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public BaseResult list(@RequestParam("limit") Integer pageSize,
                                      @RequestParam("page") Integer pageNum,
                                      @RequestParam(required = false, defaultValue = "", value = "dictCode") String dictCode,
                                      @RequestParam(required = false, defaultValue = "", value = "name") String name,
@@ -236,8 +236,8 @@ public class BaseDictController extends BaseController {
      */
     @ApiOperation(value = "查询字典明细信息")
     @ResponseBody
-    @RequestMapping(value = "/getSysDictDetailList", method = RequestMethod.POST)
-    public BaseResult getSysDictDetailList(@RequestParam(required = false, defaultValue = "", value = "dictCode") String dictCode) {
+    @RequestMapping(value = "/detailList", method = RequestMethod.POST)
+    public BaseResult detailList(@RequestParam(required = false, defaultValue = "", value = "dictCode") String dictCode) {
 
         Dict dict = new Dict();
         dict.setDictCode(dictCode);

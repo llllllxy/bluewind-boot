@@ -81,7 +81,7 @@
             var index = layer.confirm('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
-                    url: Util.ctx + "sysitfckey/add",
+                    url: Util.ctx + "itfckey/add",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {

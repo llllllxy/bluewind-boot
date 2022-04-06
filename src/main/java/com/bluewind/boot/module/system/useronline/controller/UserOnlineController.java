@@ -23,7 +23,7 @@ import java.util.*;
  * @date 2021-07-24-11:06
  **/
 @Controller
-@RequestMapping("/sysuseronline")
+@RequestMapping("/useronline")
 public class UserOnlineController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(UserOnlineController.class);
 

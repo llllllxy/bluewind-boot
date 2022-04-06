@@ -129,7 +129,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysuser/getSysUserInfoList',
+            url: Util.ctx + 'userinfo/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName:'user_id', sortOrder:'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -243,7 +243,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysuser/add',
+                    content: Util.ctx + 'userinfo/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -262,7 +262,7 @@
                 layer.confirm('确定批量删除用户吗？', function (index) {
                     layer.close(index);
                     Util.post({
-                        url: Util.ctx + "sysuser/batchDelete",
+                        url: Util.ctx + "userinfo/batchDelete",
                         contentType: "application/json",
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -289,7 +289,7 @@
                 // a.click()
 
                 // 改为ajax下载文件，这样方便设置header，适配前后端分离的情况（$.ajax不支持blob类型，所以用原生的）
-                var url = Util.ctx + 'sysuser/downloadPdf';
+                var url = Util.ctx + 'userinfo/downloadPdf';
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);    // 也可以使用POST方式，根据接口
                 xhr.responseType = "blob";    // 返回类型blob
@@ -327,13 +327,13 @@
             } else if (obj.event === 'exportExcel') {
                 console.log("点击导出excel");
                 let a = document.createElement('a');
-                a.href = Util.ctx + 'sysuser/exportExcel';
+                a.href = Util.ctx + 'userinfo/exportExcel';
                 a.click();
                 a.parentNode.removeChild(a);
             } else if (obj.event === 'downloadTemplate') {
                 console.log("点击下载excel模板");
                 let a = document.createElement('a');
-                a.href = Util.ctx + 'sysuser/downloadTemplate';
+                a.href = Util.ctx + 'userinfo/downloadTemplate';
                 a.click();
                 a.parentNode.removeChild(a);
             } else if (obj.event === 'excelUpload') {
@@ -360,7 +360,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysuser/update/' + data.userId,
+                    content: Util.ctx + 'userinfo/update/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -374,7 +374,7 @@
                 layer.confirm('确定删除该用户吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysuser/delete/" + data.userId,
+                        url: Util.ctx + "userinfo/delete/" + data.userId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, res.message, function () {
@@ -398,7 +398,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysuser/authorize/' + data.userId,
+                    content: Util.ctx + 'userinfo/authorize/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -427,7 +427,7 @@
                     var index = layer.load(0, {shade: 0.1});
                     value = md5.MD5('' + value);
                     Util.get({
-                        url: Util.ctx + 'sysuser/updatePassword/' + data.userId + "/" + value,
+                        url: Util.ctx + 'userinfo/updatePassword/' + data.userId + "/" + value,
                         success: function (res) {
                             if (0 === res.code) {
                                 layer.closeAll('dialog');
@@ -472,7 +472,7 @@
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
             Util.upload({
-                url: Util.ctx + 'sysuser/excelUpload',
+                url: Util.ctx + 'userinfo/excelUpload',
                 data: formData,
                 success: function (res) {
                     layer.close(index);

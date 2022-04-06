@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2021-02-07-16:58
  **/
 @Controller
-@RequestMapping("/syspermission")
+@RequestMapping("/permission")
 public class PermissionInfoController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(PermissionInfoController.class);
 
@@ -36,8 +36,8 @@ public class PermissionInfoController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/SysPermissionInfoInit", method = RequestMethod.GET)
-    public String SysRoleInfoInit() {
+    @RequestMapping(value = "/init", method = RequestMethod.GET)
+    public String init() {
         return "system/permissioninfo/list";
     }
 

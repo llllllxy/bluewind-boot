@@ -104,7 +104,7 @@
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
-                    url: Util.ctx + "sysjob/add",
+                    url: Util.ctx + "job/add",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
@@ -144,7 +144,7 @@
                 maxmin: true,
                 shadeClose: true,
                 area: ['850px', '570px'],
-                content: Util.ctx + 'sysjob/forCron',
+                content: Util.ctx + 'job/forCron',
                 end: function (index) {
                     // 重载表格
 

@@ -58,7 +58,7 @@ import java.util.List;
  * @date 2021-01-09-23:59
  **/
 @Controller
-@RequestMapping("/sysuser")
+@RequestMapping("/userinfo")
 @Api(value = "系统用户管理控制器", tags = "系统用户管理控制器")
 public class UserInfoController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(UserInfoController.class);
@@ -95,8 +95,8 @@ public class UserInfoController extends BaseController {
      */
     @RequiresPermissions("system:user:init")
     @ApiOperation(value = "查询页面初始化", notes = "查询页面初始化")
-    @RequestMapping(value = "/SysUserInfoInit", method = RequestMethod.GET)
-    public String SysUserInfoInit(Model model) {
+    @RequestMapping(value = "/init", method = RequestMethod.GET)
+    public String init(Model model) {
         // 获取下拉栏枚举值
         List<Map<String, String>> baseDictList = DictUtils.getDictList("user_status");
         model.addAttribute("baseDictList", baseDictList);
@@ -115,8 +115,8 @@ public class UserInfoController extends BaseController {
     @LogAround("用户数据分页查询")
     @ApiOperation(value = "用户数据分页查询", notes = "用户数据分页查询")
     @ResponseBody
-    @RequestMapping(value = "/getSysUserInfoList", method = RequestMethod.POST)
-    public BaseResult getSysUserInfoList(@RequestParam("page") Integer pageNum,
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public BaseResult list(@RequestParam("page") Integer pageNum,
                                          @RequestParam("limit") Integer pageSize,
                                          @RequestParam(required = false, defaultValue = "", value = "account") String account,
                                          @RequestParam(required = false, defaultValue = "", value = "name") String name,

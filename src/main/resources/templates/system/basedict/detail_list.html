@@ -47,7 +47,7 @@
         var dictCode = $('input[name="dictCode"]').val();
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysdict/getSysDictDetailList',
+            url: Util.ctx + 'dict/detailList',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {'dictCode': dictCode}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -83,7 +83,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['50%', '70%'],
-                    content: Util.ctx + 'sysdict/forAddDetail/' + dictCode,
+                    content: Util.ctx + 'dict/forAddDetail/' + dictCode,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -105,7 +105,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['50%', '70%'],
-                    content: Util.ctx + 'sysdict/forUpdateDetail/' + data.dictDetailId,
+                    content: Util.ctx + 'dict/forUpdateDetail/' + data.dictDetailId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -117,7 +117,7 @@
                     layer.close(index);
                     let loading = layer.load(0, {shade: 0.1});
                     Util.get({
-                        url: Util.ctx + "sysdict/deleteDetail/" + data.dictDetailId,
+                        url: Util.ctx + "dict/deleteDetail/" + data.dictDetailId,
                         success: function (res) {
                             layer.close(loading);
                             if (res.code === 0) {

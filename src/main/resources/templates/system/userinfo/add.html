@@ -147,7 +147,7 @@
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
             Util.get({
-                url: Util.ctx + 'sysuser/listPostForSelect',
+                url: Util.ctx + 'userinfo/listPostForSelect',
                 success: function (res) {
                     layer.close(index);
                     demo1 = xmSelect.render({
@@ -179,7 +179,7 @@
                 data.field.postStr = selectArr;
                 var loading = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
                 Util.post({
-                    url: Util.ctx + "sysuser/doAdd",
+                    url: Util.ctx + "userinfo/doAdd",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {

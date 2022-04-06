@@ -107,7 +107,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysrole/getSysRoleInfoList',
+            url: Util.ctx + 'roleinfo/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName:'role_id', sortOrder:'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -202,7 +202,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysrole/add',
+                    content: Util.ctx + 'roleinfo/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -227,7 +227,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysrole/update/' + data.roleId,
+                    content: Util.ctx + 'roleinfo/update/' + data.roleId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -241,7 +241,7 @@
                 layer.confirm('确定删除该角色吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysrole/delete/" + data.roleId,
+                        url: Util.ctx + "roleinfo/delete/" + data.roleId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -265,7 +265,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysrole/authorize/' + data.roleId,
+                    content: Util.ctx + 'roleinfo/authorize/' + data.roleId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -279,7 +279,7 @@
                 layer.confirm('确定禁用该角色吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysrole/forbid/" + data.roleId,
+                        url: Util.ctx + "roleinfo/forbid/" + data.roleId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -299,7 +299,7 @@
                 layer.confirm('确定启用该角色吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysrole/enable/" + data.roleId,
+                        url: Util.ctx + "roleinfo/enable/" + data.roleId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

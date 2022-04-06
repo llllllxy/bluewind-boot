@@ -107,7 +107,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysidtable/list',
+            url: Util.ctx + 'idtable/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName: 'id_id', sortOrder: 'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -207,7 +207,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysidtable/forAdd',
+                    content: Util.ctx + 'idtable/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -232,7 +232,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'sysidtable/forUpdate/' + data.idId,
+                    content: Util.ctx + 'idtable/forUpdate/' + data.idId,
                     end: function (index) {
                         currTable.reload();
                     }
@@ -245,7 +245,7 @@
                 layer.confirm('确定删除此流水号吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "sysidtable/delete/" + data.idId,
+                        url: Util.ctx + "idtable/delete/" + data.idId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

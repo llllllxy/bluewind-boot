@@ -39,7 +39,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysjoblog/list',
+            url: Util.ctx + 'joblog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {'jobId': jobId}, // 初始化时带的参数
             cols: [

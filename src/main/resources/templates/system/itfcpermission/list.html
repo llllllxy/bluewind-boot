@@ -195,7 +195,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'sysitfcpermission/list',
+            url: Util.ctx + 'itfcpermission/list',
             method: 'get', //如果无需自定义HTTP类型，可不加该参数
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print'],
@@ -287,7 +287,7 @@
                 }, function() {
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
-                        url: Util.ctx + 'sysitfcpermission/delete/' + data.permissionId,
+                        url: Util.ctx + 'itfcpermission/delete/' + data.permissionId,
                         success: function (res) {
                             layer.close(index);
                             if (0 === res.code) {
@@ -333,7 +333,7 @@
                 console.log("data.field = " + JSON.stringify(data.field));
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
-                    url: Util.ctx + "sysitfcpermission/update",
+                    url: Util.ctx + "itfcpermission/update",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
@@ -382,7 +382,7 @@
         function loadTree() {
             var loading = layer.load(0, {shade: 0.1});
             Util.get({
-                url: Util.ctx + "sysitfcpermission/listTree",
+                url: Util.ctx + "itfcpermission/listTree",
                 success: function (res) {
                     if (res.code === 0) {
                         layer.close(loading);

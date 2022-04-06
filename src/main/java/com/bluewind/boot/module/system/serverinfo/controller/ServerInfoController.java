@@ -26,7 +26,7 @@ import java.util.Map;
  **/
 @Api(tags = "服务器监控")
 @Controller
-@RequestMapping("/sysserverinfo")
+@RequestMapping("/serverinfo")
 public class ServerInfoController {
     final static Logger logger = LoggerFactory.getLogger(ServerInfoController.class);
 

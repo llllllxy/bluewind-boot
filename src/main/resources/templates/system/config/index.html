@@ -217,7 +217,7 @@
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
                     contentType: "application/json",
-                    url: Util.ctx + "sysconfig/update",
+                    url: Util.ctx + "config/update",
                     data: JSON.stringify(data.field),
                     success: function (res) {
                         if (res.code === 0) {

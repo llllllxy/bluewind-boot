@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @Api(tags = "系统配置")
 @Controller
-@RequestMapping("/sysconfig")
+@RequestMapping("/config")
 public class ConfigController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(ConfigController.class);
 
@@ -30,8 +30,8 @@ public class ConfigController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/forUpdate", method = RequestMethod.GET)
-    public String forUpdateDetail(Model model) {
+    @RequestMapping(value = "/init", method = RequestMethod.GET)
+    public String init(Model model) {
         Config config = configService.getSysConfig();
         model.addAttribute("config", config);
         return "system/config/index";

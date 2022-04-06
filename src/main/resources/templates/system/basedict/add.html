@@ -58,7 +58,7 @@
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
-                    url: Util.ctx + "sysdict/doAdd",
+                    url: Util.ctx + "dict/doAdd",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {

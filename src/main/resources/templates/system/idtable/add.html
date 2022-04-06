@@ -109,7 +109,7 @@
                 layer.close(index);
                 var loading = layer.load(0, {shade: 0.1});
                 Util.post({
-                    url: Util.ctx + "sysidtable/add",
+                    url: Util.ctx + "idtable/add",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {

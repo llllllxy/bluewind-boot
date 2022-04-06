@@ -57,7 +57,7 @@
 
         var insTb = treeTable.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'syspermission/list',
+            url: Util.ctx + 'permission/list',
             skin: 'line',
             tree: {
                 treeColIndex: 1,
@@ -125,7 +125,7 @@
             }
             var index = layer.load(2, {shade: 0.1});
             Util.get({
-                url: Util.ctx + 'syspermission/updateSort/' + data.permissionId + '/' + value,
+                url: Util.ctx + 'permission/updateSort/' + data.permissionId + '/' + value,
                 success: function (res) {
                     layer.close(index);
                     if (0 === res.code) {
@@ -154,7 +154,7 @@
                     maxmin: true,
                     shade: 0.2,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'syspermission/add',
+                    content: Util.ctx + 'permission/add',
                     end: function(index){
                         insTb.refresh();
                     }
@@ -182,7 +182,7 @@
                     shadeClose: true,
                     maxmin: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'syspermission/update/' + data.permissionId,
+                    content: Util.ctx + 'permission/update/' + data.permissionId,
                     end: function(index){
                         insTb.refresh();
                     }
@@ -197,7 +197,7 @@
                 }, function(){
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
-                        url: Util.ctx + 'syspermission/delete/' + data.permissionId,
+                        url: Util.ctx + 'permission/delete/' + data.permissionId,
                         success: function (res) {
                             layer.close(index);
                             if (0 === res.code) {
@@ -223,7 +223,7 @@
                 }, function() {
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
-                        url: Util.ctx + 'syspermission/enable/' + data.permissionId,
+                        url: Util.ctx + 'permission/enable/' + data.permissionId,
                         success: function (res) {
                             layer.close(index);
                             if (0 === res.code) {
@@ -249,7 +249,7 @@
                 }, function(){
                     var index = layer.load(0, {shade: 0.1});
                     Util.get({
-                        url: Util.ctx + 'syspermission/forbid/' + data.permissionId,
+                        url: Util.ctx + 'permission/forbid/' + data.permissionId,
                         success: function (res) {
                             layer.close(index);
                             if (0 === res.code) {

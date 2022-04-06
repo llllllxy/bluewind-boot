@@ -27,7 +27,7 @@ import java.util.Map;
  * @date 2021-01-31-23:29
  **/
 @Controller
-@RequestMapping("/sysrole")
+@RequestMapping("/roleinfo")
 public class RoleInfoController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(RoleInfoController.class);
 
@@ -45,8 +45,8 @@ public class RoleInfoController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/SysRoleInfoInit", method = RequestMethod.GET)
-    public String SysRoleInfoInit(Model model) {
+    @RequestMapping(value = "/init", method = RequestMethod.GET)
+    public String init(Model model) {
         // 获取下拉栏枚举值
         List<Map<String, String>> baseDictList = DictUtils.getDictList("role_status");
         model.addAttribute("baseDictList", baseDictList);
@@ -63,8 +63,8 @@ public class RoleInfoController extends BaseController {
      */
     @LogAround("角色管理页面分页查询")
     @ResponseBody
-    @RequestMapping(value = "/getSysRoleInfoList", method = RequestMethod.POST)
-    public BaseResult getSysRoleInfoList(@RequestParam("page") Integer pageNum,
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public BaseResult list(@RequestParam("page") Integer pageNum,
                                          @RequestParam("limit") Integer pageSize,
                                          @RequestParam(required = false, defaultValue = "", value = "sign") String sign,
                                          @RequestParam(required = false, defaultValue = "", value = "name") String name,
