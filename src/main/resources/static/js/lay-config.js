@@ -28,7 +28,8 @@ layui.config({
     layNotify: 'layNotify/layNotify', // layui提示层
     treeTable: 'treeTable/treeTable', // table树形扩展
     eleTree: 'eleTree/eleTree', // eleTree 树组件
-    nprogress: 'nprogress/nprogress'
+    nprogress: 'nprogress/nprogress',
+    layCascader: 'cascader/cascader', // 级联选择器
 });
 
 
