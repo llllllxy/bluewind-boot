@@ -1,5 +1,6 @@
 package com.bluewind.boot.common.aspect;
 
+import com.bluewind.boot.common.annotation.OperLogAround;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.network.IPUtils;
 import com.bluewind.boot.common.config.security.SecurityUtil;
@@ -32,7 +33,7 @@ public class OperLogAspect {
     /**
      * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
      */
-    @Around("@annotation(com.bluewind.boot.common.annotation.OperLog)")
+    @Around("@annotation(com.bluewind.boot.common.annotation.OperLogAround)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         OperLog operLog = new OperLog();
         long start = System.currentTimeMillis();
@@ -47,7 +48,7 @@ public class OperLogAspect {
         // 获取切入点所在的方法
         Method method = methodSignature.getMethod();
         // 获取方法上的注解
-        com.bluewind.boot.common.annotation.OperLog opLog = method.getAnnotation(com.bluewind.boot.common.annotation.OperLog.class);
+        OperLogAround opLog = method.getAnnotation(OperLogAround.class);
 
         if (opLog != null) {
             String operModul = opLog.operModul();

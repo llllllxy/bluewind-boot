@@ -5,7 +5,7 @@ import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.basedict.entity.Dict;
 import com.bluewind.boot.module.system.basedict.entity.DictDetail;
 import com.bluewind.boot.module.system.basedict.service.BaseDictService;
-import com.bluewind.boot.common.annotation.OperLog;
+import com.bluewind.boot.common.annotation.OperLogAround;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.consts.OperLogConst;
 import io.swagger.annotations.Api;
@@ -47,7 +47,7 @@ public class BaseDictController extends BaseController {
      *
      * @return
      */
-    @OperLog(operModul = "数据字典", operType = OperLogConst.LIST_PAGE, operDesc = "分页查询页面初始化")
+    @OperLogAround(operModul = "数据字典", operType = OperLogConst.LIST_PAGE, operDesc = "分页查询页面初始化")
     @RequestMapping(value = "/init")
     public String init(Model model) {
         // 获取下拉栏枚举值
@@ -64,7 +64,7 @@ public class BaseDictController extends BaseController {
      * @param pageNum
      * @return
      */
-    @OperLog(operModul = "数据字典", operType = OperLogConst.LIST, operDesc = "分页查询")
+    @OperLogAround(operModul = "数据字典", operType = OperLogConst.LIST, operDesc = "分页查询")
     @ApiOperation(value = "查询全部字典信息")
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
