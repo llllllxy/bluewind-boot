@@ -27,6 +27,9 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+  # 设置jackson的默认时区
+  jackson:
+    time-zone: GMT+8
   # 数据库配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
