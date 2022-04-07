@@ -80,7 +80,11 @@ public class CronUtils {
     }
 
 
-
+    /**
+     * 测试 main
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         System.out.println(CronUtils.getNextExecTime("0/5 * * * * ?", 5) + "\n");
     }

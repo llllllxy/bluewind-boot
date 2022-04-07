@@ -2,7 +2,6 @@ package com.bluewind.boot.common.config.quartz;
 
 import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
-import com.bluewind.boot.module.system.job.entity.Job;
 import org.quartz.*;
 
 /**
@@ -40,7 +39,7 @@ public class ScheduleUtils {
     /**
      * 创建定时任务
      */
-    public static void createScheduleJob(Scheduler scheduler, Job job) throws SchedulerException, TaskException {
+    public static void createScheduleJob(Scheduler scheduler, com.bluewind.boot.module.system.job.entity.Job job) throws SchedulerException, TaskException {
         Class<? extends org.quartz.Job> jobClass = getQuartzJobClass(job);
         // 构建job信息
         String jobId = job.getJobId();
@@ -75,7 +74,7 @@ public class ScheduleUtils {
     /**
      * 设置定时任务策略
      */
-    public static CronScheduleBuilder handleCronScheduleMisfirePolicy(Job job, CronScheduleBuilder cb)
+    public static CronScheduleBuilder handleCronScheduleMisfirePolicy(com.bluewind.boot.module.system.job.entity.Job job, CronScheduleBuilder cb)
             throws TaskException {
         switch (job.getMisfirePolicy()) {
             case ScheduleConst.MISFIRE_DEFAULT:
@@ -96,7 +95,7 @@ public class ScheduleUtils {
     /**
      * 执行一次
      */
-    public static void executeonceScheduler(Scheduler scheduler, Job job) throws SchedulerException, TaskException {
+    public static void executeonceScheduler(Scheduler scheduler, com.bluewind.boot.module.system.job.entity.Job job) throws SchedulerException, TaskException {
         try {
             JobDataMap dataMap = new JobDataMap();
             dataMap.put(ScheduleConst.TASK_PROPERTIES, job);
@@ -117,7 +116,7 @@ public class ScheduleUtils {
     /**
      * 删除定时任务
      */
-    public static void deleteSchedulerJob(Scheduler scheduler, Job job) throws SchedulerException {
+    public static void deleteSchedulerJob(Scheduler scheduler, com.bluewind.boot.module.system.job.entity.Job job) throws SchedulerException {
         try {
             JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
             if (!scheduler.checkExists(jobKey)) {
@@ -133,7 +132,7 @@ public class ScheduleUtils {
     /**
      * 暂停任务
      */
-    public static void pauseSchedulerJob(Scheduler scheduler, Job job) throws SchedulerException, TaskException {
+    public static void pauseSchedulerJob(Scheduler scheduler, com.bluewind.boot.module.system.job.entity.Job job) throws SchedulerException, TaskException {
         try {
             JobKey jobKey = getJobKey(job.getJobId(), job.getJobGroup());
             if (!scheduler.checkExists(jobKey)) {
