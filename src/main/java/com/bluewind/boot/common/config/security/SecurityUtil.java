@@ -45,7 +45,6 @@ public class SecurityUtil {
         HttpServletRequest request = ServletUtils.getRequest();
         String token = "";
         if (request != null) {
-            logger.info("SecurityUtil -- getToken -- start");
             // 从请求中获取token，先从Header里取，取不到的话再从cookie里取（适配前后端分离的模式）
             token = request.getHeader(SystemConst.SYSTEM_USER_TOKEN);
             if (StringUtils.isBlank(token)) {
@@ -55,7 +54,6 @@ public class SecurityUtil {
                 token = token.replace(SystemConst.TOKEN_PREFIX, "");
                 token = JwtTokenUtil.parseJWT(token);
             }
-            logger.info("SecurityUtil -- getToken -- userKey = {}", token);
         }
         return token;
     }

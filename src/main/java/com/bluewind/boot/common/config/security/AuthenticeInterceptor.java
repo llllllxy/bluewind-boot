@@ -60,10 +60,6 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         // 判断请求类型，如果是OPTIONS，直接返回
         String options = HttpMethod.OPTIONS.toString();
-        if (logger.isInfoEnabled()) {
-            logger.info("AuthenticeInterceptor -- preHandle -- httpMethod=" + options);
-            logger.info("AuthenticeInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
-        }
         if (options.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
@@ -126,9 +122,6 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
         if (StringUtils.isNotBlank(token) && token.startsWith(SystemConst.TOKEN_PREFIX)) {
             token = token.replace(SystemConst.TOKEN_PREFIX, "");
             token = JwtTokenUtil.parseJWT(token);
-        }
-        if (logger.isInfoEnabled()) {
-            logger.info("AuthenticeInterceptor -- postHandle -- token = {}", token);
         }
         UserInfo userInfo = (UserInfo) redisUtil.get(SystemConst.SYSTEM_USER_KEY + ":" + token);
 

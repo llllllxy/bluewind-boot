@@ -69,7 +69,7 @@ public class JwtTokenUtil {
 
 
     public static void main(String[] args) {
-        System.out.println(createJWT("ifwjeifwefwkefwkefkwekf"));
+        System.out.println(createJWT("1367a1e434cb4e88ae09d0257810e8cb"));
     }
 
 }

@@ -57,9 +57,6 @@ public class RoleInterceptor implements HandlerInterceptor {
         }
         // 判断请求类型，如果是OPTIONS，直接返回
         String options = HttpMethod.OPTIONS.toString();
-        if (logger.isInfoEnabled()) {
-            logger.info("RoleInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
-        }
         if (options.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
