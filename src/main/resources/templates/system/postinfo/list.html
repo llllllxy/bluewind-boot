@@ -182,18 +182,15 @@
                 var index = layer.open({
                     title: '岗位信息新增',
                     type: 2,
-                    shade: 0.2,
+                    shade: 0.3,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'postinfo/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
             } else if (obj.event === 'delete') {
                 var checkStatus = table.checkStatus('currentTableId')
@@ -237,17 +234,14 @@
                 var index = layer.open({
                     title: '岗位信息修改',
                     type: 2,
-                    shade: 0.2,
+                    shade: 0.3,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'postinfo/forUpdate/' + data.postId,
                     end: function (index) {
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'delete') {

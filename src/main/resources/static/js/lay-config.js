@@ -120,6 +120,9 @@ $.ajaxSetup({
 } );
 
 
+const layerwidth = 800;
+const layerheight = ($(window).height() - 50);
+
 /**
  * Ajax请求封装
  */

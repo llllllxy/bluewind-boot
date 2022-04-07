@@ -32,7 +32,7 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">岗位顺序</label>
-        <div class="layui-input-inline">
+        <div class="layui-input-block">
             <input type="number" min="0" name="postSort" lay-verify="required" lay-reqtext="岗位顺序不能为空"
                    placeholder="请输入岗位顺序" value="0" class="layui-input">
         </div>
@@ -53,13 +53,16 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"><i
-                    class="layui-icon layui-icon-ok"></i>保存
-            </button>
-        </div>
+    <!-- 右侧悬浮按钮 -->
+    <div class="right-bottom-btn">
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"><i
+                class="layui-icon layui-icon-ok"></i>确认
+        </button>
+        <button class="layui-btn layui-btn-normal" lay-filter="cancleBtn"><i
+                class="layui-icon layui-icon-close"></i>取消
+        </button>
     </div>
+
 </div>
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
@@ -71,7 +74,7 @@
         var form = layui.form,
             layer = layui.layer;
 
-        //监听提交
+        // 监听确认按钮
         form.on('submit(saveBtn)', function (data) {
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
@@ -99,6 +102,12 @@
             return false;
         });
 
+
+        // 监听取消按钮
+        $("button[lay-filter='cancleBtn']").click(function(){
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
+        });
     });
 </script>
 </body>
