@@ -3,6 +3,7 @@ package com.bluewind.boot.common.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 
@@ -195,8 +196,7 @@ public class ArithmeticUtils extends org.apache.commons.lang3.math.NumberUtils {
      * @return
      */
     public static BigDecimal toBigDecimal(Object obj, int i) {
-        BigDecimal zero = new BigDecimal("0.00");
-        BigDecimal tempBigDecimal = zero;
+        BigDecimal tempBigDecimal = new BigDecimal("0.00");
         String str = (obj == null || "".equals(obj)) ? "0.00" : obj.toString();
         tempBigDecimal = new BigDecimal(str);
         tempBigDecimal = tempBigDecimal.setScale(i, BigDecimal.ROUND_HALF_UP);
@@ -386,6 +386,47 @@ public class ArithmeticUtils extends org.apache.commons.lang3.math.NumberUtils {
         return bigDecimalPercent(bigDecimalNum1, bigDecimalNum2, point);
     }
 
+    /**
+     *  BigDecimal转换为千分位字符串
+     * @param b 2331111110001
+     * @return 2,331,111,110,001
+     */
+    public static String formatDecimal(BigDecimal b) {
+        String a = null;
+        if (b == null || b.doubleValue() == 0) {
+            a = "";
+        } else {
+            StringBuffer c = new StringBuffer("#,##0");
+            if (b.scale() > 0) {
+                c.append(".");
+            }
+            for (int i = 0; i < b.scale(); i++) {
+                c.append("0");
+            }
+            DecimalFormat nf = new DecimalFormat(c.toString());
+            a = nf.format(b.doubleValue());
+        }
+        return a;
+    }
+
+    /**
+     * Integer转换为千分位字符串
+     *
+     * @param b
+     * @return
+     */
+    public static String formatInteger(Integer b) {
+        String a = null;
+        if (b == null || b.doubleValue() == 0) {
+            a = "";
+        } else {
+            StringBuffer c = new StringBuffer("#,###");
+            DecimalFormat nf = new DecimalFormat(c.toString());
+            a = nf.format(b.doubleValue());
+        }
+        return a;
+    }
+
 
     public static void main(String[] args) {
 
@@ -394,7 +435,9 @@ public class ArithmeticUtils extends org.apache.commons.lang3.math.NumberUtils {
         System.out.println(getPercentage(b1, b2).toString());
 
 
-        System.out.println(round(23.828282, 2));
+        BigDecimal b3 = new BigDecimal("2331111110001");
+
+        System.out.println(formatDecimal(b3));
     }
 
 
