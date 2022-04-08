@@ -239,18 +239,15 @@
                 var index = layer.open({
                     title: '添加用户',
                     type: 2,
-                    shade: 0.2,
+                    shade: 0.3,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'userinfo/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
             } else if (obj.event === 'delete') {  // 监听删除操作
                 var checkStatus = table.checkStatus('currentTableId')
@@ -359,15 +356,12 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'userinfo/update/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'delete') {
@@ -397,15 +391,12 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'userinfo/authorize/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'editpassword') {
