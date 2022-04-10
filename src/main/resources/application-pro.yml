@@ -37,19 +37,19 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://localhost:3306/meco-server?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        url: jdbc:mysql://localhost:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
         username: ENC(pfmgAA+Eqayq6cs0HUCV/g==)
         password: ENC(31ptOxoKowtcXsoGKLJhBEnQ==)
       # 辅数据源
       slave:
         # 辅数据源开关/默认关闭
         enabled: false
-        url: jdbc:mysql://localhost:3306/meco-server2?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        url: jdbc:mysql://localhost:3306/bluewind-boot-main2?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
         username: ENC(kupP2V33DvyE5LQlfxHqOw==)
         password: ENC(31ptzOxoKsoUfGKLJhBEnQ==)
       # quartz数据源(单独配置)
       quartz:
-        url: jdbc:mysql://localhost:3306/meco-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        url: jdbc:mysql://localhost:3306/bluewind-boot-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
         username: ENC(zK28Jh4/wN3Vww164kkdDw==)
         password: ENC(3ptzOxoKsouiwlThBEnQ==)
       initialSize: 5
