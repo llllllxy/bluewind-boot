@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
                             <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn"><i class="layui-icon layui-icon-refresh"></i> 重 置 </button>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">
+                <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add">
                     <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
                 </button>
             </div>
@@ -61,7 +61,7 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">
+            <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">
                 <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
             </a>
             <a class="layui-btn layui-btn-xs layui-btn-warm data-count-authorize" lay-event="authorize">
@@ -85,7 +85,7 @@
             {{#
                 var str = '';
                 if (d.status == '0') {
-                    str = '<span class="layui-badge layui-bg-blue">正常</span>';
+                    str = '<span class="layui-badge">正常</span>';
                 } else {
                     str = '<span class="layui-badge layui-bg-orange">禁用</span>'
                 }
