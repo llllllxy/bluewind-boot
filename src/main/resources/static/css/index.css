@@ -15,7 +15,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    box-shadow: 0 0 10px rgb(24, 144, 255);
+    box-shadow: 0 0 10px rgb(36,122,224);
 }
 
 .admin-header-lock-img img:hover {
@@ -58,7 +58,7 @@
 .layui-btn {
     height: 38px;
     line-height: 38px;
-    background-color: rgb(24, 144, 255);
+    background-color: rgb(36,122,224);
 }
 
 #unlock {

@@ -20,7 +20,7 @@
     <div class="layuimini-main">
 
         <fieldset class="table-search-fieldset">
-            <legend>搜索信息(<b style="color: #4BB2FF;cursor: pointer">收起-展开</b>)</legend>
+            <legend>搜索信息(<b>收起-展开</b>)</legend>
             <div id="search-div" style="margin: 10px 10px 10px 10px">
                 <form class="layui-form" action="" lay-filter="search-form">
                     <div class="layui-form-item">
@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn">
+                            <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn">
                                 <i class="layui-icon"></i> 搜 索
                             </button>
                             <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn">
@@ -63,7 +63,7 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button th:if="${#sets.contains(permissionSet, 'system:user:add')}" class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">
+                <button th:if="${#sets.contains(permissionSet, 'system:user:add')}" class="layui-btn layui-btn-sm" lay-event="add">
                     <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>添加
                 </button>
                 <button th:if="${#sets.contains(permissionSet, 'system:user:delete')}" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">
@@ -91,7 +91,7 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a th:if="${#sets.contains(permissionSet, 'system:user:edit')}" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">
+            <a th:if="${#sets.contains(permissionSet, 'system:user:edit')}" class="layui-btn layui-btn-xs" lay-event="edit">
                 <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
             </a>
             <a th:if="${#sets.contains(permissionSet, 'system:user:authorize')}" class="layui-btn layui-btn-xs layui-btn-warm" lay-event="authorize">
@@ -107,7 +107,7 @@
 
         <script type="text/html" id="statusTpl">
             {{#  if(d.status == '0'){ }}
-            <span class="layui-badge layui-bg-blue">正常</span>
+            <span class="layui-badge">正常</span>
             {{#  } else { }}
             <span class="layui-badge layui-bg-orange">锁定</span>
             {{#  } }}

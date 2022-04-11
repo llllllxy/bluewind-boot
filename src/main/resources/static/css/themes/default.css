@@ -35,7 +35,7 @@
 
 /**头部右侧更多下拉配置色 headerRightNavMoreBg headerRightNavMoreColor */
 .layui-header .layui-nav .layui-nav-child dd.layui-this a, .layui-header .layui-nav-child dd.layui-this, .layui-layout-admin .layui-header .layui-nav .layui-nav-item .layui-nav-child .layui-this a {
-    background-color: #1E9FFF !important;
+    background-color: #247AE0 !important;
     color: #ffffff !important;
 }
 
@@ -71,7 +71,7 @@
 
 /*左侧菜单选中背景 leftMenuBgThis */
 .layuimini-menu-left .layui-nav-tree .layui-this, .layuimini-menu-left .layui-nav-tree .layui-this > a, .layuimini-menu-left .layui-nav-tree .layui-nav-child dd.layui-this, .layuimini-menu-left .layui-nav-tree .layui-nav-child dd.layui-this a, .layuimini-menu-left-zoom.layui-nav-tree .layui-this, .layuimini-menu-left-zoom.layui-nav-tree .layui-this > a, .layuimini-menu-left-zoom.layui-nav-tree .layui-nav-child dd.layui-this, .layuimini-menu-left-zoom.layui-nav-tree .layui-nav-child dd.layui-this a {
-    background-color: #1E9FFF !important
+    background-color: #247AE0 !important
 }
 
 /*左侧菜单子菜单背景 leftMenuChildBg */
@@ -91,5 +91,5 @@
 
 /**tab选项卡选中颜色 tabActiveColor */
 .layuimini-tab .layui-tab-title .layui-this .layuimini-tab-active {
-    background-color: #1e9fff;
+    background-color: #247AE0;
 }
