@@ -20,45 +20,45 @@
 
     <!-- 查询定时任务分页列表 -->
     <select id="list" resultMap="SysJobResult" parameterType="map">
-        select * from `sys_job`
+        select * from sys_job
         where 1=1
         <if test="jobName != null and jobName != ''">
-            and `job_name` like CONCAT('%',#{jobName},'%')
+            and job_name like CONCAT('%',#{jobName},'%')
         </if>
         <if test="jobGroup != null and jobGroup != ''">
-            and `job_group` = #{jobGroup}
+            and job_group = #{jobGroup}
         </if>
         <if test="status != null and status != ''">
-            and `status` = #{status}
+            and status = #{status}
         </if>
         <choose>
             <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
                 order by ${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by `job_id` asc
+                order by job_id asc
             </otherwise>
         </choose>
     </select>
 
 
     <select id="getOne" resultMap="SysJobResult" parameterType="java.lang.String">
-        select * from `sys_job` where `job_id` = #{_parameter}
+        select * from sys_job where job_id = #{_parameter}
     </select>
 
 
     <insert id="insertJob" parameterType="com.bluewind.boot.module.system.job.entity.Job">
-       insert into `sys_job` (
-            `job_id`,
-            `job_name`,
-            `job_group`,
-            `invoke_target`,
-            `cron_expression`,
-            `misfire_policy`,
-            `concurrent`,
-            `status`,
-            `create_user`,
-            `remark`
+       insert into sys_job (
+            job_id,
+            job_name,
+            job_group,
+            invoke_target,
+            cron_expression,
+            misfire_policy,
+            concurrent,
+            status,
+            create_user,
+            remark
         ) values (
             #{jobId},
             #{jobName},
@@ -74,23 +74,23 @@
     </insert>
 
     <update id="changeStatus" parameterType="com.bluewind.boot.module.system.job.entity.Job">
-        update `sys_job` set `status` = #{status} where `job_id` = #{jobId}
+        update sys_job set status = #{status} where job_id = #{jobId}
     </update>
 
     <delete id="deleteJobById" parameterType="java.lang.String">
-        delete from `sys_job` where `job_id` = #{_parameter}
+        delete from sys_job where job_id = #{_parameter}
     </delete>
 
     <update id="updateJob" parameterType="com.bluewind.boot.module.system.job.entity.Job">
-        update `sys_job` set
-        `job_name` = #{jobName},
-        `job_group` = #{jobGroup},
-        `invoke_target` = #{invokeTarget},
-        `cron_expression` = #{cronExpression},
-        `concurrent` = #{concurrent},
-        `misfire_policy` = #{misfirePolicy},
-        `update_user` = #{updateUser}
-        where `job_id` = #{jobId}
+        update sys_job set
+        job_name = #{jobName},
+        job_group = #{jobGroup},
+        invoke_target = #{invokeTarget},
+        cron_expression = #{cronExpression},
+        concurrent = #{concurrent},
+        misfire_policy = #{misfirePolicy},
+        update_user = #{updateUser}
+        where job_id = #{jobId}
     </update>
 
 

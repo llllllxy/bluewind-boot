@@ -14,29 +14,29 @@
 
     <!-- 查询所有菜单 -->
     <select id="menuInit" resultType="map">
-        SELECT
+        select
             a.permission_id,
             a.parent_id,
-            a.`name` AS title,
+            a.name as title,
             a.icon,
             a.href,
             a.type,
             a.target
-        FROM sys_permission_info a
-        WHERE a.del_flag = '0'
-          AND a.`status` = '0'
-          AND a.type &lt; 3
-          AND EXISTS (
-            SELECT
+        from sys_permission_info a
+        where a.del_flag = '0'
+          and a.status = '0'
+          and a.type &lt; 3
+          and exists (
+            select
                 rp.permission_id
-            FROM sys_role_permission rp
-            LEFT JOIN sys_role_info ri ON ( rp.role_id = ri.role_id )
-            WHERE ri.del_flag = '0'
-            AND ri.`status` = '0'
-            AND EXISTS ( SELECT ur.role_id FROM sys_user_role ur WHERE ur.user_id = #{userId} AND rp.role_id = ur.role_id )
-                AND a.permission_id = rp.permission_id
+            from sys_role_permission rp
+            left join sys_role_info ri on ( rp.role_id = ri.role_id )
+            where ri.del_flag = '0'
+            and ri.status = '0'
+            and exists ( select ur.role_id from sys_user_role ur where ur.user_id = #{userId} and rp.role_id = ur.role_id )
+                and a.permission_id = rp.permission_id
             )
-        ORDER BY
+        order by
         a.type,
         a.sort,
         a.permission_id

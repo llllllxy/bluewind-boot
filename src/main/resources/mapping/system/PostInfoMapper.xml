@@ -104,7 +104,7 @@
     <!--获取用户岗位信息XmSelect列表-->
     <select id="listUserPostForSelect" resultType="com.bluewind.boot.module.system.postinfo.entity.PostXmSelect" parameterType="string">
         SELECT
-            a.post_id AS `value`,
+            a.post_id AS value,
             a.post_name AS name,
             ( CASE WHEN b.user_id IS NULL THEN 0 ELSE 1 END ) AS selected
         FROM
@@ -116,7 +116,7 @@
     <!--获取全部岗位信息XmSelect列表-->
     <select id="listAllPostForSelect" resultType="com.bluewind.boot.module.system.postinfo.entity.PostXmSelect" parameterType="string">
         SELECT
-            a.post_id AS `value`,
+            a.post_id AS value,
             a.post_name AS name,
             0 AS selected
         FROM sys_post_info a

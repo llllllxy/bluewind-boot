@@ -45,7 +45,7 @@
             and dict_code like CONCAT('%',#{dictCode},'%')
         </if>
         <if test="name != null and name != ''">
-            and `name` like CONCAT('%',#{name},'%')
+            and name like CONCAT('%',#{name},'%')
         </if>
         <if test="status != null and status != ''">
             and status = #{status}
@@ -72,7 +72,7 @@
         insert into sys_dict (
             dict_id,
             dict_code,
-            `name`,
+            name,
             status,
             create_user,
             del_flag,
@@ -106,7 +106,7 @@
 
     <!--更新一个枚举-->
     <update id="updateOneDict" parameterType="com.bluewind.boot.module.system.basedict.entity.Dict">
-        update sys_dict set `name` = #{name},descript = #{descript} where dict_id =  #{dictId}
+        update sys_dict set name = #{name},descript = #{descript} where dict_id =  #{dictId}
     </update>
 
     <!--根据条件，查询所有枚举-->
@@ -120,7 +120,7 @@
         insert into sys_dict_detail (
             dict_detail_id,
             dict_code,
-            `name`,
+            name,
             create_user,
             code
         )
@@ -146,7 +146,7 @@
     <!--更新一个枚举明细-->
     <update id="updateDetail" parameterType="com.bluewind.boot.module.system.basedict.entity.DictDetail">
         update sys_dict_detail
-        set `name` = #{name},
+        set name = #{name},
         code = #{code},
         update_user = #{updateUser}
         where dict_detail_id = #{dictDetailId}

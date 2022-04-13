@@ -14,18 +14,17 @@
         <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
         <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
     </resultMap>
-
-
+    
     <!-- 新增登陆日志 -->
     <insert id="saveSysEmailLog" parameterType="com.bluewind.boot.module.system.mail.entity.EmailLog">
         insert into sys_email_log (
-            `log_id`,
-            `address`,
-            `subject`,
-            `type`,
-            `status`,
-            `create_user`,
-            `del_flag`
+            log_id,
+            address,
+            subject,
+            type,
+            status,
+            create_user,
+            del_flag
         ) values (
              #{logId},
              #{address},

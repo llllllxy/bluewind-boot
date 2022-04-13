@@ -17,7 +17,7 @@
 
     <select id="listXmSelectPojo" resultType="com.bluewind.boot.module.system.roleinfo.entity.XmSelect" parameterType="string">
         SELECT
-            a.role_id AS `value`,
+            a.role_id AS value,
             a.name,
             ( CASE WHEN b.user_id IS NULL THEN 0 ELSE 1 END ) AS selected
         FROM
@@ -55,7 +55,7 @@
 
     <!--新增一个角色-->
     <insert id="doAdd" parameterType="com.bluewind.boot.module.system.roleinfo.entity.RoleInfo">
-        insert into sys_role_info (role_id,`name`,sign,descript,status,del_flag,create_user)
+        insert into sys_role_info (role_id,name,sign,descript,status,del_flag,create_user)
         values (
             #{roleId},
             #{name},

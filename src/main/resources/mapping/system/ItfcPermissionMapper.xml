@@ -20,43 +20,43 @@
 
     <!-- 查询所有功能权限列表 -->
     <select id="list" resultMap="SysItfcPermission" parameterType="java.lang.String">
-        select * from `sys_itfc_permission`
-        where `del_flag` = '0'
+        select * from sys_itfc_permission
+        where del_flag = '0'
         <if test="permissionId != null and permissionId != ''">
-            and `parent_id` = #{_parameter}
+            and parent_id = #{_parameter}
         </if>
-        order by `type`,`parent_id`,`permission_id`
+        order by type,parent_id,permission_id
     </select>
 
     <select id="listTree" resultType="java.util.Map">
         SELECT *
-        FROM `sys_itfc_permission`
-        where `del_flag` = '0'
-        ORDER BY `type`,`parent_id`
+        FROM sys_itfc_permission
+        where del_flag = '0'
+        ORDER BY type,parent_id
     </select>
 
     <update id="update" parameterType="com.bluewind.boot.module.system.itfcpermission.entity.ItfcPermission">
-         update `sys_itfc_permission`
-         set `parent_id` = #{parentId},
-         `type` = #{type},
-         `name` = #{name},
-         `sign` = #{sign},
-         `update_user` = #{updateUser},
-         `descript` = #{descript}
-         where `permission_id` = #{permissionId}
+         update sys_itfc_permission
+         set parent_id = #{parentId},
+         type = #{type},
+         name = #{name},
+         sign = #{sign},
+         update_user = #{updateUser},
+         descript = #{descript}
+         where permission_id = #{permissionId}
     </update>
 
     <insert id="insert" parameterType="com.bluewind.boot.module.system.itfcpermission.entity.ItfcPermission">
-        insert into `sys_itfc_permission` (
-            `permission_id`,
-            `parent_id`,
-            `name`,
-            `type`,
-            `sign`,
-            `descript`,
-            `status`,
-            `del_flag`,
-            `create_user`
+        insert into sys_itfc_permission (
+            permission_id,
+            parent_id,
+            name,
+            type,
+            sign,
+            descript,
+            status,
+            del_flag,
+            create_user
         )  values (
             #{permissionId},
             #{parentId},
@@ -71,15 +71,15 @@
     </insert>
 
     <update id="enable" parameterType="java.lang.String">
-        update `sys_itfc_permission` set `status` = '0' where `permission_id` = #{_parameter}
+        update sys_itfc_permission set status = '0' where permission_id = #{_parameter}
     </update>
 
     <update id="delete" parameterType="java.lang.String">
-        update `sys_itfc_permission` set `del_flag` = '1' where `permission_id` = #{_parameter}
+        update sys_itfc_permission set del_flag = '1' where permission_id = #{_parameter}
     </update>
 
     <update id="deleteChildren" parameterType="java.lang.String">
-        update `sys_itfc_permission` set `del_flag` = '1' where `parent_id` = #{_parameter}
+        update sys_itfc_permission set del_flag = '1' where parent_id = #{_parameter}
     </update>
 
 </mapper>
