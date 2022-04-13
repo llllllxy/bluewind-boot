@@ -13,98 +13,102 @@
             padding-right: 10px;
             line-height: 38px;
         }
+
+        body {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 <body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
-
-        <form class="layui-form" action="" lay-filter="formDemo">
-            <div class="layui-form layuimini-form">
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">类型</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="type" value="0" title="模块" lay-filter="type" checked>
-                        <input type="radio" name="type" value="1" title='目录' lay-filter="type">
-                        <input type="radio" name="type" value="2" title="功能" lay-filter="type">
-                        <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type">
-                    </div>
-                </div>
-
-
-                <div class="layui-form-item" id="uppermenu_div">
-                    <label class="layui-form-label">上级目录</label>
-                    <div class="layui-input-block">
-                        <input type="hidden" name="uppermenuValue" id="uppermenuValue"/>
-                        <div id="demo1" class="xm-select-demo" style="display:none;"></div>
-                        <div id="demo2" class="xm-select-demo" style="display:none;"></div>
-                    </div>
-                </div>
-
-                <div class="layui-form-item" id="name_div">
-                    <label class="layui-form-label required">名称</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="请输入名称" placeholder="请输入" class="layui-input">
-                    </div>
-                </div>
-
-                <div class="layui-form-item" id="sign_div">
-                    <label class="layui-form-label required">标识</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="sign" id="sign" lay-verify="required" lay-reqtext="请输入权限标识" placeholder="请输入" class="layui-input">
-                        <tip>权限标识作为唯一标识，请输入全英文</tip>
-                    </div>
-                </div>
-
-                <div class="layui-form-item" id="href_div">
-                    <label class="layui-form-label">路径</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="href" id="href" placeholder="请输入" class="layui-input">
-                    </div>
-                </div>
-
-                <div class="layui-form-item" id="target_div">
-                    <label class="layui-form-label required">打开方式</label>
-                    <div class="layui-input-block">
-                        <select name="target" id="target" lay-verify="required" lay-reqtext="请选择打开方式">
-                            <option value="_self" selected>内链</option>
-                            <option value="_blank">外链</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="layui-form-item" id="icon_div">
-                    <label class="layui-form-label">图标</label>
-                    <div class="layui-input-block">
-                        <input type="text" placeholder="请选择" class="layui-input" id="iconPicker" lay-filter="iconPicker">
-                        <input type="text" name="icon" id="icon" placeholder="请输入" class="layui-input">
-                    </div>
-                </div>
-
-                <div class="layui-form-item" id="sort_div">
-                    <label class="layui-form-label required">排序</label>
-                    <div class="layui-input-block">
-                        <input type="number" min="0" name="sort" id="sort" lay-verify="required" lay-reqtext="请输入排序" placeholder="请输入" class="layui-input" value="0">
-                        <tip>值越小，越靠前</tip>
-                    </div>
-                </div>
-
-                <div class="layui-form-item" id="descript_div">
-                    <label class="layui-form-label">描述</label>
-                    <div class="layui-input-block">
-                        <textarea name="descript" id="descript" placeholder="请输入" class="layui-textarea" style="resize: none"></textarea>
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"> 保存 </button>
-                    </div>
+    <form class="layui-form" action="" lay-filter="formDemo">
+        <div class="layui-form layuimini-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label required">类型</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="type" value="0" title="模块" lay-filter="type" checked>
+                    <input type="radio" name="type" value="1" title='目录' lay-filter="type">
+                    <input type="radio" name="type" value="2" title="功能" lay-filter="type">
+                    <input type="radio" name="type" value="3" title="按钮/权限" lay-filter="type">
                 </div>
             </div>
-        </form>
-    </div>
-</div>
+
+            <div class="layui-form-item" id="uppermenu_div">
+                <label class="layui-form-label">上级目录</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="uppermenuValue" id="uppermenuValue"/>
+                    <div id="demo1" class="xm-select-demo" style="display:none;"></div>
+                    <div id="demo2" class="xm-select-demo" style="display:none;"></div>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="name_div">
+                <label class="layui-form-label required">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" id="name" lay-verify="required" lay-reqtext="请输入名称" placeholder="请输入" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="sign_div">
+                <label class="layui-form-label required">标识</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sign" id="sign" lay-verify="required" lay-reqtext="请输入权限标识" placeholder="请输入" class="layui-input">
+                    <tip>权限标识作为唯一标识，请输入全英文</tip>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="href_div">
+                <label class="layui-form-label">路径</label>
+                <div class="layui-input-block">
+                    <input type="text" name="href" id="href" placeholder="请输入" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="target_div">
+                <label class="layui-form-label required">打开方式</label>
+                <div class="layui-input-block">
+                    <select name="target" id="target" lay-verify="required" lay-reqtext="请选择打开方式">
+                        <option value="_self" selected>内链</option>
+                        <option value="_blank">外链</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="icon_div">
+                <label class="layui-form-label">图标</label>
+                <div class="layui-input-block">
+                    <input type="text" placeholder="请选择" class="layui-input" id="iconPicker" lay-filter="iconPicker">
+                    <input type="text" name="icon" id="icon" placeholder="请输入" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="sort_div">
+                <label class="layui-form-label required">排序</label>
+                <div class="layui-input-block">
+                    <input type="number" min="0" name="sort" id="sort" lay-verify="required" lay-reqtext="请输入排序" placeholder="请输入" class="layui-input" value="0">
+                    <tip>值越小，越靠前</tip>
+                </div>
+            </div>
+
+            <div class="layui-form-item" id="descript_div">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-block">
+                    <textarea name="descript" id="descript" placeholder="请输入" class="layui-textarea" style="resize: none"></textarea>
+                </div>
+            </div>
+
+            <!-- 右侧悬浮按钮 -->
+            <div class="right-bottom-btn">
+                <button class="layui-btn" lay-submit lay-filter="saveBtn"><i
+                        class="layui-icon layui-icon-ok"></i>确认
+                </button>
+                <button class="layui-btn" lay-filter="cancleBtn"><i
+                        class="layui-icon layui-icon-close"></i>取消
+                </button>
+            </div>
+        </div>
+
+    </form>
+
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
@@ -350,6 +354,13 @@
                 }
             });
             return false;
+        });
+
+
+        // 监听取消按钮
+        $("button[lay-filter='cancleBtn']").click(function(){
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
         });
     });
 </script>

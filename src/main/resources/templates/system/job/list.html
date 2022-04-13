@@ -63,7 +63,7 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add">
+                <button class="layui-btn layui-btn-sm" lay-event="add">
                     <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
                 </button>
             </div>
@@ -224,7 +224,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'job/forAdd',
                     end: function (index) {
                         // 重载表格
@@ -249,7 +249,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'job/forUpdate/' + data.jobId,
                     end: function (index) {
                         // 重载表格
@@ -267,7 +267,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'joblog/init/' + data.jobId,
                 });
                 $(window).on("resize", function () {

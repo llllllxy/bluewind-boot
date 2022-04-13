@@ -14,18 +14,18 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">
+                <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add">
                     <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
                 </button>
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="expand"> 展开 </button>
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="fold"> 折叠 </button>
+                <button class="layui-btn layui-btn-sm data-add-btn" lay-event="expand"> 展开 </button>
+                <button class="layui-btn layui-btn-sm data-add-btn" lay-event="fold"> 折叠 </button>
             </div>
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-xs layui-btn-normal data-count-update" lay-event="update">
+            <a class="layui-btn layui-btn-xs data-count-update" lay-event="update">
                 <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
             </a>
             {{#  if(d.status == '0'){ }}
@@ -153,14 +153,11 @@
                     shadeClose: true,
                     maxmin: true,
                     shade: 0.2,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'permission/add',
                     end: function(index){
                         insTb.refresh();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'expand') {
@@ -181,14 +178,11 @@
                     title: '修改菜单',
                     shadeClose: true,
                     maxmin: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'permission/update/' + data.permissionId,
                     end: function(index){
                         insTb.refresh();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'delFlag') {
