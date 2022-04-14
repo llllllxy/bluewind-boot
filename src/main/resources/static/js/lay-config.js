@@ -106,7 +106,7 @@ $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox",
 
 /**
  * 设置AJAX的全局默认选项，
- * 当会话过期时，返回到登陆页面
+ * 当AJAX请求会话过期时，跳转到登陆页面
  */
 $.ajaxSetup({
     complete: function(XMLHttpRequest, textStatus){

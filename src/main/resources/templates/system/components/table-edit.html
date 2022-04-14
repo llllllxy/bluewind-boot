@@ -175,7 +175,7 @@
                         }
                     },
                     {
-                        field: 'paydesc', title: '描述', width: 180, edit: 'text', templet: function (d) {
+                        field: 'paydesc', title: '描述', width: 180, templet: function (d) {
                             return '<input type="text" name="paydesc" id="paydesc-' + d.tempId + '" lay-verify="required" placeholder="描述" autocomplete="off" class="layui-input" value="' + d.paydesc + '" lay-reqtext="描述不得为空>_<">';
                         }
                     },
@@ -198,6 +198,7 @@
                 viewObj.tbData = res.data;
 
                 res.data.forEach(item => {
+                    // 初始化laydate
                     laydate.render({
                         elem: '#paydate-' + item.tempId,
                         format: 'yyyyMMdd',
@@ -212,17 +213,24 @@
                             } else {
                                 item.paydate = '20220413';
                             }
-
                             console.log(value);
                         }
                     });
+
+                    // 监听input name="paydesc" 的输入框
+                    var paydesc_id = 'paydesc-' + item.tempId;
+                    $("#" + paydesc_id + "").on("input", function(e){
+                        item.paydesc = e.delegateTarget.value;
+                    });
                 })
+
             }
         });
 
-        //定义事件集合
+        // 定义事件集合
         var active = {
-            addRow: function () {	//添加一行
+            // 添加一行
+            addRow: function () {
                 // var oldData = table.cache[layTableId];
                 var oldData = table.getData(layTableId);
                 console.log(oldData);
@@ -240,9 +248,12 @@
                     data: oldData
                 });
             },
+            // 修改一行
             updateRow: function (obj) {
-                var oldData = table.cache[layTableId];
+                // var oldData = table.cache[layTableId];
+                var oldData = table.getData(layTableId);
                 console.log(oldData);
+
                 for (var i = 0, row; i < oldData.length; i++) {
                     row = oldData[i];
                     if (row.tempId == obj.tempId) {
@@ -254,6 +265,7 @@
                     data: oldData
                 });
             },
+            // 删除一行
             removeEmptyTableCache: function () {
                 // var oldData = table.cache[layTableId];
                 var oldData = table.getData(layTableId);
@@ -285,7 +297,7 @@
             }
         }
 
-        //激活事件
+        // 激活事件
         var activeByType = function (type, arg) {
             if (arguments.length === 2) {
                 active[type] ? active[type].call(this, arg) : '';
@@ -294,26 +306,27 @@
             }
         }
 
-        //注册按钮事件
+        // 注册按钮事件
         $('.layui-btn[data-type]').on('click', function () {
             var type = $(this).data('type');
             activeByType(type);
         });
 
-        //监听select下拉选中事件
+        // 监听select下拉选中事件
         form.on('select(type)', function (data) {
             var elem = data.elem; //得到select原始DOM对象
             $(elem).prev("a[lay-event='type']").trigger("click");
         });
 
-
-        //监听工具条
+        // 监听table工具条
         table.on('tool(dataTable)', function (obj) {
-            var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
+            var data = obj.data,
+                event = obj.event,
+                tr = obj.tr; // 获得当前行 tr 的DOM对象;
             console.log(data);
+
             switch (event) {
                 case "type":
-                    //console.log(data);
                     var select = tr.find("select[name='type']");
                     if (select) {
                         var selectedVal = select.val();

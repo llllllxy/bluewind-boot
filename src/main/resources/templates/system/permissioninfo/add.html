@@ -213,6 +213,7 @@
                     model: { label: { type: 'text' } },
                     height: 'auto',
                     clickClose: true,
+                    radio: true,
                     data: res.data,
                     theme: {
                         color:'#1E9FFF'
@@ -221,8 +222,8 @@
                         show: true,
                         strict: false,
                         expandedKeys: false, //默认展开节点
-                        clickExpand: false, // 点击节点是否展开
-                        clickCheck: true, // 点击节点是否选中
+                        clickExpand: true, // 点击节点是否展开
+                        clickCheck: false, // 点击节点是否选中
                     },
                     //处理方式
                     on: function(data) {
@@ -250,6 +251,7 @@
                     tips: '请选择上级菜单',
                     model: { label: { type: 'text' } },
                     height: 'auto',
+                    radio: true,
                     clickClose: true,
                     data: res.data,
                     theme: {
@@ -259,8 +261,8 @@
                         show: true,
                         strict: false,
                         expandedKeys: false, //默认展开节点
-                        clickExpand: false, // 点击节点是否展开
-                        clickCheck: true, // 点击节点是否选中
+                        clickExpand: true, // 点击节点是否展开
+                        clickCheck: false, // 点击节点是否选中
                     },
                     //处理方式
                     on: function(data) {
