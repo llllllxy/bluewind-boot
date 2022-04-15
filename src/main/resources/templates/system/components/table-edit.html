@@ -299,6 +299,7 @@
 
         // 激活事件
         var activeByType = function (type, arg) {
+            // arguments.length表示实际上向函数传入了多少个参数
             if (arguments.length === 2) {
                 active[type] ? active[type].call(this, arg) : '';
             } else {
@@ -308,7 +309,7 @@
 
         // 注册按钮事件
         $('.layui-btn[data-type]').on('click', function () {
-            var type = $(this).data('type');
+            var type = $(this).data('type'); // var type的值其实就等于addRow ，就是data-type里配置的值
             activeByType(type);
         });
 
