@@ -1,7 +1,6 @@
 package com.bluewind.boot.module.system.basedict.mapper;
 
-import com.bluewind.boot.module.system.basedict.entity.Dict;
-import com.bluewind.boot.module.system.basedict.entity.DictDetail;
+import com.bluewind.boot.module.system.basedict.entity.DictInfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,95 +13,63 @@ import java.util.Map;
 public interface BaseDictMapper {
 
     /**
-     * 获取全部枚举列表
-     * @param map
-     * @return
-     */
-    List<Dict> getAllBaseDict(Map map);
-
-
-    /**
-     * 枚举修改，获取一条枚举记录
-     * @param dictId
-     * @return
-     */
-    Dict findOneBaseDictById(String dictId);
-
-    /**
      * 获取枚举公共方法
      * @param dictCode
      * @return
      */
     List<Map<String,String>> getDictByCode(String dictCode);
 
+
+    /**
+     * 获取全部枚举列表
+     * @param map
+     * @return
+     */
+    List<DictInfo> getAllBaseDict(Map map);
+
+
+    /**
+     * 检查是否已存在
+     * @param idCode
+     * @return
+     */
+    Integer checkExistByDictCode(String idCode);
+
+
+    /**
+     * 枚举修改，获取一条枚举记录
+     * @param dictCode
+     * @return
+     */
+    List<DictInfo> getDictByDictCode(String dictCode);
+
+
     /**
      * 新增一个枚举
      * @param dict
      * @return
      */
-    int addOneDict(Dict dict);
+    int addOneDict(DictInfo dict);
 
     /**
      * 删除一个枚举
-     * @param id
+     * @param dictCode
      * @return
      */
-    int deleteDict(String dictId);
+    int deleteDict(String dictCode);
 
     /**
      * 禁用一个枚举
-     * @param id
+     * @param dictCode
      * @return
      */
-    int forbidDict(String dictId);
+    int forbidDict(String dictCode);
 
     /**
      * 启用一个枚举
-     * @param id
+     * @param dictCode
      * @return
      */
-    int enableDict(String dictId);
-
-    /**
-     * 更新一个枚举
-     * @param dict
-     * @return
-     */
-    int updateOneDict(Dict dict);
-
-    /**
-     * 获取一个枚举明细
-     * @param dict
-     * @return
-     */
-    List<DictDetail> getBaseDictDetail(Dict dict);
-
-    /**
-     * 新增一个枚举明细
-     * @param dictDetail
-     * @return
-     */
-    int addDetail(DictDetail dictDetail);
-
-    /**
-     * 删除一个枚举明细
-     * @param dictDetailId
-     * @return
-     */
-    int deleteDetail(String dictDetailId);
-
-    /**
-     * 获取一个枚举明细的明细
-     * @param dictDetailId
-     * @return
-     */
-    DictDetail findOneDictDetailById(String dictDetailId);
-
-    /**
-     * 修改一个枚举明细
-     * @param dictDetail
-     * @return
-     */
-    int updateDetail(DictDetail dictDetail);
+    int enableDict(String dictCode);
 
 }

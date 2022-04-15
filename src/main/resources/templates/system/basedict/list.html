@@ -27,7 +27,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">名称</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="name" autocomplete="off" class="layui-input" placeholder="请输入字典名称">
+                                <input type="text" name="dictName" autocomplete="off" class="layui-input" placeholder="请输入字典名称">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
                             <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn"><i class="layui-icon layui-icon-refresh"></i> 重 置 </button>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add">
+                <button class="layui-btn layui-btn-sm" lay-event="add">
                     <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
                 </button>
             </div>
@@ -61,11 +61,8 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">
                 <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
-            </a>
-            <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="setting">
-                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>配置
             </a>
             {{#  if(d.status == '0'){ }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="forbid">
@@ -112,9 +109,9 @@
             cols: [
                 [
                     {field: '', width: '5%', title: '序号', type: 'numbers', align: 'center', templet: function (d) {return d.LAY_TABLE_INDEX + 1;}},
-                    {field: 'dictCode', width: '10%',title: '编码', align: 'center'},
-                    {field: 'name', width: '10%', title: '名称', sort: true, align: 'center'},
-                    {field: 'descript', width: '25%', title: '描述', minWidth: 80},
+                    {field: 'dictCode', width: '15%',title: '编码', align: 'center'},
+                    {field: 'dictName', width: '10%', title: '名称', sort: true, align: 'center'},
+                    {field: 'descript', width: '20%', title: '描述', minWidth: 80},
                     {field: 'status', width: '10%', title: '状态', templet: '#statusTpl', sort: true, align: 'center'},
                     {field: 'createTime', width: '15%', title: '创建时间', sort: true, align: 'center'},
                     {title: '操作', width: '25%', toolbar: '#currentTableBar', align: "center"}
@@ -145,7 +142,7 @@
                 },
                 where: {
                     dictCode: data.field.dictCode,
-                    name: data.field.name,
+                    dictName: data.field.dictName,
                     status: data.field.status
                 }
             });
@@ -198,15 +195,12 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content:  Util.ctx + 'dict/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
             }
         });
@@ -223,22 +217,19 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
-                    content:  Util.ctx + 'dict/forUpdate/' + data.dictId,
+                    area: [layerwidth + 'px', layerheight + 'px'],
+                    content:  Util.ctx + 'dict/forUpdate/' + data.dictCode,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'delete') {
                 layer.confirm('确定删除该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "dict/delete/" + data.dictId,
+                        url:  Util.ctx + "dict/delete/" + data.dictCode,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -254,18 +245,11 @@
                     });
                 });
                 return false;
-            } else if (obj.event === 'setting') {
-                // 打开新的窗口
-                miniTab.openNewTabByIframe({
-                    href: Util.ctx + 'dict/forSetting/' + data.dictCode,
-                    title: "数据字典配置",
-                });
-                return false;
             } else if (obj.event === 'forbid') {
                 layer.confirm('确定禁用该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "dict/forbid/" + data.dictId,
+                        url:  Util.ctx + "dict/forbid/" + data.dictCode,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -285,7 +269,7 @@
                 layer.confirm('确定启用该字典吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url:  Util.ctx + "dict/enable/" + data.dictId,
+                        url:  Util.ctx + "dict/enable/" + data.dictCode,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

@@ -12,6 +12,44 @@
         body {
             background-color: #ffffff;
         }
+
+        /*layui 元素样式改写*/
+        .layui-btn-sm {
+            line-height: normal;
+            font-size: 12.5px;
+        }
+
+        .layui-table-view .layui-table-body {
+            min-height: 256px;
+        }
+
+        .layui-table-cell .layui-input.layui-unselect {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        /*设置 layui 表格中单元格内容溢出可见样式*/
+        .table-overlay .layui-table-view,
+        .table-overlay .layui-table-box,
+        .table-overlay .layui-table-body {
+            overflow: visible;
+        }
+
+        .table-overlay .layui-table-cell {
+            height: auto;
+            overflow: visible;
+        }
+
+        /** 数据表格中的input尺寸调整 */
+        .layui-table-view .layui-table-cell .layui-input {
+            height: 32px;
+            line-height: 32px;
+        }
+
+        /*文本对齐方式*/
+        .text-center {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -19,14 +57,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">编码</label>
         <div class="layui-input-block">
-            <input type="text" name="dictCode" lay-verify="required|letter" lay-reqtext="请输入字典编码" placeholder="请输入字典编码" value="" class="layui-input">
+            <input type="text" name="dictCode" lay-verify="required|letter" lay-reqtext="请输入字典编码" placeholder="请输入字典编码"
+                   value="" class="layui-input">
             <tip>字典编码作为唯一标识，请输入全英文或下划线</tip>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">名称</label>
         <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required|name" lay-reqtext="请输入字典名称" placeholder="请输入字典名称" value="" class="layui-input">
+            <input type="text" name="dictName" lay-verify="required|name" lay-reqtext="请输入字典名称" placeholder="请输入字典名称"
+                   value="" class="layui-input">
         </div>
     </div>
 
@@ -37,26 +77,205 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"><i class="layui-icon layui-icon-ok"></i> 保 存 </button>
+    <fieldset class="layui-elem-field">
+        <legend>字典项信息</legend>
+        <div class="layui-field-box">
+            <div>
+                <button type="button" class="layui-btn layui-btn-sm" data-type="addRow" title="添加一行">
+                    <i class="layui-icon layui-icon-add-1"></i> 添加一行
+                </button>
+            </div>
+            <div id="tableRes" class="table-overlay">
+                <table id="dataTable" lay-filter="dataTable" class="layui-hide"></table>
+            </div>
         </div>
+    </fieldset>
+
+    <!-- 右侧悬浮按钮 -->
+    <div class="right-bottom-btn">
+        <button class="layui-btn" lay-submit lay-filter="saveBtn">
+            <i class="layui-icon layui-icon-ok"></i>确认
+        </button>
+        <button class="layui-btn" lay-filter="cancleBtn">
+            <i class="layui-icon layui-icon-close"></i>取消
+        </button>
     </div>
 </div>
+
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form', 'layer'], function () {
+
+    // 准备视图对象
+    window.viewObj = {
+        tbData: [{
+            tempId: new Date().valueOf(),
+            dictKey: '',
+            dictValue: '',
+            orderNum: 1
+        }],
+    };
+
+    layui.use(['form', 'table', 'layer'], function () {
         var form = layui.form,
+            table = layui.table,
             layer = layui.layer;
+
+        //数据表格实例化
+        var tbWidth = $("#tableRes").width();
+        var layTableId = "layTable";
+
+        var tableIns = table.render({
+            elem: '#dataTable',
+            id: layTableId,
+            data: viewObj.tbData,
+            width: tbWidth,
+            page: false,
+            limit: Number.MAX_VALUE,
+            loading: true,
+            even: false,
+            cols: [
+                [
+                    {
+                        field: 'orderNum', title: '顺序', width: '25%', templet: function (d) {
+                            return '<input type="text" name="orderNum" id="orderNum-' + d.tempId + '" lay-verify="required" placeholder="顺序" autocomplete="off" class="layui-input" value="' + d.orderNum + '" lay-reqtext="顺序不得为空>_<">';
+                        }
+                    },
+                    {
+                        field: 'dictKey', title: '字典码', width: '30%', templet: function (d) {
+                            return '<input type="text" name="dictKey" id="dictKey-' + d.tempId + '" lay-verify="required" placeholder="字典码" autocomplete="off" class="layui-input" value="' + d.dictKey + '" lay-reqtext="字典码不得为空>_<">';
+                        }
+                    },
+                    {
+                        field: 'dictValue', title: '字典值', width: '30%', templet: function (d) {
+                            return '<input type="text" name="dictValue" id="dictValue-' + d.tempId + '" lay-verify="required" placeholder="字典值" autocomplete="off" class="layui-input" value="' + d.dictValue + '" lay-reqtext="字典值不得为空>_<">';
+                        }
+                    },
+                    {
+                        title: '操作', width: '15%', align: 'center', templet: function (d) {
+                            return '<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" lay-id="' + d.tempId + '"><i class="layui-icon layui-icon-delete"></i>删除</a>';
+                        }
+                    }
+                ]
+            ],
+            done: function (res, curr, count) {
+                viewObj.tbData = res.data;
+                res.data.forEach(item => {
+                    // 监听input输入框
+                    var dictKey_id = 'dictKey-' + item.tempId;
+                    $("#" + dictKey_id + "").on("input", function (e) {
+                        item.dictKey = e.delegateTarget.value;
+                    });
+
+                    var dictValue_id = 'dictValue-' + item.tempId;
+                    $("#" + dictValue_id + "").on("input", function (e) {
+                        item.dictValue = e.delegateTarget.value;
+                    });
+
+                    var orderNum_id = 'orderNum-' + item.tempId;
+                    $("#" + orderNum_id + "").on("input", function (e) {
+                        item.orderNum = e.delegateTarget.value;
+                    });
+                })
+            }
+        });
+
+
+        //定义事件集合
+        var active = {
+            addRow: function(){	//添加一行
+                // var oldData = table.cache[layTableId];
+                var oldData = table.getData(layTableId);
+                console.log(oldData);
+
+                var newRow = {tempId: new Date().valueOf(), dictKey: '',  dictValue: '', orderNum: oldData.length + 1};
+                oldData.push(newRow);
+                tableIns.reload({
+                    data : oldData
+                });
+            },
+            removeEmptyTableCache: function(){
+                // var oldData = table.cache[layTableId];
+                var oldData = table.getData(layTableId);
+                for(var i = 0, row; i < oldData.length; i++){
+                    row = oldData[i];
+                    if(!row || !row.tempId){
+                        oldData.splice(i, 1);    //删除一项
+                    }
+                    continue;
+                }
+
+                // 当有删除时，重置顺序号
+                for (var j = 0; j < oldData.length; j++) {
+                    oldData[j].orderNum = j + 1;
+                }
+
+                tableIns.reload({
+                    data : oldData
+                });
+            }
+        }
+
+        // 注册’添加一行‘按钮事件
+        $('.layui-btn[data-type]').on('click', function () {
+            var type = $(this).data('type'); // var type的值其实就等于addRow ，就是data-type里配置的值
+            activeByType(type);
+        });
+
+        // 激活事件，寻找事件
+        var activeByType = function (type, arg) {
+            // arguments.length表示实际上向函数传入了多少个参数
+            if (arguments.length === 2) {
+                active[type] ? active[type].call(this, arg) : '';
+            } else {
+                active[type] ? active[type].call(this) : '';
+            }
+        }
+
+        // 监听table工具条
+        table.on('tool(dataTable)', function (obj) {
+            var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
+            console.log(data);
+            switch(event) {
+                case "del":
+                    layer.confirm('真的删除此行么？', function(index){
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        activeByType('removeEmptyTableCache');
+                    });
+                    break;
+            }
+        });
+
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            var tableData = table.getData(layTableId);
+            console.log(tableData);
+            if(tableData && tableData.length > 0) {
+                for (var i = 0, row; i < tableData.length; i++) {
+                    row = tableData[i];
+                    if(!row.dictKey){
+                        layer.msg("检查每一行，请填写字典码！", { icon: 5 }); //提示
+                        return;
+                    }
+                    if(!row.dictValue){
+                        layer.msg("检查每一行，请填写字典值！", { icon: 5 }); //提示
+                        return;
+                    }
+                }
+            } else {
+                layer.msg("请最少填写一行字典项信息！", { icon: 5 }); //提示
+                return;
+            }
+
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
+
+                data.field.detailData = JSON.stringify(tableData);
                 Util.post({
                     url: Util.ctx + "dict/doAdd",
                     data: data.field,
@@ -81,20 +300,21 @@
             return false;
         });
 
+
         form.verify({
-            name: function(value, item) { //value：表单的值、item：表单的DOM对象
-                if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+            name: function (value, item) { //value：表单的值、item：表单的DOM对象
+                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
                     return '字典名不能有特殊字符';
                 }
-                if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                if (/(^\_)|(\__)|(\_+$)/.test(value)) {
                     return '字典名首尾不能出现下划线\'_\'';
                 }
-                if(/^\d+\d+\d$/.test(value)){
+                if (/^\d+\d+\d$/.test(value)) {
                     return '字典名不能全为数字';
                 }
             },
             letter: function (value, item) {
-                if (!new RegExp("^[0-9a-zA-Z_]+$").test(value)) {
+                if (!new RegExp("^[0-9a-zA-Z_]+$").test(value)) {
                     return '字典编码作为唯一标识，请输入全英文或者下划线';
                 }
             }
