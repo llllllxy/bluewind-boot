@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-bg-blue" lay-submit
+                            <button type="submit" class="layui-btn" lay-submit
                                     lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
                             </button>
                             <button type="submit" class="layui-btn layui-btn-primary" lay-submit
@@ -58,7 +58,7 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add">
+                <button class="layui-btn layui-btn-sm" lay-event="add">
                     <i class="layui-icon layui-icon-addition" style="font-size: 10px;"></i>新增
                 </button>
             </div>
@@ -67,7 +67,7 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">
                 <i class="layui-icon layui-icon-edit" style="font-size: 10px;"></i>编辑
             </a>
             {{#  if(d.status == '0'){ }}
@@ -130,9 +130,9 @@
                     {field: 'owner', width: '10%', title: '使用方', sort: true, align: 'center'},
                     {field: 'validPeriod', width: '10%', title: '有效期', sort: true, align: 'center'},
                     {field: 'descript', width: '15%', title: '描述', minWidth: 80},
-                    {field: 'status', width: '10%', title: '状态', templet: '#statusTpl', sort: true, align: 'center'},
+                    {field: 'status', width: '8%', title: '状态', templet: '#statusTpl', sort: true, align: 'center'},
                     {field: 'createTime', width: '15%', title: '创建时间', sort: true, align: 'center'},
-                    {title: '操作', width: '20%', toolbar: '#currentTableBar', align: "center"}
+                    {title: '操作', width: '25%', toolbar: '#currentTableBar', align: 'center', fixed: 'right'}
                 ]
             ],
             autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
@@ -213,7 +213,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'itfckey/forAdd',
                     end: function (index) {
                         // 重载表格
@@ -238,7 +238,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'itfckey/forUpdate/' + data.id,
                     end: function (index) {
                         // 重载表格
@@ -276,7 +276,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + '/itfckey/forAuthorize/' + data.id,
                     end: function (index) {
                         // 重载表格
@@ -331,9 +331,8 @@
                 str += '<p>描述：' + data.descript + '</p>';
                 str += '</div>';
 
-
                 layer.alert(str, {
-                    title: '明细',
+                    title: '密钥明细',
                 });
                 return false;
             }

@@ -59,12 +59,14 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn"><i
-                    class="layui-icon layui-icon-ok"></i>保存
-            </button>
-        </div>
+    <!-- 右侧悬浮按钮 -->
+    <div class="right-bottom-btn">
+        <button class="layui-btn" lay-submit lay-filter="saveBtn"><i
+                class="layui-icon layui-icon-ok"></i>确认
+        </button>
+        <button class="layui-btn" lay-filter="cancleBtn"><i
+                class="layui-icon layui-icon-close"></i>取消
+        </button>
     </div>
 </div>
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
@@ -114,6 +116,12 @@
             return false;
         });
 
+
+        // 监听取消按钮
+        $("button[lay-filter='cancleBtn']").click(function(){
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
+        });
     });
 </script>
 </body>

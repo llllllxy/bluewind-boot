@@ -10,45 +10,47 @@
         .layui-form-item .layui-input-company {
             width: auto;padding-right: 10px;line-height: 38px;
         }
+        body {
+            background-color: #ffffff;
+        }
     </style>
 </head>
 <body>
-<div class="layuimini-container">
-    <div class="layuimini-main">
+<form class="layui-form" action="" lay-filter="formDemo">
+    <div class="layui-form layuimini-form">
 
-        <form class="layui-form" action="" lay-filter="formDemo">
-            <div class="layui-form layuimini-form">
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">Key：</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="itfcKey" lay-verify="required" class="layui-input" th:value="${itfcKey.itfcKey}" disabled>
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label required">使用方：</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="owner" lay-verify="required" class="layui-input" th:value="${itfcKey.owner}" disabled>
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label">接口列表：</label>
-                    <div class="layui-input-block">
-                        <div id="test1"></div>
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-submit lay-filter="saveBtn"> 保存 </button>
-                    </div>
-                </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">Key：</label>
+            <div class="layui-input-block">
+                <input type="text" name="itfcKey" lay-verify="required" class="layui-input" th:value="${itfcKey.itfcKey}" disabled>
             </div>
-        </form>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">使用方：</label>
+            <div class="layui-input-block">
+                <input type="text" name="owner" lay-verify="required" class="layui-input" th:value="${itfcKey.owner}" disabled>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">接口列表：</label>
+            <div class="layui-input-block">
+                <div id="test1"></div>
+            </div>
+        </div>
+
+        <!-- 右侧悬浮按钮 -->
+        <div class="right-bottom-btn">
+            <button class="layui-btn" lay-submit lay-filter="saveBtn">
+                <i class="layui-icon layui-icon-ok"></i>确认
+            </button>
+            <button class="layui-btn" lay-filter="cancleBtn">
+                <i class="layui-icon layui-icon-close"></i>取消
+            </button>
+        </div>
     </div>
-</div>
+</form>
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
@@ -83,59 +85,6 @@
                 permissionId: "permissionId"
             },
         });
-
-
-        /**
-         * 菜单树转数组list
-         * @params tree: 要转换的树结构数据
-         **/
-        function treeToList(tree){
-            var list = [];  //结果lsit
-            for(var i in tree){
-                var node = tree[i];
-
-                if (node.children != null && node.children.length !== 0) {  //遍历树的第一层,只有一个根结点
-                    //第一层加入到list中,因为根结点模块设置为虚拟结点,所以不用加入
-                    list.push({
-                        permissionId: node.permissionId,
-                        title: node.title,
-                        parentId:node.parentId
-                    });
-                    toListDF(node.children, list, node.permissionId);  //遍历子树,并加入到list中.
-                } else {
-                    list.push({
-                        permissionId: node.permissionId,
-                        title: node.title,
-                        parentId:node.parentId
-                    });
-                }
-            }
-            return list;
-        }
-
-        /**
-         * 深度优先遍历树
-         * 一个递归方法
-         * @params tree:要转换的树结构数据
-         * @params list:保存结果的列表结构数据，初始传list = []
-         * @params parentId:当前遍历节点的父级节点id，初始为null(因为根节点无parentId)
-         **/
-        function toListDF (tree, list, parentId) {
-            for (var i in tree) { //遍历最上层
-                //将当前树放入list中
-                var node = tree[i];
-                list.push({
-                    permissionId: node.permissionId,
-                    title: node.title,
-                    parentId: parentId
-                });
-                //如果有子结点,再遍历子结点
-                if (node.children != null && node.children.length !== 0) {
-                    toListDF(node.children, list, node.permissionId)  //递归
-                }
-            }
-        }
-
 
         // 监听提交
         form.on('submit(saveBtn)', function (res) {
@@ -182,6 +131,13 @@
             });
 
             return false;
+        });
+
+
+        // 监听取消按钮
+        $("button[lay-filter='cancleBtn']").click(function(){
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
         });
     });
 </script>
