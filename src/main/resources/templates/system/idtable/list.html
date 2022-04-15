@@ -125,7 +125,7 @@
                     {field: 'idSuffix', width: '10%', title: '后缀', align: 'center'},
                     {field: 'descript', width: '23%', title: '描述', align: 'center'},
                     {field: 'createTime', width: '15%', title: '创建时间', sort: true, align: 'center'},
-                    {title: '操作', width: '15%', toolbar: '#currentTableBar', align: "center"}
+                    {title: '操作', width: '15%', toolbar: '#currentTableBar', align: 'center', fixed: 'right'}
                 ]
             ],
             autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
@@ -206,15 +206,12 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'idtable/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
             }
         });
@@ -231,14 +228,11 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'idtable/forUpdate/' + data.idId,
                     end: function (index) {
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'delete') {

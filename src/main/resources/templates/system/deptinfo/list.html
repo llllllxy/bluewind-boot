@@ -133,7 +133,7 @@
                     shadeClose: true,
                     maxmin: true,
                     shade: 0.2,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'deptinfo/add',
                     end: function(index){
                         insTb.refresh();
@@ -158,10 +158,10 @@
                 layer.open({
                     type: 2,
                     shade: 0.2,
-                    title: '修改菜单',
+                    title: '修改部门',
                     shadeClose: true,
                     maxmin: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'deptinfo/update/' + data.permissionId,
                     end: function(index){
                         insTb.refresh();
