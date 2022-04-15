@@ -16,7 +16,6 @@ body {
 }
 
 .layuimini-form {
-    padding-right: 40px !important;
     padding-bottom: 40px !important;
 }
 
@@ -32,7 +31,7 @@ body {
     cursor: pointer;
 }
 
-/**必填红点 */
+/** 必填红点 */
 .layuimini-form > .layui-form-item > .required:after {
     content: '*';
     color: red;
@@ -42,6 +41,10 @@ body {
     line-height: 1.8em;
     top: 6px;
     right: 5px;
+}
+
+.layuimini-form > .layui-form-item {
+    margin-right: 40px;
 }
 
 .layuimini-form > .layui-form-item > .layui-form-label {
