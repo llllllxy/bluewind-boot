@@ -52,11 +52,18 @@ public interface BaseDictMapper {
     int addOneDict(DictInfo dict);
 
     /**
-     * 删除一个枚举
+     * 逻辑删除一个枚举
      * @param dictCode
      * @return
      */
     int deleteDict(String dictCode);
+
+    /**
+     * 物理删除一个枚举
+     * @param dictCode
+     * @return
+     */
+    int realDeleteDict(String dictCode);
 
     /**
      * 禁用一个枚举

@@ -55,7 +55,7 @@
 <body>
 <div class="layui-form layuimini-form">
     <div class="layui-form-item">
-        <label class="layui-form-label required">编码</label>
+        <label class="layui-form-label required">字典标识</label>
         <div class="layui-input-block">
             <input type="text" name="dictCode" lay-verify="required|letter" lay-reqtext="请输入字典编码" placeholder="请输入字典编码"
                    value="" class="layui-input">
@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">名称</label>
+        <label class="layui-form-label required">字典名称</label>
         <div class="layui-input-block">
             <input type="text" name="dictName" lay-verify="required|name" lay-reqtext="请输入字典名称" placeholder="请输入字典名称"
                    value="" class="layui-input">
@@ -141,7 +141,7 @@
                 [
                     {
                         field: 'orderNum', title: '顺序', width: '25%', templet: function (d) {
-                            return '<input type="text" name="orderNum" id="orderNum-' + d.tempId + '" lay-verify="required" placeholder="顺序" autocomplete="off" class="layui-input" value="' + d.orderNum + '" lay-reqtext="顺序不得为空>_<">';
+                            return '<input type="number" min="0" name="orderNum" id="orderNum-' + d.tempId + '" lay-verify="required" placeholder="顺序" autocomplete="off" class="layui-input" value="' + d.orderNum + '" lay-reqtext="顺序不得为空>_<">';
                         }
                     },
                     {

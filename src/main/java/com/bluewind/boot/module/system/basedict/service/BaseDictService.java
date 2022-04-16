@@ -58,6 +58,19 @@ public class BaseDictService {
         return nums;
     }
 
+
+    @Transactional
+    public int updateDict(String dictCode, List<DictInfo> insertDataList) {
+        // 执行先删后插策略
+        baseDictMapper.realDeleteDict(dictCode);
+        int nums = 0;
+        for (DictInfo dictInfo: insertDataList) {
+            int num = baseDictMapper.addOneDict(dictInfo);
+            nums = nums + num;
+        }
+        return nums;
+    }
+
     public int deleteDict(String dictCode) {
         return baseDictMapper.deleteDict(dictCode);
     }

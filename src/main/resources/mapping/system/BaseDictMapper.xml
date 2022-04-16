@@ -4,7 +4,7 @@
 
     <!--查询一个枚举,公共方法-->
     <select id="getDictByCode" parameterType="string" resultType="map">
-        select dict_key as code, dict_value as name
+        select dict_id, dict_key as code, dict_value as name
         from sys_dict_info
         where status = '0'
         and del_flag = '0'
@@ -45,7 +45,7 @@
         <if test="dictCode != null and dictCode != ''">
             and dict_code like CONCAT('%',#{dictCode},'%')
         </if>
-        <if test="dict_name != null and dict_name != ''">
+        <if test="dictName != null and dictName != ''">
             and dict_name like CONCAT('%',#{dictName},'%')
         </if>
         <if test="status != null and status != ''">
@@ -104,6 +104,11 @@
     <update id="deleteDict" parameterType="java.lang.String">
         update sys_dict_info set del_flag = '1' where dict_code = #{_parameter}
     </update>
+
+    <!--物理删除一个枚举-->
+    <delete id="realDeleteDict" parameterType="java.lang.String">
+        delete from sys_dict_info where dict_code = #{_parameter}
+    </delete>
 
     <!--禁用一个枚举-->
     <update id="forbidDict" parameterType="java.lang.String">

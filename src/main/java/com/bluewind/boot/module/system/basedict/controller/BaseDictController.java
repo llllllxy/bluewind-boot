@@ -8,11 +8,15 @@ import com.bluewind.boot.module.system.basedict.service.BaseDictService;
 import com.bluewind.boot.common.annotation.OperLogAround;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.consts.OperLogConst;
+import com.bluewind.boot.common.base.BaseController;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections4.CollectionUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +26,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import java.util.*;
-
-import com.bluewind.boot.common.base.BaseController;
 
 
 /**
@@ -68,12 +70,12 @@ public class BaseDictController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public BaseResult list(@RequestParam("limit") Integer pageSize,
-                                     @RequestParam("page") Integer pageNum,
-                                     @RequestParam(required = false, defaultValue = "", value = "dictCode") String dictCode,
-                                     @RequestParam(required = false, defaultValue = "", value = "dictName") String dictName,
-                                     @RequestParam(required = false, defaultValue = "", value = "status") String status,
-                                     @RequestParam(required = false, defaultValue = "", value = "sortName") String sortName,
-                                     @RequestParam(required = false, defaultValue = "", value = "sortOrder") String sortOrder) {
+                           @RequestParam("page") Integer pageNum,
+                           @RequestParam(required = false, defaultValue = "", value = "dictCode") String dictCode,
+                           @RequestParam(required = false, defaultValue = "", value = "dictName") String dictName,
+                           @RequestParam(required = false, defaultValue = "", value = "status") String status,
+                           @RequestParam(required = false, defaultValue = "", value = "sortName") String sortName,
+                           @RequestParam(required = false, defaultValue = "", value = "sortOrder") String sortOrder) {
         // 分页查询
         PageHelper.startPage(pageNum, pageSize);
         Map<String, String> paraMap = new HashMap<>();
@@ -116,7 +118,7 @@ public class BaseDictController extends BaseController {
                             @RequestParam("dictName") String dictName,
                             @RequestParam("detailData") String detailData) {
         Integer exist = baseDictService.checkExistByDictCode(dictCode);
-        if (exist != null ) {
+        if (exist != null) {
             return BaseResult.failure("新增字典失败，此字典编码已存在!");
         }
         List<Map> detailDataList = JsonTool.parseArray(detailData, Map.class);
@@ -135,7 +137,7 @@ public class BaseDictController extends BaseController {
 
             insertDataList.add(dict);
         } else {
-            for (Map map: detailDataList) {
+            for (Map map : detailDataList) {
                 DictInfo dict = new DictInfo();
                 dict.setDictId(IdGenerate.nextId());
                 dict.setDictCode(dictCode);
@@ -166,6 +168,8 @@ public class BaseDictController extends BaseController {
 
     /**
      * 枚举删除
+     *
+     * @return
      */
     @RequestMapping(value = "/delete/{dictCode}", method = RequestMethod.GET)
     @ResponseBody
@@ -181,6 +185,8 @@ public class BaseDictController extends BaseController {
 
     /**
      * 枚举禁用
+     *
+     * @return
      */
     @RequestMapping(value = "/forbid/{dictCode}", method = RequestMethod.GET)
     @ResponseBody
@@ -196,6 +202,8 @@ public class BaseDictController extends BaseController {
 
     /**
      * 枚举启用
+     *
+     * @return
      */
     @RequestMapping(value = "/enable/{dictCode}", method = RequestMethod.GET)
     @ResponseBody
@@ -215,37 +223,68 @@ public class BaseDictController extends BaseController {
      *
      * @return
      */
-    @RequestMapping(value = "/forUpdate/{dictId}", method = RequestMethod.GET)
-    public String forUpdate(@PathVariable String dictId, Model model) {
-//        Dict dict = baseDictService.findOneBaseDictById(dictId);
-//        model.addAttribute("dict", dict);
+    @RequestMapping(value = "/forUpdate/{dictCode}", method = RequestMethod.GET)
+    public String forUpdate(@PathVariable String dictCode, Model model) {
+        List<DictInfo> dictList = baseDictService.getDictByDictCode(dictCode);
+        model.addAttribute("dict", dictList.get(0));
+        model.addAttribute("dictList", JsonTool.toJsonString(dictList));
+
         return "system/basedict/update";
     }
 
 
-//    /**
-//     * 枚举修改
-//     *
-//     * @return
-//     */
-//    @RequestMapping(value = "/update", method = RequestMethod.POST)
-//    @ResponseBody
-//    public BaseResult update(@RequestParam(required = false, defaultValue = "", value = "descript") String descript,
-//                             @RequestParam("name") String name,
-//                             @RequestParam("dictId") String dictId) {
-//        Dict dict = new Dict();
-//        dict.setDescript(descript);
-//        dict.setName(name);
-//        dict.setDictId(dictId);
-//        dict.setCreateUser(getSysUserId());
-//        dict.setStatus("0");
-//        dict.setDelFlag("0");
-//        int num = baseDictService.updateOneDict(dict);
-//        if (num > 0) {
-//            return BaseResult.success("字典编辑保存成功！");
-//        } else {
-//            return BaseResult.failure("字典编辑保存失败！");
-//        }
-//    }
+    /**
+     * 枚举修改
+     *
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult update(@RequestParam(required = false, defaultValue = "", value = "descript") String descript,
+                             @RequestParam("dictCode") String dictCode,
+                             @RequestParam("dictName") String dictName,
+                             @RequestParam("detailData") String detailData) {
+        List<DictInfo> insertDataList = new ArrayList<>();
+        List<Map> detailDataList = JsonTool.parseArray(detailData, Map.class);
+
+        if (CollectionUtils.isEmpty(detailDataList)) {
+            DictInfo dict = new DictInfo();
+            dict.setDictId(IdGenerate.nextId());
+            dict.setDictCode(dictCode);
+            dict.setDictName(dictName);
+            dict.setDescript(descript);
+            dict.setCreateUser(getSysUserId());
+            dict.setStatus("0");
+            dict.setDelFlag("0");
+
+            insertDataList.add(dict);
+        } else {
+            for (Map map : detailDataList) {
+                DictInfo dict = new DictInfo();
+                dict.setDictId(IdGenerate.nextId());
+                dict.setDictCode(dictCode);
+                dict.setDictName(dictName);
+                dict.setDescript(descript);
+                dict.setCreateUser(getSysUserId());
+                dict.setStatus("0");
+                dict.setDelFlag("0");
+                String dictKey = Optional.ofNullable(map.get("dictKey")).orElse("").toString();
+                String dictValue = Optional.ofNullable(map.get("dictValue")).orElse("").toString();
+                Integer orderNum = Integer.parseInt(Optional.ofNullable(map.get("orderNum")).orElse("0").toString());
+
+                dict.setDictKey(dictKey);
+                dict.setDictValue(dictValue);
+                dict.setOrderNum(orderNum);
+                insertDataList.add(dict);
+            }
+        }
+        int num = baseDictService.updateDict(dictCode, insertDataList);
+
+        if (num > 0) {
+            return BaseResult.success("字典编辑保存成功！");
+        } else {
+            return BaseResult.failure("字典编辑保存失败！");
+        }
+    }
 
 }
