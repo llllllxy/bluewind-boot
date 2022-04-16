@@ -73,7 +73,7 @@ public class LoginController {
     public String loginPage(Model model) {
         logger.info("LoginController -- loginPage -- start");
         model.addAttribute("kaptcha_key", IdGenerate.uuid());
-        return "login/login_v3";
+        return "system/login/login_v3";
     }
 
     @LogAround(value = "执行登陆操作")

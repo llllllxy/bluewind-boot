@@ -57,7 +57,7 @@ public class IndexController extends BaseController {
         String account = getSysUserAccount();
         UserInfo userInfo = userInfoService.getOne(account);
         model.addAttribute("userInfo", userInfo);
-        return "index/index";
+        return "system/index/index";
     }
 
     /**
@@ -106,7 +106,7 @@ public class IndexController extends BaseController {
      */
     @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
     public String updatePassword() {
-        return "index/user_password";
+        return "system/index/user_password";
     }
 
 
@@ -171,7 +171,7 @@ public class IndexController extends BaseController {
         String account = getSysUserAccount();
         UserInfo userInfo = userInfoService.getOne(account);
         model.addAttribute("userInfo", userInfo);
-        return "index/user_info";
+        return "system/index/user_info";
     }
 
 
@@ -182,7 +182,7 @@ public class IndexController extends BaseController {
      */
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String welcome(Model model) {
-        return "index/welcome_1";
+        return "system/index/welcome_1";
     }
 
 }
