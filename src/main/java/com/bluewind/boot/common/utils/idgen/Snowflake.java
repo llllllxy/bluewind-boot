@@ -9,7 +9,7 @@ import java.util.Random;
  * 64位ID (42(毫秒)+5(机器ID)+5(业务编码)+12(重复累加))
  * https://github.com/twitter/snowflake/blob/scala_28/src/main/scala/com/twitter/service/snowflake/IdWorker.scala
  */
-public class IdWorker {
+public class Snowflake {
     private final static long twepoch = 1288834974657L;
     // 机器标识位数
     private final static long workerIdBits = 5L;
@@ -38,7 +38,7 @@ public class IdWorker {
     private final long datacenterId;
 
     // 私有化示例要加上volatile，防止jvm重排序，导致空指针
-    private static volatile IdWorker idWorker = null;
+    private static volatile Snowflake snowflake = null;
     private static final Object lock = new Object();
 
 
@@ -48,7 +48,7 @@ public class IdWorker {
      * @param workerId
      * @param datacenterId
      */
-    private IdWorker(long workerId, long datacenterId) {
+    private Snowflake(long workerId, long datacenterId) {
         if (workerId > maxWorkerId || workerId < 0) {
             if (workerId == -1) {
                 this.workerId = getRandom(maxWorkerId);
@@ -75,18 +75,18 @@ public class IdWorker {
      *
      * @return
      */
-    public static IdWorker getInstanceIdWorker() {
-        if (idWorker == null) {
+    public static Snowflake getInstanceIdWorker() {
+        if (snowflake == null) {
             synchronized (lock) {
-                if (idWorker == null) {
+                if (snowflake == null) {
                     long workerId = getRandom(maxWorkerId);
                     long dataCenterId = getRandom(maxDatacenterId);
 
-                    idWorker = new IdWorker(workerId, dataCenterId);
+                    snowflake = new Snowflake(workerId, dataCenterId);
                 }
             }
         }
-        return idWorker;
+        return snowflake;
     }
 
 

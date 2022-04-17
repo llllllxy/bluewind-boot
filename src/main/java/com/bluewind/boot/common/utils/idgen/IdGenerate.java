@@ -1,7 +1,5 @@
 package com.bluewind.boot.common.utils.idgen;
 
-import org.apache.commons.lang3.StringUtils;
-
 
 /**
  * @author liuxingyu01
@@ -9,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
  * @description 封装各种生成唯一性ID算法的工具类.
  **/
 public class IdGenerate {
-    private static final IdWorker idWorker = IdWorker.getInstanceIdWorker();
+    private static final Snowflake snowflake = Snowflake.getInstanceIdWorker();
 
     public IdGenerate() {
     }
@@ -48,9 +46,13 @@ public class IdGenerate {
         return UUID.fastUUID().toString(true).toUpperCase();
     }
 
-    public static String getInnerIdByLength(int length) {
-        UUIDGenerator uuid = new UUIDGenerator();
-        return uuid.getNextSeqId(length).toString();
+
+    /**
+     * 获取MongoDb ObjectId
+     * @return
+     */
+    public static String objectId() {
+        return ObjectId.next();
     }
 
 
@@ -60,7 +62,7 @@ public class IdGenerate {
      * @return String
      */
     public static String nextId() {
-        return String.valueOf(idWorker.nextId());
+        return String.valueOf(snowflake.nextId());
     }
 
     /**
@@ -69,32 +71,7 @@ public class IdGenerate {
      * @return long
      */
     public static long nextLongId() {
-        return idWorker.nextId();
-    }
-
-    public static String nextCode(String code) {
-        if (code == null) {
-            return null;
-        } else {
-            String str = code.trim();
-            int len = str.length() - 1;
-            int lastNotNumIndex = 0;
-            for (int i = len; i >= 0; --i) {
-                if (str.charAt(i) < '0' || str.charAt(i) > '9') {
-                    lastNotNumIndex = i;
-                    break;
-                }
-            }
-            if (str.charAt(len) >= '0' && str.charAt(len) <= '9' && lastNotNumIndex == len) {
-                lastNotNumIndex = -1;
-            }
-            String prefix = str.substring(0, lastNotNumIndex + 1);
-            String numStr = str.substring(lastNotNumIndex + 1, str.length());
-
-            long num = Long.parseLong(numStr);
-            str = prefix + StringUtils.leftPad(String.valueOf(num + 1L), numStr.length(), "0");
-            return str;
-        }
+        return snowflake.nextId();
     }
 
 
