@@ -21,4 +21,25 @@ public class DeptInfoServiceImpl implements DeptInfoService {
     public List<DeptInfo> list() {
         return deptInfoMapper.list();
     }
+
+    public int add(DeptInfo deptInfo) {
+        return deptInfoMapper.add(deptInfo);
+    }
+
+    public int update(DeptInfo deptInfo) {
+        return deptInfoMapper.update(deptInfo);
+    }
+
+    public int del(String deptId) {
+        return deptInfoMapper.del(deptId);
+    }
+
+    public DeptInfo getOne(String deptId) {
+        return deptInfoMapper.getOne(deptId);
+    }
+
+    public int updateSort(DeptInfo deptInfo) {
+        return deptInfoMapper.updateSort(deptInfo);
+    }
+
 }

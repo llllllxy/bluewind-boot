@@ -14,4 +14,14 @@ import java.util.List;
 public interface DeptInfoMapper {
 
     List<DeptInfo> list();
+
+    DeptInfo getOne(String deptId);
+
+    int add(DeptInfo deptInfo);
+
+    int update(DeptInfo deptInfo);
+
+    int del(String deptId);
+
+    int updateSort(DeptInfo deptInfo);
 }

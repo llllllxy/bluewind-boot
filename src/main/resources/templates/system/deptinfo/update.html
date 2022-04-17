@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>新增部门</title>
+    <title>更新部门</title>
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
     <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
@@ -21,8 +21,9 @@
             <label class="layui-form-label required">上级部门</label>
             <div class="layui-input-block">
                 <input type="text" id="parentName" name="parentName"/>
-                <input type="hidden" id="parentId" name="parentId"/>
-                <input type="hidden" id="ancestors" name="ancestors"/>
+                <input type="hidden" id="deptId" name="deptId" th:value="${deptInfo.deptId}"/>
+                <input type="hidden" id="parentId" name="parentId" th:value="${deptInfo.parentId}"/>
+                <input type="hidden" id="ancestors" name="ancestors" th:value="${deptInfo.ancestors}"/>
             </div>
         </div>
 
@@ -30,7 +31,7 @@
             <label class="layui-form-label required">部门名称</label>
             <div class="layui-input-block">
                 <input type="text" name="deptName" id="deptName" lay-verify="required" lay-reqtext="部门名称不能为空>_<"
-                       placeholder="请输入部门名称" class="layui-input">
+                       placeholder="请输入部门名称" class="layui-input" th:value="${deptInfo.deptName}">
             </div>
         </div>
 
@@ -38,21 +39,21 @@
             <label class="layui-form-label required">负责人</label>
             <div class="layui-input-block">
                 <input type="text" name="leader" id="leader" lay-verify="required" lay-reqtext="负责人姓名不能为空>_<"
-                       placeholder="请输入负责人姓名" class="layui-input">
+                       placeholder="请输入负责人姓名" class="layui-input" th:value="${deptInfo.leader}">
             </div>
         </div>
 
         <div class="layui-form-item" id="phone_div">
             <label class="layui-form-label">联系电话</label>
             <div class="layui-input-block">
-                <input type="text" name="phone" id="phone" placeholder="请输入联系电话" class="layui-input">
+                <input type="text" name="phone" id="phone" placeholder="请输入联系电话" class="layui-input" th:value="${deptInfo.phone}">
             </div>
         </div>
 
         <div class="layui-form-item" id="email_div">
             <label class="layui-form-label">邮箱</label>
             <div class="layui-input-block">
-                <input type="text" name="email" id="email" placeholder="请输入邮箱" class="layui-input">
+                <input type="text" name="email" id="email" placeholder="请输入邮箱" class="layui-input" th:value="${deptInfo.email}">
             </div>
         </div>
 
@@ -60,7 +61,7 @@
             <label class="layui-form-label required">排序</label>
             <div class="layui-input-block">
                 <input type="number" min="0" name="orderNum" id="orderNum" lay-verify="required" lay-reqtext="排序不能为空>_<"
-                       placeholder="请输入排序" class="layui-input" value="0">
+                       placeholder="请输入排序" class="layui-input" th:value="${deptInfo.orderNum}">
                 <tip>值越小，越靠前</tip>
             </div>
         </div>
@@ -69,7 +70,7 @@
             <label class="layui-form-label required">岗位状态</label>
             <div class="layui-input-block">
                 <input type="radio" name="status" th:each="item, itemStat: ${dictList}" th:value="${item.code}"
-                       th:title="${item.name}" th:checked="${itemStat.index eq 0}">
+                       th:title="${item.name}" th:checked="${deptInfo.status eq item.code}">
             </div>
         </div>
 
@@ -113,10 +114,13 @@
                 }
                 // 扁平数据转树
                 var options = arrayToTree(datalist, "0");
+                // 获取父级Id
+                var parentId = $("#parentId").val();
 
                 // 初始化cascader实例
                 cascader = layCascader({
                     elem: '#parentName',
+                    value: parentId, // 回显父级数据
                     clearable: true,
                     props: {
                         checkStrictly: true // 配置选择任意一级选项
@@ -145,7 +149,7 @@
 
             var index = layer.load(0, {shade: 0.1});
             Util.post({
-                url: Util.ctx + "deptinfo/add",
+                url: Util.ctx + "deptinfo/update",
                 data: data,
                 success: function (res) {
                     layer.close(index);
