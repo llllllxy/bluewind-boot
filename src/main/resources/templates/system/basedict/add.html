@@ -320,6 +320,13 @@
             }
         });
 
+
+        // 监听取消按钮
+        $("button[lay-filter='cancleBtn']").click(function(){
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
+        });
+
     });
 </script>
 </body>
