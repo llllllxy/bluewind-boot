@@ -18,7 +18,10 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
         <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
     </resultMap>
+
 
     <select id="getOne" resultMap="SysUserInfo" parameterType="java.lang.String">
         select * from sys_user_info where account = #{_parameter}
@@ -26,23 +29,26 @@
 
     <!--查询所有用户-->
     <select id="getSysUserInfoList" resultMap="SysUserInfo" parameterType="map">
-        select * from sys_user_info
+        select sui.*,
+        sdi.dept_name
+        from sys_user_info sui
+        left join sys_dept_info sdi on sui.dept_id = sdi.dept_id
         where 1=1
         <if test="account != null and account != ''">
-            and account like CONCAT('%',#{account},'%')
+            and sui.account like CONCAT('%',#{account},'%')
         </if>
         <if test="name != null and name != ''">
-            and name like CONCAT('%',#{name},'%')
+            and sui.name like CONCAT('%',#{name},'%')
         </if>
         <if test="status != null and status != ''">
-            and status = #{status}
+            and sui.status = #{status}
         </if>
         <choose>
             <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
-                order by ${sortName} ${sortOrder}
+                order by sui.${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by user_id asc
+                order by sui.user_id asc
             </otherwise>
         </choose>
     </select>
@@ -60,12 +66,13 @@
     </delete>
 
     <insert id="doAdd" parameterType="com.bluewind.boot.module.system.userinfo.entity.UserInfo">
-        insert into sys_user_info (user_id,account,password,name,phone,email,avatar,sex,status,del_flag,create_user)
+        insert into sys_user_info (user_id,account,password,name,dept_id,phone,email,avatar,sex,status,del_flag,create_user)
         values (
             #{userId},
             #{account},
             #{password},
             #{name},
+            #{deptId},
             #{phone},
             #{email},
             #{avatar},

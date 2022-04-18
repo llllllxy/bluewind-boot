@@ -208,8 +208,29 @@
             var iframeIndex = parent.layer.getFrameIndex(window.name);
             parent.layer.close(iframeIndex);
         });
-
     });
+
+    /**
+     *  扁平数据转树结构
+     * @returns {[]}
+     * @param data
+     * @param firstPid
+     */
+    function arrayToTree(data, firstPid) {
+        const result = [];
+        getChildren(data, result, firstPid)
+        return result;
+    }
+
+    function getChildren(data, result, parentId) {
+        for (const item of data) {
+            if (item.parentId === parentId) {
+                const newItem = {...item, children: []};
+                result.push(newItem);
+                getChildren(data, newItem.children, item.deptId);
+            }
+        }
+    }
 </script>
 </body>
 </html>

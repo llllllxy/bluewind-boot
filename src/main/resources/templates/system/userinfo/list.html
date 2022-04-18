@@ -153,6 +153,7 @@
                             }
                         }
                     },
+                    {field: 'deptName', width: '10%', title: '所属部门', minWidth: 80},
                     {field: 'phone', width: '10%', title: '电话', minWidth: 80},
                     {field: 'email', width: '10%', title: '邮箱', minWidth: 80},
                     {field: 'status', width: '8%', title: '状态', templet: '#statusTpl', sort: true},
@@ -241,7 +242,6 @@
                     type: 2,
                     shade: 0.3,
                     maxmin: true,
-                    shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'userinfo/add',
                     end: function (index) {
@@ -355,7 +355,6 @@
                     type: 2,
                     shade: 0.2,
                     maxmin: true,
-                    shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'userinfo/update/' + data.userId,
                     end: function (index) {
@@ -390,7 +389,6 @@
                     type: 2,
                     shade: 0.2,
                     maxmin: true,
-                    shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'userinfo/authorize/' + data.userId,
                     end: function (index) {

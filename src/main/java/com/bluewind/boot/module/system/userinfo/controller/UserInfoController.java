@@ -5,6 +5,8 @@ import com.bluewind.boot.common.config.security.annotation.RequiresPermissions;
 import com.bluewind.boot.common.config.security.enums.Logical;
 import com.bluewind.boot.common.utils.excel.ExcelPoiUtil;
 import com.bluewind.boot.common.utils.lang.StringUtils;
+import com.bluewind.boot.module.system.deptinfo.entity.DeptInfo;
+import com.bluewind.boot.module.system.deptinfo.service.DeptInfoService;
 import com.bluewind.boot.module.system.postinfo.service.PostInfoService;
 import com.bluewind.boot.module.system.roleinfo.service.RoleInfoService;
 import com.bluewind.boot.module.system.userinfo.entity.UserInfo;
@@ -77,6 +79,9 @@ public class UserInfoController extends BaseController {
 
     @Autowired
     private UserPostService userPostService;
+
+    @Autowired
+    private DeptInfoService deptInfoService;
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -228,6 +233,7 @@ public class UserInfoController extends BaseController {
                             @RequestParam(value = "password") String password,
                             @RequestParam(required = false, defaultValue = "", value = "name") String name,
                             @RequestParam(required = false, defaultValue = "1", value = "sex") String sex,
+                            @RequestParam(required = false, defaultValue = "", value = "deptId") String deptId,
                             @RequestParam(required = false, defaultValue = "", value = "phone") String phone,
                             @RequestParam(required = false, defaultValue = "", value = "email") String email,
                             @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar,
@@ -247,6 +253,7 @@ public class UserInfoController extends BaseController {
         userInfo.setPassword(password);
         userInfo.setName(name);
         userInfo.setSex(sex);
+        userInfo.setDeptId(deptId);
         userInfo.setPhone(phone);
         userInfo.setEmail(email);
         userInfo.setAvatar(avatar);
@@ -383,6 +390,15 @@ public class UserInfoController extends BaseController {
     @ResponseBody
     public String listPostForSelect(@RequestParam(required = false, defaultValue = "", value = "userId") String userId) {
         return postInfoService.listPostForSelect(userId);
+    }
+
+
+    @RequiresPermissions(value = {"system:user:add", "system:user:edit"}, logical = Logical.OR)
+    @RequestMapping(value = "/listDeptForSelect", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult listDeptForSelect() {
+        List<DeptInfo> list = deptInfoService.list();
+        return BaseResult.success("修改获取部门树列表成功!", list);
     }
 
 

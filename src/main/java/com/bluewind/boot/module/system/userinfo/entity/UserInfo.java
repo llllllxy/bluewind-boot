@@ -27,6 +27,8 @@ public class UserInfo implements Serializable {
 
     private String deptId;
 
+    private String deptName;
+
     private String avatar;
 
     private String sex;
@@ -167,6 +169,14 @@ public class UserInfo implements Serializable {
         this.deptId = deptId;
     }
 
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
     @Override
     public String toString() {
         return "SysUserInfo{" +
@@ -176,6 +186,7 @@ public class UserInfo implements Serializable {
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", deptId='" + deptId + '\'' +
+                ", deptName='" + deptName + '\'' +
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", sex=" + sex + '\'' +
