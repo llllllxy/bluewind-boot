@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
-
     <style>
         body {
             background-color: #ffffff;
@@ -41,6 +40,14 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label required">所属部门</label>
+        <div class="layui-input-block">
+            <input type="text" id="deptName" name="deptName"/>
+            <input type="hidden" id="deptId" name="deptId"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label required">性别</label>
         <div class="layui-input-block">
             <input type="radio" name="sex" value="1" title="男" checked>
@@ -67,7 +74,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">岗位</label>
         <div class="layui-input-block">
-            <div id="demo1" class="xm-select-demo"></div>
+            <div id="postSelect" class="xm-select-demo"></div>
         </div>
     </div>
 
@@ -112,40 +119,77 @@
 
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form'], function () {
+    layui.use(['form', 'layCascader'], function () {
         var form = layui.form,
-            layer = layui.layer;
+            layer = layui.layer,
+            layCascader = layui.layCascader;
 
-        redenXmSelect();
+        // 初始化xmSelect人员岗位选择
+        var postSelect;
+        var index1 = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+        Util.get({
+            url: Util.ctx + 'userinfo/listPostForSelect',
+            success: function (res) {
+                layer.close(index1);
+                postSelect = xmSelect.render({
+                    el: '#postSelect',
+                    data: res.data,
+                    theme: {
+                        color: '#1E9FFF'
+                    }
+                })
+            },
+            error: function (error) {
+                layer.close(index1);
+                Message.error('获取岗位信息失败！', 1000);
+            }
+        });
 
-        var demo1;
-        function redenXmSelect() {
-            var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
-            Util.get({
-                url: Util.ctx + 'userinfo/listPostForSelect',
-                success: function (res) {
-                    layer.close(index);
-                    demo1 = xmSelect.render({
-                        el: '#demo1',
-                        data: res.data,
-                        theme: {
-                            color: '#1E9FFF'
-                        }
-                    })
-                },
-                error: function (error) {
-                    layer.close(index);
-                    Message.error('获取岗位信息失败！', 1000);
+        // 初始化cascader所属部门选择
+        var index2 = layer.load(0, {shade: 0.1});
+        Util.get({
+            url: Util.ctx + 'userinfo/listDeptForSelect',
+            success: function (res) {
+                layer.close(index2);
+
+                var datalist = [];
+                for (let item of res.data) {
+                    item.value = item.deptId;
+                    item.label = item.deptName;
+                    datalist.push(item);
                 }
-            });
-        }
+                // 扁平数据转树
+                var options = arrayToTree(datalist, "0");
 
+                // 初始化cascader实例
+                var cascader = layCascader({
+                    elem: '#deptName',
+                    clearable: true,
+                    showAllLevels: false, // 配置仅显示最后一级
+                    props: {
+                        checkStrictly: true, // 配置选择任意一级选项
+                    },
+                    options: options
+                });
+
+                // 监听cascader变化
+                cascader.changeEvent(function (value, node) {
+                    // 主动关闭面板
+                    cascader.close();
+                    $("#deptId").val(value);
+                });
+            },
+            error: function (error) {
+                layer.close(index2);
+                Message.error('获取部门信息失败！', 1000);
+            }
+        });
 
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            var selectArr = demo1.getValue('valueStr');
+            var selectArr = postSelect.getValue('valueStr');
             console.log("selectArr = " + selectArr);
 
             var index = layer.alert('确认提交吗？', function () {
@@ -214,7 +258,6 @@
                     if (0 === res.code) {
                         $("input[name='avatar']").val(res.data);
                         $('#pic-img').attr('src', res.data);
-
                         Message.success(res.message, 1000);
                     } else {
                         Message.error(res.message, 1000);
@@ -233,8 +276,30 @@
             var iframeIndex = parent.layer.getFrameIndex(window.name);
             parent.layer.close(iframeIndex);
         });
-
     });
+
+
+    /**
+     *  扁平数据转树结构
+     * @returns {[]}
+     * @param data
+     * @param firstPid
+     */
+    function arrayToTree(data, firstPid) {
+        const result = [];
+        getChildren(data, result, firstPid)
+        return result;
+    }
+
+    function getChildren(data, result, parentId) {
+        for (const item of data) {
+            if (item.parentId === parentId) {
+                const newItem = {...item, children: []};
+                result.push(newItem);
+                getChildren(data, newItem.children, item.deptId);
+            }
+        }
+    }
 </script>
 </body>
 </html>
