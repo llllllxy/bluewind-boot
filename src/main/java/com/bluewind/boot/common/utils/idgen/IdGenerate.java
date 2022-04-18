@@ -49,7 +49,7 @@ public class IdGenerate {
 
     /**
      * 获取MongoDb ObjectId
-     * @return
+     * @return String
      */
     public static String objectId() {
         return ObjectId.next();
