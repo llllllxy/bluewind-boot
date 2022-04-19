@@ -1,8 +1,8 @@
 /**
  * date:2021/06/19
  * author: liuxingyu01
- * description:此处放layui自定义扩展 和一些公共的方法
- * version:2.0.4
+ * description: 此处放layui自定义扩展 和一些公共的方法
+ * version: 2.0.4
  */
 window.rootPath = (function (src) {
     src = document.scripts[document.scripts.length - 1].src;
