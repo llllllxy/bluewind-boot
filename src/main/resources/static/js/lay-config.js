@@ -119,7 +119,9 @@ $.ajaxSetup({
     }
 } );
 
-
+/**
+ * 配置layer.open的宽度和高度
+ */
 const layerwidth = 800;
 const layerheight = ($(window).height() - 50);
 
