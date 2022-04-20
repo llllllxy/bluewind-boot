@@ -77,18 +77,19 @@
         }
 
         // 监听提交
-        form.on('submit(saveBtn)', function (res) {
+        form.on('submit(saveBtn)', function (data) {
             var selectArr = demo1.getValue('valueStr');
             console.log("selectArr = " + selectArr);
             if (!selectArr) {
                 layer.msg('请选择角色信息');
                 return false;
             }
-            var data = res.field;
             var index = layer.load(0, {shade: 0.1});
 
-            Util.get({
-                url: Util.ctx + 'userinfo/doAuthorize/' + data.userId + '/' + selectArr,
+            data.field.roles = selectArr;
+            Util.post({
+                url: Util.ctx + 'userinfo/doAuthorize',
+                data: data.field,
                 success: function (res) {
                     layer.close(index);
                     if (0 === res.code) {

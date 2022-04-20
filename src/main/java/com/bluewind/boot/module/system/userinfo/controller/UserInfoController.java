@@ -350,13 +350,8 @@ public class UserInfoController extends BaseController {
     }
 
 
-    /**
-     * 授权页面初始化
-     *
-     * @return
-     */
     @RequiresPermissions("system:user:authorize")
-    @ApiOperation(value = "用户授权页面初始化", notes = "用户授权页面初始化")
+    @ApiOperation(value = "用户角色授权页面初始化", notes = "用户角色授权页面初始化")
     @RequestMapping(value = "/authorize/{userId}", method = RequestMethod.GET)
     public String authorize(Model model, @PathVariable String userId) {
         UserInfo userInfo = userInfoService.getOneById(userId);
@@ -366,21 +361,21 @@ public class UserInfoController extends BaseController {
 
 
     @RequiresPermissions("system:user:authorize")
+    @ApiOperation(value = "根据用户id赋予用户角色", notes = "根据用户id赋予用户角色")
+    @RequestMapping(value = "/doAuthorize", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult doAuthorize(@RequestParam("userId") String userId,
+                                  @RequestParam("roles") String roles) {
+        return userRoleService.doAuthorize(userId, roles);
+    }
+
+
+    @RequiresPermissions("system:user:authorize")
     @ApiOperation(value = "根据用户id查询用户角色", notes = "根据用户id查询用户角色")
     @RequestMapping(value = "/listRoleForSelect/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public String listRoleForSelect(@PathVariable String userId) {
         return roleInfoService.listXmSelectPojo(userId);
-    }
-
-
-    @RequiresPermissions("system:user:authorize")
-    @ApiOperation(value = "根据用户id赋予用户角色", notes = "根据用户id赋予用户角色")
-    @RequestMapping(value = "doAuthorize/{userId}/{roles}", method = RequestMethod.GET)
-    @ResponseBody
-    public BaseResult doAuthorize(@PathVariable("userId") String userId,
-                                  @PathVariable("roles") String roles) {
-        return userRoleService.doAuthorize(userId, roles);
     }
 
 
