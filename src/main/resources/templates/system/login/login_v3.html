@@ -13,185 +13,12 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
     <link rel="stylesheet" th:href="@{/lib/aj-captcha/css/verify.css}">
+    <link rel="stylesheet" th:href="@{/css/login_v3.css}" media="all">
+
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <style th:inline="text">
-        body,html,#app,.layui-body {
-            height: 100%;
-            background: #f3f3f3;
-        }
-
-        a {
-            cursor: pointer;
-            color: #5a8bff;
-            transition: color 0.3s ease;
-        }
-
-        a:hover {
-            color: #1e51c7;
-        }
-
-        #app a {
-            outline: none;
-        }
-
-        #VIEW-login{
-            height: 100%;
-            background:#252834;
-            padding-top:1px;
-            margin-top:-1px;
-        }
-        #VIEW-login .layui-logo{
-            user-select: none;
-            overflow: hidden;
-            position: static;
-            font-size: 30px;
-            color:#d6e0f6;
-            width: 100%;
-            padding:0;
-            line-height: 120px;
-            height: 120px;
-            color:#3491ff;
-            font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-            transition: height .8s cubic-bezier(0.075, 0.82, 0.165, 1);
-        }
-        #VIEW-login .layui-logo span{
-            font-weight: normal;
-            color:#fff;
-            border-bottom: 1px solid #3491ff;
-        }
-        #VIEW-login .layui-logo span b{
-            color:#3491ff;
-        }
-
-
-        #VIEW-login .login-wrap{
-            position: relative;
-            top:50%;
-            margin-top:-290px;
-            height: 540px;
-        }
-
-        #VIEW-login .layui-form{
-            overflow: hidden;
-            background: #fff;
-            padding:40px;
-            padding-bottom:20px;
-            border-radius: 0px;
-            box-shadow: 0 0 30px #000;
-            position: relative;
-        }
-        #VIEW-login .layui-form-item{
-            position: relative;
-        }
-        #VIEW-login .verify-block{
-            display: none;
-        }
-        #VIEW-login .telephone-block{
-            display: none;
-        }
-
-        #VIEW-login .layui-input{
-            text-indent:26px;
-        }
-        #VIEW-login .codeimg{
-            margin-left: 10px;
-            cursor: pointer;
-        }
-        #VIEW-login .sendsms{
-            position: absolute;
-            top:4px;
-            right: 4px;
-            width: 100px;
-            border:none;
-        }
-        #VIEW-login .sendsms.layui-btn-disabled{
-            background: #f4f4f4;
-            color:#bbb;
-        }
-        #VIEW-login .houseimg{
-            text-align: center;
-        }
-        #VIEW-login .houseimg img{
-            display: inline-block;
-            margin-top:5%;
-        }
-
-        #VIEW-login .login-type-tab{
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        #VIEW-login .login-type-tab li{
-            display: inline-block;
-            padding-right: 20px;
-            font-size: 16px;
-            line-height: 30px;
-            color:#bbb;
-            cursor: pointer;
-            transition: color .5s ease;
-        }
-        #VIEW-login .login-type-tab li.active{
-            color:#333;
-        }
-        #VIEW-login .login-type-tab li .qrcode-icon{
-            font-size: 24px;
-        }
-        #VIEW-login .phonecode-block{
-            display: none;
-        }
-        #VIEW-login .qrcode-block{
-            text-align: center;
-            display: none;
-        }
-
-        #VIEW-login .qrcode-block .qrcode{
-            border:1px solid #eee;
-            display: inline-block;
-            padding:15px;
-            margin:30px 0;
-            width: 158px;
-            height: 158px;
-        }
-
-        #VIEW-login .qrcode-block .qrcode .layui-icon{
-            line-height: 158px;
-            font-size: 44px;
-            color:#e6e6e6;
-        }
-        #VIEW-login .qrcode-block .p1{
-            font-size: 16px;
-        }
-        #VIEW-login .qrcode-block .p2{
-            font-size: 14px;
-            color:#999;
-            margin-top:10px;
-            margin-bottom: 20px;
-        }
-        #VIEW-login .layui-form-item .label-icon{
-            position: absolute;
-            top:0;
-            left:0;
-            width: 38px;
-            line-height: 38px;
-            text-align: center;
-            color: #d2d2d2!important;
-        }
-        .nepadmin-tc {
-            text-align: center;
-        }
-        .nepadmin-fr {
-            float: right;
-        }
-
-        .layui-form-checked[lay-skin=primary] i{
-            border-color:#4BB2FF !important;
-            background-color:#4BB2FF !important;
-            font-weight: bold;
-        }
-    </style>
 
 </head>
 <body>
@@ -202,7 +29,7 @@
         <div class="login-wrap">
             <div class="layui-container">
                 <div class="layui-row">
-                    <div class="layui-col-xs12 layui-col-lg4 layui-col-lg-offset4 nepadmin-tc">
+                    <div class="layui-col-xs12 layui-col-lg4 layui-col-lg-offset4 align-center">
                         <div class="layui-logo"><span>blue<b>wind</b>&nbsp;boot</span></div>
                     </div>
                     <div class="layui-col-xs12 layui-col-lg4 layui-col-lg-offset4">
@@ -211,7 +38,7 @@
                             <ul class="login-type-tab">
                                 <li login-type="password" class="active">密码登录</li>
                                 <li login-type="phonecode">手机登录</li>
-                                <li login-type="qrcode" class="nepadmin-fr layui-hide-xs" style="padding-right: 0;" lay-tips="扫码登录" >
+                                <li login-type="qrcode" class="float-right layui-hide-xs" lay-tips="扫码登录" >
                                 <span class="qrcode-icon">
                                     <i class="fa fa-qrcode" aria-hidden="true"></i>
                                 </span>
@@ -219,11 +46,9 @@
                             </ul>
                             <!--二维码显示模块-->
                             <div class="qrcode-block">
-                                <div class="qrcode qrcode-image">
-
-                                </div>
-                                <p class="p1">1秒即登录，方便又安全</p>
-                                <p class="p2">使用 手机版 扫码登录</p>
+                                <div class="qrcode qrcode-image"></div>
+                                <p class="p1">1扫即登录，方便又安全</p>
+                                <p class="p2">使用 企业微信 扫码登录</p>
                             </div>
                             <!--常规表单登陆显示模块-->
                             <div class="normal-login-form">
@@ -274,7 +99,7 @@
                                     </button>
                                 </div>
                                 <!--两个链接div-->
-                                <div class="layui-form-item nepadmin-tr">
+                                <div class="layui-form-item">
                                     <a lay-href="/user/forget">注册账号</a>
                                     &nbsp;&nbsp;
                                     <a style="margin-right:10px;" lay-href="/user/forget">忘记密码？</a>
@@ -410,7 +235,7 @@
         // 二维码生成模块，暂时未做具体逻辑实现
         var viewQrcode = $(".qrcode-image");
         function createQrcode() {
-            // 重置 viewQrcode这个DIV里的内容
+            // 重置 viewQrcode这个DIV里的内容，相当于销毁了一次二维码，防止二维码重复生成的bug
             viewQrcode.html('<i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>');
             setTimeout(function () {
                 var qrcode = viewQrcode.qrcode({
