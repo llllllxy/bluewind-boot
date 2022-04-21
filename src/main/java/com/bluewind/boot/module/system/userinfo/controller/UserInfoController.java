@@ -328,11 +328,13 @@ public class UserInfoController extends BaseController {
                                @RequestParam(value = "sex") String sex,
                                @RequestParam(value = "phone") String phone,
                                @RequestParam(value = "status") String status,
+                               @RequestParam(required = false, defaultValue = "", value = "deptId") String deptId,
                                @RequestParam(required = false, defaultValue = "", value = "email") String email,
                                @RequestParam(required = false, defaultValue = "", value = "avatar") String avatar,
                                @RequestParam(required = false, defaultValue = "", value = "postStr") String postStr) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(userId);
+        userInfo.setDeptId(deptId);
         userInfo.setName(name);
         userInfo.setSex(sex);
         userInfo.setStatus(status);

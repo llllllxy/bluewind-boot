@@ -32,6 +32,14 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label required">所属部门</label>
+        <div class="layui-input-block">
+            <input type="text" id="deptName" name="deptName"/>
+            <input type="hidden" name="deptId" th:value="${userInfo.deptId}"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
         <label class="layui-form-label required">性别</label>
         <div class="layui-input-block" th:if="${userInfo.sex eq '1'}">
             <input type="radio" name="sex" value="1" title="男" checked>
@@ -113,8 +121,9 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form'], function () {
+    layui.use(['form', 'layCascader'], function () {
         var form = layui.form,
+            layCascader = layui.layCascader,
             layer = layui.layer;
 
         redenXmSelect();
@@ -141,6 +150,51 @@
                 }
             });
         }
+
+
+        // 初始化cascader所属部门选择
+        var index2 = layer.load(0, {shade: 0.1});
+        Util.get({
+            url: Util.ctx + 'userinfo/listDeptForSelect',
+            success: function (res) {
+                layer.close(index2);
+
+                var datalist = [];
+                for (let item of res.data) {
+                    item.value = item.deptId;
+                    item.label = item.deptName;
+                    datalist.push(item);
+                }
+                // 扁平数据转树
+                var options = arrayToTree(datalist, "0");
+
+                // 获取父级Id
+                var deptId = $("input[name='deptId']").val();
+
+                // 初始化cascader实例
+                var cascader = layCascader({
+                    elem: '#deptName',
+                    value: deptId, // 回显
+                    clearable: true,
+                    showAllLevels: false, // 配置仅显示最后一级
+                    props: {
+                        checkStrictly: true, // 配置选择任意一级选项
+                    },
+                    options: options
+                });
+
+                // 监听cascader变化
+                cascader.changeEvent(function (value, node) {
+                    // 主动关闭面板
+                    cascader.close();
+                    $("input[name='deptId']").val(value)
+                });
+            },
+            error: function (error) {
+                layer.close(index2);
+                Message.error('获取部门信息失败！', 1000);
+            }
+        });
 
 
         form.on('submit(saveBtn)', function (data) {

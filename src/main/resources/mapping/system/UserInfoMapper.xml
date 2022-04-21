@@ -29,8 +29,7 @@
 
     <!--查询所有用户-->
     <select id="getSysUserInfoList" resultMap="SysUserInfo" parameterType="map">
-        select sui.*,
-        sdi.dept_name
+        select sui.*, sdi.dept_name
         from sys_user_info sui
         left join sys_dept_info sdi on sui.dept_id = sdi.dept_id
         where 1=1
@@ -95,6 +94,7 @@
     <update id="doUpdate" parameterType="com.bluewind.boot.module.system.userinfo.entity.UserInfo">
         update sys_user_info set name = #{name},
         sex = #{sex},
+        dept_id = #{deptId},
         status = #{status},
         phone = #{phone},
         email = #{email},
