@@ -205,6 +205,22 @@ public class FileUtils {
     }
 
 
+    /**
+     * 文件流转byte字节数组
+     * @param in 输入流
+     * @return byte[]
+     * @throws IOException
+     */
+    public static byte[] toByteArray(InputStream in) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024 * 4];
+        int n = 0;
+        while ((n = in.read(buffer)) != -1) {
+            out.write(buffer, 0, n);
+        }
+        return out.toByteArray();
+    }
+
 
     public static void main(String[] args) {
         System.out.println(getFilePrefix("dksdjasasdasdasdas.png"));
