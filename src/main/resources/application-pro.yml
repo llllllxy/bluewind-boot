@@ -33,6 +33,7 @@ spring:
   # 数据库配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
+    # 该项可以不配置, druid可以通过url自动识别, 如果有多个不同类型的数据源的话此项要省略
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       # 主库数据源
