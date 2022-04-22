@@ -6,6 +6,8 @@ bluewind:
   version: 1.0.0
   # 会话失效时间(单位秒)
   session-timeout: 1800
+  # 文件存储类型
+  storage-type: qiniu
 
 # 服务相关配置
 server:
