@@ -1,6 +1,5 @@
 package com.bluewind.boot.common.utils;
 
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,25 @@ import java.util.Map;
 public class JsonTool {
     final static Logger log = LoggerFactory.getLogger(JsonTool.class);
 
+    // ObjectMapper是线程安全的，可以并发的执行它，不会产生任何问题。
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * 禁止JsonTool实例化
+     */
+    private JsonTool() {
+
+    }
+
+    /**
+     * 获取单例（饿汉式单例）
+     *
+     * @return
+     */
+    public static ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
 
     /**
      * 将 Object 转化为Json字符串
@@ -29,10 +47,9 @@ public class JsonTool {
      * @return String JsonString
      */
     public static String toJsonString(Object obj) {
-        ObjectMapper mapper = new ObjectMapper();
         String jsonString = "";
         try {
-            jsonString = mapper.writeValueAsString(obj);
+            jsonString = getObjectMapper().writeValueAsString(obj);
         } catch (Exception e) {
             if (log.isErrorEnabled()) {
                 log.error("JsonTool -- toJsonString -- Exception=", e);
@@ -50,9 +67,8 @@ public class JsonTool {
      */
     public static Map parseMap(String JsonString) {
         Map returnMap = new HashMap();
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            returnMap = mapper.readValue(JsonString, Map.class);
+            returnMap = getObjectMapper().readValue(JsonString, Map.class);
         } catch (Exception e) {
             if (log.isErrorEnabled()) {
                 log.error("JsonTool -- getMapFromJsonString -- Exception=", e);
@@ -73,8 +89,7 @@ public class JsonTool {
     public static <T> T parseObject(String jsonString, Class<T> clazz) {
         if (jsonString != null && !jsonString.trim().isEmpty()) {
             try {
-                ObjectMapper mapper = new ObjectMapper();
-                return mapper.readValue(jsonString, clazz);
+                return getObjectMapper().readValue(jsonString, clazz);
             } catch (Exception e) {
                 if (log.isErrorEnabled()) {
                     log.error("JsonTool -- parseObject -- Exception=", e);
@@ -96,8 +111,7 @@ public class JsonTool {
     public static <T> List<T> parseArray(String json, Class<T> clazz) {
         if (json != null && !json.trim().isEmpty()) {
             try {
-                ObjectMapper mapper = new ObjectMapper();
-                return mapper.readValue(json, mapper.getTypeFactory().constructParametricType(ArrayList.class, clazz));
+                return getObjectMapper().readValue(json, getObjectMapper().getTypeFactory().constructParametricType(ArrayList.class, clazz));
             } catch (Exception e) {
                 if (log.isErrorEnabled()) {
                     log.error("JsonTool -- parseArray -- Exception=", e);
