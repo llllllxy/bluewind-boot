@@ -8,6 +8,7 @@ import java.io.*;
  * @description 存储对象
  **/
 public class StorageStreamFile extends StorageFile {
+    private static final long serialVersionUID = -8149682619413025601L;
 
     private InputStream inputStream;
 

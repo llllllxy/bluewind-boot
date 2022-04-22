@@ -1,5 +1,6 @@
 package com.bluewind.boot.common.utils.fileupload.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
@@ -8,7 +9,9 @@ import java.util.Map;
  * @date 2021-05-16-9:57
  * @description 存储对象
  **/
-public class StorageFile {
+public class StorageFile implements Serializable {
+    private static final long serialVersionUID = 2110063968514363447L;
+
     private String fileId;
     private String fileName;
     private String contentType;
@@ -72,6 +75,5 @@ public class StorageFile {
     public void setMetaData(Map<String, String> metaData) {
         this.metaData = metaData;
     }
-
 
 }
