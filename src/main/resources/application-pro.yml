@@ -176,13 +176,6 @@ xss:
   # 匹配链接
   urlPatterns: /admin/*,/sysuser/*,/sysrole/*
 
-# minio文件存储配置信息
-minio:
-  endpoint: http://127.0.0.1:9091
-  accesskey: minioadmin
-  secretKey: minio1234
-  bucket: mini-bucket
-
 # 用户密码加密的盐
 hash:
   salt: ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY
@@ -214,12 +207,26 @@ async:
       name_prefix: async-service- #配置线程池中的线程的名称前缀
       queue_capacity: 100 #配置队列大小
 
-# aliyun-oss的配置
+# 阿里云对象存储配置信息
 oss:
   endPoint: http://oss-cn-hangzhou.aliyuncs.com
-  accessKeyId: XXXXXXXXXXXXXX
-  accessKeySecret: XXXXXXXX
+  accessKeyId: xxxxxxxxxxxxxxxxxxx
+  accessKeySecret: xxxxxxxxxxxxxxxxxxx
   bucketName: test-upload
+
+# minio对象存储配置信息
+minio:
+  endpoint: http://127.0.0.1:9091
+  accesskey: minioadmin
+  secretKey: minio1234
+  bucket: mini-bucket
+
+# 七牛云对象存储配置信息
+qiniu:
+  endPoint: http://www.lxxxxxxx.com/
+  accessKey: xxxxxxxxxxxxxxxxxxx
+  secretKey: xxxxxxxxxxxxxxxxxxx
+  bucketName: lxxxx-bucket
 
 # aj-captcha行为验证码配置
 aj:
