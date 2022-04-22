@@ -1,21 +1,24 @@
-package com.bluewind.boot.common.utils.fileupload.alioss;
+package com.bluewind.boot.common.utils.fileupload.impl;
 
 import com.aliyun.oss.ClientBuilderConfiguration;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.*;
-import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.FileUtils;
+import com.bluewind.boot.common.utils.fileupload.api.StorageService;
 import com.bluewind.boot.common.utils.fileupload.model.StorageFile;
 import com.bluewind.boot.common.utils.fileupload.model.StorageStreamFile;
+import com.bluewind.boot.common.utils.fileupload.properties.OssProperties;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.lang.StringUtils;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -25,20 +28,26 @@ import java.util.Map;
 
 /**
  * @author liuxingyu01
- * @date 2021-05-11-18:51
- * @description 阿里云OSS文件上传   --   具体参考官方文档：https://help.aliyun.com/document_detail/84781.html?spm=a2c4g.11186623.6.947.40fc53381OxXGR
+ * @date 2022-04-22 17:00
+ * @description 阿里云OSS对象存储实现
  **/
-public class OssStorageUtils {
-    final static Logger logger = LoggerFactory.getLogger(OssStorageUtils.class);
+@Service
+@ConditionalOnProperty(prefix = "bluewind", name = "storage-type", havingValue = "oss")
+public class OssStorageServiceImpl implements StorageService {
+    final static Logger logger = LoggerFactory.getLogger(OssStorageServiceImpl.class);
 
-    private static OSS getOssClient() {
+    @Autowired
+    private OssProperties ossProperties;
+
+
+    private OSS getOssClient() {
         // 创建ClientConfiguration。ClientConfiguration是OSSClient的配置类，可配置代理、连接超时、最大连接数等参数。
         ClientBuilderConfiguration conf = new ClientBuilderConfiguration();
         // 设置OSSClient允许打开的最大HTTP连接数，默认为1024个。
         conf.setMaxConnections(200);
         // 设置Socket层传输数据的超时时间，默认为50000毫秒。
         conf.setSocketTimeout(10000);
-        return new OSSClientBuilder().build(OssProp.endPoint, OssProp.accessKeyId, OssProp.accessKeySecret, conf);
+        return new OSSClientBuilder().build(ossProperties.getEndPoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret(), conf);
     }
 
 
@@ -48,10 +57,11 @@ public class OssStorageUtils {
      * @param fileId
      * @return
      */
-    public static StorageStreamFile findById(String fileId) {
+    @Override
+    public StorageStreamFile findById(String fileId) {
         OSS ossClient = getOssClient();
         StorageStreamFile ssf = new StorageStreamFile();
-        OSSObject ossObject = ossClient.getObject(OssProp.bucketName, fileId);
+        OSSObject ossObject = ossClient.getObject(ossProperties.getBucketName(), fileId);
         ssf.setInputStream(ossObject.getObjectContent());
         ssf.setFileId(fileId);
         ObjectMetadata objectMetadata = ossObject.getObjectMetadata();
@@ -86,7 +96,8 @@ public class OssStorageUtils {
      * @param filename
      * @return
      */
-    public static StorageFile store(InputStream is, String filename) {
+    @Override
+    public StorageFile store(InputStream is, String filename) {
         return store(is, filename, null, null);
     }
 
@@ -98,7 +109,8 @@ public class OssStorageUtils {
      * @param contentType
      * @return
      */
-    public static StorageFile store(InputStream is, String filename, String contentType) {
+    @Override
+    public StorageFile store(InputStream is, String filename, String contentType) {
         return store(is, filename, contentType, null);
     }
 
@@ -108,7 +120,8 @@ public class OssStorageUtils {
      * @param metaData
      * @return
      */
-    public static StorageFile store(InputStream is, String filename, Map<String, String> metaData) {
+    @Override
+    public StorageFile store(InputStream is, String filename, Map<String, String> metaData) {
         return store(is, filename, null, metaData);
     }
 
@@ -121,13 +134,14 @@ public class OssStorageUtils {
      * @param metaData
      * @return
      */
-    public static StorageFile store(InputStream is, String filename, String contentType, Map<String, String> metaData) {
+    @Override
+    public StorageFile store(InputStream is, String filename, String contentType, Map<String, String> metaData) {
         String key = IdGenerate.uuid();
         return store(key, is, filename, contentType, metaData);
     }
 
 
-    public static StorageFile store(String fileId, InputStream is, String filename, String contentType, Map<String, String> metaData) {
+    public StorageFile store(String fileId, InputStream is, String filename, String contentType, Map<String, String> metaData) {
         StorageFile sf = null;
         OSS ossClient = getOssClient();
         try {
@@ -159,14 +173,14 @@ public class OssStorageUtils {
             }
 
             // 存储桶不存在就创建
-            if (!ossClient.doesBucketExist(OssProp.bucketName)) {
-                ossClient.createBucket(OssProp.bucketName);
-                CreateBucketRequest cbr = new CreateBucketRequest(OssProp.bucketName);
+            if (!ossClient.doesBucketExist(ossProperties.getBucketName())) {
+                ossClient.createBucket(ossProperties.getBucketName());
+                CreateBucketRequest cbr = new CreateBucketRequest(ossProperties.getBucketName());
                 cbr.setCannedACL(CannedAccessControlList.Private);
                 ossClient.createBucket(cbr);
             }
 
-            ossClient.putObject(OssProp.bucketName, fileId, is, objectMetadata);
+            ossClient.putObject(ossProperties.getBucketName(), fileId, is, objectMetadata);
             sf = new StorageFile();
             sf.setLength(isLength);
             sf.setFileId(fileId);
@@ -177,7 +191,7 @@ public class OssStorageUtils {
 
         } catch (Exception e) {
             if (logger.isErrorEnabled()) {
-                logger.error("OssStorageUtils -- store -- 上传文件异常：", e);
+                logger.error("OssStorageServiceImpl -- store -- 上传文件异常：", e);
             }
         } finally {
             try {
@@ -186,7 +200,7 @@ public class OssStorageUtils {
                     is.close();
                 }
             } catch (IOException e) {
-                logger.error("OssStorageUtils -- store -- IOException = ", e);
+                logger.error("OssStorageServiceImpl -- store -- IOException = ", e);
             }
         }
         return sf;
@@ -194,19 +208,20 @@ public class OssStorageUtils {
 
 
     /**
-     * 根据文件id，获取临时文件访问url
+     * 根据文件id，获取临时文件访问url（自定义过期时间，小时）
      *
      * @param fileId
      * @return
      */
-    public static String getExpiryUrlById(String fileId) {
+    @Override
+    public String getExpiryUrlById(String fileId, Integer expires) {
         OSS ossClient = getOssClient();
         URL url = null;
         try {
-            // 设置URL过期时间为1小时
-            Date expiration = new Date(System.currentTimeMillis() + 3600 * 1000);
+            // 设置URL过期时间
+            Date expiration = new Date(System.currentTimeMillis() + 3600 * 1000 * expires);
             GeneratePresignedUrlRequest generatePresignedUrlRequest;
-            generatePresignedUrlRequest = new GeneratePresignedUrlRequest(OssProp.bucketName, fileId);
+            generatePresignedUrlRequest = new GeneratePresignedUrlRequest(ossProperties.getBucketName(), fileId);
             generatePresignedUrlRequest.setExpiration(expiration);
             url = ossClient.generatePresignedUrl(generatePresignedUrlRequest);
         } catch (Exception e) {
@@ -223,27 +238,31 @@ public class OssStorageUtils {
 
 
     /**
-     * 流式下载文件
+     * 根据文件id，获取临时文件访问url（默认一小时）
      *
      * @param fileId
      * @return
      */
-    public static byte[] getFileByteById(String fileId) {
+    @Override
+    public String getExpiryUrlById(String fileId) {
         OSS ossClient = getOssClient();
-        OSSObject ossObject = ossClient.getObject(OssProp.bucketName, fileId);
-        InputStream inputStream = ossObject.getObjectContent();
+        URL url = null;
         try {
-            return IOUtils.toByteArray(inputStream);
+            // 设置URL过期时间为1小时
+            Date expiration = new Date(System.currentTimeMillis() + 3600 * 1000);
+            GeneratePresignedUrlRequest generatePresignedUrlRequest;
+            generatePresignedUrlRequest = new GeneratePresignedUrlRequest(ossProperties.getBucketName(), fileId);
+            generatePresignedUrlRequest.setExpiration(expiration);
+            url = ossClient.generatePresignedUrl(generatePresignedUrlRequest);
         } catch (Exception e) {
-            logger.error("OssStorageUtils -- getFileByteById -- Exception = {e}", e);
-            return null;
+            logger.error("OssStorageUtils -- getExpiryUrlById -- Exception = {e}", e);
         } finally {
             ossClient.shutdown();
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                logger.error("OssStorageUtils -- getFileByteById -- IOException - e= ", e);
-            }
+        }
+        if (url != null) {
+            return url.toString();
+        } else {
+            return "";
         }
     }
 
@@ -254,65 +273,11 @@ public class OssStorageUtils {
      * @param fileId
      * @return
      */
+    @Override
     public void deleteById(String fileId) {
         OSS ossClient = getOssClient();
-        ossClient.deleteObject(OssProp.bucketName, fileId);
+        ossClient.deleteObject(ossProperties.getBucketName(), fileId);
         ossClient.shutdown();
-    }
-
-
-    /**
-     * 上传文件
-     *
-     * @param file 文件
-     * @return
-     */
-    public static BaseResult uploadFile(MultipartFile file, String fileName) {
-        // 判断上传文件是否为空
-        if (null == file || 0 == file.getSize()) {
-            return BaseResult.failure("上传文件不能为空");
-        }
-        try {
-            if (StringUtils.isBlank(fileName)) {
-                fileName = file.getOriginalFilename(); // 原始文件名
-            }
-            // 开始上传
-            if (logger.isInfoEnabled()) {
-                logger.info("OssStorageUtils -- uploadFile -- ContentType = {}", file.getContentType());
-            }
-            StorageFile storageFile = store(file.getInputStream(), fileName, file.getContentType());
-            return BaseResult.success("文件上传成功！", getExpiryUrlById(storageFile.getFileId()));
-        } catch (Exception e) {
-            logger.error("OssStorageUtils -- uploadFile -- Exception = {e}", e);
-        }
-        return BaseResult.failure("文件上传失败！");
-    }
-
-
-    /**
-     * 上传文件
-     *
-     * @param inputStream 文件流
-     * @return
-     */
-    public static BaseResult uploadFile(InputStream inputStream, String fileName) {
-        // 判断上传文件是否为空
-        if (null == inputStream) {
-            return BaseResult.failure("上传文件不能为空");
-        }
-        try {
-            StorageFile storageFile = store(inputStream, fileName, "application/octet-stream");
-            return BaseResult.success("文件上传成功！", getExpiryUrlById(storageFile.getFileId()));
-        } catch (Exception e) {
-            logger.error("OssStorageUtils -- uploadFile -- Exception = {e}", e);
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                logger.error("OssStorageUtils -- uploadFile -- IOException = ", e);
-            }
-        }
-        return BaseResult.failure("文件上传失败！");
     }
 
 }

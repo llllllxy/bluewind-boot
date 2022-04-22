@@ -1,4 +1,4 @@
-package com.bluewind.boot.common.config.kaptcha;
+package com.bluewind.boot.module.common.kaptcha.controller;
 
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.utils.RedisUtil;
