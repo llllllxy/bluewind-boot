@@ -15,6 +15,12 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
  * @author liuxingyu01
  * @date 2020-09-12-21:16
  * @description properties配置文件读取工具
+ * @demo  配置文件名： qiniu.properties
+ *        配置文件内容：qiniu_img_url_pre=${app.qiniu.qiniu_img_url_pre:http://halo.xxxxx.top/}
+ *                   access_key=${app.qiniu.access_key:xxxxxxxxxxxxxxxxxxxxxx} // 如果环境变量没有的话，则取冒号后面的默认值
+ *                   secret_key=${app.qiniu.access_key:xxxxxxxxxxxxxxxxxxxxxx}
+ *                   bucketname=${app.qiniu.bucketname:xxxxx-halo}
+ *        获取配置示例：private String urlPre = PropertiesFileUtil.getInstance("qiniu").get("qiniu_img_url_pre");
  **/
 public class PropertiesFileUtil {
 
