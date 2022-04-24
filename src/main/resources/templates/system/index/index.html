@@ -209,7 +209,7 @@
 
 
         // 判断是否锁屏
-        if (window.localStorage.getItem("lockcms") == "true") {
+        if (window.localStorage.getItem("lockflag") == "true") {
             setTimeout(function () {
                 lockPage();
             }, 1000)
@@ -218,7 +218,7 @@
         // 点击锁屏
         $('#lock-screen').click(function () {
             lockPage();
-            window.localStorage.setItem("lockcms", true);
+            window.localStorage.setItem("lockflag", true);
         });
 
         // 点击解锁
@@ -246,7 +246,7 @@
                 success: function (res) {
                     layer.close(index);
                     if (0 == res.code) {
-                        window.localStorage.setItem("lockcms", false);
+                        window.localStorage.setItem("lockflag", false);
                         form.val("formLock", {
                             password: '',
                             lockMsg: ''
@@ -284,14 +284,14 @@
         checkF12(false);
     }
 
-    // 解锁
+    // 解锁屏
     function unlockPage() {
         layer.closeAll("page");
         checkF12(true);
     }
 
 
-    // 禁用网页检查
+    // 禁用网页检查，true允许，false进制
     function checkF12(flag) {
         document.onkeydown = function () {
             if (event.keyCode == 123) {
