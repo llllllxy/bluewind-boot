@@ -42,6 +42,9 @@
         <if test="status != null and status != ''">
             and sui.status = #{status}
         </if>
+        <if test="deptId != null and deptId != ''">
+            AND (sui.dept_id = #{deptId} OR sui.dept_id IN ( SELECT t.dept_id FROM sys_dept_info t WHERE find_in_set(#{deptId}, ancestors) ))
+        </if>
         <choose>
             <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
                 order by sui.${sortName} ${sortOrder}

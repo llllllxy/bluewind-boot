@@ -112,8 +112,6 @@ public class UserInfoController extends BaseController {
     /**
      * 账户管理页面分页查询
      *
-     * @param pageNum
-     * @param pageSize
      * @return
      */
     @RequiresPermissions("system:user:init")
@@ -122,12 +120,13 @@ public class UserInfoController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public BaseResult list(@RequestParam("page") Integer pageNum,
-                                         @RequestParam("limit") Integer pageSize,
-                                         @RequestParam(required = false, defaultValue = "", value = "account") String account,
-                                         @RequestParam(required = false, defaultValue = "", value = "name") String name,
-                                         @RequestParam(required = false, defaultValue = "", value = "status") String status,
-                                         @RequestParam(required = false, defaultValue = "", value = "sortName") String sortName,
-                                         @RequestParam(required = false, defaultValue = "", value = "sortOrder") String sortOrder) {
+                           @RequestParam("limit") Integer pageSize,
+                           @RequestParam(required = false, defaultValue = "", value = "account") String account,
+                           @RequestParam(required = false, defaultValue = "", value = "name") String name,
+                           @RequestParam(required = false, defaultValue = "", value = "status") String status,
+                           @RequestParam(required = false, defaultValue = "", value = "deptId") String deptId,
+                           @RequestParam(required = false, defaultValue = "", value = "sortName") String sortName,
+                           @RequestParam(required = false, defaultValue = "", value = "sortOrder") String sortOrder) {
         //查询条件得加上
         //分页查询
         PageHelper.startPage(pageNum, pageSize);
@@ -140,6 +139,7 @@ public class UserInfoController extends BaseController {
         paraMap.put("account", account);
         paraMap.put("name", name);
         paraMap.put("status", status);
+        paraMap.put("deptId", deptId);
         paraMap.put("sortName", sortName);
         paraMap.put("sortOrder", sortOrder);
 

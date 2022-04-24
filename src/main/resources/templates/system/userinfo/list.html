@@ -13,53 +13,103 @@
             height: 32px;
             width: 32px;
         }
+        .layui-card {
+            border: 1px solid #f2f2f2;
+            border-radius: 5px;
+        }
+        #deptTree {
+            overflow: auto;
+            height: -webkit-calc(100vh - 237px);
+            height: -moz-calc(100vh - 237px);
+            height: calc(100vh - 237px);
+        }
+        .layui-tree-entry .layui-tree-txt {
+            padding: 0 5px;
+            border: 1px transparent solid;
+            text-decoration: none !important;
+        }
+        .layui-tree-entry.ew-tree-click .layui-tree-txt {
+            color: #FFFFFF;
+            background-color: #257BE0;
+            border: 1px #257BE0 solid;
+        }
+        .layui-tree-entry.ew-tree-click .layui-tree-txt:hover {
+            color: #FFFFFF;
+        }
     </style>
 </head>
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
 
-        <fieldset class="table-search-fieldset">
-            <legend>搜索信息(<b>收起-展开</b>)</legend>
-            <div id="search-div" style="margin: 10px 10px 10px 10px">
-                <form class="layui-form" action="" lay-filter="search-form">
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">账号：</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="account" name="account" autocomplete="off" class="layui-input"
-                                       placeholder="请输入用户ID">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">用户名：</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="name" id="name" autocomplete="off" class="layui-input" placeholder="请输入用户名">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">账户状态：</label>
-                            <div class="layui-input-inline">
-                                <select name="status" id="status" lay-filter="status">
-                                    <option value="">所有</option>
-                                    <option th:each="item:${baseDictList}" th:text="${item.name}"
-                                            th:value="${item.code}"></option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="layui-inline">
-                            <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn">
-                                <i class="layui-icon"></i> 搜 索
-                            </button>
-                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn">
-                                <i class="layui-icon layui-icon-refresh"></i> 重 置
-                            </button>
-                        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md2">
+                <div class="layui-card">
+                    <div class="layui-card-header" id="service-authority-tree" style="cursor: pointer">
+                        部门树
                     </div>
-                </form>
+                    <div class="layui-card-body">
+                        <div id="deptTree"></div>
+                    </div>
+                </div>
             </div>
-        </fieldset>
+
+            <div class="layui-col-md10">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+
+                        <fieldset class="table-search-fieldset">
+                            <legend>搜索信息(<b>收起-展开</b>)</legend>
+                            <div id="search-div" style="margin: 10px 10px 10px 10px">
+                                <form class="layui-form" action="" lay-filter="search-form">
+                                    <input type="hidden" id="deptId" name="deptId" class="layui-input"><!--用来存储部门ID的变化-->
+                                    <div class="layui-form-item">
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">账号：</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" id="account" name="account" autocomplete="off" class="layui-input"
+                                                       placeholder="请输入用户ID">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">用户名：</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="name" id="name" autocomplete="off" class="layui-input" placeholder="请输入用户名">
+                                            </div>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label class="layui-form-label">账户状态：</label>
+                                            <div class="layui-input-inline">
+                                                <select name="status" id="status" lay-filter="status">
+                                                    <option value="">所有</option>
+                                                    <option th:each="item:${baseDictList}" th:text="${item.name}"
+                                                            th:value="${item.code}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="layui-inline">
+                                            <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn">
+                                                <i class="layui-icon"></i> 搜 索
+                                            </button>
+                                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn">
+                                                <i class="layui-icon layui-icon-refresh"></i> 重 置
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </fieldset>
+                        <!--点击上传excel模板的input-->
+                        <input id="excelFile" type="file" style="display: none"
+                               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+                        <!--主table表格-->
+                        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
@@ -83,12 +133,6 @@
                 </button>
             </div>
         </script>
-
-        <input id="excelFile" type="file" style="display: none"
-               accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-
-
-        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
             <a th:if="${#sets.contains(permissionSet, 'system:user:edit')}" class="layui-btn layui-btn-xs" lay-event="edit">
@@ -123,10 +167,53 @@
 
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form', 'table'], function () {
+    layui.use(['form', 'table', 'tree'], function () {
         var form = layui.form,
-            table = layui.table;
+            table = layui.table,
+            tree = layui.tree;
 
+        // 初始化部门树
+        var indexDept = layer.load(0, {shade: 0.1});
+        Util.get({
+            url: Util.ctx + 'userinfo/listDeptForSelect',
+            success: function (res) {
+                layer.close(indexDept);
+
+                var datalist = [];
+                for (let item of res.data) {
+                    item.title = item.deptName;
+                    item.id = item.deptId;
+                    item.field = 'deptId';
+                    datalist.push(item);
+                }
+                // 扁平数据转树
+                var treeData = arrayToTree(datalist, "0");
+                tree.render({
+                    elem: '#deptTree',
+                    onlyIconControl: true, // 是否仅允许节点左侧图标控制展开收缩
+                    data: treeData,
+                    click: function (obj) {
+                        $("input[name='deptId']").val(obj.data.id);
+                        // 改变颜色
+                        $('#deptTree').find('.ew-tree-click').removeClass('ew-tree-click');
+                        $(obj.elem).children('.layui-tree-entry').addClass('ew-tree-click');
+                        currTable.reload({
+                            page: {
+                                curr: 1
+                            },
+                            where: form.val("search-form")
+                        });
+                    }
+                });
+            },
+            error: function (error) {
+                layer.close(indexDept);
+                Message.error('获取部门信息失败！', 1000);
+            }
+        });
+
+
+        // 初始化人员列表表格
         var currTable = table.render({
             elem: '#currentTableId',
             url: Util.ctx + 'userinfo/list',
@@ -159,7 +246,7 @@
                     {field: 'status', width: '8%', title: '状态', templet: '#statusTpl', sort: true},
                     {field: 'createTime', width: '12%', title: '创建时间', sort: true},
                     {field: 'updateTime', width: '12%', title: '更新时间', sort: true},
-                    {title: '操作', width: '25%', toolbar: '#currentTableBar', align: "center", fixed: 'right'}
+                    {title: '操作', width: '200px', toolbar: '#currentTableBar', align: "center", fixed: 'right'}
                 ]
             ],
             autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
@@ -189,11 +276,7 @@
                 page: {
                     curr: 1 // 页码从1开始
                 },
-                where: {
-                    account: data.field.account,
-                    name: data.field.name,
-                    status: data.field.status
-                }
+                where: form.val("search-form")
             });
             return false;
         });
@@ -481,6 +564,27 @@
     });
 
 
+    /**
+     *  扁平数据转树结构
+     * @returns {[]}
+     * @param data
+     * @param firstPid
+     */
+    function arrayToTree(data, firstPid) {
+        const result = [];
+        getChildren(data, result, firstPid)
+        return result;
+    }
+
+    function getChildren(data, result, parentId) {
+        for (const item of data) {
+            if (item.parentId === parentId) {
+                const newItem = {...item, children: []};
+                result.push(newItem);
+                getChildren(data, newItem.children, item.deptId);
+            }
+        }
+    }
 </script>
 
 </body>
