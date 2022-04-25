@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Redis缓存监控</title>
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        .layui-card-header{
+            color: #666;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        table tr{
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-main">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">基本信息</div>
+                <div class="layui-card-body">
+                    <table class="layui-table" lay-skin="nob">
+                        <tbody>
+                        <tr>
+                            <td>Redis版本</td>
+                            <td class="redis_version"></td>
+                            <td>运行模式</td>
+                            <td class="redis_mode"></td>
+                            <td>端口</td>
+                            <td class="tcp_port"></td>
+                            <td>客户端数</td>
+                            <td class="connected_clients"></td>
+                        </tr>
+                        <tr>
+                            <td>运行时间(天)</td>
+                            <td class="uptime_in_days"></td>
+                            <td>使用内存</td>
+                            <td class="used_memory_human"></td>
+                            <td>使用CPU</td>
+                            <td class="used_cpu_user_children"></td>
+                            <td>内存配置</td>
+                            <td class="maxmemory_human"></td>
+                        </tr>
+                        <tr>
+                            <td>AOF是否开启</td>
+                            <td class="aof_enabled"></td>
+                            <td>RDB是否成功</td>
+                            <td class="rdb_last_bgsave_status"></td>
+                            <td>Key数量</td>
+                            <td class="dbSize"></td>
+                            <td>网络入口/出口</td>
+                            <td class="instantaneous_input_kbps"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-xs12 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">命令统计</div>
+                <div class="layui-card-body">
+                    <div id="echarts1" style="background-color:#ffffff;min-height:400px;padding: 10px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs12 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">内存信息</div>
+                <div class="layui-card-body">
+                    <div id="echarts2" style="background-color:#ffffff;min-height:400px;padding: 10px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'echarts'], function () {
+        var form = layui.form,
+            echarts = layui.echarts;
+
+        // 先主动执行一遍，然后轮询执行
+        refreshData();
+
+        // 配置轮询执行
+        // 单纯的使用setInterval会导致页面卡死！其原因与JS引擎线程有关，用通俗话说就是setInterval不会清除定时器队列，
+        // 每重复执行1次都会导致定时器叠加，最终导致网页卡死。但是setTimeout是自带清除定时器的，因此可以叠加使用：
+        setInterval(() => {
+            setTimeout(() => {
+                refreshData();
+            }, 2)
+        }, 10000)
+
+        var echarts1 = echarts.init(document.getElementById('echarts1'), 'walden');
+        var echarts2 = echarts.init(document.getElementById('echarts2'), 'walden');
+
+        /**
+         * 刷新数据
+         */
+        function refreshData() {
+            Util.get({
+                url: Util.ctx + 'cacheinfo/getInfo',
+                timeout: 25000,
+                success: function (res) {
+                    if (0 === res.code) {
+                        let data = res.data;
+                        $('.redis_version').text(data.info.redis_version);
+                        $('.redis_mode').text(data.info.redis_version == 'standalone'? '单机':'集群');
+                        $('.tcp_port').text(data.info.tcp_port);
+                        $('.connected_clients').text(data.info.connected_clients);
+
+                        $('.uptime_in_days').text(data.info.uptime_in_days);
+                        $('.used_memory_human').text(data.info.used_memory_human);
+                        $('.used_cpu_user_children').text(data.info.used_cpu_user_children);
+                        $('.maxmemory_human').text(!!data.info.maxmemory_human? data.info.maxmemory_human : 0);
+
+                        $('.aof_enabled').text(data.info.aof_enabled == '0' ? '否':'是');
+                        $('.rdb_last_bgsave_status').text(data.info.rdb_last_bgsave_status);
+                        $('.dbSize').text(data.dbSize);
+                        $('.instantaneous_input_kbps').text(data.info.instantaneous_input_kbps + 'kps/' + data.info.instantaneous_output_kbps + 'kps');
+                        // 渲染第一个图
+                        renderEcharts1(data.commandStats);
+                        // 渲染第二个图
+                        renderEcharts2(data);
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                    Message.error("服务器异常！", 1000);
+                }
+            });
+        }
+
+        /**
+         * 渲染第一个图
+         */
+        function renderEcharts1(data) {
+            var option1 = {
+                tooltip: {
+                    trigger: "item",
+                    formatter: "{a} <br/>{b} : {c} ({d}%)",
+                },
+                series: [
+                    {
+                        name: "命令",
+                        type: "pie",
+                        roseType: "radius",
+                        radius: [15, 95],
+                        center: ["50%", "38%"],
+                        data: data,
+                        animationEasing: "cubicInOut",
+                        animationDuration: 1000,
+                    },
+                ],
+            }
+            echarts1.setOption(option1);
+        }
+
+        /**
+         * 渲染第二个图
+         */
+        function renderEcharts2(data) {
+            var option2 = {
+                tooltip: {
+                    formatter: "{b} <br/>{a} : " + data.info.used_memory_human,
+                },
+                series: [
+                    {
+                        name: "峰值",
+                        type: "gauge",
+                        min: 0,
+                        max: 1000,
+                        detail: {
+                            formatter: data.info.used_memory_human,
+                        },
+                        data: [
+                            {
+                                value: parseFloat(data.info.used_memory_human),
+                                name: "内存消耗",
+                            },
+                        ],
+                    },
+                ],
+            }
+            echarts2.setOption(option2);
+        }
+
+        /**
+         * 窗口缩放自适应
+         */
+        window.onresize = function () {
+            echarts1.resize();
+            echarts2.resize();
+        }
+    });
+</script>
+
+</body>
+</html>
