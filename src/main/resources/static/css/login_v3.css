@@ -171,3 +171,34 @@ a:hover {
     background-color:#4BB2FF !important;
     font-weight: bold;
 }
+
+
+.footer {
+    left: 0;
+    bottom: 0;
+    color: #fff;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    line-height: 30px;
+    padding-bottom: 10px;
+    text-shadow: #000 0.1em 0.1em 0.1em;
+    font-size: 14px;
+}
+
+.footer .enterprise {
+    overflow: hidden;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.footer .padding-5 {
+    padding: 5px !important;
+}
+
+.footer a, .footer span {
+    color: #fff;
+}
