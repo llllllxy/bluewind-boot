@@ -6,6 +6,8 @@ bluewind:
   version: 1.0.0
   # 会话失效时间(单位秒)
   session-timeout: 1800
+  # 文件存储类型
+  storage-type: qiniu
 
 # 服务相关配置
 server:
@@ -13,6 +15,10 @@ server:
   servlet:
     # 项目相对路径
     context-path: /bluewind
+  # 开启GZIP压缩
+  compression:
+    enabled: true
+    min-response-size: 2048
 
 # Spring相关配置
 spring:
@@ -27,34 +33,39 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+  # 设置jackson的默认时区
+  jackson:
+    time-zone: GMT+8
   # 数据库配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
+    # 该项可以不配置, druid可以通过url自动识别, 如果有多个不同类型的数据源的话此项要省略
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://localhost:3306/meco-server?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(pfmgAA+Eqayq6cs0HUCV/g==)
-        password: ENC(31ptOxoKowtcXsoGKLJhBEnQ==)
+        url: jdbc:mysql://rm-das.mysql.rds.com:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        username: ENC(xxx+xxxxxxxxxxxxxxxx/g==)
+        password: ENC(xxsdweqdqwedqw)
       # 辅数据源
       slave:
         # 辅数据源开关/默认关闭
         enabled: false
         url: jdbc:mysql://localhost:3306/meco-server2?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(kupP2V33DvyE5LQlfxHqOw==)
-        password: ENC(31ptzOxoKsoUfGKLJhBEnQ==)
+        username: ENC(xxxxxxxxxxxxxxx==)
+        password: ENC(xxxxxxxxxxxxxxxxxxxxx==)
       # quartz数据源(单独配置)
       quartz:
-        url: jdbc:mysql://localhost:3306/meco-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(zK28Jh4/wN3Vww164kkdDw==)
-        password: ENC(3ptzOxoKsouiwlThBEnQ==)
+        url: jdbc:mysql://rm-sa.mysql.rds.com:3306/bluewind-boot-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        username: ENC(zK28Jh4/sdaasdasdadasd==)
+        password: ENC(12esdsadsadasdsadasd)
       initialSize: 5
-      minIdle: 5
+      minIdle: 10
       maxActive: 20
       maxWait: 60000
       timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
+      maxEvictableIdleTimeMillis: 900000
       validationQuery: SELECT 1 FROM DUAL
       testWhileIdle: true
       testOnBorrow: false
@@ -64,7 +75,7 @@ spring:
   redis:
     host: 127.0.0.1 # Redis服务器地址
     port: 6379 # Redis服务器连接端口
-    password: 123456 # Redis服务器连接密码（默认为空）
+    password: 12345678 # Redis服务器连接密码（默认为空）
     database: 0 #Redis数据库索引（默认为0）
     timeout: 500 # 连接超时时间（毫秒）
     lettuce:
@@ -85,10 +96,10 @@ spring:
     cache: false
   # 邮箱配置信息
   mail:
-    host: smtp.111.com
+    host: smtp.666.com
     port: 25
-    username: leisure@111.com
-    password: 123456
+    username: leisure@666.com
+    password: dasdasdasdasdas
     default-encoding: utf-8
     properties:
       mail:
@@ -169,32 +180,25 @@ xss:
   # 匹配链接
   urlPatterns: /admin/*,/sysuser/*,/sysrole/*
 
-# minio文件存储配置信息
-minio:
-  endpoint: http://127.0.0.1:9091
-  accesskey: minioadmin
-  secretKey: minio1234
-  bucket: mini-bucket
-
 # 用户密码加密的盐
 hash:
-  salt: ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY
+  salt: ymp812345678$y5fM12345678ZcTEY
 
 # jasypt配置
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES #指定解密算法
-    password: ${jasyptPassword:ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY} #加密的密钥，自定义即可，必填项
+    password: ${jasyptPassword:ymp812345678$y5fM12345678ZcTEY} #加密的密钥，自定义即可，必填项
 
 # 1、redisson单机模式配置
 redisson:
   address: redis://127.0.0.1:6379
-  password: 123456
+  password: 12345678
   timeout: 5000
 # 2、redisson哨兵模式配置
 #redisson:
 #  master-name: mymaster
-#  password: 123456
+#  password: 12345678
 #  sentinel-addresses: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
 
 # springboot异步线程配置
@@ -213,6 +217,19 @@ oss:
   accessKeyId: XXXXXXXXXXXXXX
   accessKeySecret: XXXXXXXX
   bucketName: test-upload
+
+# minio文件存储配置信息
+minio:
+  endpoint: http://101.0.9.1:9000
+  accesskey: minioadmin
+  secretKey: 12345678@
+  bucket: bluewind-boot
+
+qiniu:
+  endPoint: http://halo.xxxxx.top/
+  accessKey: xxxxxxxxxxxxx-jfX_XZuX85aPR
+  secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  bucketName: xxxxx-halo
 
 # aj-captcha行为验证码配置
 aj:
