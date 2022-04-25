@@ -14,8 +14,11 @@ import java.util.Optional;
  * @description 获取地址工具类
  **/
 public class AddressUtils {
+
     /**
      * 根据IP地址获取地理位置
+     * @param ip ip地址
+     * @return 地理位置信息
      */
     public static String getAddressByIP(String ip) {
          // ip = "123.57.11.55";

@@ -46,8 +46,7 @@ import java.util.concurrent.TimeUnit;
  * 注意点：1. http连接池不是万能的,过多的长连接会占用服务器资源,导致其他服务受阻
  *        2. http连接池只适用于请求是经常访问同一主机(或同一个接口)的情况下
  *        3. 并发数不高的情况下资源利用率低下
- *
- * 使用http连接池的优点：
+ * 使用连接池的优点：
  *        1. 复用http连接,省去了tcp的3次握手和4次挥手的时间,极大降低请求响应的时间
  *        2. 自动管理tcp连接,不用人为地释放/创建连接
  **/
@@ -252,7 +251,7 @@ public class HttpClientPoolUtils {
             }
             URI uri = uriBuilder.build();
             if (logger.isInfoEnabled()) {
-                logger.info("HttpClientUtils -- doGet -- url = {}", uri);
+                logger.info("HttpClientPoolUtils -- doGet -- url = {}", uri);
             }
             // 创建get请求
             httpGet = new HttpGet(uri);
@@ -262,13 +261,13 @@ public class HttpClientPoolUtils {
                 // 结果返回
                 result = EntityUtils.toString(response.getEntity(), "utf-8");
                 if (logger.isInfoEnabled()) {
-                    logger.info("HttpClientUtils -- doGet -- 请求成功，返回数据： {}", result);
+                    logger.info("HttpClientPoolUtils -- doGet -- 请求成功，返回数据： {}", result);
                 }
             } else {
-                logger.error("HttpClientUtils -- doGet -- 请求失败，code：= {}", response.getStatusLine().getStatusCode());
+                logger.error("HttpClientPoolUtils -- doGet -- 请求失败，code：= {}", response.getStatusLine().getStatusCode());
             }
         } catch (Exception e) {
-            logger.error("HttpClientUtils -- doGet -- Exception： {e}", e);
+            logger.error("HttpClientPoolUtils -- doGet -- Exception： {e}", e);
         } finally {
             // 释放连接
             if (null != httpGet) {
