@@ -146,7 +146,7 @@ public class MinioStorageServiceImpl implements StorageService {
      * @param inputStream 输入流
      * @param fileName    文件名字
      * @param contentType 上下文类型
-     * @param map
+     * @param metaData
      * @return
      */
     private StorageFile store(String fileId, InputStream inputStream, String fileName, String contentType, Map<String, String> metaData) {

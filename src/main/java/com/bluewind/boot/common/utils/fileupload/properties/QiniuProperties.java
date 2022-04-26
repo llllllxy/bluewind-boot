@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "qiniu")
 public class QiniuProperties {
 
-    public String endPoint;
+    private String endPoint;
 
-    public String accessKey;
+    private String accessKey;
 
-    public String secretKey;
+    private String secretKey;
 
-    public String bucketName;
+    private String bucketName;
 
     public String getEndPoint() {
         return endPoint;

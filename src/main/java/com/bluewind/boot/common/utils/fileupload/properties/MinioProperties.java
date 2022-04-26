@@ -14,19 +14,19 @@ public class MinioProperties {
     /**
      * 连接url
      */
-    public String endpoint;
+    private String endpoint;
     /**
      * 用户名
      */
-    public String accesskey;
+    private String accesskey;
     /**
      * 密码
      */
-    public String secretKey;
+    private String secretKey;
     /**
      * 存储桶
      */
-    public String bucket;
+    private String bucket;
 
     public String getEndpoint() {
         return endpoint;

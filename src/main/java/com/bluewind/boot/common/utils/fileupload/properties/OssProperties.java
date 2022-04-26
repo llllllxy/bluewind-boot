@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "oss")
 public class OssProperties {
-    public String endPoint;
+    private String endPoint;
 
-    public String accessKeyId;
+    private String accessKeyId;
 
-    public String accessKeySecret;
+    private String accessKeySecret;
 
-    public String bucketName;
+    private String bucketName;
 
     public String getEndPoint() {
         return endPoint;
