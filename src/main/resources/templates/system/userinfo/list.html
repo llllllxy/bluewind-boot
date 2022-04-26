@@ -540,7 +540,7 @@
         $('#excelFile').change(function () {
             var formData = new FormData();
             formData.append("files", $("#excelFile")[0].files[0]);
-            formData.append("files_name", $("#excelFile")[0].files[0].name); // 文件名字
+            formData.append("fileName", $("#excelFile")[0].files[0].name); // 文件名字
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
             Util.upload({
