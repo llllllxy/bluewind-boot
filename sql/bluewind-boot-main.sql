@@ -1,17 +1,17 @@
 /*
- Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
- Source Server         : 腾讯云TDSQL-C
+ Source Server         : 阿里云RDS-MySQL
  Source Server Type    : MySQL
- Source Server Version : 50718
- Source Host           : njsql.tencentcdb.com:28151
- Source Schema         : meco-server
+ Source Server Version : 50735
+ Source Host           : rm.mysql.rds.aliyuncs.com:3306
+ Source Schema         : bluewind-boot-main
 
  Target Server Type    : MySQL
- Target Server Version : 50718
+ Target Server Version : 50735
  File Encoding         : 65001
 
- Date: 22/11/2021 17:28:51
+ Date: 26/04/2022 21:38:01
 */
 
 SET NAMES utf8mb4;
@@ -36,25 +36,25 @@ CREATE TABLE `sys_configure`  (
   `homepage_href` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '系统首页链接',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_configure
 -- ----------------------------
-INSERT INTO `sys_configure` VALUES (1, '后台管理', 'SpringBoot后台管理模板', 'http://upyun.lxyccc.top/halo/1608791680123.png', 'bluewind-boot 一个基于SpringBoot的通用后台管理系统', 'http://halo.lxyccc.top/1684bab905d9437ca77413860c29baa6.jpg', '管理系统,SpringBoot,解决方案,开发脚手架', '本项目本着避免重复造轮子的原则建立一套快速开发JavaWEB项目', '粤ICP备20046900号-1', 'Copyright© 1999-2020 SpringBoot 版权所有', 'http://upyun.lxyccc.top/halo/c7cfb930-269e-4239-bce0-1623af5146d5.jpg', '/admin/welcome', '1', '1', '2020-10-20 21:58:50', '2021-11-17 22:47:16');
+INSERT INTO `sys_configure` VALUES (1, '后台管理', 'SpringBoot后台管理模板', 'http://halo.lxyccc.top/logo/bluewind_logo.png', 'bluewind-boot 一个基于SpringBoot的通用后台管理系统', 'http://halo.lxyccc.top/1684bab905d9437ca77413860c29baa6.jpg', '管理系统,SpringBoot,解决方案,开发脚手架', '本项目本着避免重复造轮子的原则建立一套快速开发JavaWEB项目', '', 'Copyright© 1999-2020 SpringBoot 版权所有', 'http://upyun.lxyccc.top/halo/c7cfb930-269e-4239-bce0-1623af5146d5.jpg', '/admin/welcome', '1', '1', '2020-10-20 21:58:50', '2022-03-17 13:26:06');
 
 -- ----------------------------
 -- Table structure for sys_dept_info
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept_info`;
 CREATE TABLE `sys_dept_info`  (
-  `dept_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门id',
-  `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '父部门id',
-  `ancestors` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '祖级列表',
-  `dept_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '部门名称',
+  `dept_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+  `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '父级ID',
+  `ancestors` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '祖级列表',
+  `dept_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '部门名称',
   `order_num` int(4) NULL DEFAULT 0 COMMENT '显示顺序',
   `leader` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '负责人',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '联系电话',
@@ -62,115 +62,92 @@ CREATE TABLE `sys_dept_info`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0--未删除1--已删除）',
   `create_user` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for sys_dict
+-- Records of sys_dept_info
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_dict`;
-CREATE TABLE `sys_dict`  (
-  `dict_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
-  `dict_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '编码',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
-  `descript` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+INSERT INTO `sys_dept_info` VALUES ('100', '0', '0', '蓝风集团', 0, 'admin', '17862659966', '17862659966@qq.com', '0', '0', NULL, '2022-01-02 15:07:09', NULL, '2022-01-02 15:08:02');
+INSERT INTO `sys_dept_info` VALUES ('101', '100', '0,100', '蓝风软件股份有限公司', 1, 'admin', '17862659966', NULL, '0', '0', NULL, '2022-01-02 15:07:10', NULL, '2022-01-02 15:08:21');
+INSERT INTO `sys_dept_info` VALUES ('102', '100', '0,100', '蓝风软件科技有限公司', 2, 'admin', '17862659966', NULL, '0', '0', NULL, '2022-01-02 15:07:10', NULL, '2022-01-02 15:08:39');
+INSERT INTO `sys_dept_info` VALUES ('103', '101', '0,100,101', '电子商务事业部', 1, 'admin', '17862659966', NULL, '0', '0', NULL, '2022-01-02 15:07:10', '1', '2022-04-17 19:13:27');
+INSERT INTO `sys_dept_info` VALUES ('104', '101', '0,100,101', '软件股份第二事业部', 2, 'admin', '17862659966', NULL, '0', '1', NULL, '2022-01-02 15:07:10', NULL, '2022-04-17 19:07:43');
+INSERT INTO `sys_dept_info` VALUES ('105', '102', '0,100,102', '软件科技第一事业部', 1, 'admin', '17862659966', NULL, '0', '0', NULL, '2022-01-02 15:07:10', NULL, '2022-01-02 15:09:39');
+INSERT INTO `sys_dept_info` VALUES ('106', '102', '0,100,102', '软件科技第二事业部', 2, 'admin', '17862659966', NULL, '0', '0', NULL, '2022-01-02 15:07:10', NULL, '2022-04-17 16:28:52');
+INSERT INTO `sys_dept_info` VALUES ('1515614000550080512', '101', '0,100,101', '软件股份第三事业部', 3, '张三', '17862719598', 'jqcgj@mfk.app', '0', '1', '1', '2022-04-17 16:51:51', NULL, '2022-04-17 19:07:57');
+INSERT INTO `sys_dept_info` VALUES ('1515615315540148224', '103', '0,100,101,103', '物联网产品部', 0, '李四', '17862719599', '3333333@qq.com', '0', '0', '1', '2022-04-17 16:57:04', '1', '2022-04-17 18:59:33');
+INSERT INTO `sys_dept_info` VALUES ('1515646339421286400', '101', '0,100,101', '智慧医疗事业部', 1, '张三', '17862719599', '2222229@qq.com', '0', '0', '1', '2022-04-17 19:00:21', '1', '2022-04-17 19:08:53');
+INSERT INTO `sys_dept_info` VALUES ('1515646486955929600', '101', '0,100,101', '智慧城市事业部', 2, '张三', '17862719599', '2222229@qq.com', '0', '0', '1', '2022-04-17 19:00:56', '1', '2022-04-17 19:09:05');
+INSERT INTO `sys_dept_info` VALUES ('200', '100', '0,100', '测试父级部门', 3, 'admin', '17862659966', NULL, '0', '0', NULL, '2022-01-02 15:07:10', NULL, '2022-01-02 15:07:36');
+INSERT INTO `sys_dept_info` VALUES ('201', '200', '0,100,200', '测试子级部门', 1, 'admin', '17862659966', NULL, '0', '0', NULL, '2022-01-02 15:07:10', NULL, '2022-01-02 15:07:37');
+
+-- ----------------------------
+-- Table structure for sys_dict_info
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_info`;
+CREATE TABLE `sys_dict_info`  (
+  `dict_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务主键',
+  `dict_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典标识',
+  `dict_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典名称',
+  `dict_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字典码',
+  `dict_value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字典值',
+  `descript` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `order_num` int(4) NULL DEFAULT 0 COMMENT '排序',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--冻结）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--正常，1--已删除）',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统字典表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统数据字典表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of sys_dict
+-- Records of sys_dict_info
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES ('1459791704598126509', 'user_sex', '性别', '性别的数据字典', '0', '0', '0', '2020-07-15 16:32:49', '0', '2021-11-14 20:55:34');
-INSERT INTO `sys_dict` VALUES ('1459791704598126510', 'menu_type', '菜单权限类型', '菜单权限的类型', '0', '0', '0', '2020-07-20 21:20:22', '0', '2021-11-15 22:25:57');
-INSERT INTO `sys_dict` VALUES ('1459791704598126511', 'news_type', '新闻类别', '新闻类别', '0', '0', '1', '2020-09-30 10:52:36', '0', '2021-11-15 22:15:25');
-INSERT INTO `sys_dict` VALUES ('1459791704598126512', 'notice_type', '公告类型', '', '0', '0', '1', '2020-09-28 14:18:18', '0', '2021-11-14 20:54:57');
-INSERT INTO `sys_dict` VALUES ('1459791704598126513', 'permission_target', '权限菜单打开方式', '内链/外链', '0', '0', '0', '2021-02-17 17:27:21', '0', '2021-11-14 20:55:02');
-INSERT INTO `sys_dict` VALUES ('1459791704598126515', 'quartz_data_status', '定时任务状态', '定时任务的禁/启用状态', '0', '0', '0', '2020-07-15 16:37:04', '0', '2021-11-14 20:55:07');
-INSERT INTO `sys_dict` VALUES ('1459791704598126516', 'quartz_status', '定时任务启动状态', '定时任务启动状态', '0', '0', '0', '2020-07-21 10:10:41', '0', '2021-11-14 20:55:15');
-INSERT INTO `sys_dict` VALUES ('1459791704598126517', 'role_status', '角色状态', '角色的禁/启用状态', '0', '0', '0', '2020-07-15 16:37:04', '0', '2021-11-14 20:55:19');
-INSERT INTO `sys_dict` VALUES ('1459791704598126519', 'sdasdsadas', '爱吃甜品的猫w', '哈哈哈哈哈撒旦撒旦撒', '0', '1', '1', '2021-03-03 19:15:40', '0', '2021-11-14 20:55:22');
-INSERT INTO `sys_dict` VALUES ('1459791704598126520', 'sys_job_group', '定时任务分组', '定时任务分组', '0', '0', '1', '2021-08-27 17:05:37', '0', '2021-11-14 20:55:25');
-INSERT INTO `sys_dict` VALUES ('1459791704598126521', 'sys_job_status', '定时任务状态', '定时任务状态', '0', '0', '1', '2021-08-27 17:05:48', '0', '2021-11-14 20:55:30');
-INSERT INTO `sys_dict` VALUES ('1459791704598126578', 'user_status', '用户状态', '用户的禁/启用状态', '0', '0', '0', '2020-07-15 16:37:04', '0', '2021-11-14 20:55:39');
-INSERT INTO `sys_dict` VALUES ('1459791704598126595', 'banner_type', '轮播类型', '', '0', '0', '1', '2020-09-28 14:18:30', '0', '2021-11-14 20:54:38');
-INSERT INTO `sys_dict` VALUES ('1459791704598126596', 'dict_status', '数据字典状态', '数据字典的禁/启用状态', '0', '0', '0', '2020-07-15 16:37:04', '0', '2021-11-14 20:54:41');
-INSERT INTO `sys_dict` VALUES ('1459791704598126597', 'feed_back_type', '意见反馈类型', '意见反馈类型', '0', '0', '1', '2020-09-29 16:12:32', '0', '2021-11-14 20:54:43');
-INSERT INTO `sys_dict` VALUES ('1459791704598126598', 'itfc_key_status', '服务密钥状态', '服务密钥的状态', '0', '0', '1', '2021-06-13 22:37:22', '0', '2021-11-14 20:54:45');
-INSERT INTO `sys_dict` VALUES ('1459791704598126599', 'login_status', '登录状态', '登录日志的记录状态', '0', '0', '1', '2020-07-28 10:04:05', '0', '2021-11-14 20:54:47');
-
--- ----------------------------
--- Table structure for sys_dict_detail
--- ----------------------------
-DROP TABLE IF EXISTS `sys_dict_detail`;
-CREATE TABLE `sys_dict_detail`  (
-  `dict_detail_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
-  `dict_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典编码',
-  `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '编号',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
-  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  PRIMARY KEY (`dict_detail_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统字典明细表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_dict_detail
--- ----------------------------
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126530', 'banner_type', '0', '默认', '1', '2020-09-28 14:18:36', '0', '2021-11-14 20:56:16');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126531', 'banner_type', '1', '指定内容', '1', '2020-09-28 14:18:42', '0', '2021-11-14 20:56:19');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126532', 'banner_type', '2', '指定链接', '1', '2020-09-28 14:18:48', '0', '2021-11-14 20:56:22');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126533', 'dict_status', '0', '正常', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:56:25');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126534', 'dict_status', '1', '禁用', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:56:28');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126535', 'feed_back_type', '0', '建议', '1', '2020-09-29 16:12:40', '0', '2021-11-14 20:56:34');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126536', 'feed_back_type', '1', '投诉', '1', '2020-09-29 16:12:57', '0', '2021-11-14 20:56:42');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126537', 'feed_back_type', '2', '支持', '1', '2020-09-29 16:13:03', '1', '2021-11-14 20:56:47');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126538', 'feed_back_type', '3', '其它', '1', '2020-09-29 16:13:03', '1', '2021-11-14 20:56:54');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126539', 'itfc_key_status', '0', '使用', '1', '2021-06-13 22:38:27', '0', '2021-11-14 20:56:57');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126540', 'itfc_key_status', '1', '停用', '1', '2021-06-13 22:38:40', '0', '2021-11-14 20:57:00');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126541', 'login_status', '0', '成功', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:57:03');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126542', 'login_status', '1', '失败', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:57:05');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126543', 'menu_type', '1', '目录', '0', '2020-09-21 10:49:43', '1', '2021-11-15 22:26:34');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126544', 'menu_type', '2', '菜单', '0', '2020-09-21 10:49:43', '1', '2021-11-15 22:26:40');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126545', 'menu_type', '3', '按钮', '0', '2020-09-21 10:49:43', '1', '2021-11-15 22:26:46');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126546', 'news_type', '0', '娱乐', '1', '2020-09-30 10:53:34', '0', '2021-11-14 20:57:14');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126547', 'news_type', '1', '体育', '1', '2020-09-30 10:53:38', '0', '2021-11-14 20:57:17');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126548', 'news_type', '2', '财经', '1', '2020-09-30 10:53:43', '0', '2021-11-14 20:57:20');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126549', 'news_type', '3', '民生', '1', '2020-09-30 10:53:57', '1', '2021-11-14 20:57:24');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126550', 'news_type', '4', '时政', '1', '2020-09-30 11:30:27', '0', '2021-11-14 20:57:43');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126551', 'notice_type', '0', '默认', '1', '2020-09-28 14:18:57', '0', '2021-11-14 20:57:47');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126552', 'notice_type', '1', '指定内容', '1', '2020-09-28 14:19:05', '0', '2021-11-14 20:57:49');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126553', 'notice_type', '2', '指定链接', '1', '2020-09-28 14:19:11', '0', '2021-11-14 20:57:52');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126554', 'permission_target', '_blank', '外链', '0', '2021-02-17 17:28:15', '0', '2021-11-14 20:57:54');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126555', 'permission_target', '_self', '内链', '0', '2021-02-17 17:27:31', '0', '2021-11-14 20:57:57');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126556', 'quartz_data_status', '0', '正常', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:57:59');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126557', 'quartz_data_status', '1', '禁用', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:01');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126558', 'quartz_status', '0', '启动', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:04');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126559', 'quartz_status', '1', '停止', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:07');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126560', 'role_status', '0', '正常', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:10');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126561', 'role_status', '1', '禁用', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:16');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126562', 'sdasdsadas', '7016', '测试账号', '1', '2021-03-05 00:01:21', '0', '2021-11-14 20:58:18');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126563', 'sdasdsadas', '70173', '爱吃甜品的猫', '1', '2021-03-05 00:01:09', '1', '2021-11-14 20:58:21');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126564', 'sys_job_group', 'DEFAULT', '默认', '0', '2021-08-27 17:06:44', '0', '2021-11-14 20:58:23');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126565', 'sys_job_group', 'SYSTEM', '系统', '0', '2021-08-27 17:07:07', '0', '2021-11-14 20:58:26');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126566', 'sys_job_status', '0', '正常', '0', '2021-08-27 17:06:27', '0', '2021-11-14 20:58:28');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126567', 'sys_job_status', '1', '暂停', '0', '2021-08-27 17:06:30', '0', '2021-11-14 20:58:30');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126568', 'user_sex', '0', '未知', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:32');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126569', 'user_sex', '1', '男', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:34');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126570', 'user_sex', '2', '女', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:37');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126571', 'user_status', '0', '正常', '0', '2020-09-21 10:49:43', '0', '2021-11-14 20:58:41');
-INSERT INTO `sys_dict_detail` VALUES ('1459791704598126572', 'user_status', '1', '锁定', '0', '2020-09-21 10:49:43', '1', '2021-11-14 20:58:52');
-INSERT INTO `sys_dict_detail` VALUES ('1460253026249629696', 'menu_type', '0', '模块', '1', '2021-11-15 22:27:07', '0', '2021-11-15 22:27:07');
-INSERT INTO `sys_dict_detail` VALUES ('1460982497798737920', 'news_type', '5', '军事', '1', '2021-11-17 22:45:44', '1', '2021-11-17 22:45:52');
+INSERT INTO `sys_dict_info` VALUES ('1515144385559932928', 'test_code', '测试字典', '1', '1', '测试字典', 1, '0', '0', '2022-04-16 09:45:46', '2022-04-16 09:45:46', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1515144385580904448', 'test_code', '测试字典', '3', '3', '测试字典', 2, '0', '0', '2022-04-16 09:45:46', '2022-04-16 09:45:46', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1515145333120315392', 'banner_type', '轮播类型', '0', '默认', '轮播类型', 1, '0', '0', '2022-04-16 09:49:32', '2022-04-16 09:49:32', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1515145333128704000', 'banner_type', '轮播类型', '1', '指定内容', '轮播类型', 2, '0', '0', '2022-04-16 09:49:32', '2022-04-16 09:49:32', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1515145333132898304', 'banner_type', '轮播类型', '2', '指定链接', '轮播类型', 3, '0', '0', '2022-04-16 09:49:32', '2022-04-16 09:49:32', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1515146812689408000', 'notice_type', '公告类型', '0', '默认', '公告类型', 1, '0', '0', '2022-04-16 09:55:24', '2022-04-16 09:55:24', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1515146812697796608', 'notice_type', '公告类型', '1', '指定内容', '公告类型', 2, '0', '0', '2022-04-16 09:55:24', '2022-04-16 09:55:24', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1515146812701990912', 'notice_type', '公告类型', '2', '指定链接', '公告类型', 3, '0', '0', '2022-04-16 09:55:25', '2022-04-16 09:55:25', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('32132132131', 'user_sex', '性别', '0', '未知', '用户性别', 1, '0', '0', '2022-04-15 15:41:52', '2022-04-15 15:42:17', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('32132132132', 'user_sex', '性别', '1', '男', '用户性别', 2, '0', '0', '2022-04-15 15:30:25', '2022-04-15 15:42:19', '0', NULL);
+INSERT INTO `sys_dict_info` VALUES ('32132132133', 'user_sex', '性别', '2', '女', '用户性别', 3, '0', '0', '2022-04-15 15:30:25', '2022-04-15 15:42:20', '0', NULL);
+INSERT INTO `sys_dict_info` VALUES ('43123131212', 'itfc_key_status', '服务密钥状态', '0', '正常', '服务密钥的状态', 0, '0', '0', '2022-04-15 22:55:56', '2022-04-15 22:56:38', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('43123131299', 'itfc_key_status', '服务密钥状态', '1', '停用', '服务密钥的状态', 0, '0', '0', '2022-04-15 22:55:56', '2022-04-15 22:56:38', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456334', 'menu_type', '菜单权限类型', '0', '模块', '菜单权限类型', 1, '0', '0', '2022-04-15 15:31:05', '2022-04-15 15:34:16', '0', NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456335', 'menu_type', '菜单权限类型', '1', '目录', '菜单权限类型', 2, '0', '0', '2022-04-15 15:31:05', '2022-04-15 15:37:02', '0', NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456336', 'menu_type', '菜单权限类型', '2', '菜单', '菜单权限类型', 3, '0', '0', '2022-04-15 15:31:05', '2022-04-15 15:37:03', '0', NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456337', 'menu_type', '菜单权限类型', '3', '按钮', '菜单权限类型', 4, '0', '0', '2022-04-15 15:31:05', '2022-04-15 15:37:05', '0', NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456339', 'login_status', '登录状态', '1', '失败', '登录日志的记录状态', 1, '0', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456340', 'login_status', '登录状态', '0', '成功', '登录日志的记录状态', 2, '0', '0', '2022-04-15 15:36:12', '2022-04-15 15:38:26', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456341', 'permission_target', '权限菜单打开方式', '_blank', '外链', '菜单是内链/外链', 2, '0', '0', '2022-04-15 15:39:24', '2022-04-15 15:40:11', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456342', 'permission_target', '权限菜单打开方式', '_self', '内链', '菜单是内链/外链', 1, '0', '0', '2022-04-15 15:38:59', '2022-04-15 15:43:16', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456343', 'user_status', '用户状态', '0', '正常', '用户的禁/启用状态', 1, '0', '0', '2022-04-15 15:40:20', '2022-04-15 15:41:26', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456344', 'user_status', '用户状态', '1', '锁定', '用户的禁/启用状态', 2, '0', '0', '2022-04-15 15:40:41', '2022-04-15 15:41:29', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456345', 'quartz_data_status', '定时任务状态', '0', '正常', '定时任务的禁/启用状态', 1, '0', '0', '2022-04-15 15:43:55', '2022-04-15 15:45:55', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456346', 'quartz_data_status', '定时任务状态', '1', '禁用', '定时任务的禁/启用状态', 2, '0', '0', '2022-04-15 15:44:09', '2022-04-15 15:44:50', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456347', 'quartz_status', '定时任务启动状态', '0', '启动', '定时任务启动状态', 1, '0', '0', '2022-04-15 15:46:19', '2022-04-15 15:47:02', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456348', 'quartz_status', '定时任务启动状态', '1', '停止', '定时任务启动状态', 2, '0', '0', '2022-04-15 15:46:22', '2022-04-15 15:47:34', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456349', 'role_status', '角色状态', '0', '正常', '角色的禁/启用状态', 1, '0', '0', '2022-04-15 15:49:32', '2022-04-15 15:50:21', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456350', 'role_status', '角色状态', '1', '停用', '角色的禁/启用状态', 1, '0', '0', '2022-04-15 15:49:59', '2022-04-15 15:50:29', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456352', 'dict_status', '数据字典状态', '1', '停用', '数据字典的禁/启用状态', 2, '0', '0', '2022-04-15 15:51:45', '2022-04-15 15:54:46', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456353', 'dict_status', '数据字典状态', '0', '正常', '数据字典的禁/启用状态', 1, '0', '0', '2022-04-15 15:51:20', '2022-04-15 15:56:23', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456354', 'syspostinfo_status', '岗位状态', '0', '正常', NULL, 1, '0', '0', '2022-04-15 15:55:13', '2022-04-15 15:57:15', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456355', 'syspostinfo_status', '岗位状态', '1', '停用', NULL, 2, '0', '0', '2022-04-15 15:55:26', '2022-04-15 15:56:43', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456357', 'sys_job_group', '定时任务分组', 'SYSTEM', '系统', '定时任务分组', 2, '0', '0', '2022-04-15 22:50:46', '2022-04-15 22:51:09', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456358', 'sys_job_group', '定时任务分组', 'DEFAULT', '默认', '定时任务分组', 1, '0', '0', '2022-04-15 22:49:58', '2022-04-15 22:52:55', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456360', 'sys_job_status', '定时任务状态', '0', '正常', '定时任务状态', 0, '0', '0', '2022-04-15 22:53:11', '2022-04-15 22:55:21', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456361', 'sys_job_status', '定时任务状态', '1', '暂停', '定时任务状态', 0, '0', '0', '2022-04-15 22:54:46', '2022-04-15 22:55:20', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456390', 'sysdeptinfo_status', '部门状态', '0', '正常', NULL, 1, '0', '0', '2022-04-15 15:55:13', '2022-04-15 15:57:15', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456391', 'sysdeptinfo_status', '部门状态', '1', '停用', NULL, 2, '0', '0', '2022-04-15 15:55:13', '2022-04-15 15:57:15', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dim_city
@@ -181,7 +158,7 @@ CREATE TABLE `sys_dim_city`  (
   `city_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '城市名称',
   `province_code` int(11) NULL DEFAULT NULL COMMENT '省份编码',
   PRIMARY KEY (`city_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '城市' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '城市' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dim_city
@@ -541,7 +518,7 @@ CREATE TABLE `sys_dim_county`  (
   `city_code` int(11) NULL DEFAULT NULL COMMENT '城市编码',
   `province_code` int(11) NULL DEFAULT NULL COMMENT '省份编码',
   PRIMARY KEY (`county_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '区县' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '区县' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dim_county
@@ -3685,7 +3662,7 @@ CREATE TABLE `sys_dim_province`  (
   `province_code` int(11) NOT NULL COMMENT '省份编码',
   `province_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '省份名称',
   PRIMARY KEY (`province_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '省份' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '省份' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dim_province
@@ -3733,12 +3710,12 @@ CREATE TABLE `sys_email_log`  (
   `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型(0--文本,1--html,2--图片,3--附件,4--模板)',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发送状态(0--成功,1--失败)',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除,1--已删除）',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送日志记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送日志记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_email_log
@@ -3750,6 +3727,8 @@ INSERT INTO `sys_email_log` VALUES ('12', '184974699@qq.com', 'eqweqweqwewq', '0
 INSERT INTO `sys_email_log` VALUES ('13', '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 02:49:51', '0', '2021-04-17 02:49:51', '0');
 INSERT INTO `sys_email_log` VALUES ('14', '184974699@qq.com', '8888', '0', '0', NULL, '2021-04-17 02:55:23', '0', '2021-04-17 02:55:23', '0');
 INSERT INTO `sys_email_log` VALUES ('15', '184974699@qq.com', 'eqweqweqwewq', '1', '0', NULL, '2021-04-17 03:04:29', '0', '2021-04-17 03:04:29', '0');
+INSERT INTO `sys_email_log` VALUES ('1518518996698038272', '184974699@qq.com', '我又测试邮件了', '0', '0', '1', '2022-04-25 17:15:16', NULL, '2022-04-25 17:15:16', '0');
+INSERT INTO `sys_email_log` VALUES ('1518520581784240128', '184974699@qq.com', 'dd', '4', '0', '1', '2022-04-25 17:21:34', NULL, '2022-04-25 17:21:34', '0');
 INSERT INTO `sys_email_log` VALUES ('16', '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 03:05:15', '0', '2021-04-17 03:05:15', '0');
 INSERT INTO `sys_email_log` VALUES ('17', '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 03:06:36', '0', '2021-04-17 03:06:36', '0');
 INSERT INTO `sys_email_log` VALUES ('18', '184974699@qq.com', '8888', '0', '0', NULL, '2021-04-17 03:11:10', '0', '2021-04-17 03:11:10', '0');
@@ -3779,10 +3758,10 @@ CREATE TABLE `sys_files`  (
   `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附件路径',
   `suffix` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件后缀（png、doc等）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统附件表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统附件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_files
@@ -3798,8 +3777,8 @@ INSERT INTO `sys_files` VALUES (5, 'timg.png', 'default/20210111/e621c49b-fee5-4
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_id_table`;
 CREATE TABLE `sys_id_table`  (
-  `id_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
-  `id_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务流水号',
+  `id_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+  `id_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务流水号编码',
   `id_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务流水号名称',
   `id_value` int(11) NOT NULL COMMENT '业务流水号当前值',
   `id_length` int(11) NOT NULL COMMENT '业务流水号长度',
@@ -3808,18 +3787,18 @@ CREATE TABLE `sys_id_table`  (
   `has_suffix` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '是否有后缀 0有，1没有',
   `id_suffix` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '业务流水号后缀',
   `descript` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '详细描述',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统流水号表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统流水号表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_id_table
 -- ----------------------------
-INSERT INTO `sys_id_table` VALUES ('1459791704598126593', 'id_test_one', '测试流水号1', 290, 10, '0', 'AA', '0', 'yyyy', '测试流水号', '2021-03-28 15:40:41', '2021-11-17 22:46:28', NULL, '1');
-INSERT INTO `sys_id_table` VALUES ('1459791704598126594', 'id_test_1', '测试流水号2', 1, 10, '0', 'te', '0', 'ster', '哈哈哈哈呲呲呲', '2021-04-11 15:15:30', '2021-11-17 22:46:36', '1', '1');
+INSERT INTO `sys_id_table` VALUES ('1459791704598126593', 'id_test_one', '测试流水号1', 290, 10, '0', 'BB', '0', 'yyyy', '测试流水号1', '2021-03-28 15:40:41', '2022-04-13 23:27:48', NULL, '1');
+INSERT INTO `sys_id_table` VALUES ('1459791704598126594', 'id_test_1', '测试流水号2', 1, 10, '0', 'te', '0', 'ster', '测试流水号2', '2021-04-11 15:15:30', '2022-04-06 22:35:47', '1', '1');
 
 -- ----------------------------
 -- Table structure for sys_itfc_key
@@ -3834,17 +3813,17 @@ CREATE TABLE `sys_itfc_key`  (
   `valid_period` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'key的有效期',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务密钥信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务密钥信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_itfc_key
 -- ----------------------------
 INSERT INTO `sys_itfc_key` VALUES (1, 'dsasdutepwkwsdasd', '测试key', '测试key1', '0', '20210728', '0', '0', '2021-06-11 21:15:43', '1', '2021-07-10 22:53:48');
-INSERT INTO `sys_itfc_key` VALUES (71, 'ee81d86d98a845c1a390afdd27139fe0', '中正有限责任公司', 'asdasd1', '0', '20210831', '0', '1', '2021-06-25 22:50:48', '1', '2021-08-22 15:12:56');
+INSERT INTO `sys_itfc_key` VALUES (71, 'ee81d86d98a845c1a390afdd27139fe0', '中正有限责任公司', '中正有限责任公司\n', '0', '20210831', '0', '1', '2021-06-25 22:50:48', '1', '2022-04-06 14:08:29');
 INSERT INTO `sys_itfc_key` VALUES (72, '95ba4c7b78bb46ca89e74b67e01bb0f4', 'dsa', 'sda', '0', '20210610', '1', '1', '2021-06-25 22:54:42', '0', '2021-06-26 11:22:43');
 INSERT INTO `sys_itfc_key` VALUES (73, '28a6fc8997be4fb293eff1434061eb12', 'XO软件技术公司', 'XO软件技术公司', '0', '20211023', '0', '1', '2021-07-18 22:44:21', '1', '2021-10-23 16:59:21');
 INSERT INTO `sys_itfc_key` VALUES (74, '2daf06fb0a6c4dd5897c784e17a700b0', '4444', '44444', '0', '20211117', '1', '1', '2021-11-17 22:17:03', '1', '2021-11-17 22:18:01');
@@ -3857,10 +3836,10 @@ CREATE TABLE `sys_itfc_key_permission`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `itfc_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密钥',
   `itfc_permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限id',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 122 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc密钥权限对照表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 122 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc密钥权限对照表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_itfc_key_permission
@@ -3895,11 +3874,11 @@ CREATE TABLE `sys_itfc_permission`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务权限信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务权限信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_itfc_permission
@@ -3927,16 +3906,16 @@ CREATE TABLE `sys_job`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1暂停）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '创建者',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '更新人',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注信息',
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
-INSERT INTO `sys_job` VALUES ('0432fdbbd21a4331aec44d4b7cfff77b', '系统无参定时器测试', 'DEFAULT', 'bluewindTask.bwNoParams', '*/10 * * * * ?', '3', '0', '1', '1', '1', '2021-08-28 16:32:31', '2021-11-14 15:55:47', NULL);
+INSERT INTO `sys_job` VALUES ('0432fdbbd21a4331aec44d4b7cfff77b', '系统无参定时器测试', 'DEFAULT', 'bluewindTask.bwNoParams', '*/10 * * * * ?', '3', '0', '1', '1', '1', '2021-08-28 16:32:31', '2022-04-12 00:07:29', NULL);
 INSERT INTO `sys_job` VALUES ('d8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '0/5 * * * * ?', '3', '0', '1', '1', '1', '2021-08-28 13:26:41', '2021-11-14 15:55:58', NULL);
 INSERT INTO `sys_job` VALUES ('d9b93921aafe45b7989edf305da704be', '测试定时器3', 'DEFAULT', 'bluewindTask.bwNoParams', '4 * * * * ? *', '3', '1', '1', '1', '1', '2021-09-11 10:58:47', '2021-09-19 11:04:18', NULL);
 
@@ -3953,9 +3932,9 @@ CREATE TABLE `sys_job_log`  (
   `job_message` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '日志信息',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '异常信息',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -3970,6 +3949,10 @@ INSERT INTO `sys_job_log` VALUES ('1459792172736978944', 'd8c8ea0f9091456db61e6e
 INSERT INTO `sys_job_log` VALUES ('1459792193700110336', 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-11-14 15:55:55');
 INSERT INTO `sys_job_log` VALUES ('1460984515243339776', '0432fdbbd21a4331aec44d4b7cfff77b', '系统无参定时器测试', 'DEFAULT', 'bluewindTask.bwNoParams', '系统无参定时器测试 总共耗时：1毫秒', '0', '', '2021-11-17 22:53:45');
 INSERT INTO `sys_job_log` VALUES ('1460984552157409280', 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2021-11-17 22:53:54');
+INSERT INTO `sys_job_log` VALUES ('1511585411363905536', '0432fdbbd21a4331aec44d4b7cfff77b', '系统无参定时器测试', 'DEFAULT', 'bluewindTask.bwNoParams', '系统无参定时器测试 总共耗时：2毫秒', '0', '', '2022-04-06 14:03:40');
+INSERT INTO `sys_job_log` VALUES ('1511585488316801024', 'd8c8ea0f9091456db61e6e48c9496843', '系统测试(有参)', 'DEFAULT', 'bluewindTask.bwParams(\'嘿嘿\')', '系统测试(有参) 总共耗时：0毫秒', '0', '', '2022-04-06 14:03:59');
+INSERT INTO `sys_job_log` VALUES ('1511585497389080576', 'd9b93921aafe45b7989edf305da704be', '测试定时器3', 'DEFAULT', 'bluewindTask.bwNoParams', '测试定时器3 总共耗时：0毫秒', '0', '', '2022-04-06 14:04:01');
+INSERT INTO `sys_job_log` VALUES ('1511714486437572608', '0432fdbbd21a4331aec44d4b7cfff77b', '系统无参定时器测试', 'DEFAULT', 'bluewindTask.bwNoParams', '系统无参定时器测试 总共耗时：1毫秒', '0', '', '2022-04-06 22:36:35');
 
 -- ----------------------------
 -- Table structure for sys_login_log
@@ -3983,38 +3966,75 @@ CREATE TABLE `sys_login_log`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--成功1--失败）',
   `location` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '位置',
   `account` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '账号',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_login_log
 -- ----------------------------
-INSERT INTO `sys_login_log` VALUES ('1459851575305883648', '3607a9a76174412ab99fe2bdc625d0b3', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-14 19:51:53');
-INSERT INTO `sys_login_log` VALUES ('1459875710748577792', 'c7083b50a77146ef9b2c4692646856aa', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-14 21:27:48');
-INSERT INTO `sys_login_log` VALUES ('1459884468297654272', 'd59b41e00e404b5793cc1a6364476bc8', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-14 22:02:36');
-INSERT INTO `sys_login_log` VALUES ('1459884492687532032', 'd0864937984f489dbf3f4e3bb2773ddd', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-14 22:02:41');
-INSERT INTO `sys_login_log` VALUES ('1459885805391278080', '6bc91d69090a41e2a8913d64c6bfa531', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-14 22:07:55');
-INSERT INTO `sys_login_log` VALUES ('1459886428362862592', '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2021-11-14 22:10:23');
-INSERT INTO `sys_login_log` VALUES ('1459886540795375616', 'cbb76088eae74084a97fdca693661b1b', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-14 22:10:50');
-INSERT INTO `sys_login_log` VALUES ('1460110169765072896', 'bb3ae402dfc945f9a53808fd7e128d57', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-15 12:59:27');
-INSERT INTO `sys_login_log` VALUES ('1460249318641086464', '55ad7ed67df9447ab3f9b3109f1d7ef3', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-15 22:12:23');
-INSERT INTO `sys_login_log` VALUES ('1460472187478986752', 'baccc3a183e148b4ad840c410cb0c53b', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-16 12:57:59');
-INSERT INTO `sys_login_log` VALUES ('1460568697055596544', '7c49aa7ac0ab492f8ca4d91290de0533', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-11-16 19:21:28');
-INSERT INTO `sys_login_log` VALUES ('1460569185687527424', '8c2bb4347361457493e66fe79e044b9c', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-16 19:23:25');
-INSERT INTO `sys_login_log` VALUES ('1460570955980292096', '31ff100c96604fd4873081770a3a4e69', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-16 19:30:27');
-INSERT INTO `sys_login_log` VALUES ('1460575365156900864', 'd8c45dcd010d4ced92458df9ca13031e', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-16 19:47:58');
-INSERT INTO `sys_login_log` VALUES ('1460840106183290880', '5876ff357a3d4210a7789ee38f4a9e42', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-17 13:19:57');
-INSERT INTO `sys_login_log` VALUES ('1460950628804444160', '01bc4619998b47079bd624608bb59ab9', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-17 20:39:07');
-INSERT INTO `sys_login_log` VALUES ('1460968697078374400', 'ee1af9f44f2240419ccfa0e476f65490', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-17 21:50:54');
-INSERT INTO `sys_login_log` VALUES ('1460981689103372288', '69e1489145b641a28929f8b3644f9c6f', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-17 22:42:32');
-INSERT INTO `sys_login_log` VALUES ('1460985029070745600', '816362cf59ec45f88e023a7d4d670bd2', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-17 22:55:48');
-INSERT INTO `sys_login_log` VALUES ('1460986803443118080', '3672e95223c24a7dbdece262f1cbbd1f', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-17 23:02:51');
-INSERT INTO `sys_login_log` VALUES ('1461622130006413312', 'c7a3f616a3fe4ca881bc23af1223363f', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-19 17:07:26');
-INSERT INTO `sys_login_log` VALUES ('1461623413378969600', 'a3c9d9cfaaf24701aab3accc634bbcd7', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-19 17:12:32');
-INSERT INTO `sys_login_log` VALUES ('1461626590429220864', '8d2c39a1f8b947cf927e422efdbf7b7e', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-19 17:25:10');
-INSERT INTO `sys_login_log` VALUES ('1461626887352389632', 'a21584337c9d43adbb4a88af3493d391', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2021-11-19 17:26:20');
-INSERT INTO `sys_login_log` VALUES ('1461878291992707072', '9760bee34e614cc596d979f8fe53b42a', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-11-20 10:05:20');
+INSERT INTO `sys_login_log` VALUES ('1465874224211599360', 'd1862b85ecb2499b94dbad2e781ebb38', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-01 10:43:45');
+INSERT INTO `sys_login_log` VALUES ('1465939227165483008', '5ee9cad4fa374fd8a214b137ce4e2ff6', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-01 15:02:02');
+INSERT INTO `sys_login_log` VALUES ('1466067521924526080', '9485abc6f876413d88452c71999d7cce', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-01 23:31:50');
+INSERT INTO `sys_login_log` VALUES ('1466068718811115520', '200d3f1e30d842578e677b9d576e4e61', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-01 23:36:35');
+INSERT INTO `sys_login_log` VALUES ('1468224048827416576', '361e939c5f734c7e8075fefa768b817e', '2.0.4.176', '用户登录成功！', '0', '法国卢瓦尔河谷', 'admin', '2021-12-07 22:21:07');
+INSERT INTO `sys_login_log` VALUES ('1468940295451803648', '1ce751b36bb74ec9aa2b74435918b3cd', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-09 21:47:13');
+INSERT INTO `sys_login_log` VALUES ('1471741282663096320', '4e205ccaf9c84eddbbf5cb2d72b95e29', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-17 15:17:21');
+INSERT INTO `sys_login_log` VALUES ('1472762469949042688', '9e33a6952cd5408ea5a4fc3b4aacf4aa', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-20 10:55:11');
+INSERT INTO `sys_login_log` VALUES ('1472762792872701952', '64f7e3f9a4f44fc3ae6f1298bcfbcd50', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-20 10:56:27');
+INSERT INTO `sys_login_log` VALUES ('1472799648164773888', '4c2ca22c187e4661a05cef8b59ad93a1', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2021-12-20 13:22:54');
+INSERT INTO `sys_login_log` VALUES ('1477458685227347968', 'b88575a117cc4500bd0e49d8d51c6661', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-01-02 09:56:15');
+INSERT INTO `sys_login_log` VALUES ('1477459540529819648', 'f9e4ce872c614361809592a9d23ec099', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-01-02 09:59:39');
+INSERT INTO `sys_login_log` VALUES ('1477459707383427072', '6cb5e29594cf46c4ac7fe575a3db28ff', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-01-02 10:00:18');
+INSERT INTO `sys_login_log` VALUES ('1477459922115014656', '82f30e47e163430ca176cec1a6756218', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-01-02 10:01:10');
+INSERT INTO `sys_login_log` VALUES ('1477471516932997120', '4a52cb3a99f145d69fb6e41a29603a3a', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-01-02 10:47:15');
+INSERT INTO `sys_login_log` VALUES ('1477529474003066880', '0ad66b6e495f41beb74cf978a0cb451f', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-01-02 14:37:33');
+INSERT INTO `sys_login_log` VALUES ('1493945678460604416', '2cfc4cdef9904a6ba45e93314e7d8c48', '192.168.55.192', '用户登录成功！', '0', '本地局域网', 'admin', '2022-02-16 21:49:40');
+INSERT INTO `sys_login_log` VALUES ('1497553931408625664', 'f672c799ab27419cac0281785c516374', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-02-26 20:47:35');
+INSERT INTO `sys_login_log` VALUES ('1504328296255545344', 'b6ad1f00b06041ef80b9ac5c645e034a', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-03-17 13:26:30');
+INSERT INTO `sys_login_log` VALUES ('1505900026498310144', '31fba89fc16a45dabe9829cb293fd0cb', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-03-21 21:31:59');
+INSERT INTO `sys_login_log` VALUES ('1507224022868148224', 'b6866ccb4ac7490699665bb1aeef0c9f', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-03-25 13:13:05');
+INSERT INTO `sys_login_log` VALUES ('1511323944315904000', '1367a1e434cb4e88ae09d0257810e8cb', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-05 20:44:44');
+INSERT INTO `sys_login_log` VALUES ('1511330821966503936', '76d76f41278c4e3e993244836e6d0f77', '192.168.0.103', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-05 21:12:04');
+INSERT INTO `sys_login_log` VALUES ('1511575078126395392', '1fff8c2888fc4880856bb9fbe48fbcd7', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 13:22:37');
+INSERT INTO `sys_login_log` VALUES ('1511577768363175936', '3d14a7dee0a04d1c96d83a97c26df40a', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 13:33:18');
+INSERT INTO `sys_login_log` VALUES ('1511600986830897152', '984da16197ef44fa94e1d1afb42a2917', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 15:05:35');
+INSERT INTO `sys_login_log` VALUES ('1511607145175953408', 'e2f88c05bc4643b9a20f97077be4ebd9', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 15:30:02');
+INSERT INTO `sys_login_log` VALUES ('1511607610961801216', 'c0ca95e9277947bb9239ededd648da5b', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 15:31:53');
+INSERT INTO `sys_login_log` VALUES ('1511607840667054080', 'c33a8f5b077843b9a2af370506c43e09', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2022-04-06 15:32:48');
+INSERT INTO `sys_login_log` VALUES ('1511702323441848320', '7378bfa410304be2963b6339d926b830', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 21:48:16');
+INSERT INTO `sys_login_log` VALUES ('1511703088021524480', 'c7dcdf6153e3489994ce8f63c5e2ccff', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 21:51:17');
+INSERT INTO `sys_login_log` VALUES ('1511713785179303936', 'c7bce856643b4cd19e4521a7a9d6e1d5', '192.168.0.104', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-06 22:33:48');
+INSERT INTO `sys_login_log` VALUES ('1511970169488343040', '4d236771fdb04438ab05a2f4ba7e38a2', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-07 15:32:34');
+INSERT INTO `sys_login_log` VALUES ('1512437181580525568', '10612c36021541509b97276b9a56f0b8', '192.168.0.101', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-08 22:28:18');
+INSERT INTO `sys_login_log` VALUES ('1512443557836333056', '5c20e954be0a45ed930be76a321143fe', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2022-04-08 22:53:38');
+INSERT INTO `sys_login_log` VALUES ('1512448674146926592', 'e949ede02e25468583eba32365ae0ba3', '192.168.0.101', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-08 23:13:58');
+INSERT INTO `sys_login_log` VALUES ('1513543464320397312', '2cce8712e0c24df2b24b09ababc56bc4', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-11 23:44:17');
+INSERT INTO `sys_login_log` VALUES ('1514263535717511168', '9b279b5266a741b99da73a72489645aa', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-13 23:25:35');
+INSERT INTO `sys_login_log` VALUES ('1514431710434398208', '11b67a68fd524ccd8ae30c5d4ec8f390', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-14 10:33:52');
+INSERT INTO `sys_login_log` VALUES ('1514804122819407872', 'a9af641874774478a0c9d5ea1d9f6ba6', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-15 11:13:42');
+INSERT INTO `sys_login_log` VALUES ('1514882084101394432', '0eba526728524368a8aa53ef520e5683', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-15 16:23:29');
+INSERT INTO `sys_login_log` VALUES ('1514982454258397184', '2540d3b19a354fdebb4fea4ce2a2b8bd', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-15 23:02:18');
+INSERT INTO `sys_login_log` VALUES ('1514996193127641088', '6d16e41719f842b484159105c2f9b577', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-15 23:56:54');
+INSERT INTO `sys_login_log` VALUES ('1515137919476019200', '93c8f36f21f8420ab4065e43bcca09b8', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-16 09:20:04');
+INSERT INTO `sys_login_log` VALUES ('1515169248820563968', 'c272c90f976543dfafb484d3db08aeca', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-16 11:24:34');
+INSERT INTO `sys_login_log` VALUES ('1515170535616253952', '6e3b06fff1084f48830030e71edfb902', '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2022-04-16 11:29:40');
+INSERT INTO `sys_login_log` VALUES ('1515217671012843520', '38b7baaeba9b4c3b80d4c1e9d93f529e', '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2022-04-16 14:36:58');
+INSERT INTO `sys_login_log` VALUES ('1515217778768707584', '503b8f9a5fca4bd8b5f1456cb1a21d49', '127.0.0.1', '用户登录成功！', '0', '局域网，无法获取位置', 'admin', '2022-04-16 14:37:24');
+INSERT INTO `sys_login_log` VALUES ('1515607940570865664', 'cc360a99da4d4678a380558eef5febf7', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-17 16:27:47');
+INSERT INTO `sys_login_log` VALUES ('1515626338308960256', '40df2314c8814216805e5435f783aceb', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-17 17:40:53');
+INSERT INTO `sys_login_log` VALUES ('1515641116062875648', 'a2452a4b9c884788aaf999c7a1d691e3', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-17 18:39:36');
+INSERT INTO `sys_login_log` VALUES ('1515659107253964800', '5532e6d9adfc46b79c1cecf2f96e6414', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-17 19:51:06');
+INSERT INTO `sys_login_log` VALUES ('1516072216870735872', '481b6ae6d8944dc3ba02af64a04f0c23', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-18 23:12:38');
+INSERT INTO `sys_login_log` VALUES ('1516590498726580224', '298cf6b8f5d845ff8441bca38a559aac', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-20 09:32:06');
+INSERT INTO `sys_login_log` VALUES ('1517098205746302976', '9ae66b6f8d8f46c1a2ec2ca4c7b6565e', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-21 19:09:34');
+INSERT INTO `sys_login_log` VALUES ('1517491114223960064', '1d538ab0eaa644ce8fee93676aea81d2', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-22 21:10:51');
+INSERT INTO `sys_login_log` VALUES ('1517819259655626752', '217b7a44aceb4607b7aebda0edd319a0', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-23 18:54:46');
+INSERT INTO `sys_login_log` VALUES ('1517830684647866368', '093b4912e80540d2ac45a9cd3c77aa73', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2022-04-23 19:40:09');
+INSERT INTO `sys_login_log` VALUES ('1518250186870251520', 'ab45552b85d54c1aaba6290abbc561a9', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-24 23:27:07');
+INSERT INTO `sys_login_log` VALUES ('1518460054406361088', '4de84a079af0466e8c8bf0dadb5ee676', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-25 13:21:04');
+INSERT INTO `sys_login_log` VALUES ('1518460406442684416', 'fbcb625e5da945529bdf716a3f60910d', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2022-04-25 13:22:27');
+INSERT INTO `sys_login_log` VALUES ('1518518830452604928', '0f5e333dbd59458f8e295aad34644408', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-25 17:14:37');
 
 -- ----------------------------
 -- Table structure for sys_oper_log
@@ -4030,126 +4050,154 @@ CREATE TABLE `sys_oper_log`  (
   `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户ip',
   `spend_time` int(11) NULL DEFAULT 0 COMMENT '耗时',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统操作日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统操作日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
-INSERT INTO `sys_oper_log` VALUES ('1459854582982606848', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 145, '1', '2021-11-14 20:03:50');
-INSERT INTO `sys_oper_log` VALUES ('1459854586409353216', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 159, '1', '2021-11-14 20:03:51');
-INSERT INTO `sys_oper_log` VALUES ('1459855210467262464', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 107, '1', '2021-11-14 20:06:20');
-INSERT INTO `sys_oper_log` VALUES ('1459855219715702784', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 74, '1', '2021-11-14 20:06:22');
-INSERT INTO `sys_oper_log` VALUES ('1459875766365048832', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 41, '1', '2021-11-14 21:28:01');
-INSERT INTO `sys_oper_log` VALUES ('1459875767585591296', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 79, '1', '2021-11-14 21:28:01');
-INSERT INTO `sys_oper_log` VALUES ('1459875795729371136', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 71, '1', '2021-11-14 21:28:08');
-INSERT INTO `sys_oper_log` VALUES ('1459875866357256192', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 74, '1', '2021-11-14 21:28:25');
-INSERT INTO `sys_oper_log` VALUES ('1459875883851698176', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 67, '1', '2021-11-14 21:28:29');
-INSERT INTO `sys_oper_log` VALUES ('1459875917435490304', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 73, '1', '2021-11-14 21:28:37');
-INSERT INTO `sys_oper_log` VALUES ('1459875929238261760', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2021-11-14 21:28:39');
-INSERT INTO `sys_oper_log` VALUES ('1459876126613819392', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 67, '1', '2021-11-14 21:29:27');
-INSERT INTO `sys_oper_log` VALUES ('1459876422635212800', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 96, '1', '2021-11-14 21:30:37');
-INSERT INTO `sys_oper_log` VALUES ('1459876439739584512', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 68, '1', '2021-11-14 21:30:41');
-INSERT INTO `sys_oper_log` VALUES ('1459876482248855552', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 67, '1', '2021-11-14 21:30:51');
-INSERT INTO `sys_oper_log` VALUES ('1459876513462865920', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 66, '1', '2021-11-14 21:30:59');
-INSERT INTO `sys_oper_log` VALUES ('1459876550225940480', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 67, '1', '2021-11-14 21:31:08');
-INSERT INTO `sys_oper_log` VALUES ('1459876610888159232', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 67, '1', '2021-11-14 21:31:22');
-INSERT INTO `sys_oper_log` VALUES ('1459876620509892608', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2021-11-14 21:31:24');
-INSERT INTO `sys_oper_log` VALUES ('1459886262318755840', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 33, '1', '2021-11-14 22:09:43');
-INSERT INTO `sys_oper_log` VALUES ('1459886263442829312', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2021-11-14 22:09:43');
-INSERT INTO `sys_oper_log` VALUES ('1459886353309986816', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 60, '1', '2021-11-14 22:10:05');
-INSERT INTO `sys_oper_log` VALUES ('1460249361917915136', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 42, '1', '2021-11-15 22:12:33');
-INSERT INTO `sys_oper_log` VALUES ('1460249674665615360', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 173, '1', '2021-11-15 22:13:48');
-INSERT INTO `sys_oper_log` VALUES ('1460249678822170624', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 184, '1', '2021-11-15 22:13:49');
-INSERT INTO `sys_oper_log` VALUES ('1460249729774575616', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 79, '1', '2021-11-15 22:14:01');
-INSERT INTO `sys_oper_log` VALUES ('1460249763442253824', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 76, '1', '2021-11-15 22:14:09');
-INSERT INTO `sys_oper_log` VALUES ('1460249812142317568', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 74, '1', '2021-11-15 22:14:20');
-INSERT INTO `sys_oper_log` VALUES ('1460249844530733056', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2021-11-15 22:14:28');
-INSERT INTO `sys_oper_log` VALUES ('1460249862167781376', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 77, '1', '2021-11-15 22:14:32');
-INSERT INTO `sys_oper_log` VALUES ('1460249877284052992', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 78, '1', '2021-11-15 22:14:36');
-INSERT INTO `sys_oper_log` VALUES ('1460250111926001664', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 75, '1', '2021-11-15 22:15:32');
-INSERT INTO `sys_oper_log` VALUES ('1460250173670350848', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 71, '1', '2021-11-15 22:15:47');
-INSERT INTO `sys_oper_log` VALUES ('1460250217492439040', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2021-11-15 22:15:57');
-INSERT INTO `sys_oper_log` VALUES ('1460250263743029248', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2021-11-15 22:16:08');
-INSERT INTO `sys_oper_log` VALUES ('1460250282818723840', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2021-11-15 22:16:13');
-INSERT INTO `sys_oper_log` VALUES ('1460250343900372992', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 67, '1', '2021-11-15 22:16:27');
-INSERT INTO `sys_oper_log` VALUES ('1460250358832095232', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2021-11-15 22:16:31');
-INSERT INTO `sys_oper_log` VALUES ('1460250360572731392', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 72, '1', '2021-11-15 22:16:31');
-INSERT INTO `sys_oper_log` VALUES ('1460250362191732736', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 72, '1', '2021-11-15 22:16:32');
-INSERT INTO `sys_oper_log` VALUES ('1460250368386719744', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 72, '1', '2021-11-15 22:16:33');
-INSERT INTO `sys_oper_log` VALUES ('1460250375407984640', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 68, '1', '2021-11-15 22:16:35');
-INSERT INTO `sys_oper_log` VALUES ('1460250383024840704', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 68, '1', '2021-11-15 22:16:37');
-INSERT INTO `sys_oper_log` VALUES ('1460250388246749184', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 66, '1', '2021-11-15 22:16:38');
-INSERT INTO `sys_oper_log` VALUES ('1460252432969523200', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 208, '1', '2021-11-15 22:24:45');
-INSERT INTO `sys_oper_log` VALUES ('1460252437952356352', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 189, '1', '2021-11-15 22:24:47');
-INSERT INTO `sys_oper_log` VALUES ('1460252508450217984', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 75, '1', '2021-11-15 22:25:03');
-INSERT INTO `sys_oper_log` VALUES ('1460252529786642432', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 71, '1', '2021-11-15 22:25:08');
-INSERT INTO `sys_oper_log` VALUES ('1460252741779349504', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 68, '1', '2021-11-15 22:25:59');
-INSERT INTO `sys_oper_log` VALUES ('1460253051759386624', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 64, '1', '2021-11-15 22:27:13');
-INSERT INTO `sys_oper_log` VALUES ('1460253261654941696', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2021-11-15 22:28:03');
-INSERT INTO `sys_oper_log` VALUES ('1460253279124217856', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 65, '1', '2021-11-15 22:28:07');
-INSERT INTO `sys_oper_log` VALUES ('1460254855805734912', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 204, '1', '2021-11-15 22:34:23');
-INSERT INTO `sys_oper_log` VALUES ('1460254932171427840', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 84, '1', '2021-11-15 22:34:41');
-INSERT INTO `sys_oper_log` VALUES ('1460254986726739968', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 60, '1', '2021-11-15 22:34:54');
-INSERT INTO `sys_oper_log` VALUES ('1460255005945040896', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2021-11-15 22:34:59');
-INSERT INTO `sys_oper_log` VALUES ('1460255757425905664', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 62, '1', '2021-11-15 22:37:58');
-INSERT INTO `sys_oper_log` VALUES ('1460257393724559360', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 19221, '1', '2021-11-15 22:44:28');
-INSERT INTO `sys_oper_log` VALUES ('1460257398178910208', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2021-11-15 22:44:29');
-INSERT INTO `sys_oper_log` VALUES ('1460257431624290304', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 38458, '1', '2021-11-15 22:44:37');
-INSERT INTO `sys_oper_log` VALUES ('1460257583164493824', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2021-11-15 22:45:13');
-INSERT INTO `sys_oper_log` VALUES ('1460258987740434432', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 38464, '1', '2021-11-15 22:50:48');
-INSERT INTO `sys_oper_log` VALUES ('1460259135405101056', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 39, '1', '2021-11-15 22:51:23');
-INSERT INTO `sys_oper_log` VALUES ('1460259136860524544', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 79, '1', '2021-11-15 22:51:24');
-INSERT INTO `sys_oper_log` VALUES ('1460261621655810048', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 124, '1', '2021-11-15 23:01:16');
-INSERT INTO `sys_oper_log` VALUES ('1460261624730234880', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 140, '1', '2021-11-15 23:01:17');
-INSERT INTO `sys_oper_log` VALUES ('1460261668397133824', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 32, '1', '2021-11-15 23:01:27');
-INSERT INTO `sys_oper_log` VALUES ('1460261669533790208', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 67, '1', '2021-11-15 23:01:27');
-INSERT INTO `sys_oper_log` VALUES ('1460261838853648384', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 35, '1', '2021-11-15 23:02:08');
-INSERT INTO `sys_oper_log` VALUES ('1460261840225185792', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 64, '1', '2021-11-15 23:02:08');
-INSERT INTO `sys_oper_log` VALUES ('1460262385707003904', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 70, '1', '2021-11-15 23:04:18');
-INSERT INTO `sys_oper_log` VALUES ('1460262387267284992', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2021-11-15 23:04:19');
-INSERT INTO `sys_oper_log` VALUES ('1460262481110642688', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 32, '1', '2021-11-15 23:04:41');
-INSERT INTO `sys_oper_log` VALUES ('1460262482339573760', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2021-11-15 23:04:41');
-INSERT INTO `sys_oper_log` VALUES ('1460262513020907520', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 66, '1', '2021-11-15 23:04:49');
-INSERT INTO `sys_oper_log` VALUES ('1460262515394883584', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2021-11-15 23:04:49');
-INSERT INTO `sys_oper_log` VALUES ('1460262517450092544', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2021-11-15 23:04:50');
-INSERT INTO `sys_oper_log` VALUES ('1460262540988526592', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 33, '1', '2021-11-15 23:04:55');
-INSERT INTO `sys_oper_log` VALUES ('1460262542150348800', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 64, '1', '2021-11-15 23:04:56');
-INSERT INTO `sys_oper_log` VALUES ('1460472212779028480', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 64, '1', '2021-11-16 12:58:04');
-INSERT INTO `sys_oper_log` VALUES ('1460472214951677952', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 227, '1', '2021-11-16 12:58:05');
-INSERT INTO `sys_oper_log` VALUES ('1460473752474472448', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 101, '1', '2021-11-16 13:04:11');
-INSERT INTO `sys_oper_log` VALUES ('1460473754496126976', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 120, '1', '2021-11-16 13:04:12');
-INSERT INTO `sys_oper_log` VALUES ('1460474625783091200', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 115, '1', '2021-11-16 13:07:39');
-INSERT INTO `sys_oper_log` VALUES ('1460474629448912896', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 116, '1', '2021-11-16 13:07:40');
-INSERT INTO `sys_oper_log` VALUES ('1460480742512775168', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 135, '1', '2021-11-16 13:31:58');
-INSERT INTO `sys_oper_log` VALUES ('1460481643505623040', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 91, '1', '2021-11-16 13:35:33');
-INSERT INTO `sys_oper_log` VALUES ('1460481645829267456', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 235, '1', '2021-11-16 13:35:33');
-INSERT INTO `sys_oper_log` VALUES ('1460481712141213696', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 151, '1', '2021-11-16 13:35:49');
-INSERT INTO `sys_oper_log` VALUES ('1460481877371625472', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 131, '1', '2021-11-16 13:36:28');
-INSERT INTO `sys_oper_log` VALUES ('1460481927426449408', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 149, '1', '2021-11-16 13:36:40');
-INSERT INTO `sys_oper_log` VALUES ('1460950883415474176', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 29, '1', '2021-11-17 20:40:07');
-INSERT INTO `sys_oper_log` VALUES ('1460950884417912832', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 95, '1', '2021-11-17 20:40:07');
-INSERT INTO `sys_oper_log` VALUES ('1460951441035608064', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 80, '1', '2021-11-17 20:42:20');
-INSERT INTO `sys_oper_log` VALUES ('1460951456634224640', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 24, '1', '2021-11-17 20:42:24');
-INSERT INTO `sys_oper_log` VALUES ('1460951457305313280', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 48, '1', '2021-11-17 20:42:24');
-INSERT INTO `sys_oper_log` VALUES ('1460968729055748096', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 38, '1', '2021-11-17 21:51:02');
-INSERT INTO `sys_oper_log` VALUES ('1460968730192404480', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 127, '1', '2021-11-17 21:51:02');
-INSERT INTO `sys_oper_log` VALUES ('1460982238553001984', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 59, '1', '2021-11-17 22:44:43');
-INSERT INTO `sys_oper_log` VALUES ('1460982239345725440', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 60, '1', '2021-11-17 22:44:43');
-INSERT INTO `sys_oper_log` VALUES ('1460982411064725504', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 63, '1', '2021-11-17 22:45:24');
-INSERT INTO `sys_oper_log` VALUES ('1460982547094392832', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 58, '1', '2021-11-17 22:45:56');
-INSERT INTO `sys_oper_log` VALUES ('1460982558112829440', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2021-11-17 22:45:59');
-INSERT INTO `sys_oper_log` VALUES ('1460982563661893632', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 59, '1', '2021-11-17 22:46:00');
-INSERT INTO `sys_oper_log` VALUES ('1460982569668136960', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 30, '1', '2021-11-17 22:46:02');
-INSERT INTO `sys_oper_log` VALUES ('1460982576819425280', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 58, '1', '2021-11-17 22:46:03');
+INSERT INTO `sys_oper_log` VALUES ('1466068956703649792', '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 51, '1', '2021-12-01 23:37:32');
+INSERT INTO `sys_oper_log` VALUES ('1466068958125518848', '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 99, '1', '2021-12-01 23:37:32');
+INSERT INTO `sys_oper_log` VALUES ('1466068968749690880', '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 96, '1', '2021-12-01 23:37:35');
+INSERT INTO `sys_oper_log` VALUES ('1466069137427820544', '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 88, '1', '2021-12-01 23:38:15');
+INSERT INTO `sys_oper_log` VALUES ('1466069632322138112', '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 89, '1', '2021-12-01 23:40:13');
+INSERT INTO `sys_oper_log` VALUES ('1466070216521576448', '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 121, '1', '2021-12-01 23:42:32');
+INSERT INTO `sys_oper_log` VALUES ('1466070389142351872', '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 97, '1', '2021-12-01 23:43:14');
+INSERT INTO `sys_oper_log` VALUES ('1466071550940962816', '数据字典', '分页查询页面', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 207, '1', '2021-12-01 23:47:51');
+INSERT INTO `sys_oper_log` VALUES ('1466071554250268672', '数据字典', '分页查询', 'com.bluewind.boot.module.sys.sysbasedict.controller.SysBaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '0:0:0:0:0:0:0:1', 157, '1', '2021-12-01 23:47:51');
+INSERT INTO `sys_oper_log` VALUES ('1511584079466864640', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '10.49.12.120', 32, '1', '2022-04-06 13:58:23');
+INSERT INTO `sys_oper_log` VALUES ('1511584080909705216', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 58, '1', '2022-04-06 13:58:23');
+INSERT INTO `sys_oper_log` VALUES ('1511584089545777152', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 66, '1', '2022-04-06 13:58:25');
+INSERT INTO `sys_oper_log` VALUES ('1511584092074942464', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 58, '1', '2022-04-06 13:58:26');
+INSERT INTO `sys_oper_log` VALUES ('1511584094109179904', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 60, '1', '2022-04-06 13:58:26');
+INSERT INTO `sys_oper_log` VALUES ('1511584095178727424', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 58, '1', '2022-04-06 13:58:26');
+INSERT INTO `sys_oper_log` VALUES ('1511584096512516096', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 58, '1', '2022-04-06 13:58:27');
+INSERT INTO `sys_oper_log` VALUES ('1511584155429904384', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 67, '1', '2022-04-06 13:58:41');
+INSERT INTO `sys_oper_log` VALUES ('1511584188736872448', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 60, '1', '2022-04-06 13:58:49');
+INSERT INTO `sys_oper_log` VALUES ('1511584193061199872', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 60, '1', '2022-04-06 13:58:50');
+INSERT INTO `sys_oper_log` VALUES ('1511584198140502016', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 60, '1', '2022-04-06 13:58:51');
+INSERT INTO `sys_oper_log` VALUES ('1511584202884259840', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 64, '1', '2022-04-06 13:58:52');
+INSERT INTO `sys_oper_log` VALUES ('1511601083195031552', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '10.49.12.120', 236, '1', '2022-04-06 15:05:57');
+INSERT INTO `sys_oper_log` VALUES ('1511601085376069632', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 201, '1', '2022-04-06 15:05:57');
+INSERT INTO `sys_oper_log` VALUES ('1511601116254535680', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '10.49.12.120', 422, '1', '2022-04-06 15:06:04');
+INSERT INTO `sys_oper_log` VALUES ('1511702945792675840', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.baseDictQureyInit', '/bluewind/sysdict/baseDictQureyInit', '分页查询页面初始化', '192.168.0.104', 27, '1', '2022-04-06 21:50:43');
+INSERT INTO `sys_oper_log` VALUES ('1511702947210350592', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.0.104', 49, '1', '2022-04-06 21:50:44');
+INSERT INTO `sys_oper_log` VALUES ('1511702969561796608', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.getSysDictList', '/bluewind/sysdict/getSysDictList', '分页查询', '192.168.0.104', 50, '1', '2022-04-06 21:50:49');
+INSERT INTO `sys_oper_log` VALUES ('1511713838379855872', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '192.168.0.104', 41, '1', '2022-04-06 22:34:00');
+INSERT INTO `sys_oper_log` VALUES ('1511713840955158528', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.104', 222, '1', '2022-04-06 22:34:01');
+INSERT INTO `sys_oper_log` VALUES ('1511713885666439168', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.104', 61, '1', '2022-04-06 22:34:12');
+INSERT INTO `sys_oper_log` VALUES ('1511713980847779840', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.104', 50, '1', '2022-04-06 22:34:34');
+INSERT INTO `sys_oper_log` VALUES ('1511714025177378816', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.104', 67, '1', '2022-04-06 22:34:45');
+INSERT INTO `sys_oper_log` VALUES ('1511714039010193408', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.104', 50, '1', '2022-04-06 22:34:48');
+INSERT INTO `sys_oper_log` VALUES ('1511714072346521600', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.104', 54, '1', '2022-04-06 22:34:56');
+INSERT INTO `sys_oper_log` VALUES ('1514263817130143744', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 47, '1', '2022-04-13 23:26:42');
+INSERT INTO `sys_oper_log` VALUES ('1514263820590444544', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 341, '1', '2022-04-13 23:26:43');
+INSERT INTO `sys_oper_log` VALUES ('1514263884796850176', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 71, '1', '2022-04-13 23:26:58');
+INSERT INTO `sys_oper_log` VALUES ('1514263991441223680', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2022-04-13 23:27:23');
+INSERT INTO `sys_oper_log` VALUES ('1514882115776778240', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 33, '1', '2022-04-15 16:23:36');
+INSERT INTO `sys_oper_log` VALUES ('1514882117550968832', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 161, '1', '2022-04-15 16:23:36');
+INSERT INTO `sys_oper_log` VALUES ('1514882197649592320', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2022-04-15 16:23:55');
+INSERT INTO `sys_oper_log` VALUES ('1514883281015812096', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 218, '1', '2022-04-15 16:28:14');
+INSERT INTO `sys_oper_log` VALUES ('1514883287076581376', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 47, '1', '2022-04-15 16:28:15');
+INSERT INTO `sys_oper_log` VALUES ('1514883289534443520', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 77, '1', '2022-04-15 16:28:16');
+INSERT INTO `sys_oper_log` VALUES ('1514883582959562752', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 84, '1', '2022-04-15 16:29:26');
+INSERT INTO `sys_oper_log` VALUES ('1514883626521604096', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2022-04-15 16:29:36');
+INSERT INTO `sys_oper_log` VALUES ('1514883678006685696', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 28, '1', '2022-04-15 16:29:48');
+INSERT INTO `sys_oper_log` VALUES ('1514883679281754112', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 65, '1', '2022-04-15 16:29:49');
+INSERT INTO `sys_oper_log` VALUES ('1514884863479005184', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 281, '1', '2022-04-15 16:34:31');
+INSERT INTO `sys_oper_log` VALUES ('1514886863422771200', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 250, '1', '2022-04-15 16:42:28');
+INSERT INTO `sys_oper_log` VALUES ('1514886955315777536', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2022-04-15 16:42:50');
+INSERT INTO `sys_oper_log` VALUES ('1514887012534472704', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 35, '1', '2022-04-15 16:43:03');
+INSERT INTO `sys_oper_log` VALUES ('1514887013956341760', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 63, '1', '2022-04-15 16:43:04');
+INSERT INTO `sys_oper_log` VALUES ('1514887602884632576', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 331, '1', '2022-04-15 16:45:24');
+INSERT INTO `sys_oper_log` VALUES ('1514887624799870976', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 65, '1', '2022-04-15 16:45:29');
+INSERT INTO `sys_oper_log` VALUES ('1514887644659900416', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 38, '1', '2022-04-15 16:45:34');
+INSERT INTO `sys_oper_log` VALUES ('1514887645955940352', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 61, '1', '2022-04-15 16:45:34');
+INSERT INTO `sys_oper_log` VALUES ('1514887986770558976', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 386, '1', '2022-04-15 16:46:56');
+INSERT INTO `sys_oper_log` VALUES ('1514888185517654016', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 45, '1', '2022-04-15 16:47:43');
+INSERT INTO `sys_oper_log` VALUES ('1514888187463811072', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 71, '1', '2022-04-15 16:47:43');
+INSERT INTO `sys_oper_log` VALUES ('1514888202336813056', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 63, '1', '2022-04-15 16:47:47');
+INSERT INTO `sys_oper_log` VALUES ('1514888433363410944', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 432, '1', '2022-04-15 16:48:42');
+INSERT INTO `sys_oper_log` VALUES ('1514892047602319360', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 410, '1', '2022-04-15 17:03:04');
+INSERT INTO `sys_oper_log` VALUES ('1514892080640851968', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 574, '1', '2022-04-15 17:03:12');
+INSERT INTO `sys_oper_log` VALUES ('1514892769936965632', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 56, '1', '2022-04-15 17:05:56');
+INSERT INTO `sys_oper_log` VALUES ('1514996213335797760', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 47, '1', '2022-04-15 23:56:58');
+INSERT INTO `sys_oper_log` VALUES ('1514996216439582720', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 389, '1', '2022-04-15 23:56:59');
+INSERT INTO `sys_oper_log` VALUES ('1514996228624035840', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2022-04-15 23:57:02');
+INSERT INTO `sys_oper_log` VALUES ('1514996257300492288', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 95, '1', '2022-04-15 23:57:09');
+INSERT INTO `sys_oper_log` VALUES ('1514997235378630656', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 104, '1', '2022-04-16 00:01:02');
+INSERT INTO `sys_oper_log` VALUES ('1514997414991310848', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 79, '1', '2022-04-16 00:01:45');
+INSERT INTO `sys_oper_log` VALUES ('1514997716359340032', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 131, '1', '2022-04-16 00:02:57');
+INSERT INTO `sys_oper_log` VALUES ('1514997721606414336', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 266, '1', '2022-04-16 00:02:58');
+INSERT INTO `sys_oper_log` VALUES ('1514999232037040128', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 266, '1', '2022-04-16 00:08:58');
+INSERT INTO `sys_oper_log` VALUES ('1514999573179961344', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 279, '1', '2022-04-16 00:10:19');
+INSERT INTO `sys_oper_log` VALUES ('1515000385198145536', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 151, '1', '2022-04-16 00:13:33');
+INSERT INTO `sys_oper_log` VALUES ('1515000390038372352', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 255, '1', '2022-04-16 00:13:34');
+INSERT INTO `sys_oper_log` VALUES ('1515000467649773568', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 62, '1', '2022-04-16 00:13:53');
+INSERT INTO `sys_oper_log` VALUES ('1515000904624947200', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 69, '1', '2022-04-16 00:15:37');
+INSERT INTO `sys_oper_log` VALUES ('1515000913068081152', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 62, '1', '2022-04-16 00:15:39');
+INSERT INTO `sys_oper_log` VALUES ('1515002757043404800', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 229, '1', '2022-04-16 00:22:58');
+INSERT INTO `sys_oper_log` VALUES ('1515002761527115776', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 255, '1', '2022-04-16 00:22:59');
+INSERT INTO `sys_oper_log` VALUES ('1515002775485759488', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 75, '1', '2022-04-16 00:23:03');
+INSERT INTO `sys_oper_log` VALUES ('1515002789108858880', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 78, '1', '2022-04-16 00:23:06');
+INSERT INTO `sys_oper_log` VALUES ('1515002803214303232', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 74, '1', '2022-04-16 00:23:09');
+INSERT INTO `sys_oper_log` VALUES ('1515002866980306944', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 71, '1', '2022-04-16 00:23:25');
+INSERT INTO `sys_oper_log` VALUES ('1515003027898974208', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 66, '1', '2022-04-16 00:24:03');
+INSERT INTO `sys_oper_log` VALUES ('1515003030415556608', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 72, '1', '2022-04-16 00:24:04');
+INSERT INTO `sys_oper_log` VALUES ('1515003521223086080', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 319, '1', '2022-04-16 00:26:01');
+INSERT INTO `sys_oper_log` VALUES ('1515003533373984768', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 36, '1', '2022-04-16 00:26:04');
+INSERT INTO `sys_oper_log` VALUES ('1515003536737816576', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2022-04-16 00:26:04');
+INSERT INTO `sys_oper_log` VALUES ('1515004047507574784', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2022-04-16 00:28:06');
+INSERT INTO `sys_oper_log` VALUES ('1515005715107065856', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 296, '1', '2022-04-16 00:34:44');
+INSERT INTO `sys_oper_log` VALUES ('1515005834774753280', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 71, '1', '2022-04-16 00:35:12');
+INSERT INTO `sys_oper_log` VALUES ('1515005854928384000', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 77, '1', '2022-04-16 00:35:17');
+INSERT INTO `sys_oper_log` VALUES ('1515007877589135360', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 306, '1', '2022-04-16 00:43:19');
+INSERT INTO `sys_oper_log` VALUES ('1515008125870960640', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 75, '1', '2022-04-16 00:44:18');
+INSERT INTO `sys_oper_log` VALUES ('1515008176907251712', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 74, '1', '2022-04-16 00:44:31');
+INSERT INTO `sys_oper_log` VALUES ('1515008189276254208', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 64, '1', '2022-04-16 00:44:34');
+INSERT INTO `sys_oper_log` VALUES ('1515137937331171328', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 32, '1', '2022-04-16 09:20:08');
+INSERT INTO `sys_oper_log` VALUES ('1515137939101167616', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 249, '1', '2022-04-16 09:20:09');
+INSERT INTO `sys_oper_log` VALUES ('1515138062480814080', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 70, '1', '2022-04-16 09:20:38');
+INSERT INTO `sys_oper_log` VALUES ('1515138110304268288', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 111, '1', '2022-04-16 09:20:50');
+INSERT INTO `sys_oper_log` VALUES ('1515138125684781056', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 64, '1', '2022-04-16 09:20:53');
+INSERT INTO `sys_oper_log` VALUES ('1515138126720774144', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 60, '1', '2022-04-16 09:20:54');
+INSERT INTO `sys_oper_log` VALUES ('1515138141061099520', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2022-04-16 09:20:57');
+INSERT INTO `sys_oper_log` VALUES ('1515138167745261568', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 54, '1', '2022-04-16 09:21:03');
+INSERT INTO `sys_oper_log` VALUES ('1515138170559639552', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2022-04-16 09:21:04');
+INSERT INTO `sys_oper_log` VALUES ('1515138446939107328', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2022-04-16 09:22:10');
+INSERT INTO `sys_oper_log` VALUES ('1515138620256137216', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 55, '1', '2022-04-16 09:22:51');
+INSERT INTO `sys_oper_log` VALUES ('1515139526228168704', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 218, '1', '2022-04-16 09:26:27');
+INSERT INTO `sys_oper_log` VALUES ('1515139537573761024', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 77, '1', '2022-04-16 09:26:30');
+INSERT INTO `sys_oper_log` VALUES ('1515139994349379584', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 244, '1', '2022-04-16 09:28:19');
+INSERT INTO `sys_oper_log` VALUES ('1515144300595916800', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 322, '1', '2022-04-16 09:45:25');
+INSERT INTO `sys_oper_log` VALUES ('1515144339875573760', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 68, '1', '2022-04-16 09:45:35');
+INSERT INTO `sys_oper_log` VALUES ('1515144355675516928', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 55, '1', '2022-04-16 09:45:39');
+INSERT INTO `sys_oper_log` VALUES ('1515144393961123840', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2022-04-16 09:45:48');
+INSERT INTO `sys_oper_log` VALUES ('1515144559854235648', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2022-04-16 09:46:27');
+INSERT INTO `sys_oper_log` VALUES ('1515144618473828352', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 60, '1', '2022-04-16 09:46:41');
+INSERT INTO `sys_oper_log` VALUES ('1515144631912378368', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 54, '1', '2022-04-16 09:46:44');
+INSERT INTO `sys_oper_log` VALUES ('1515144638229000192', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 56, '1', '2022-04-16 09:46:46');
+INSERT INTO `sys_oper_log` VALUES ('1515144819544567808', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 26, '1', '2022-04-16 09:47:29');
+INSERT INTO `sys_oper_log` VALUES ('1515144820786081792', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 56, '1', '2022-04-16 09:47:29');
+INSERT INTO `sys_oper_log` VALUES ('1515145341563449344', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 57, '1', '2022-04-16 09:49:34');
+INSERT INTO `sys_oper_log` VALUES ('1515146416709361664', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 307, '1', '2022-04-16 09:53:50');
+INSERT INTO `sys_oper_log` VALUES ('1515146504051548160', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 63, '1', '2022-04-16 09:54:11');
+INSERT INTO `sys_oper_log` VALUES ('1515146821224816640', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 68, '1', '2022-04-16 09:55:26');
+INSERT INTO `sys_oper_log` VALUES ('1515170557997060096', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '127.0.0.1', 37, '1', '2022-04-16 11:29:46');
+INSERT INTO `sys_oper_log` VALUES ('1515170560337481728', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '127.0.0.1', 263, '1', '2022-04-16 11:29:46');
+INSERT INTO `sys_oper_log` VALUES ('1515171241224015872', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '127.0.0.1', 51, '1', '2022-04-16 11:32:29');
+INSERT INTO `sys_oper_log` VALUES ('1515171242608136192', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '127.0.0.1', 97, '1', '2022-04-16 11:32:29');
+INSERT INTO `sys_oper_log` VALUES ('1515171257040736256', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '127.0.0.1', 58, '1', '2022-04-16 11:32:32');
+INSERT INTO `sys_oper_log` VALUES ('1515626380256194560', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 40, '1', '2022-04-17 17:41:02');
+INSERT INTO `sys_oper_log` VALUES ('1515626383146070016', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 325, '1', '2022-04-17 17:41:03');
 
 -- ----------------------------
 -- Table structure for sys_permission_info
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission_info`;
 CREATE TABLE `sys_permission_info`  (
-  `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
   `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '父级ID',
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
   `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '类型（0是模块，1是目录，2是菜单，3是按钮）',
@@ -4162,11 +4210,11 @@ CREATE TABLE `sys_permission_info`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单权限信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单权限信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission_info
@@ -4178,66 +4226,66 @@ INSERT INTO `sys_permission_info` VALUES ('1356622845051572224', '13566223737708
 INSERT INTO `sys_permission_info` VALUES ('1356622944976826368', '1356622373770813440', '失效菜单', '2', NULL, '/page/error.html', 2, 'fa fa-superpowers', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-07 14:41:16');
 INSERT INTO `sys_permission_info` VALUES ('1356623034781810688', '1356622845051572224', '按钮1', '1', NULL, '', 1, 'fa fa-calendar', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-07 14:26:50');
 INSERT INTO `sys_permission_info` VALUES ('1356623193826586624', '1356623034781810688', '按钮2', '1', NULL, '', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-07 14:27:17');
-INSERT INTO `sys_permission_info` VALUES ('1356623247861440512', '1356623193826586624', '按钮3', '2', NULL, '/syscomponents/button', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:49:10');
-INSERT INTO `sys_permission_info` VALUES ('1356623355334021120', '1356623193826586624', '表单4', '2', NULL, '/syscomponents/form', 2, 'fa fa-calendar', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:49:36');
-INSERT INTO `sys_permission_info` VALUES ('1356623395763740672', '1356622373770813440', '图标列表', '2', NULL, '/syscomponents/icon', 3, 'fa fa-dot-circle-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:49:45');
-INSERT INTO `sys_permission_info` VALUES ('1356623422948618240', '1356622373770813440', '图标选择', '2', NULL, '/syscomponents/iconPicker', 4, 'fa fa-adn', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:50:13');
-INSERT INTO `sys_permission_info` VALUES ('1356623540277268480', '1356622373770813440', '颜色选择', '2', NULL, '/syscomponents/colorSelect', 5, 'fa fa-dashboard', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:50:30');
-INSERT INTO `sys_permission_info` VALUES ('1356623692622774272', '1356622373770813440', '下拉选择', '2', NULL, '/syscomponents/tableSelect', 6, 'fa fa-angle-double-down', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:50:57');
-INSERT INTO `sys_permission_info` VALUES ('1356623692622774273', '1356622373770813440', '文件上传', '2', NULL, '/syscomponents/upload', 7, 'fa fa-arrow-up', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:09');
-INSERT INTO `sys_permission_info` VALUES ('1356623692622774274', '1356622373770813440', '富文本编辑器', '2', NULL, '/syscomponents/editor', 8, 'fa fa-edit', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:15');
-INSERT INTO `sys_permission_info` VALUES ('1356623692622774275', '1356622373770813440', '省市县区选择器', '2', NULL, '/syscomponents/area', 9, 'fa fa-rocket', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 20:00:26');
+INSERT INTO `sys_permission_info` VALUES ('1356623247861440512', '1356623193826586624', '按钮3', '2', NULL, '/components/button', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:03');
+INSERT INTO `sys_permission_info` VALUES ('1356623355334021120', '1356623193826586624', '表单4', '2', NULL, '/components/form', 2, 'fa fa-calendar', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:06');
+INSERT INTO `sys_permission_info` VALUES ('1356623395763740672', '1356622373770813440', '图标列表', '2', NULL, '/components/icon', 3, 'fa fa-dot-circle-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:07');
+INSERT INTO `sys_permission_info` VALUES ('1356623422948618240', '1356622373770813440', '图标选择', '2', NULL, '/components/iconPicker', 4, 'fa fa-adn', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:09');
+INSERT INTO `sys_permission_info` VALUES ('1356623540277268480', '1356622373770813440', '颜色选择', '2', NULL, '/components/colorSelect', 5, 'fa fa-dashboard', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:11');
+INSERT INTO `sys_permission_info` VALUES ('1356623692622774272', '1356622373770813440', '下拉选择', '2', NULL, '/components/tableSelect', 6, 'fa fa-angle-double-down', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:13');
+INSERT INTO `sys_permission_info` VALUES ('1356623692622774273', '1356622373770813440', '文件上传', '2', NULL, '/components/upload', 7, 'fa fa-arrow-up', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:15');
+INSERT INTO `sys_permission_info` VALUES ('1356623692622774274', '1356622373770813440', '富文本编辑器', '2', NULL, '/components/editor', 8, 'fa fa-edit', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:17');
+INSERT INTO `sys_permission_info` VALUES ('1356623692622774275', '1356622373770813440', '省市县区选择器', '2', NULL, '/components/area', 9, 'fa fa-rocket', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:23');
 INSERT INTO `sys_permission_info` VALUES ('1356623692622774276', '1356622373770813440', '主页模板', '1', NULL, '', 10, 'fa fa-home', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:35');
-INSERT INTO `sys_permission_info` VALUES ('1356623692622774277', '1356622373770813440', '菜单管理', '2', NULL, '/syscomponents/menu', 11, 'fa fa-window-maximize', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:31');
-INSERT INTO `sys_permission_info` VALUES ('1356623692622774278', '1356622373770813440', '系统设置', '2', NULL, '/syscomponents/setting', 12, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:38');
-INSERT INTO `sys_permission_info` VALUES ('1356623692622774279', '1356622373770813440', '表格示例', '2', NULL, '/syscomponents/table', 13, 'fa fa-file-text', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:44');
+INSERT INTO `sys_permission_info` VALUES ('1356623692622774277', '1356622373770813440', '菜单管理', '2', NULL, '/components/menu', 11, 'fa fa-window-maximize', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:27');
+INSERT INTO `sys_permission_info` VALUES ('1356623692622774278', '1356622373770813440', '系统设置', '2', NULL, '/components/setting', 12, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:29');
+INSERT INTO `sys_permission_info` VALUES ('1356623692622774279', '1356622373770813440', '表格示例', '2', NULL, '/components/table', 13, 'fa fa-file-text', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:37');
 INSERT INTO `sys_permission_info` VALUES ('1356623692622774280', '1356622373770813440', '表单示例', '1', NULL, '', 14, 'fa fa-calendar', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:36');
 INSERT INTO `sys_permission_info` VALUES ('1356623692622774281', '1356622373770813440', '登录模板', '1', NULL, '', 15, 'fa fa-flag-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:36');
 INSERT INTO `sys_permission_info` VALUES ('1356623905446047744', '1356622373770813440', '异常页面', '1', NULL, '', 16, 'fa fa-home', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-09 22:08:20');
 INSERT INTO `sys_permission_info` VALUES ('1356623905446047745', '1356622373770813440', '其它界面', '1', NULL, '', 17, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-02-02 23:23:37');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047746', '1356623692622774276', '主页一', '2', NULL, '/syscomponents/welcome1', 1, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:53');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047747', '1356623692622774276', '主页二', '2', NULL, '/syscomponents/welcome2', 2, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:51:59');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047748', '1356623692622774276', '主页三', '2', NULL, '/syscomponents/welcome3', 3, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:10');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047749', '1356623692622774280', '普通表单', '2', NULL, '/syscomponents/form', 1, 'fa fa-list-alt', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:18');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047750', '1356623692622774280', '分步表单', '2', NULL, '/syscomponents/formStep', 2, 'fa fa-navicon', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:28');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047751', '1356623692622774281', '登录-1', '2', NULL, '/syscomponents/login1', 1, 'fa fa-stumbleupon-circle', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:40');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047752', '1356623692622774281', '登录-2', '2', NULL, '/syscomponents/login2', 2, 'fa fa-viacoin', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:48');
-INSERT INTO `sys_permission_info` VALUES ('1356623905446047753', '1356623692622774281', '登录-3', '2', NULL, '/syscomponents/login3', 3, 'fa fa-tags', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:52:56');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570497', '1356623905446047744', '404页面', '2', NULL, '/syscomponents/html404', 1, 'fa fa-hourglass-end', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:53:33');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570498', '1356623905446047745', '按钮示例', '2', NULL, '/syscomponents/button', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:53:04');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570499', '1356623905446047745', '弹出层', '2', NULL, '/syscomponents/layer', 2, 'fa fa-shield', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-04-27 19:53:19');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047746', '1356623692622774276', '主页一', '2', NULL, '/components/welcome1', 1, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:40');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047747', '1356623692622774276', '主页二', '2', NULL, '/components/welcome2', 2, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:42');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047748', '1356623692622774276', '主页三', '2', NULL, '/components/welcome3', 3, 'fa fa-tachometer', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:44');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047749', '1356623692622774280', '普通表单', '2', NULL, '/components/form', 1, 'fa fa-list-alt', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:46');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047750', '1356623692622774280', '分步表单', '2', NULL, '/components/formStep', 2, 'fa fa-navicon', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:48');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047751', '1356623692622774281', '登录-1', '2', NULL, '/components/login1', 1, 'fa fa-stumbleupon-circle', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:54');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047752', '1356623692622774281', '登录-2', '2', NULL, '/components/login2', 2, 'fa fa-viacoin', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:56');
+INSERT INTO `sys_permission_info` VALUES ('1356623905446047753', '1356623692622774281', '登录-3', '2', NULL, '/components/login3', 3, 'fa fa-tags', '_blank', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:21:58');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570497', '1356623905446047744', '404页面', '2', NULL, '/components/html404', 1, 'fa fa-hourglass-end', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:22:00');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570498', '1356623905446047745', '按钮示例', '2', NULL, '/components/button', 1, 'fa fa-snowflake-o', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:22:02');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570499', '1356623905446047745', '弹出层', '2', NULL, '/components/layer', 2, 'fa fa-shield', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:22:23');
 INSERT INTO `sys_permission_info` VALUES ('1356624071998570500', '1356622216053755904', '权限管理', '1', NULL, '', 2, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570501', '1356624071998570500', '用户管理', '2', 'system:user:init', '/sysuser/SysUserInfoInit', 1, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-08-08 12:55:41');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570502', '1356624071998570500', '角色管理', '2', 'system:role:init', '/sysrole/SysRoleInfoInit', 2, 'fa fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2021-08-13 13:07:07');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570503', '1356624071998570500', '菜单管理', '2', 'system:permission:init', '/syspermission/SysPermissionInfoInit', 3, 'fa fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2021-08-13 13:07:45');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570501', '1356624071998570500', '用户管理', '2', 'system:user:init', '/userinfo/init', 1, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 22:02:30');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570502', '1356624071998570500', '角色管理', '2', 'system:role:init', '/roleinfo/init', 2, 'fa fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2022-04-06 22:08:49');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570503', '1356624071998570500', '菜单管理', '2', 'system:permission:init', '/permission/init', 3, 'fa fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2022-04-06 22:12:54');
 INSERT INTO `sys_permission_info` VALUES ('1356624071998570504', '1356622216053755904', '系统监控', '1', NULL, NULL, 1, 'fa fa-gears', '_self', NULL, '0', '0', '0', '2021-02-19 13:07:13', '0', '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES ('1362630867860459520', '1356624071998570504', '登陆日志', '2', 'system:loginlog:init', '/sysloginlog/init', 0, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-02-19 13:11:30', '1', '2021-08-13 13:21:58');
-INSERT INTO `sys_permission_info` VALUES ('1363385220818423808', '1356624071998570504', '服务器监控', '2', 'system:serverlook:init', '/sysserverinfo/init', 2, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-02-21 15:09:02', '1', '2021-08-13 13:22:44');
+INSERT INTO `sys_permission_info` VALUES ('1362630867860459520', '1356624071998570504', '登陆日志', '2', 'system:loginlog:init', '/loginlog/init', 0, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-02-19 13:11:30', '1', '2022-04-06 22:16:26');
+INSERT INTO `sys_permission_info` VALUES ('1363385220818423808', '1356624071998570504', '服务器监控', '2', 'system:serverlook:init', '/serverinfo/init', 2, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-02-21 15:09:02', '1', '2022-04-06 22:00:21');
 INSERT INTO `sys_permission_info` VALUES ('1363856602749427712', '1356622216053755904', '系统设置', '1', 'base:info', '', 0, 'fa fa-bookmark', '_self', '', '0', '0', '1', '2021-02-22 22:22:08', '0', '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES ('1363856859898011648', '1363856602749427712', '数据字典', '2', 'sys:basedict:init', '/sysdict/baseDictQureyInit', 0, 'fa fa fa-adjust', '_self', '', '0', '0', '1', '2021-02-22 22:23:10', '1', '2021-08-13 13:28:13');
+INSERT INTO `sys_permission_info` VALUES ('1363856859898011648', '1363856602749427712', '数据字典', '2', 'sys:basedict:init', '/dict/init', 0, 'fa fa fa-adjust', '_self', '', '0', '0', '1', '2021-02-22 22:23:10', '1', '2022-04-06 22:29:40');
 INSERT INTO `sys_permission_info` VALUES ('1366257271839412224', '1356624071998570501', '新增', '3', 'system:user:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-01 13:21:32', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405056', '1356624071998570501', '删除', '3', 'system:user:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-01 13:32:32', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405057', '1356624071998570501', '编辑', '3', 'system:user:edit', NULL, 2, 'fa fa-home', '_self', NULL, '0', '0', '0', '2021-03-01 13:53:13', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405058', '1356624071998570501', '角色', '3', 'system:user:authorize', NULL, 3, 'fa fa-home', '_self', NULL, '0', '0', '0', '2021-03-01 13:54:16', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405059', '1356624071998570501', '修改密码', '3', 'system:user:editpassword', NULL, 4, 'fa fa-home', '_self', NULL, '0', '0', '0', '2021-03-01 13:54:56', '0', '2021-03-01 14:59:17');
 INSERT INTO `sys_permission_info` VALUES ('1367001277164482560', '1356624071998570504', 'druid监控', '2', 'system:druidadmin:init', '/druid', 3, 'fa fa fa-adn', '_self', '', '0', '0', '1', '2021-03-03 14:37:56', '1', '2021-08-13 13:23:06');
-INSERT INTO `sys_permission_info` VALUES ('1367765397289906176', '1356624071998570504', '操作日志', '2', 'system:operlog:init', '/sysoperlog/init', 1, 'fa fa fa-calendar', '_self', '', '0', '0', '1', '2021-03-05 09:14:17', '1', '2021-08-13 13:22:20');
+INSERT INTO `sys_permission_info` VALUES ('1367765397289906176', '1356624071998570504', '操作日志', '2', 'system:operlog:init', '/operlog/init', 1, 'fa fa fa-calendar', '_self', '', '0', '0', '1', '2021-03-05 09:14:17', '1', '2022-04-06 22:15:09');
 INSERT INTO `sys_permission_info` VALUES ('1374747437312167936', '1356624071998570504', 'Websocket测试', '2', 'websocket:init', '/websocket/init', 5, 'fa fa-adjust', '_self', '', '0', '0', '1', '2021-03-24 15:38:27', '0', '2021-03-24 15:38:27');
 INSERT INTO `sys_permission_info` VALUES ('1375651227775606784', '1356624071998570502', '新增', '3', 'system:role:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:29:46', '0', '2021-03-27 03:29:46');
 INSERT INTO `sys_permission_info` VALUES ('1375651443106979840', '1356624071998570502', '删除', '3', 'system:role:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:30:37', '0', '2021-03-27 03:30:37');
 INSERT INTO `sys_permission_info` VALUES ('1375651585042227200', '1356624071998570502', '编辑', '3', 'system:role:update', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:31:10', '0', '2021-03-27 03:31:10');
 INSERT INTO `sys_permission_info` VALUES ('1375651784099700736', '1356624071998570502', '禁用启用', '3', 'system:role:enableordisable', '', 3, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:31:58', '1', '2021-03-27 03:48:41');
 INSERT INTO `sys_permission_info` VALUES ('1375651939947454464', '1356624071998570502', '授权', '3', 'system:role:auth', '', 4, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:32:35', '0', '2021-03-27 03:32:35');
-INSERT INTO `sys_permission_info` VALUES ('1379079117025284096', '1363856602749427712', '业务流水号', '2', 'system:idtable:init', '/sysidtable/init', 2, 'fa fa fa-database', '_self', '业务流水号', '0', '0', '1', '2021-04-05 14:31:02', '1', '2021-08-13 13:24:22');
+INSERT INTO `sys_permission_info` VALUES ('1379079117025284096', '1363856602749427712', '业务流水号', '2', 'system:idtable:init', '/idtable/init', 2, 'fa fa fa-database', '_self', '业务流水号', '0', '0', '1', '2021-04-05 14:31:02', '1', '2022-04-06 22:24:54');
 INSERT INTO `sys_permission_info` VALUES ('1383248198383104000', '1356622216053755904', '邮件服务', '1', 'email_service', '', 4, 'fa fa-address-book-o', '_self', '', '0', '0', '1', '2021-04-17 02:37:24', '0', '2021-04-17 02:37:24');
 INSERT INTO `sys_permission_info` VALUES ('1383248448330067968', '1383248198383104000', '邮件发送', '2', 'email_send', '/sysmail/email/init', 0, 'fa fa-address-book', '_self', '', '0', '0', '1', '2021-04-17 02:38:23', '0', '2021-04-17 02:38:23');
-INSERT INTO `sys_permission_info` VALUES ('1384741066913136640', '1363856602749427712', '网站配置', '2', 'system:config:init', '/sysconfig/forUpdate', 4, 'fa fa fa fa-android', '_self', '', '0', '0', '1', '2021-04-21 05:29:32', '1', '2021-11-09 18:41:14');
+INSERT INTO `sys_permission_info` VALUES ('1384741066913136640', '1363856602749427712', '网站配置', '2', 'system:config:init', '/config/init', 4, 'fa fa fa fa-android', '_self', '', '0', '0', '1', '2021-04-21 05:29:32', '1', '2022-04-06 22:27:57');
 INSERT INTO `sys_permission_info` VALUES ('1385520263748186112', '1384741066913136640', '保存', '3', 'system:config:save', '', 0, 'fa fa-home', '_self', '网页配置保存', '0', '0', '1', '2021-04-23 17:05:47', '0', '2021-04-23 17:05:47');
 INSERT INTO `sys_permission_info` VALUES ('1401046812895322112', '1356624071998570501', '导出pdf', '3', 'system:user:downloadPdf', '', 5, 'fa fa-home', '_self', '导出pdf', '0', '0', '1', '2021-06-05 13:22:45', '0', '2021-06-05 13:22:45');
 INSERT INTO `sys_permission_info` VALUES ('1403617442299260928', '1356622216053755904', '服务管理', '1', 'system:itfc:', '', 5, 'fa fa fa-bookmark', '_self', '服务管理', '0', '0', '1', '2021-06-12 15:37:31', '1', '2021-08-13 13:13:24');
-INSERT INTO `sys_permission_info` VALUES ('1403617991660810240', '1403617442299260928', '服务密钥', '2', 'system:itfckey:init', '/sysitfckey/init', 1, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-06-12 15:39:42', '1', '2021-08-13 13:18:26');
-INSERT INTO `sys_permission_info` VALUES ('1403618360277217280', '1403617442299260928', '服务权限', '2', 'system:itfcpermission:init', '/sysitfcpermission/init', 2, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-06-12 15:41:10', '1', '2021-08-13 13:18:54');
-INSERT INTO `sys_permission_info` VALUES ('1420386404618768384', '1356624071998570504', '在线用户', '2', 'system:useronline:init', '/sysuseronline/init', 6, 'fa fa fa-codepen', '_self', '', '0', '0', '1', '2021-07-28 22:11:23', '1', '2021-08-13 13:23:25');
+INSERT INTO `sys_permission_info` VALUES ('1403617991660810240', '1403617442299260928', '服务密钥', '2', 'system:itfckey:init', '/itfckey/init', 1, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-06-12 15:39:42', '1', '2022-04-06 22:23:01');
+INSERT INTO `sys_permission_info` VALUES ('1403618360277217280', '1403617442299260928', '服务权限', '2', 'system:itfcpermission:init', '/itfcpermission/init', 2, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-06-12 15:41:10', '1', '2022-04-06 22:21:33');
+INSERT INTO `sys_permission_info` VALUES ('1420386404618768384', '1356624071998570504', '在线用户', '2', 'system:useronline:init', '/useronline/init', 6, 'fa fa fa-codepen', '_self', '', '0', '0', '1', '2021-07-28 22:11:23', '1', '2022-04-06 21:58:13');
 INSERT INTO `sys_permission_info` VALUES ('1426048058156847104', '1356624071998570503', '删除', '3', 'system:permission:delete', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:08:46', '0', '2021-08-13 13:08:46');
 INSERT INTO `sys_permission_info` VALUES ('1426048592427290624', '1356624071998570503', '新增', '3', 'system:permission:add', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:10:53', '0', '2021-08-13 13:10:53');
 INSERT INTO `sys_permission_info` VALUES ('1426048692151062528', '1356624071998570503', '编辑', '3', 'system:permission:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:11:17', '0', '2021-08-13 13:11:17');
@@ -4258,30 +4306,46 @@ INSERT INTO `sys_permission_info` VALUES ('1426053263602683904', '13638568598980
 INSERT INTO `sys_permission_info` VALUES ('1426053344749883392', '1363856859898011648', '编辑', '3', 'sys:basedict:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:29:46', '0', '2021-08-13 13:29:46');
 INSERT INTO `sys_permission_info` VALUES ('1426053449271939072', '1363856859898011648', '禁用启用', '3', 'sys:basedict:disoren', '', 3, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:30:11', '0', '2021-08-13 13:30:11');
 INSERT INTO `sys_permission_info` VALUES ('1426053589923729408', '1363856859898011648', '配置', '3', 'sys:basedict:configuration', '', 4, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:30:45', '0', '2021-08-13 13:30:45');
-INSERT INTO `sys_permission_info` VALUES ('1431230594149711872', '1363856602749427712', '定时任务', '2', 'system:job:init', '/sysjob/init', 5, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-27 20:22:19', '1', '2021-08-28 16:48:09');
+INSERT INTO `sys_permission_info` VALUES ('1431230594149711872', '1363856602749427712', '定时任务', '2', 'system:job:init', '/job/init', 5, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-27 20:22:19', '1', '2022-04-06 22:17:44');
 INSERT INTO `sys_permission_info` VALUES ('1431538412783583232', '1431230594149711872', '新增', '3', 'sys:job:add', '', 0, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:45:29', '1', '2021-08-28 16:47:14');
 INSERT INTO `sys_permission_info` VALUES ('1431538557407379456', '1431230594149711872', '删除', '3', 'sys:job:delete', '', 1, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:03', '1', '2021-08-28 16:47:33');
 INSERT INTO `sys_permission_info` VALUES ('1431538629335498752', '1431230594149711872', '编辑', '3', 'sys:job:edit', '', 2, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:20', '1', '2021-08-28 16:47:46');
 INSERT INTO `sys_permission_info` VALUES ('1431538723468263424', '1431230594149711872', '执行一次', '3', 'sys:job:executeonce', '', 3, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:43', '0', '2021-08-28 16:46:43');
 INSERT INTO `sys_permission_info` VALUES ('1431538808277090304', '1431230594149711872', '执行日志', '3', 'sys:job:record', '', 4, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:47:03', '0', '2021-08-28 16:47:03');
 INSERT INTO `sys_permission_info` VALUES ('1458664123436806144', '1356624071998570501', '导出excel', '3', 'system:user:exportExcel', '', 8, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-11-11 13:13:22', '1', '2021-11-17 22:40:55');
+INSERT INTO `sys_permission_info` VALUES ('1466067936934129664', '1356624071998570500', '岗位管理', '2', 'system:post:init', '/postinfo/init', 3, 'fa fa-home', '_self', '', '0', '0', '1', '2021-12-01 23:33:29', NULL, '2022-04-06 22:11:13');
+INSERT INTO `sys_permission_info` VALUES ('1466068282603499520', '1466067936934129664', '新增', '3', 'system:post:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-12-01 23:34:51', NULL, '2021-12-01 23:34:51');
+INSERT INTO `sys_permission_info` VALUES ('1477474786258567168', '1466067936934129664', '删除', '3', 'system:post:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2022-01-02 11:00:13', NULL, '2022-01-02 11:00:13');
+INSERT INTO `sys_permission_info` VALUES ('1477474891283939328', '1466067936934129664', '修改', '3', 'system:post:update', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2022-01-02 11:00:38', NULL, '2022-01-02 11:00:38');
+INSERT INTO `sys_permission_info` VALUES ('1511330246660317184', '1356624071998570500', '部门管理', '2', 'sysdeptinfo:init', '/deptinfo/init', 0, 'fa fa-cogs', '_self', '', '0', '0', '1', '2022-04-05 21:09:46', NULL, '2022-04-06 22:26:13');
+INSERT INTO `sys_permission_info` VALUES ('1511330456019001344', '1511330246660317184', '新增', '3', 'system:dept:add', '', 0, 'fa fa fa-home', '_self', '', '0', '0', '1', '2022-04-05 21:10:36', '1', '2022-04-13 23:53:07');
+INSERT INTO `sys_permission_info` VALUES ('1511583410945138688', '1511330246660317184', '修改', '3', 'system:dept:update', '', 1, 'fa fa fa-home', '_self', '', '0', '0', '1', '2022-04-06 13:55:43', '1', '2022-04-13 23:52:41');
+INSERT INTO `sys_permission_info` VALUES ('1514269497674051584', '1511330246660317184', '删除', '3', 'system:dept:delete', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2022-04-13 23:49:16', NULL, '2022-04-13 23:49:16');
+INSERT INTO `sys_permission_info` VALUES ('1518460292667994112', '1356624071998570504', '缓存监控', '2', 'system:cacheinfo:edit', '/cacheinfo/init', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2022-04-25 13:22:00', NULL, '2022-04-25 13:22:00');
 
 -- ----------------------------
 -- Table structure for sys_post_info
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_post_info`;
 CREATE TABLE `sys_post_info`  (
-  `post_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
+  `post_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务主键',
+  `post_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
   `post_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位名称',
   `post_sort` int(4) NOT NULL COMMENT '显示顺序',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态（0正常 1停用）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `descript` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_post_info
+-- ----------------------------
+INSERT INTO `sys_post_info` VALUES ('23466322432', 'general_manager', '总经理', 1, '0', '1', '2021-12-20 13:24:36', '', '2022-04-06 22:42:15', '董事长的小弟');
+INSERT INTO `sys_post_info` VALUES ('31415358687', 'ceo', '董事长', 2, '0', '1', '2021-12-01 23:53:43', '', '2022-04-07 15:51:18', '公司地位最高的人');
 
 -- ----------------------------
 -- Table structure for sys_role_info
@@ -4295,21 +4359,21 @@ CREATE TABLE `sys_role_info`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统角色信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_info
 -- ----------------------------
 INSERT INTO `sys_role_info` VALUES ('1263999620210087296', '嘿嘿', 'heihei', 'dasdasdsdsa', '0', '1', '1', '2021-02-01 22:29:26', '0', '2021-02-03 00:12:15');
-INSERT INTO `sys_role_info` VALUES ('1263999628210287296', '测试角色3', 'hjjj', '测试角色3', '0', '0', '6', '2020-10-23 15:48:54', '0', '2021-02-03 00:12:14');
+INSERT INTO `sys_role_info` VALUES ('1263999628210287296', '测试角色3', 'testtset', '测试角色3', '0', '0', '6', '2020-10-23 15:48:54', '0', '2022-04-06 13:53:10');
 INSERT INTO `sys_role_info` VALUES ('1263999628210487209', '爱吃甜品的猫', 'dasdasdas', '', '0', '1', '1', '2021-02-02 00:11:58', '0', '2021-02-02 16:09:59');
 INSERT INTO `sys_role_info` VALUES ('1263999628210487211', 'th', 'ttttt', '', '0', '1', '1', '2021-02-02 00:16:40', '0', '2021-02-02 16:09:59');
-INSERT INTO `sys_role_info` VALUES ('1263999628210487222', '刘星宇', 'liuxingyu', '刘星宇的角色', '1', '0', '1', '2021-02-02 00:19:06', '0', '2021-11-14 18:17:58');
-INSERT INTO `sys_role_info` VALUES ('1263999628210487223', 'dasdasd', 'dasdadsdas', '', '0', '0', '1', '2021-02-02 00:14:36', '0', '2021-02-02 16:09:59');
+INSERT INTO `sys_role_info` VALUES ('1263999628210487222', '刘星宇', 'liuxingyu', '刘星宇的角色', '1', '0', '1', '2021-02-02 00:19:06', '0', '2021-11-25 11:35:12');
+INSERT INTO `sys_role_info` VALUES ('1263999628210487223', 'dasdasd', 'dasdadsdas', '', '0', '1', '1', '2021-02-02 00:14:36', '0', '2022-04-06 13:53:22');
 INSERT INTO `sys_role_info` VALUES ('1263999628210487291', '测试角色2', 'awc ', '测试角色2', '0', '0', '6', '2020-10-21 22:34:47', '0', '2021-02-02 16:09:58');
 INSERT INTO `sys_role_info` VALUES ('1263999628210487296', '超级管理员', 'administrator', '超级管理员，拥有至高无上的权力', '0', '0', '0', '2020-09-06 19:40:31', '0', '2021-02-02 16:09:57');
 INSERT INTO `sys_role_info` VALUES ('1263999628210487297', '测试人员', 'test', '测试人员', '0', '0', '0', '2020-09-06 19:40:31', '0', '2021-02-02 16:09:57');
@@ -4323,10 +4387,10 @@ DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE `sys_role_permission`  (
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '角色id',
   `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '权限id',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`role_id`, `permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色-权限关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色-权限关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -4361,100 +4425,108 @@ INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '14260480581568
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1426048592427290624', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1426048692151062528', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1426048926205808640', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622216053755904', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622327209861120', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622373770813440', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622845051572224', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622944976826368', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623034781810688', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623193826586624', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623247861440512', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623355334021120', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623395763740672', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623422948618240', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623540277268480', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774272', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774273', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774274', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774275', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774276', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774277', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774278', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774279', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774280', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774281', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047744', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047745', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047746', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047747', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047748', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047749', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047750', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047751', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047752', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047753', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570497', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570498', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570499', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570500', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570501', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570502', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570503', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570504', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1362630867860459520', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363385220818423808', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856602749427712', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856859898011648', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366257271839412224', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405056', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405057', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405058', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405059', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367001277164482560', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367765397289906176', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1374747437312167936', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651227775606784', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651443106979840', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651585042227200', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651784099700736', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651939947454464', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1379079117025284096', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248198383104000', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248448330067968', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1384741066913136640', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1385520263748186112', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1401046812895322112', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617442299260928', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617991660810240', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403618360277217280', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1420386404618768384', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048058156847104', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048592427290624', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048692151062528', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048926205808640', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049544312000512', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049723656245248', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049867319545856', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050015730798592', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050236284080128', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050733669814272', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050819334279168', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050917795565568', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052156788772864', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052217211916288', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052294944952320', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053204626575360', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053263602683904', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053344749883392', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053449271939072', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053589923729408', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431230594149711872', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538412783583232', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538557407379456', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538629335498752', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538723468263424', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538808277090304', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1458664123436806144', '2021-11-11 13:13:37', '2021-11-11 13:13:37');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622216053755904', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622327209861120', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622373770813440', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622845051572224', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622944976826368', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623034781810688', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623193826586624', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623247861440512', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623355334021120', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623395763740672', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623422948618240', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623540277268480', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774272', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774273', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774274', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774275', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774276', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774277', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774278', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774279', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774280', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774281', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047744', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047745', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047746', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047747', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047748', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047749', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047750', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047751', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047752', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047753', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570497', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570498', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570499', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570500', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570501', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570502', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570503', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570504', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1362630867860459520', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363385220818423808', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856602749427712', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856859898011648', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366257271839412224', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405056', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405057', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405058', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405059', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367001277164482560', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367765397289906176', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1374747437312167936', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651227775606784', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651443106979840', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651585042227200', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651784099700736', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651939947454464', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1379079117025284096', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248198383104000', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248448330067968', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1384741066913136640', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1385520263748186112', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1401046812895322112', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617442299260928', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617991660810240', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403618360277217280', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1420386404618768384', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048058156847104', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048592427290624', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048692151062528', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048926205808640', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049544312000512', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049723656245248', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049867319545856', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050015730798592', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050236284080128', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050733669814272', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050819334279168', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050917795565568', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052156788772864', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052217211916288', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052294944952320', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053204626575360', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053263602683904', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053344749883392', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053449271939072', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053589923729408', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431230594149711872', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538412783583232', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538557407379456', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538629335498752', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538723468263424', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538808277090304', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1458664123436806144', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1466067936934129664', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1466068282603499520', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1477474786258567168', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1477474891283939328', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511330246660317184', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511330456019001344', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511583410945138688', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1518460292667994112', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487297', '1356622216053755904', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487297', '1356624071998570500', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487297', '1356624071998570501', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
@@ -4502,10 +4574,14 @@ CREATE TABLE `sys_rule`  (
   `descript` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则描述',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`rule_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统业务规则表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统业务规则表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_rule
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user_info
@@ -4513,10 +4589,10 @@ CREATE TABLE `sys_rule`  (
 DROP TABLE IF EXISTS `sys_user_info`;
 CREATE TABLE `sys_user_info`  (
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
-  `dept_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属部门',
   `account` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户账号',
   `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户密码',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户姓名',
+  `dept_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '所属部门',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '电话',
   `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像地址',
@@ -4524,34 +4600,33 @@ CREATE TABLE `sys_user_info`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '状态（0--正常 1--冻结）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_info
 -- ----------------------------
-INSERT INTO `sys_user_info` VALUES ('1', NULL, 'admin', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '喵喵', '17862719999', NULL, 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', '0', '2020-09-06 19:40:49', '1', '2021-11-17 23:02:25');
-INSERT INTO `sys_user_info` VALUES ('10', NULL, 'xiaolan', 'c6fbfcf124670417dc0b8485171d6bb9', '小兰', '15286776337', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '1', '2021-11-17 22:10:39');
-INSERT INTO `sys_user_info` VALUES ('11', NULL, 'xiaozi', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小紫', '13288990099', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-10-23 14:33:51');
-INSERT INTO `sys_user_info` VALUES ('12', NULL, 'xiaoqing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小青', '1', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2021-01-29 22:50:22');
-INSERT INTO `sys_user_info` VALUES ('13', NULL, 'liuxing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '流星雨', '1', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2021-01-29 22:50:26');
-INSERT INTO `sys_user_info` VALUES ('14', NULL, 'huangzai', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '黄二郎', '1', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2021-01-29 22:50:30');
-INSERT INTO `sys_user_info` VALUES ('15', NULL, 'superadmin', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '超级管理员', '17899999999', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2021-01-29 22:50:34');
-INSERT INTO `sys_user_info` VALUES ('17', NULL, 'liuxingyu01', 'c6fbfcf124670417dc0b8485171d6bb9', '黑呵呵', '15286779077', NULL, 'http://halo.lxyccc.top/车.png', '2', '1', '0', '1', '2021-01-25 13:06:22', '0', '2021-07-14 13:26:31');
-INSERT INTO `sys_user_info` VALUES ('18', NULL, '测试上传头像', '31a326b90dee28fad25e4e3b653cd7ea', 'avatar', '15286779044', NULL, 'http://halo.lxyccc.top/44dsdsdsds4.jpg', '1', '0', '0', '1', '2021-03-27 08:35:47', '0', '2021-03-27 08:35:47');
-INSERT INTO `sys_user_info` VALUES ('2', NULL, '13888888888', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '测试账号', '13888888886', NULL, 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', '1', '2020-09-30 09:35:28', '0', '2021-08-30 18:10:09');
-INSERT INTO `sys_user_info` VALUES ('22', NULL, 'sdasdasa', '124e805e3e0c59443b5026057b7ac4d7', 'dsdasdsadsa', '15286779046', NULL, 'http://halo.lxyccc.top/评价-星标1.png', '2', '0', '0', '1', '2021-06-18 22:37:05', '0', '2021-07-14 13:26:12');
-INSERT INTO `sys_user_info` VALUES ('23', NULL, 'chunmian', 'd86f9966c1baea9f106b33f26305d3b7', '纯棉', '15202843353', NULL, 'http://halo.lxyccc.top/loading-1.gif', '2', '0', '0', '1', '2021-06-27 19:32:16', '0', '2021-10-23 14:34:12');
-INSERT INTO `sys_user_info` VALUES ('3', NULL, 'zhangsan', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '张三', '13244444444', NULL, 'http://halo.lxyccc.top/导航标注_16.png', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-08-30 18:10:35');
-INSERT INTO `sys_user_info` VALUES ('4', NULL, 'lisi', 'df3db4b61f6d08899d10f5beb578a3699373b24841d9cb43ae123a688168ad2e', '李四', '13067395515', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-06-28 19:55:17');
-INSERT INTO `sys_user_info` VALUES ('5', NULL, 'wangwu', 'c6fbfcf124670417dc0b8485171d6bb9', '王五', '13888888886', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-06-19 19:33:55');
-INSERT INTO `sys_user_info` VALUES ('6', NULL, 'zhaoliu', 'c6fbfcf124670417dc0b8485171d6bb9', '赵六', '18888888888', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-06-28 22:21:26');
-INSERT INTO `sys_user_info` VALUES ('7', NULL, 'xiaohong', 'c6fbfcf124670417dc0b8485171d6bb9', '小红', '13255667980', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-06-28 22:22:05');
-INSERT INTO `sys_user_info` VALUES ('8', NULL, 'xiaohuang', 'c6fbfcf124670417dc0b8485171d6bb9', '小黄', '15286779044', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-02-06 15:23:54');
-INSERT INTO `sys_user_info` VALUES ('9', NULL, 'xiaolv', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '大绿', '17862719592', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2021-10-23 14:32:16');
+INSERT INTO `sys_user_info` VALUES ('1', 'admin', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '超级管理员', '100', '17862719592', '111@qq.com', 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', '0', '2020-09-06 19:40:49', '1', '2022-04-23 20:15:24');
+INSERT INTO `sys_user_info` VALUES ('10', 'xiaolan', 'c6fbfcf124670417dc0b8485171d6bb9', '小兰', '103', '15286776337', '15286776337@163.com', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '1', '2022-04-21 19:17:23');
+INSERT INTO `sys_user_info` VALUES ('11', 'xiaozi', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小紫', '101', '13288990099', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:28');
+INSERT INTO `sys_user_info` VALUES ('12', 'xiaoqing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小青', '101', '15286776337', '15286776337@163.com', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '1', '2022-04-23 20:15:28');
+INSERT INTO `sys_user_info` VALUES ('13', 'liuxing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '流星雨', '101', '15286776337', 'jqcgj@mfk.app', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '1', '2022-04-23 20:15:29');
+INSERT INTO `sys_user_info` VALUES ('14', 'huangzai', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '黄二郎', '101', '1', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2022-04-23 20:15:30');
+INSERT INTO `sys_user_info` VALUES ('15', 'superadmin', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '超级管理员', '101', '17899999999', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2022-04-23 20:15:32');
+INSERT INTO `sys_user_info` VALUES ('1516084831123689472', 'ceshiceshi', '28741572107c094aa0794a472a1cf73c4e60df301fd835bd056065e97b39a097', '测试测试', '101', '17862719591', '184974699@qq.com', '', '1', '0', '0', '1', '2022-04-19 00:02:45', NULL, '2022-04-19 00:02:45');
+INSERT INTO `sys_user_info` VALUES ('17', 'liuxingyu01', 'c6fbfcf124670417dc0b8485171d6bb9', '黑呵呵', '104', '15286779077', NULL, 'http://halo.lxyccc.top/车.png', '2', '1', '0', '1', '2021-01-25 13:06:22', '0', '2022-04-23 20:15:49');
+INSERT INTO `sys_user_info` VALUES ('18', '测试上传头像', '31a326b90dee28fad25e4e3b653cd7ea', 'avatar', '104', '15286779044', NULL, 'http://halo.lxyccc.top/44dsdsdsds4.jpg', '1', '0', '0', '1', '2021-03-27 08:35:47', '0', '2022-04-23 20:15:49');
+INSERT INTO `sys_user_info` VALUES ('2', '13888888888', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '测试账号', '104', '13888888886', '123456798@qq.com', 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', '1', '2020-09-30 09:35:28', '1', '2022-04-23 20:15:49');
+INSERT INTO `sys_user_info` VALUES ('3', 'zhangsan', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '张三', '104', '13244444444', NULL, 'http://halo.lxyccc.top/导航标注_16.png', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:49');
+INSERT INTO `sys_user_info` VALUES ('4', 'lisi', 'df3db4b61f6d08899d10f5beb578a3699373b24841d9cb43ae123a688168ad2e', '李四', '104', '13067395515', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:49');
+INSERT INTO `sys_user_info` VALUES ('5', 'wangwu', 'c6fbfcf124670417dc0b8485171d6bb9', '王五', '104', '13888888886', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:49');
+INSERT INTO `sys_user_info` VALUES ('6', 'zhaoliu', 'c6fbfcf124670417dc0b8485171d6bb9', '赵六', '105', '18888888888', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:50');
+INSERT INTO `sys_user_info` VALUES ('7', 'xiaohong', 'c6fbfcf124670417dc0b8485171d6bb9', '小红', '105', '13255667980', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:51');
+INSERT INTO `sys_user_info` VALUES ('8', 'xiaohuang', 'c6fbfcf124670417dc0b8485171d6bb9', '小黄', '105', '15286779044', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:52');
+INSERT INTO `sys_user_info` VALUES ('9', 'xiaolv', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '大绿', '105', '17862719592', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:53');
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -4560,10 +4635,20 @@ DROP TABLE IF EXISTS `sys_user_post`;
 CREATE TABLE `sys_user_post`  (
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
   `post_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`user_id`, `post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户岗位关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户岗位关联表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_post
+-- ----------------------------
+INSERT INTO `sys_user_post` VALUES ('1', '23466322432', '2022-04-08 22:29:13', '2022-04-08 22:29:13');
+INSERT INTO `sys_user_post` VALUES ('1', '31415358687', '2022-04-08 22:29:13', '2022-04-08 22:29:13');
+INSERT INTO `sys_user_post` VALUES ('10', '23466322432', '2022-04-21 19:17:24', '2022-04-21 19:17:24');
+INSERT INTO `sys_user_post` VALUES ('1477483060669382656', '23466322432', '2022-01-02 14:38:28', '2022-01-02 14:38:28');
+INSERT INTO `sys_user_post` VALUES ('1477483060669382656', '31415358687', '2022-01-02 14:38:28', '2022-01-02 14:38:28');
+INSERT INTO `sys_user_post` VALUES ('1516084831123689472', '23466322432', '2022-04-19 00:02:45', '2022-04-19 00:02:45');
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -4572,16 +4657,17 @@ DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`  (
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '用户id',
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '角色id',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户-角色关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户-角色关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES ('1', '1263999628210487296', '2021-05-01 23:02:42', '2021-05-01 23:02:42');
-INSERT INTO `sys_user_role` VALUES ('10', '1263999628210487291', '2021-11-14 18:31:55', '2021-11-14 18:31:55');
+INSERT INTO `sys_user_role` VALUES ('1', '1263999628210487296', '2022-04-06 13:51:07', '2022-04-06 13:51:07');
+INSERT INTO `sys_user_role` VALUES ('10', '1263999628210287296', '2022-04-20 09:42:36', '2022-04-20 09:42:36');
+INSERT INTO `sys_user_role` VALUES ('10', '1263999628210487291', '2022-04-20 09:42:36', '2022-04-20 09:42:36');
 INSERT INTO `sys_user_role` VALUES ('17', '1263999628210287296', '2021-11-17 22:14:48', '2021-11-17 22:14:48');
 INSERT INTO `sys_user_role` VALUES ('17', '1263999628210487223', '2021-11-17 22:14:48', '2021-11-17 22:14:48');
 INSERT INTO `sys_user_role` VALUES ('17', '1263999628210487291', '2021-11-17 22:14:48', '2021-11-17 22:14:48');
