@@ -4,6 +4,8 @@ import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.mail.EmailUtils;
 import com.bluewind.boot.module.system.maillog.service.EmailLogService;
 import com.bluewind.boot.module.system.mail.entity.EmailLogVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author liuxingyu01
  * @date 2021-04-16-0:45
+ * @description 测试邮件发送
  **/
 @Controller
+@Api(value = "系统邮件发送控制器", tags = "系统邮件发送控制器")
 @RequestMapping("/sysmail/email")
 public class EmailController {
 
@@ -22,27 +26,23 @@ public class EmailController {
     @Autowired
     private EmailLogService emailLogService;
 
-    /**
-     * 请求页面
-     *
-     * @return
-     */
+
+    @ApiOperation(value = "页面初始化", notes = "页面初始化")
     @GetMapping("/init")
     public String init(Model model) {
-        model.addAttribute("from", emailUtils.SEND_ADDRESS);
+        model.addAttribute("from", emailUtils.sendAddress);
         return "mail/email/index";
     }
 
+
+    @ApiOperation(value = "获取邮件模板", notes = "获取邮件模板")
     @GetMapping("/template/{id}")
     public String template(@PathVariable Integer id) {
         return "mail/templates/template" + id + "_bak";
     }
 
-    /**
-     * 发送文本邮件
-     *
-     * @return
-     */
+
+    @ApiOperation(value = "发送文本邮件", notes = "发送文本邮件")
     @PostMapping("/sendTextMail")
     @ResponseBody
     public BaseResult sendTextMail(@RequestBody EmailLogVO sysEmailLogVO) {
@@ -53,11 +53,8 @@ public class EmailController {
         return responseResult;
     }
 
-    /**
-     * 发送Html邮件
-     *
-     * @return
-     */
+
+    @ApiOperation(value = "发送Html邮件", notes = "发送Html邮件")
     @PostMapping("/sendHtmlMail")
     @ResponseBody
     public BaseResult sendHtmlMail(@RequestBody EmailLogVO sysEmailLogVO) {
@@ -67,6 +64,7 @@ public class EmailController {
         emailLogService.saveSysEmailLog(sysEmailLogVO);
         return baseResult;
     }
+
 
     /**
      * 发送图片邮件
@@ -78,6 +76,7 @@ public class EmailController {
      * @param srcId   图片标识
      * @return
      */
+    @ApiOperation(value = "发送图片邮件", notes = "发送图片邮件")
     @PostMapping("/sendImageMail")
     @ResponseBody
     public BaseResult sendImageMail(String address, String title, String text, String srcPath, String srcId) {
@@ -93,21 +92,20 @@ public class EmailController {
      * @param filePath 文件地址
      * @return
      */
+    @ApiOperation(value = "发送附件邮件", notes = "发送附件邮件")
     @PostMapping("/sendFileMail")
     @ResponseBody
     public BaseResult sendFileMail(String address, String title, String text, String filePath) {
         return emailUtils.sendAttachmentMail(address.trim(), title.trim(), text.trim(), filePath.trim());
     }
 
-    /**
-     * 发送模板邮件
-     *
-     * @return
-     */
+
+    @ApiOperation(value = "发送模板邮件", notes = "发送模板邮件")
     @PostMapping("/sendTemplateMail")
     @ResponseBody
     public BaseResult sendTemplateMail(@RequestBody EmailLogVO sysEmailLogVO) {
-        BaseResult baseResult = emailUtils.sendTemplateMail(sysEmailLogVO.getAddress().trim(), sysEmailLogVO.getSubject().trim(), sysEmailLogVO.getTemplate().trim(), sysEmailLogVO.getContent().trim());
+        BaseResult baseResult = emailUtils.sendTemplateMail(sysEmailLogVO.getAddress().trim(), sysEmailLogVO.getSubject().trim(),
+                sysEmailLogVO.getTemplate().trim(), sysEmailLogVO.getContent().trim());
         sysEmailLogVO.setType("4");
         sysEmailLogVO.setStatus(0 == baseResult.getCode() ? "0" : "1");
         emailLogService.saveSysEmailLog(sysEmailLogVO);

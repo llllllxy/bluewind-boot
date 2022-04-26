@@ -33,7 +33,7 @@ public class EmailUtils {
      * 发件人地址
      */
     @Value("${spring.mail.username}")
-    public String SEND_ADDRESS;
+    public String sendAddress;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -43,7 +43,7 @@ public class EmailUtils {
 
 
     /**
-     * 发送文本邮件
+     * 发送普通文本邮件
      *
      * @param address 收件人地址
      * @param title   标题
@@ -63,7 +63,7 @@ public class EmailUtils {
             // 编辑发送邮件的一些信息，有-->发件人地址，收件人地址，邮件标题，邮件正文
             SimpleMailMessage message = new SimpleMailMessage();
             // 发件人地址
-            message.setFrom(SEND_ADDRESS);
+            message.setFrom(sendAddress);
             // 收件人地址，可多个，使用逗号隔开
             message.setTo(address.split(","));
             // 邮件标题
@@ -101,7 +101,7 @@ public class EmailUtils {
             MimeMessage message = mailSender.createMimeMessage();
             // 这里与发送文本邮件有所不同
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(SEND_ADDRESS);
+            helper.setFrom(sendAddress);
             helper.setTo(address.split(","));
             helper.setSubject(title);
             // 发送HTML邮件，也就是将邮件正文使用HTML的格式书写
@@ -136,7 +136,7 @@ public class EmailUtils {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(SEND_ADDRESS);
+            helper.setFrom(sendAddress);
             helper.setTo(address.split(","));
             helper.setSubject(title);
             helper.setText(text, true);
@@ -176,7 +176,7 @@ public class EmailUtils {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(SEND_ADDRESS);
+            helper.setFrom(sendAddress);
             helper.setTo(address.split(","));
             helper.setSubject(title);
             helper.setText(text, true);
