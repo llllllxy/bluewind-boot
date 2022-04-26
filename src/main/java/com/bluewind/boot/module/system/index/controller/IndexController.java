@@ -4,6 +4,7 @@ import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.RedisUtil;
 import com.bluewind.boot.common.config.security.SecurityUtil;
+import com.bluewind.boot.common.utils.fileupload.api.StorageService;
 import com.bluewind.boot.module.system.index.service.IndexService;
 import com.bluewind.boot.module.system.userinfo.entity.UserInfo;
 import com.bluewind.boot.module.system.userinfo.service.UserInfoService;
@@ -23,6 +24,7 @@ import java.util.Map;
 /**
  * @author liuxingyu01
  * @date 2020-03-18-16:22
+ * @description 系统index控制器
  **/
 @Controller
 @RequestMapping("/admin")
@@ -37,6 +39,9 @@ public class IndexController extends BaseController {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private StorageService storageService;
 
     /**
      * 盐
@@ -56,6 +61,7 @@ public class IndexController extends BaseController {
     public String index(Model model) {
         String account = getSysUserAccount();
         UserInfo userInfo = userInfoService.getOne(account);
+        userInfo.setAvatar(storageService.getExpiryUrlById(userInfo.getAvatar(), 24));
         model.addAttribute("userInfo", userInfo);
         return "system/index/index";
     }

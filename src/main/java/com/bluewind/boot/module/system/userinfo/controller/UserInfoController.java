@@ -4,6 +4,7 @@ import com.bluewind.boot.common.config.security.SecurityUtil;
 import com.bluewind.boot.common.config.security.annotation.RequiresPermissions;
 import com.bluewind.boot.common.config.security.enums.Logical;
 import com.bluewind.boot.common.utils.excel.ExcelPoiUtil;
+import com.bluewind.boot.common.utils.fileupload.api.StorageService;
 import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.system.deptinfo.entity.DeptInfo;
 import com.bluewind.boot.module.system.deptinfo.service.DeptInfoService;
@@ -86,6 +87,9 @@ public class UserInfoController extends BaseController {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Autowired
+    private StorageService storageService;
+
 
     /**
      * 盐
@@ -148,6 +152,12 @@ public class UserInfoController extends BaseController {
         PageInfo<UserInfo> pageinfo = new PageInfo<>(accounts);
         //取出查询结果
         List<UserInfo> rows = pageinfo.getList();
+
+        // 动态构建头像url
+        rows.forEach(item-> {
+            item.setAvatar(storageService.getExpiryUrlById(item.getAvatar(), 24));
+        });
+
         int total = (int) pageinfo.getTotal();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);

@@ -134,6 +134,7 @@
         var form = layui.form,
             layer = layui.layer;
 
+        // 输入框赋值
         form.val("formDemo", [[${config}]]);
 
         $('#pic-input').change(function () {
@@ -141,13 +142,13 @@
             formData.append("files", $("#pic-input")[0].files[0]);
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
             Util.upload({
-                url: Util.ctx + 'fileupload/uploadFileAjax',
+                url: Util.ctx + 'fileupload/uploadWithAjax',
                 data: formData,
                 success: function (res) {
                     layer.close(index);
                     if (0 === res.code) {
-                        $("input[name='systemLogo']").val(res.data);
-                        $('#pic-img').attr('src', res.data);
+                        $("input[name='systemLogo']").val(res.data.fileId);
+                        $('#pic-img').attr('src', res.data.previewUrl);
                         Message.success(res.message, 1000);
                     } else {
                         Message.error(res.message, 1000);
@@ -165,13 +166,13 @@
             formData.append("files", $("#pic-input1")[0].files[0]);
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
             Util.upload({
-                url: Util.ctx + 'fileupload/uploadFileAjax',
+                url: Util.ctx + 'fileupload/uploadWithAjax',
                 data: formData,
                 success: function (res) {
                     layer.close(index);
                     if (0 === res.code) {
-                        $("input[name='websiteIcon']").val(res.data);
-                        $('#pic-img1').attr('src', res.data);
+                        $("input[name='websiteIcon']").val(res.data.fileId);
+                        $('#pic-img1').attr('src', res.data.previewUrl);
 
                         Message.success(res.message, 1000);
                     } else {
@@ -190,13 +191,13 @@
             formData.append("files", $("#pic-input2")[0].files[0]);
             var index = layer.load(0, {shade: 0.1});
             Util.upload({
-                url: Util.ctx + 'fileupload/uploadFileAjax',
+                url: Util.ctx + 'fileupload/uploadWithAjax',
                 data: formData,
                 success: function (res) {
                     layer.close(index);
                     if (0 === res.code) {
-                        $("input[name='loginBackImg']").val(res.data);
-                        $('#pic-img2').attr('src', res.data);
+                        $("input[name='loginBackImg']").val(res.data.fileId);
+                        $('#pic-img2').attr('src', res.data.previewUrl);
                         Message.success(res.message, 1000);
                     } else {
                         Message.error(res.message, 1000);

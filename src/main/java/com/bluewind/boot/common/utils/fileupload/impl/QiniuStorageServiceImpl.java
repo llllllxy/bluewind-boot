@@ -124,7 +124,7 @@ public class QiniuStorageServiceImpl implements StorageService {
             if (contentType == null) {
                 contentType = "application/octet-stream";
             }
-
+            // 获取文件扩展名，拼接在uuid后面，作为fileId
             String fileType = FileUtils.getFileExtension(fileName);
             fileId = fileId + "." + fileType;
             long fileSize = inputStream.available();

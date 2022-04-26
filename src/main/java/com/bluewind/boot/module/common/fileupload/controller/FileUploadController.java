@@ -6,6 +6,8 @@ import com.bluewind.boot.common.utils.fileupload.api.StorageService;
 import com.bluewind.boot.common.utils.fileupload.model.StorageFile;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.annotation.LogAround;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author liuxingyu01
  * @date 2021-03-27-15:35
+ * @description 文件操作公共控制器
  **/
+@Api(value = "文件操作公共控制器", tags = "文件操作公共控制器")
 @Controller
 @RequestMapping("/fileupload")
 public class FileUploadController extends BaseController {
@@ -29,33 +35,39 @@ public class FileUploadController extends BaseController {
     private StorageService storageService;
 
     /**
-     * 七牛云文件上传
+     *文件上传-ajax方式
      *
      * @return
      */
-    @LogAround("文件上传")
-    @RequestMapping(value = "/uploadFileAjax", method = RequestMethod.POST)
+    @LogAround("文件上传-ajax方式")
+    @ApiOperation(value = "文件上传-ajax方式", notes = "文件上传-ajax方式")
+    @RequestMapping(value = "/uploadWithAjax", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult uploadFileAjax(@RequestParam("files") MultipartFile file,
-                                     @RequestParam(required = false, defaultValue = "", value = "files_name") String filesName) throws IOException {
+                                     @RequestParam(required = false, defaultValue = "", value = "fileName") String fileName) throws IOException {
         if (logger.isInfoEnabled()) {
-            logger.info("FileUploadController -- uploadFileAjax -- filesName = {}", filesName);
+            logger.info("FileUploadController -- uploadFileAjax -- fileName = {}", fileName);
         }
-        if (StringUtils.isEmpty(filesName)) {
-            filesName = IdGenerate.uuid() + ".jpg";
+        if (StringUtils.isEmpty(fileName)) {
+            fileName = IdGenerate.uuid() + ".jpg";
         }
 
-        StorageFile storageFile = storageService.store(file.getInputStream(), filesName);
+        StorageFile storageFile = storageService.store(file.getInputStream(), fileName);
         if (logger.isInfoEnabled()) {
             logger.info("FileUploadController -- uploadFileAjax -- storageFile = {}", storageFile);
         }
 
         if (storageFile != null && storageFile.getFileId() != null) {
-            // 获取回显url
-            String url = storageService.getExpiryUrlById(storageFile.getFileId());
-            return BaseResult.success("上传成功!", url);
+            // 获取回显previewUrl
+            String previewUrl = storageService.getExpiryUrlById(storageFile.getFileId());
+
+            Map<String, String> resultMap = new HashMap<>();
+            resultMap.put("previewUrl", previewUrl);
+            resultMap.put("fileId", storageFile.getFileId());
+
+            return BaseResult.success("文件上传成功!", resultMap);
         } else {
-            return BaseResult.failure("上传失败!");
+            return BaseResult.failure("文件上传失败!");
         }
     }
 
