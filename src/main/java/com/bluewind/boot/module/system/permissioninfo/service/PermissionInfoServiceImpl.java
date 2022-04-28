@@ -1,10 +1,10 @@
 package com.bluewind.boot.module.system.permissioninfo.service;
 
+import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.module.system.permissioninfo.entity.LayuiTree;
 import com.bluewind.boot.module.system.permissioninfo.entity.PermissionInfo;
 import com.bluewind.boot.module.system.permissioninfo.mapper.PermissionInfoMapper;
 import com.bluewind.boot.module.system.permissioninfo.util.PermissionTreeUtil;
-import com.bluewind.boot.common.utils.JsonTool;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,42 +139,14 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
 
 
     /**
-     * 根据权限类型，获取权限列表
+     * 获取权限列表
      * @param type
      * @return
      */
     @Override
-    public String listPermissionByType(String type) {
-        Map<String, Object> resultMap = new HashMap<>();
-        List<LayuiTree> list = null;
-        if ("1".equals(type)) {
-            list = permissionInfoMapper.listPermissionByType1();
-            list.forEach(item -> {
-                if ("2".equals(item.getType())  || "3".equals(item.getType())) {
-                    item.setDisabled(true);
-                }
-            });
-        } else { // 如果是新增按钮权限
-            list = permissionInfoMapper.listPermissionByType2();
-            list.forEach(item -> {
-                if ("0".equals(item.getType()) || "1".equals(item.getType()) || "3".equals(item.getType())) {
-                    item.setDisabled(true);
-                }
-            });
-        }
-
-        if (null == list || list.isEmpty()) {
-            resultMap.put("data", null);
-            resultMap.put("code", 0);
-            resultMap.put("msg", "");
-            return JsonTool.toJsonString(resultMap);
-        }
-
-        List<LayuiTree> resultList = PermissionTreeUtil.toTree(list, "0");
-        resultMap.put("data", resultList);
-        resultMap.put("code", 0);
-        resultMap.put("msg", "");
-        return JsonTool.toJsonString(resultMap);
+    public List<Map<String, Object>> listPermission() {
+        List<Map<String, Object>> list = permissionInfoMapper.listPermission();
+        return list;
     }
 
 

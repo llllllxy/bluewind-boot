@@ -3,6 +3,7 @@ package com.bluewind.boot.module.system.permissioninfo.service;
 import com.bluewind.boot.module.system.permissioninfo.entity.PermissionInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuxingyu01
@@ -46,11 +47,10 @@ public interface PermissionInfoService {
     int delete(String permissionId);
 
     /**
-     * 根据权限类型，获取权限列表
-     * @param type
+     * 获取权限列表
      * @return
      */
-    String listPermissionByType(String type);
+    List<Map<String, Object>> listPermission();
 
     /**
      * 修改菜单顺序

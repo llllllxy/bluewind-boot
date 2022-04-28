@@ -7,6 +7,10 @@
     <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
     <link rel="stylesheet" th:href="@{/lib/font-awesome-4.7.0/css/font-awesome.min.css}" media="all">
+    <!-- 引入 dtree 相关资源 -->
+    <link rel="stylesheet" th:href="@{/js/lay-module/dtree/dtree.css}">
+    <link rel="stylesheet" th:href="@{/js/lay-module/dtree/font/dtreefont.css}">
+
     <style>
         .layui-form-item .layui-input-company {
             width: auto;
@@ -35,9 +39,8 @@
             <div class="layui-form-item" id="uppermenu_div">
                 <label class="layui-form-label">上级目录</label>
                 <div class="layui-input-block">
-                    <input type="hidden" name="uppermenuValue" id="uppermenuValue"/>
-                    <div id="demo1" class="xm-select-demo" style="display:none;"></div>
-                    <div id="demo2" class="xm-select-demo" style="display:none;"></div>
+                    <!-- 如果需要指定初始值，添加：data-value="" -->
+                    <ul id="menuTree" class="dtree" data-id="0"></ul>
                 </div>
             </div>
 
@@ -112,19 +115,15 @@
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
-<script th:src="@{/lib/xm-select-v1.2.2/xm-select.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form', 'iconPickerFa'], function () {
+    layui.use(['form', 'iconPickerFa', 'dtree'], function () {
         var form = layui.form,
             layer = layui.layer,
+            dtree = layui.dtree,
             iconPickerFa = layui.iconPickerFa;
-
-        var demo1;
-        var demo2;
-
 
         // 一进来默认选择的是模块
         $('#uppermenu_div').hide(); // 隐藏上级菜单
@@ -146,10 +145,6 @@
                 $('#sort_div').show(); // 显示排序
                 $('#descript_div').show(); // 显示描述
 
-                // 把树隐藏
-                $("#demo1").hide();
-                $("#demo2").hide();
-
             } else if (1 == value) { // 目录
 
                 $('#uppermenu_div').show();
@@ -162,10 +157,6 @@
                 $('#sort_div').show();
                 $('#descript_div').show();
 
-                // 把树隐藏
-                $("#demo1").show();
-                $("#demo2").hide();
-
             } else if (2 == value) { // 功能
 
                 $('#uppermenu_div').show();
@@ -177,11 +168,6 @@
                 $('#icon_div').show();
                 $('#sort_div').show();
                 $('#descript_div').show();
-
-                // 把树隐藏
-                $("#demo1").show();
-                $("#demo2").hide();
-
             } else if (3 == value) { // 按钮权限
 
                 $('#uppermenu_div').show();
@@ -193,90 +179,31 @@
                 $('#sign_div').show();
                 $('#sort_div').show();
                 $('#descript_div').show();
-
-                // 把树隐藏
-                $("#demo1").hide();
-                $("#demo2").show();
-
             }
         });
 
 
-        var index = layer.load(0, {shade: 0.1});
-        Util.get({
-            url: Util.ctx + 'permission/listPermissionByType/' + '1',
-            success: function (res) {
-                layer.close(index);
-                demo1 = xmSelect.render({
-                    el: '#demo1',
-                    tips: '请选择上级菜单',
-                    model: { label: { type: 'text' } },
-                    height: 'auto',
-                    clickClose: true,
-                    radio: true,
-                    data: res.data,
-                    theme: {
-                        color:'#1E9FFF'
-                    },
-                    tree: {
-                        show: true,
-                        strict: false,
-                        expandedKeys: false, //默认展开节点
-                        clickExpand: true, // 点击节点是否展开
-                        clickCheck: false, // 点击节点是否选中
-                    },
-                    //处理方式
-                    on: function(data) {
-                        if (data.isAdd) {
-                            console.log("选中：" + data.change.slice(0, 1)[0].value);
-                            // 赋值给上级菜单input框
-                            $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
-                            return data.change.slice(0, 1);
-                        }
-                    },
-                });
-            },
-            error: function (error) {
-                layer.close(index);
-                Message.error('获取上级菜单信息失败！', 1000);
-            }
-        });
-
-
-        Util.get({
-            url: Util.ctx + 'permission/listPermissionByType/' + '2',
-            success: function (res) {
-                demo2 = xmSelect.render({
-                    el: '#demo2',
-                    tips: '请选择上级菜单',
-                    model: { label: { type: 'text' } },
-                    height: 'auto',
-                    radio: true,
-                    clickClose: true,
-                    data: res.data,
-                    theme: {
-                        color:'#1E9FFF'
-                    },
-                    tree: {
-                        show: true,
-                        strict: false,
-                        expandedKeys: false, //默认展开节点
-                        clickExpand: true, // 点击节点是否展开
-                        clickCheck: false, // 点击节点是否选中
-                    },
-                    //处理方式
-                    on: function(data) {
-                        if (data.isAdd) {
-                            console.log("选中：" + data.change.slice(0, 1)[0].value);
-                            // 赋值给上级菜单input框
-                            $("#uppermenuValue").val(data.change.slice(0, 1)[0].value);
-                            return data.change.slice(0, 1);
-                        }
-                    },
-                });
-            },
-            error: function (error) {
-                Message.error('获取上级菜单信息失败！', 1000);
+        // 渲染树状菜单选择器
+        dtree.render({
+            elem: "#menuTree",              // 绑定的菜单
+            width: "100%",                  // 宽度百分百
+            select: true,                   // 指定下拉树模式
+            url: Util.ctx + "permission/listPermission",   // 请求的URL
+            none: "请选择菜单类型",
+            method: "GET",                  // 请求方式
+            dataStyle: "layuiStyle",        // 使用layui风格的数据格式
+            dataFormat: "list",             // 配置data的风格为list
+            response: {message: "message", statusCode: 0},  //修改response中返回数据的定义，消息主键为message，成功代码为0
+            selectCardHeight: "350",        // 卡片高度
+            line: true,                     // 开启连接线
+            ficon: ["1", "-1"],             // 修改一级图标样式（展开与否的按钮，最后一级不显示）
+            icon: "7",                      // 修改二级图标样式
+            highlightCurrent: true,         // 是否高亮当前选中节点，默认值是 false。
+            accordion: false,                // 开启手风琴
+            initLevel: 1,                    // 默认展开层级，默认为2，
+            selectInputName: {              // 给隐藏的表单输入框指定名称
+                nodeId: "parentId",         // 上级菜单的input的name
+                context: "parentName"
             }
         });
 
@@ -298,21 +225,21 @@
         // 监听提交
         form.on('submit(saveBtn)', function (res) {
             var data = res.field;
+            console.log("data.parentId = " + data.parentId);
             // 模块
             if(0 == data.type) {
 
             }
             // 目录
             else if(1 == data.type){
-                console.log("data.uppermenuValue = " + data.uppermenuValue);
-                if(!data.uppermenuValue){
+                if(!data.parentId){
                     Message.warning("请选择上级菜单!", 500);
                     return false;
                 }
             }
             // 功能
             else if(2 == data.type){
-                if(!data.uppermenuValue){
+                if(!data.parentId){
                     Message.warning("请选择上级菜单!", 500);
                     return false;
                 }
@@ -323,7 +250,7 @@
             }
             // 按钮权限
             else if(3 == data.type){
-                if(!data.uppermenuValue){
+                if(!data.parentId){
                     Message.warning("请选择上级菜单!", 500);
                     return false;
                 }
@@ -363,6 +290,12 @@
         $("button[lay-filter='cancleBtn']").click(function(){
             var iframeIndex = parent.layer.getFrameIndex(window.name);
             parent.layer.close(iframeIndex);
+        });
+
+        // 点击任何地方关闭下拉树
+        $("body").on("click", function (event) {
+            $("div[dtree-id][dtree-select]").removeClass("layui-form-selected");
+            $("div[dtree-id][dtree-card]").removeClass("dtree-select-show layui-anim layui-anim-upbit");
         });
     });
 </script>

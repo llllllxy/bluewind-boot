@@ -1,11 +1,11 @@
 package com.bluewind.boot.module.system.permissioninfo.controller;
 
+import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.utils.DictUtils;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.permissioninfo.entity.PermissionInfo;
 import com.bluewind.boot.module.system.permissioninfo.service.PermissionInfoService;
-import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.utils.DictUtils;
-import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,17 +122,15 @@ public class PermissionInfoController extends BaseController {
 
 
     /**
-     * 根据角色roleId查询菜单权限树
-     * @param type
+     * 获取菜单列表
      * @return
      */
-    @RequestMapping(value = "listPermissionByType/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/listPermission", method = RequestMethod.GET)
     @ResponseBody
-    public String listPermissionByType(@PathVariable String type) {
-        return permissionInfoService.listPermissionByType(type);
+    public BaseResult listPermission() {
+        List<Map<String, Object>> result = permissionInfoService.listPermission();
+        return BaseResult.success("获取菜单列表成功!", result);
     }
-
-
 
     /**
      * 更改菜单顺序
@@ -164,7 +162,7 @@ public class PermissionInfoController extends BaseController {
     public BaseResult doAdd(@RequestParam("type") String type,
                             @RequestParam("name") String name,
                             @RequestParam("sign") String sign,
-                            @RequestParam(required = false, defaultValue = "", value = "uppermenuValue") String uppermenuValue,
+                            @RequestParam(required = false, defaultValue = "", value = "parentId") String parentId,
                             @RequestParam(required = false, defaultValue = "", value = "href") String href,
                             @RequestParam(required = false, defaultValue = "", value = "target") String target,
                             @RequestParam(required = false, defaultValue = "", value = "icon") String icon,
@@ -172,13 +170,13 @@ public class PermissionInfoController extends BaseController {
                             @RequestParam("sort") Integer sort) {
         PermissionInfo permissionInfo = new PermissionInfo();
         // 新增模块
-        if (StringUtils.isBlank(uppermenuValue)) {
-            uppermenuValue = "0";
+        if (StringUtils.isBlank(parentId)) {
+            parentId = "0";
         }
         permissionInfo.setName(name);
         permissionInfo.setType(type);
         permissionInfo.setSign(sign);
-        permissionInfo.setParentId(uppermenuValue);
+        permissionInfo.setParentId(parentId);
         permissionInfo.setPermissionId(IdGenerate.nextId());
         permissionInfo.setSort(sort);
         permissionInfo.setHref(href);

@@ -5,6 +5,7 @@ import com.bluewind.boot.module.system.permissioninfo.entity.PermissionInfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuxingyu01
@@ -61,13 +62,8 @@ public interface PermissionInfoMapper {
      * 根据权限类型，获取权限列表
      * @return
      */
-    List<LayuiTree> listPermissionByType1();
+    List<Map<String, Object>> listPermission();
 
-    /**
-     * 根据权限类型，获取权限列表
-     * @return
-     */
-    List<LayuiTree> listPermissionByType2();
 
 
     /**
