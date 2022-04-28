@@ -201,15 +201,12 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'roleinfo/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
             }
         });
@@ -226,15 +223,12 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'roleinfo/update/' + data.roleId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'delete') {
@@ -264,15 +258,12 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'roleinfo/authorize/' + data.roleId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'forbid') {
