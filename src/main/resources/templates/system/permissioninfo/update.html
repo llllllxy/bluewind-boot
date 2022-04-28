@@ -242,7 +242,9 @@
             }
 
             if (!!data.icon) {
-                data.icon = 'fa ' + data.icon;
+                if (!data.icon.startWith('fa ')) {
+                    data.icon = 'fa ' + data.icon;
+                }
             } else {
                 data.icon = 'fa fa-home'; // 如果不选择，则设置为默认的
             }
