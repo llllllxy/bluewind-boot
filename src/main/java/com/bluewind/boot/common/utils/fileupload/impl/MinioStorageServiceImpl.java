@@ -40,30 +40,28 @@ public class MinioStorageServiceImpl implements StorageService {
     private MinioProperties minioProperties;
 
     /**
-     * 创建bucket
+     * 获取MinioClient
      *
-     * @param bucket bucket名称
      * @return
      * @throws Exception
      */
-    public MinioClient getMinioClient(String bucket) throws Exception {
+    public MinioClient getMinioClient() throws Exception {
         MinioClient minioClient = null;
         if (StringUtils.isBlank(defaultBucket)) {
             defaultBucket = minioProperties.getBucket();
         }
 
-        if (StringUtils.isNotBlank(minioProperties.getEndpoint()) && StringUtils.isNotBlank(minioProperties.getAccesskey()) && StringUtils.isNotBlank(minioProperties.getSecretKey())) {
+        if (StringUtils.isNotBlank(minioProperties.getEndpoint())
+                && StringUtils.isNotBlank(minioProperties.getAccessKey())
+                && StringUtils.isNotBlank(minioProperties.getSecretKey())) {
             minioClient = MinioClient.builder()
                     .endpoint(minioProperties.getEndpoint())
-                    .credentials(minioProperties.getAccesskey(), minioProperties.getSecretKey())
+                    .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
                     .build();
-            if (StringUtils.isBlank(bucket)) {
-                bucket = defaultBucket;
-            }
             // 检查存储桶是否已经存在
-            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build());
+            boolean isExist = minioClient.bucketExists(BucketExistsArgs.builder().bucket(defaultBucket).build());
             if (!isExist) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(defaultBucket).build());
             }
         }
         return minioClient;
@@ -80,7 +78,7 @@ public class MinioStorageServiceImpl implements StorageService {
     public StorageStreamFile findById(String fileId) {
         StorageStreamFile storageStreamFile = null;
         try {
-            MinioClient minioClient = getMinioClient(null);
+            MinioClient minioClient = getMinioClient();
             // 获取文件信息
             StatObjectResponse statObjectResponse = minioClient.statObject(
                     StatObjectArgs.builder()
@@ -152,7 +150,7 @@ public class MinioStorageServiceImpl implements StorageService {
     private StorageFile store(String fileId, InputStream inputStream, String fileName, String contentType, Map<String, String> metaData) {
         StorageFile storageFile = null;
         try {
-            MinioClient minioClient = getMinioClient(null);
+            MinioClient minioClient = getMinioClient();
             if (contentType == null) {
                 contentType = "application/octet-stream";
             }
@@ -218,7 +216,7 @@ public class MinioStorageServiceImpl implements StorageService {
             return "";
         }
         try {
-            MinioClient minioClient = getMinioClient(null);
+            MinioClient minioClient = getMinioClient();
             return minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
                             .method(Method.GET)
@@ -243,7 +241,7 @@ public class MinioStorageServiceImpl implements StorageService {
     @Override
     public String getExpiryUrlById(String fileId) {
         try {
-            MinioClient minioClient = getMinioClient(null);
+            MinioClient minioClient = getMinioClient();
             return minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
                             .method(Method.GET)
@@ -268,7 +266,7 @@ public class MinioStorageServiceImpl implements StorageService {
     @Override
     public void deleteById(String fileId) {
         try {
-            MinioClient minioClient = getMinioClient(null);
+            MinioClient minioClient = getMinioClient();
             minioClient.removeObject(
                     RemoveObjectArgs.builder()
                             .bucket(defaultBucket)

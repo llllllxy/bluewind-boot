@@ -47,7 +47,8 @@ public class OssStorageServiceImpl implements StorageService {
         conf.setMaxConnections(200);
         // 设置Socket层传输数据的超时时间，默认为50000毫秒。
         conf.setSocketTimeout(10000);
-        return new OSSClientBuilder().build(ossProperties.getEndPoint(), ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret(), conf);
+        return new OSSClientBuilder().build(ossProperties.getEndPoint(), ossProperties.getAccessKeyId(),
+                ossProperties.getAccessKeySecret(), conf);
     }
 
 

@@ -18,7 +18,7 @@ public class MinioProperties {
     /**
      * 用户名
      */
-    private String accesskey;
+    private String accessKey;
     /**
      * 密码
      */
@@ -36,12 +36,12 @@ public class MinioProperties {
         this.endpoint = endpoint;
     }
 
-    public String getAccesskey() {
-        return accesskey;
+    public String getAccessKey() {
+        return accessKey;
     }
 
-    public void setAccesskey(String accesskey) {
-        this.accesskey = accesskey;
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
     }
 
     public String getSecretKey() {

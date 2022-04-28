@@ -217,7 +217,7 @@ oss:
 # minio对象存储配置信息
 minio:
   endpoint: http://127.0.0.1:9091
-  accesskey: minioadmin
+  accessKey: minioadmin
   secretKey: minio1234
   bucket: mini-bucket
 
