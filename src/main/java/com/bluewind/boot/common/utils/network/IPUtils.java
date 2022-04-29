@@ -32,7 +32,7 @@ public class IPUtils {
             if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
             }
-            if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
+            if (StringUtils.isEmpty(ip) || "127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
                 // 根据网卡取本机配置的IP
                 ip = InetAddress.getLocalHost().getHostAddress();
             }
