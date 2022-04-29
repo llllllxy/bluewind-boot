@@ -71,39 +71,90 @@
         </fieldset>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
 
-        <script type="text/html" id="statusTpl">
-            {{#
-                if (d.status == '0') {
-                    return '<span class="layui-badge layui-bg-blue">成功</span>';
-                } else {
-                    return '<span class="layui-badge layui-bg-orange">失败</span>';
-                }
-            }}
-        </script>
+<script type="text/html" id="statusTpl">
+    {{#
+    if (d.status == '0') {
+        return '<span class="layui-badge layui-bg-blue">成功</span>';
+    } else {
+        return '<span class="layui-badge layui-bg-orange">失败</span>';
+    }
+    }}
+</script>
 
-        <script type="text/html" id="toolbarLeft">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete">
-                    <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>批量删除
-                </button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="emptyLog">
-                    <i class="layui-icon layui-icon-close" style="font-size: 10px;"></i>清空日志
-                </button>
+<script type="text/html" id="toolbarLeft">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="batchDelete">
+            <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>批量删除
+        </button>
+        <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="emptyLog">
+            <i class="layui-icon layui-icon-close" style="font-size: 10px;"></i>清空日志
+        </button>
+    </div>
+</script>
+
+<!--表格每行末尾的操作按钮-->
+<script type="text/html" id="toolbarDetails">
+    <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
+</script>
+
+<!-- 点击行末【详情】后的弹窗内容 -->
+<div id="dom_login_details" style="display: none;">
+    <div class="layuimini-main">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>登陆IP：</b></label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid" id="logIp"></div>
             </div>
-        </script>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>登录账户：</b></label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid" id="logAccount"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>登录描述：</b></label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid" id="logDescript"></div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>登录状态：</b></label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid" id="logStatus"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>登录时间：</b></label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid" id="logTime"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>登录位置：</b></label>
+            <div class="layui-input-block">
+                <div class="layui-form-mid" id="logLocation"></div>
+            </div>
+        </div>
 
     </div>
 </div>
+
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form', 'table', 'laydate'], function () {
+    layui.use(['form', 'table', 'laydate', 'layer'], function () {
         var form = layui.form,
             laydate = layui.laydate,
+            layer= layui.layer,
             table = layui.table;
 
         // 执行一个laydate实例
@@ -140,7 +191,8 @@
                     {field: 'descript', width: '20%',title: '登录描述'},
                     {field: 'status', width: '8%', title: '登陆状态', templet: '#statusTpl', sort: true, align: 'center'},
                     {field: 'createTime', width: '15%', title: '登录时间', sort: true},
-                    {field: 'location', width: '18%', title: '登录位置'}
+                    {field: 'location', width: '18%', title: '登录位置'},
+                    {fixed: 'right', width: 95 ,title: '操作', align: 'center', toolbar: '#toolbarDetails'}
                 ]
             ],
             autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
@@ -206,7 +258,7 @@
 
 
         /**
-         * toolbar监听事件
+         * 【头部按钮】监听头部按钮
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'emptyLog') {  // 监听清空日志操作
@@ -258,6 +310,39 @@
                     });
                 });
                 // layer.alert(JSON.stringify(data));
+            }
+        });
+
+
+        // 【行末操作】监听表格行末按钮
+        table.on('tool(currentTableFilter)', function (obj) {
+            let data = obj.data;
+            let layEvent = obj.event;
+            switch (layEvent) {
+                // 【详情】按钮
+                case "details":
+                    layer.open({
+                        type: 1,
+                        shade: 0.2,
+                        title: '登录日志详情',
+                        skin: 'layui-layer-prompt',
+                        shadeClose: true,
+                        area: ['600px', '450px'],
+                        content: $("#dom_login_details"),
+                        success: function (layero, index) {
+                            document.querySelector("#logIp").innerHTML = data.ip
+                            document.querySelector("#logAccount").innerHTML = data.account
+                            document.querySelector("#logDescript").innerHTML = data.descript
+                            document.querySelector("#logTime").innerHTML = data.createTime
+                            document.querySelector("#logLocation").innerHTML = data.location
+                            if (data.status == '0') {
+                                document.querySelector("#logStatus").innerHTML = '<span class="layui-badge layui-bg-blue">成功</span>'
+                            } else {
+                                document.querySelector("#logStatus").innerHTML = '<span class="layui-badge layui-bg-orange">失败</span>'
+                            }
+                        }
+                    });
+                    break;
             }
         });
     });

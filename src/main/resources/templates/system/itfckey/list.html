@@ -79,12 +79,7 @@
                     <i class="layui-icon layui-icon-play" style="font-size: 10px;"></i>启用
                 </a>
             {{#  } }}
-            <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="authorize">
-                <i class="layui-icon layui-icon-set" style="font-size: 10px;"></i>授权
-            </a>
-            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">
-                <i class="layui-icon layui-icon-delete" style="font-size: 10px;"></i>删除
-            </a>
+            <a class="layui-btn layui-btn-xs" lay-event="more">更多<i class="layui-icon layui-icon-down"></i></a>
         </script>
 
         <script type="text/html" id="statusTpl">
@@ -98,7 +93,6 @@
         <script type="text/html" id="itfcKeyTpl">
             <a href="javascript:;" class="layui-table-link" style="text-decoration:underline;" lay-event="detail">{{ d.itfcKey }}</a>
         </script>
-
     </div>
 </div>
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
@@ -107,9 +101,10 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
-    layui.use(['form', 'table'], function () {
+    layui.use(['form', 'table', 'dropdown'], function () {
         var $ = layui.jquery,
             form = layui.form,
+            dropdown = layui.dropdown,
             table = layui.table;
 
         var currTable = table.render({
@@ -130,9 +125,9 @@
                     {field: 'owner', width: '10%', title: '使用方', sort: true, align: 'center'},
                     {field: 'validPeriod', width: '10%', title: '有效期', sort: true, align: 'center'},
                     {field: 'descript', width: '15%', title: '描述', minWidth: 80},
-                    {field: 'status', width: '8%', title: '状态', templet: '#statusTpl', sort: true, align: 'center'},
+                    {field: 'status', width: '10%', title: '状态', templet: '#statusTpl', sort: true, align: 'center'},
                     {field: 'createTime', width: '15%', title: '创建时间', sort: true, align: 'center'},
-                    {title: '操作', width: '25%', toolbar: '#currentTableBar', align: 'center', fixed: 'right'}
+                    {title: '操作', width: '20%', toolbar: '#currentTableBar', align: 'center', fixed: 'right'}
                 ]
             ],
             autoSort: false, //禁用前端自动排序。注意：该参数为 layui 2.4.4 新增
@@ -229,6 +224,7 @@
 
         // 监听行工具事件
         table.on('tool(currentTableFilter)', function (obj) {
+            let that = this;
             var data = obj.data;
             console.log(data);
             if (obj.event === 'edit') {
@@ -249,42 +245,51 @@
                     layer.full(index);
                 });
                 return false;
-            } else if (obj.event === 'delete') {
-                layer.confirm('确定删除该密钥吗？', function (index) {
-                    layer.close(index);
-                    Util.get({
-                        url: Util.ctx + "itfckey/delete/" + data.id + "/" + data.itfcKey,
-                        success: function (res) {
-                            // obj.del(); 删除该行
-                            if (res.code === 0) {
-                                Message.success(1000, res.message, function () {
+            } else if (obj.event === 'more') {
+                dropdown.render({       // 下拉菜单
+                    elem: that,
+                    show: true,
+                    data: [
+                        {title: '密钥授权', id: 'authorize'},
+                        {title: '<a style="color: red">删除</a>', id: 'delete'}],
+                    click: function (d, othis) {
+                        // 【密钥授权】
+                        if (d.id === 'authorize') {
+                            var index = layer.open({
+                                title: '密钥授权',
+                                type: 2,
+                                shade: 0.2,
+                                maxmin: true,
+                                shadeClose: true,
+                                area: [layerwidth + 'px', layerheight + 'px'],
+                                content: Util.ctx + '/itfckey/forAuthorize/' + data.id,
+                                end: function (index) {
                                     // 重载表格
                                     currTable.reload();
-                                });
-                            } else {
-                                Message.error(res.message, 1000);
-                            }
+                                }
+                            });
                         }
-                    });
-                });
-                return false;
-            } else if (obj.event === 'authorize') {
-
-                var index = layer.open({
-                    title: '密钥授权',
-                    type: 2,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + '/itfckey/forAuthorize/' + data.id,
-                    end: function (index) {
-                        // 重载表格
-                        currTable.reload();
+                        // 【删除】
+                        else if (d.id === 'delete') {
+                            layer.confirm('确定删除该密钥吗？', function (index) {
+                                layer.close(index);
+                                Util.get({
+                                    url: Util.ctx + "itfckey/delete/" + data.id + "/" + data.itfcKey,
+                                    success: function (res) {
+                                        // obj.del(); 删除该行
+                                        if (res.code === 0) {
+                                            Message.success(1000, res.message, function () {
+                                                // 重载表格
+                                                currTable.reload();
+                                            });
+                                        } else {
+                                            Message.error(res.message, 1000);
+                                        }
+                                    }
+                                });
+                            });
+                        }
                     }
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'forbid') {
