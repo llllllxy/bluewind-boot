@@ -1,13 +1,13 @@
 package com.bluewind.boot.module.system.loginlog.controller;
 
+import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.module.system.loginlog.entity.LoginLog;
+import com.bluewind.boot.module.system.loginlog.service.LoginLogService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.utils.DictUtils;
-import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.module.system.loginlog.service.LoginLogService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +65,8 @@ public class LoginLogController extends BaseController {
                            @RequestParam("limit") Integer pageSize,
                            @RequestParam(required = false, defaultValue = "", value = "account") String account,
                            @RequestParam(required = false, defaultValue = "", value = "status") String status,
-                           @RequestParam(required = false, defaultValue = "", value = "createTime") String createTime,
+                           @RequestParam(required = false, defaultValue = "", value = "startTime") String startTime,
+                           @RequestParam(required = false, defaultValue = "", value = "endTime") String endTime,
                            @RequestParam(required = false, defaultValue = "", value = "sortName") String sortName,
                            @RequestParam(required = false, defaultValue = "", value = "sortOrder") String sortOrder) {
 
@@ -81,7 +82,8 @@ public class LoginLogController extends BaseController {
         paraMap.put("status", status);
         paraMap.put("sortName", sortName);
         paraMap.put("sortOrder", sortOrder);
-        paraMap.put("createTime", createTime);
+        paraMap.put("endTime", endTime);
+        paraMap.put("startTime", startTime);
 
         List<LoginLog> accounts = loginLogService.list(paraMap);
 

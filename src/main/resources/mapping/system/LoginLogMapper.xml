@@ -23,8 +23,11 @@
         <if test="status != null and status != ''">
             and status = #{status}
         </if>
-        <if test="createTime != null and createTime != ''">
-            and create_time like CONCAT('%',#{createTime},'%')
+        <if test="startTime != null and startTime != ''">
+            and create_time <![CDATA[>]]> #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and create_time <![CDATA[<]]> #{endTime}
         </if>
         <choose>
             <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">

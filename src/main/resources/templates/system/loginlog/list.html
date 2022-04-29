@@ -50,8 +50,13 @@
 
                         <div class="layui-inline">
                             <label class="layui-form-label">登录时间：</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="createTime" id="createTime" autocomplete="off" class="layui-input">
+                            <div class="layui-input-inline" style="width: 150px">
+                                <input type="text" name="startTime" id="startTime" autocomplete="off" placeholder="选择开始时间" class="layui-input" readonly>
+                                <i class="layui-icon layui-icon-date"></i>
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 150px">
+                                <input type="text" name="endTime" id="endTime" autocomplete="off" placeholder="选择结束时间" class="layui-input" readonly>
                                 <i class="layui-icon layui-icon-date"></i>
                             </div>
                         </div>
@@ -103,7 +108,14 @@
 
         // 执行一个laydate实例
         laydate.render({
-            elem: '#createTime' //指定元素
+            elem: '#startTime' //指定元素
+            , eventElem: '.layui-icon-date'
+            , trigger: 'click'
+        });
+
+        // 执行一个laydate实例
+        laydate.render({
+            elem: '#endTime' //指定元素
             , eventElem: '.layui-icon-date'
             , trigger: 'click'
         });
@@ -119,7 +131,7 @@
                 [
                     {type: "checkbox", width: '5%', fixed: 'left'},
                     {
-                        field: '', width: '8%', title: '序号', type: 'numbers', templet: function (d) {
+                        field: '', width: '4%', title: '序号', type: 'numbers', templet: function (d) {
                             return d.LAY_TABLE_INDEX + 1;
                         }
                     },
@@ -153,11 +165,7 @@
                 page: {
                     curr: 1 // 页码从1开始
                 },
-                where: {
-                    account: data.field.account,
-                    status: data.field.status,
-                    createTime: data.field.createTime
-                }
+                where: form.val("search-form")
             });
             return false;
         });
@@ -167,7 +175,8 @@
             form.val("search-form", {
                 "account": '',
                 "status": '',
-                "createTime": ''
+                "startTime": '',
+                "endTime": ''
             });
             // 执行搜索重载
             currTable.reload({
