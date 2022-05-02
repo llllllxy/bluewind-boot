@@ -2,11 +2,11 @@ package com.bluewind.boot.common.aspect;
 
 import com.bluewind.boot.common.annotation.RequestLimit;
 import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.consts.SystemConst;
-import com.bluewind.boot.common.utils.network.IPUtils;
-import com.bluewind.boot.common.utils.RedisUtil;
-import com.bluewind.boot.common.utils.web.CookieUtils;
 import com.bluewind.boot.common.config.security.JwtTokenUtil;
+import com.bluewind.boot.common.consts.SystemConst;
+import com.bluewind.boot.common.utils.RedisUtil;
+import com.bluewind.boot.common.utils.network.IPUtils;
+import com.bluewind.boot.common.utils.web.CookieUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -135,7 +135,7 @@ public class RequestLimitAspect {
         PrintWriter out = response.getWriter();
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=utf-8");
-        out.println("{\"code\":" + BaseResult.CODE_LIMIT + ",\"msg\":\"您的访问速度过快，请稍后再试!\"}");
+        out.println("{\"code\":" + BaseResult.CODE_LIMIT + ",\"msg\":\"您的访问速度过快，请稍后再试!\",\"message\":\"您的访问速度过快，请稍后再试!\"}");
         out.flush();
         out.close();
         return null;
