@@ -68,20 +68,32 @@
     </delete>
 
     <insert id="doAdd" parameterType="com.bluewind.boot.module.system.userinfo.entity.UserInfo">
-        insert into sys_user_info (user_id,account,password,name,dept_id,phone,email,avatar,sex,status,del_flag,create_user)
-        values (
-            #{userId},
-            #{account},
-            #{password},
-            #{name},
-            #{deptId},
-            #{phone},
-            #{email},
-            #{avatar},
-            #{sex},
-            #{status},
-            #{delFlag},
-            #{createUser}
+        insert into sys_user_info (
+        <if test="name != null and name != ''">name,</if>
+        <if test="deptId != null and deptId != ''">dept_id,</if>
+        <if test="phone != null and phone != ''">phone,</if>
+        <if test="email != null and email != ''">email,</if>
+        <if test="avatar != null and avatar != ''">avatar,</if>
+        <if test="sex != null and sex != ''">sex,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="delFlag != null and delFlag != ''">del_flag,</if>
+        <if test="createUser != null and createUser != ''">create_user,</if>
+        user_id,
+        account,
+        password
+        ) values (
+        <if test="name != null and name != ''">#{name},</if>
+        <if test="deptId != null and deptId != ''">#{deptId},</if>
+        <if test="phone != null and phone != ''">#{phone},</if>
+        <if test="email != null and email != ''">#{email},</if>
+        <if test="avatar != null and avatar != ''">#{avatar},</if>
+        <if test="sex != null and sex != ''">#{sex},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+        <if test="createUser != null and createUser != ''">#{createUser},</if>
+        #{userId},
+        #{account},
+        #{password}
         )
     </insert>
 
