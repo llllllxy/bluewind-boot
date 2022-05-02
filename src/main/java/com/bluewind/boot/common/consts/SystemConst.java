@@ -76,4 +76,9 @@ public final class SystemConst {
      * 字典信息
      */
     public static final String SYS_DICT = "bluewind:dict";
+
+    /**
+     * 注册邮箱验证码信息
+     */
+    public static final String SYSTEM_REGISTER_EMAILCODE = "bluewind:register:code";
 }
