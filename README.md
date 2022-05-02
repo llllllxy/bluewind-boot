@@ -75,6 +75,7 @@ Itfc服务管理
 
 ### 页面展示
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194325_04527e94_5304908.png "登陆20210928190004.png")
+![注册](src/main/resources/static/images/readme/注册.png)
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194411_0de6e6c6_5304908.png "行为验证码20210928190124.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194428_1d3201e2_5304908.png "用户管理20210928190218.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194448_72e9ee18_5304908.png "角色管理20210928190248.png")
