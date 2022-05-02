@@ -1,12 +1,12 @@
 package com.bluewind.boot.module.system.index.service;
 
 import com.bluewind.boot.common.config.security.SecurityUtil;
-import com.bluewind.boot.module.system.index.mapper.IndexMapper;
 import com.bluewind.boot.common.utils.lang.StringUtils;
-import com.bluewind.boot.module.system.index.util.MenuTreeUtil;
-import com.bluewind.boot.module.system.index.vo.MenuVo;
 import com.bluewind.boot.module.system.config.entity.Config;
 import com.bluewind.boot.module.system.config.service.ConfigService;
+import com.bluewind.boot.module.system.index.mapper.IndexMapper;
+import com.bluewind.boot.module.system.index.util.MenuTreeUtil;
+import com.bluewind.boot.module.system.index.vo.MenuVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,10 +82,12 @@ public class IndexService {
                 }
             }
         } else {
-            Map<String, Object> returnMap = new HashMap<>();
-            returnMap.put("code", -1);
-            returnMap.put("message", "用户信息异常");
-            return returnMap;
+            // 此处修改是为了避免用户首次注册时，因为无菜单信息，进不去首页的情况。
+            // Map<String, Object> returnMap = new HashMap<>();
+            // returnMap.put("code", -1);
+            // returnMap.put("message", "用户信息异常");
+            // return returnMap;
+            menuList = new ArrayList<>();
         }
 
 
