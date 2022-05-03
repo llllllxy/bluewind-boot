@@ -179,4 +179,37 @@ public class StorageUtil {
         return null;
     }
 
+
+    /**
+     * 获取文件外链（默认一小时）
+     *
+     * @param fileId 文件id
+     * @return url
+     */
+    public static String getExpiryUrlById(String fileId) {
+        try {
+            return getStorageService().getExpiryUrlById(fileId);
+        } catch (Exception e) {
+            logger.error("StorageUtil - 读取文件失败", e);
+        }
+        return null;
+    }
+
+
+    /**
+     * 获取文件外链，自定义时间，单位小时
+     *
+     * @param fileId 文件id
+     * @param expires 过期时间 单位小时
+     * @return url
+     */
+    public static String getExpiryUrlById(String fileId, Integer expires) {
+        try {
+            return getStorageService().getExpiryUrlById(fileId, expires);
+        } catch (Exception e) {
+            logger.error("StorageUtil - 读取文件失败", e);
+        }
+        return null;
+    }
+
 }
