@@ -141,6 +141,12 @@ md5.ByteMD5 = function (arr, Type) {
     }
 }
 
+/**
+ * md5加密 - 使用公共盐
+ * @param s 待加密的字符串
+ * @returns {string}
+ * @instructions let md5Str = md5.MD5(password);
+ */
 md5.MD5 = function (s) {
     s = "323@#@$1234da" + s;
     var len = s.length;
@@ -152,7 +158,13 @@ md5.MD5 = function (s) {
     return md5.ByteMD5(arr, 32);
 }
 
-
+/**
+ * md5加密- 自定义盐
+ * @param s 待加密的字符串
+ * @param salt 盐
+ * @returns {string}
+ * @instructions let md5Str = md5.MD5(password, salt);
+ */
 md5.MD5Salt = function (s, salt) {
     s = salt + s;
     var len = s.length;
