@@ -1,9 +1,9 @@
-package com.bluewind.boot.common.utils.fileupload.util;
+package com.bluewind.boot.common.utils.storage.util;
 
-import com.bluewind.boot.common.utils.fileupload.api.StorageService;
-import com.bluewind.boot.common.utils.fileupload.model.StorageFile;
-import com.bluewind.boot.common.utils.fileupload.model.StorageStreamFile;
 import com.bluewind.boot.common.utils.spring.SpringUtil;
+import com.bluewind.boot.common.utils.storage.api.StorageService;
+import com.bluewind.boot.common.utils.storage.model.StorageFile;
+import com.bluewind.boot.common.utils.storage.model.StorageStreamFile;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

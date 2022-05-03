@@ -1,13 +1,13 @@
-package com.bluewind.boot.common.utils.fileupload.impl;
+package com.bluewind.boot.common.utils.storage.impl;
 
 import com.bluewind.boot.common.utils.FileUtils;
 import com.bluewind.boot.common.utils.JsonTool;
-import com.bluewind.boot.common.utils.fileupload.api.StorageService;
-import com.bluewind.boot.common.utils.fileupload.model.StorageFile;
-import com.bluewind.boot.common.utils.fileupload.model.StorageStreamFile;
-import com.bluewind.boot.common.utils.fileupload.properties.MinioProperties;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.lang.StringUtils;
+import com.bluewind.boot.common.utils.storage.api.StorageService;
+import com.bluewind.boot.common.utils.storage.model.StorageFile;
+import com.bluewind.boot.common.utils.storage.model.StorageStreamFile;
+import com.bluewind.boot.common.utils.storage.properties.MinioProperties;
 import io.minio.*;
 import io.minio.http.Method;
 import okhttp3.Headers;

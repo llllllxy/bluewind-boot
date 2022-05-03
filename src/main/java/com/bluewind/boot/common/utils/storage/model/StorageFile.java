@@ -1,4 +1,4 @@
-package com.bluewind.boot.common.utils.fileupload.model;
+package com.bluewind.boot.common.utils.storage.model;
 
 import java.io.Serializable;
 import java.util.Date;

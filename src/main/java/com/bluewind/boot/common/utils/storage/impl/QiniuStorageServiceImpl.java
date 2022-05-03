@@ -1,12 +1,12 @@
-package com.bluewind.boot.common.utils.fileupload.impl;
+package com.bluewind.boot.common.utils.storage.impl;
 
 import com.bluewind.boot.common.utils.FileUtils;
 import com.bluewind.boot.common.utils.JsonTool;
-import com.bluewind.boot.common.utils.fileupload.api.StorageService;
-import com.bluewind.boot.common.utils.fileupload.model.StorageFile;
-import com.bluewind.boot.common.utils.fileupload.model.StorageStreamFile;
-import com.bluewind.boot.common.utils.fileupload.properties.QiniuProperties;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
+import com.bluewind.boot.common.utils.storage.api.StorageService;
+import com.bluewind.boot.common.utils.storage.model.StorageFile;
+import com.bluewind.boot.common.utils.storage.model.StorageStreamFile;
+import com.bluewind.boot.common.utils.storage.properties.QiniuProperties;
 import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
@@ -14,7 +14,6 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;

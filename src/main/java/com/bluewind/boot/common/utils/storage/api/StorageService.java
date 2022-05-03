@@ -1,7 +1,7 @@
-package com.bluewind.boot.common.utils.fileupload.api;
+package com.bluewind.boot.common.utils.storage.api;
 
-import com.bluewind.boot.common.utils.fileupload.model.StorageFile;
-import com.bluewind.boot.common.utils.fileupload.model.StorageStreamFile;
+import com.bluewind.boot.common.utils.storage.model.StorageFile;
+import com.bluewind.boot.common.utils.storage.model.StorageStreamFile;
 
 import java.io.InputStream;
 import java.util.Map;

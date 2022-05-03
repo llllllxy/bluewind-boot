@@ -1,4 +1,4 @@
-package com.bluewind.boot.common.utils.fileupload.properties;
+package com.bluewind.boot.common.utils.storage.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

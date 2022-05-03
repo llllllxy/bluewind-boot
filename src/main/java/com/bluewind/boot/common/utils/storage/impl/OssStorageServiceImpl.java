@@ -1,16 +1,16 @@
-package com.bluewind.boot.common.utils.fileupload.impl;
+package com.bluewind.boot.common.utils.storage.impl;
 
 import com.aliyun.oss.ClientBuilderConfiguration;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.*;
 import com.bluewind.boot.common.utils.FileUtils;
-import com.bluewind.boot.common.utils.fileupload.api.StorageService;
-import com.bluewind.boot.common.utils.fileupload.model.StorageFile;
-import com.bluewind.boot.common.utils.fileupload.model.StorageStreamFile;
-import com.bluewind.boot.common.utils.fileupload.properties.OssProperties;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.lang.StringUtils;
+import com.bluewind.boot.common.utils.storage.api.StorageService;
+import com.bluewind.boot.common.utils.storage.model.StorageFile;
+import com.bluewind.boot.common.utils.storage.model.StorageStreamFile;
+import com.bluewind.boot.common.utils.storage.properties.OssProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
