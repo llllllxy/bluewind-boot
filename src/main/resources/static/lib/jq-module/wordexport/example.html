@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>实例 - 测试导出网页为word</title>
+
+    <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="FileSaver.js"></script>
+    <script type="text/javascript" src="jquery.wordexport.js"></script>
+</head>
+<body>
+
+<button onclick="wordExport()">导出word</button>
+<div id="wordPreview" style="width: calc(100% - 280px); position: relative;">
+    <h2 style="text-align: center;">
+        隐患等级数量统计
+    </h2>
+    <div style="text-align: right;margin-right: 50px; font-size: 16px;font-style: italic">
+        <span style="color: blue;">线路</span>：线路1&nbsp;&nbsp;&nbsp;
+        <span style="color: blue;">时间</span>：2020-09-29 19:23:36
+    </div>
+</div>
+<script>
+    $(function () {
+
+
+
+    });
+
+    function wordExport() {
+        $("#wordPreview").wordExport("测试导出网页为word")
+    }
+</script>
+</body>
+</html>
