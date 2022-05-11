@@ -32,7 +32,11 @@ public class JacksonConfig {
     public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
 
-        // 让返回json数据中的Long类型转换为String（暂时用不到，先注释掉）
+        // 全局配置，让返回json数据中的Long类型转换为String（暂时用不到，先注释掉）
+        // 还有一种单独配置的方法，@JsonSerialize(using = ToStringSerializer.class)
+        //                      private Long id;
+        // 即在需要Long转String的字段上加上示例注解
+
         // SimpleModule simpleModule = new SimpleModule();
         // simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         // simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
