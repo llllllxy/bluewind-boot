@@ -29,13 +29,12 @@ public class KaptchaUtil {
 
 
     /**
-     * 验证码校验
+     * Kaptcha验证码校验
      *
      * @param
      * @return 正确:true/错误:false
      */
     public static boolean validate(String registerCode, String kaptchaKey) {
-
         if (StringUtils.isEmpty(registerCode)) {
             return false;
         }
