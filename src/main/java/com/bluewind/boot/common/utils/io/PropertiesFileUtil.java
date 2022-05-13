@@ -32,7 +32,7 @@ public class PropertiesFileUtil {
     /**
      * 默认资源文件名称
      */
-    private static final String NAME = "config";
+    private static final String NAME = "application";
     /**
      * 打开文件时间，判断超时使用
      */
