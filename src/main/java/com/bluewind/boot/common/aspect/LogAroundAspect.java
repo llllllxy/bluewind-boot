@@ -1,12 +1,12 @@
 package com.bluewind.boot.common.aspect;
 
 import com.bluewind.boot.common.annotation.LogAround;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 @Aspect
-public class LogAroundAspectAdvice {
+public class LogAroundAspect {
 
     @Around(value = "anyMethod() && @annotation(logAround)")
     public Object logAround(ProceedingJoinPoint jp, LogAround logAround) throws Throwable {
