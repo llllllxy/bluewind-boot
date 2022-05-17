@@ -6,8 +6,8 @@ package com.bluewind.boot.common.config.datasource;
  * @description 动态数据源上下文管理：设置数据源，获取数据源，清除数据源
  *
  * 使用方法：在执行数据库操作前加上
- *          RoutingDataSourceContext routingDataSourceContext = new RoutingDataSourceContext("slaveDataSource");
- *          执行完操作后记得关闭数据源，routingDataSourceContext.close();
+ *          RoutingDataSourceContext.setRoutingDataSource(DataSourceType.SLAVE.name());
+ *          执行完操作后记得关闭数据源，RoutingDataSourceContext.remove();
  **/
 public class RoutingDataSourceContext {
     // holds data source key in thread local:
