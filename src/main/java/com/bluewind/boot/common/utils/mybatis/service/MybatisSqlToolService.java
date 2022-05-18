@@ -15,7 +15,7 @@ public interface MybatisSqlToolService {
      *
      * @return
      */
-    List<Map> commonSelect(String value);
+    List<Map<String, Object>> commonSelect(String value);
 
     /**
      * 通用插入

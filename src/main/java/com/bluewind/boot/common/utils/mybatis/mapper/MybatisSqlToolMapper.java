@@ -18,7 +18,7 @@ public interface MybatisSqlToolMapper {
      *
      * @return
      */
-    List<Map> commonSelect(@Param("value") String value);
+    List<Map<String, Object>> commonSelect(@Param("value") String value);
 
     /**
      * 通用插入

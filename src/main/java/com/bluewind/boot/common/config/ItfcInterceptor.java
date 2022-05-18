@@ -75,7 +75,7 @@ public class ItfcInterceptor implements HandlerInterceptor {
                 // redis里拿不到的话，就从数据库里查
                 String sql1 = "select itfc_key, valid_period from sys_itfc_key " +
                         "where status = 0 and del_flag = 0 and itfc_key = '" + authorization + "'";
-                List<Map> keyList = MybatisSqlTool.selectAnySql(sql1);
+                List<Map<String, Object>> keyList = MybatisSqlTool.selectAnySql(sql1);
                 if (CollectionUtils.isNotEmpty(keyList)) {
                     String valid_period = (String) keyList.get(0).get("valid_period");
                     // 如果过期时间为空的话，则默认为不做限制，所以设置到2050年
@@ -86,7 +86,7 @@ public class ItfcInterceptor implements HandlerInterceptor {
                     String sql2 = "select srp.sign from sys_itfc_permission srp " +
                             "left join sys_itfc_key_permission srkp on srkp.itfc_permission = srp.permission_id " +
                             "where srkp.itfc_key = '" + authorization + "'";
-                    List<Map> permissionList = MybatisSqlTool.selectAnySql(sql2);
+                    List<Map<String, Object>> permissionList = MybatisSqlTool.selectAnySql(sql2);
                     Set<String> set = new HashSet<>();
                     if (CollectionUtils.isNotEmpty(permissionList)) {
                         for (Map map : permissionList) {

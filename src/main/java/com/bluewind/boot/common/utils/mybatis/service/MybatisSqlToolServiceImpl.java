@@ -22,7 +22,7 @@ public class MybatisSqlToolServiceImpl implements MybatisSqlToolService {
      *
      * @return
      */
-    public List<Map> commonSelect(String value) {
+    public List<Map<String, Object>> commonSelect(String value) {
         return mybatisSqlToolMapper.commonSelect(value);
     }
 

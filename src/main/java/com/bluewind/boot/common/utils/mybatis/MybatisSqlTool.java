@@ -1,7 +1,7 @@
 package com.bluewind.boot.common.utils.mybatis;
 
-import com.bluewind.boot.common.utils.spring.SpringUtil;
 import com.bluewind.boot.common.utils.mybatis.service.MybatisSqlToolService;
+import com.bluewind.boot.common.utils.spring.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +34,8 @@ public class MybatisSqlTool {
      * @param selectSql sql语句
      * @return
      */
-    public static List<Map> selectAnySql(String selectSql) {
-        List<Map> list = getMybatisSqlToolService().commonSelect(selectSql);
+    public static List<Map<String, Object>> selectAnySql(String selectSql) {
+        List<Map<String, Object>> list = getMybatisSqlToolService().commonSelect(selectSql);
         if (list != null && !list.isEmpty()) {
             return list;
         } else {
@@ -50,8 +50,8 @@ public class MybatisSqlTool {
      * @param selectSql sql语句
      * @return
      */
-    public static Map selectMapAnySql(String selectSql) {
-        List<Map> list = selectAnySql(selectSql);
+    public static Map<String, Object> selectMapAnySql(String selectSql) {
+        List<Map<String, Object>> list = selectAnySql(selectSql);
         if (list != null && !list.isEmpty()) {
             return list.get(0);
         } else {
@@ -68,7 +68,7 @@ public class MybatisSqlTool {
      * @return
      */
     public static String selectStringAnySql(String selectSql, String key) {
-        List<Map> list = selectAnySql(selectSql);
+        List<Map<String, Object>> list = selectAnySql(selectSql);
         if (list != null && !list.isEmpty()) {
             return list.get(0).get(key) == null ? "" : (String) list.get(0).get(key);
         } else {
@@ -90,7 +90,7 @@ public class MybatisSqlTool {
                                                  String conditionName, String conditionValue) {
         String sql = "select " + fieldName + "  from " + tableName + "  where " + conditionName
                 + "  = '" + conditionValue + "'";
-        List<Map> list = selectAnySql(sql);
+        List<Map<String, Object>> list = selectAnySql(sql);
         if (list != null && !list.isEmpty()) {
             Map map = list.get(0);
             String fieldValue = map.get(fieldName) == null ? "" : (String) map.get(fieldName);
@@ -109,7 +109,7 @@ public class MybatisSqlTool {
      * @param conditionValue 条件的值
      * @return String
      */
-    public static List<Map> selectByCondition(String tableName, String conditionName, String conditionValue) {
+    public static List<Map<String, Object>> selectByCondition(String tableName, String conditionName, String conditionValue) {
         String sql = "select * from " + tableName + " where " + conditionName
                 + " = '" + conditionValue + "'";
         return selectAnySql(sql);
