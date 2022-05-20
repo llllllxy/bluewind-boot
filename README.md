@@ -23,7 +23,7 @@
 - itextpdf pdf处理工具包
 - redisson redis分布式锁工具包
 - anji-plus anji-plus行为验证码工具包
-- LayUI 前端框架，官方文档：https://www.layui.com/doc/
+- LayUI 前端框架，官方文档：https://layuion.com/
 - layuimini 前框模板，官方文档：https://gitee.com/zhongshaofa/layuimini
 - minio 对象存储
 
