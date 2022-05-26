@@ -1,16 +1,16 @@
 package com.bluewind.boot.module.system.roleinfo.controller;
 
-import com.bluewind.boot.common.utils.DictUtils;
-import com.bluewind.boot.module.system.roleinfo.entity.RoleInfo;
-import com.bluewind.boot.module.system.roleinfo.service.RoleInfoService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.permissioninfo.service.PermissionInfoService;
+import com.bluewind.boot.module.system.roleinfo.entity.RoleInfo;
+import com.bluewind.boot.module.system.roleinfo.service.RoleInfoService;
 import com.bluewind.boot.module.system.rolepermission.service.RolePermissionService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +91,7 @@ public class RoleInfoController extends BaseController {
         List<RoleInfo> rows = pageinfo.getList();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, pageinfo.getTotal());
+        result.put(RESULT_TOTAL, pageinfo.getTotal());
 
         return BaseResult.success(result);
     }

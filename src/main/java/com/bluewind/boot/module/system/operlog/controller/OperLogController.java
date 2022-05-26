@@ -1,14 +1,14 @@
 package com.bluewind.boot.module.system.operlog.controller;
 
+import com.bluewind.boot.common.annotation.LogAround;
+import com.bluewind.boot.common.annotation.RequestLimit;
+import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.module.system.operlog.entity.OperLog;
 import com.bluewind.boot.module.system.operlog.service.OperLogService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.bluewind.boot.common.annotation.LogAround;
-import com.bluewind.boot.common.annotation.RequestLimit;
-import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.base.BaseResult;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +85,7 @@ public class OperLogController extends BaseController {
         int total = (int) pageinfo.getTotal();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, total);
+        result.put(RESULT_TOTAL, total);
 
         return BaseResult.success(result);
     }

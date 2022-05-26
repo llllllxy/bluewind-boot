@@ -1,29 +1,25 @@
 package com.bluewind.boot.module.system.basedict.controller;
 
+import com.bluewind.boot.common.annotation.OperLogAround;
+import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.consts.OperLogConst;
 import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.basedict.entity.DictInfo;
 import com.bluewind.boot.module.system.basedict.service.BaseDictService;
-import com.bluewind.boot.common.annotation.OperLogAround;
-import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.consts.OperLogConst;
-import com.bluewind.boot.common.base.BaseController;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections4.CollectionUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 import java.util.*;
 
@@ -90,7 +86,7 @@ public class BaseDictController extends BaseController {
         List<DictInfo> rows = page.getList();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, page.getTotal());
+        result.put(RESULT_TOTAL, page.getTotal());
         return BaseResult.success(result);
     }
 

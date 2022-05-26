@@ -1,12 +1,12 @@
 package com.bluewind.boot.module.system.itfcpermission.controller;
 
+import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.itfcpermission.entity.ItfcPermission;
 import com.bluewind.boot.module.system.itfcpermission.service.ItfcPermissionService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -86,7 +86,7 @@ public class ItfcPermissionController extends BaseController {
         List<ItfcPermission> rows = pageinfo.getList();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, pageinfo.getTotal());
+        result.put(RESULT_TOTAL, pageinfo.getTotal());
 
         return BaseResult.success(result);
     }

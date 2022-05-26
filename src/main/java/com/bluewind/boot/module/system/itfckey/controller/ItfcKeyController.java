@@ -1,17 +1,17 @@
 package com.bluewind.boot.module.system.itfckey.controller;
 
+import com.bluewind.boot.common.annotation.LogAround;
+import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.consts.SystemConst;
+import com.bluewind.boot.common.utils.DateTool;
+import com.bluewind.boot.common.utils.DictUtils;
+import com.bluewind.boot.common.utils.RedisUtil;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.itfckey.entity.ItfcKey;
 import com.bluewind.boot.module.system.itfckey.service.ItfcKeyService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.bluewind.boot.common.annotation.LogAround;
-import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.consts.SystemConst;
-import com.bluewind.boot.common.utils.DictUtils;
-import com.bluewind.boot.common.utils.DateTool;
-import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.utils.RedisUtil;
-import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -21,7 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuxingyu01
@@ -97,7 +99,7 @@ public class ItfcKeyController extends BaseController {
         List<ItfcKey> rows = pageinfo.getList();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, pageinfo.getTotal());
+        result.put(RESULT_TOTAL, pageinfo.getTotal());
 
         return BaseResult.success(result);
     }

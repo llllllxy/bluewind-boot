@@ -1,13 +1,13 @@
 package com.bluewind.boot.module.system.idtable.controller;
 
-import com.bluewind.boot.common.utils.idgen.IdGenerate;
-import com.bluewind.boot.module.system.idtable.service.IdTableService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.idtable.entity.IdTable;
+import com.bluewind.boot.module.system.idtable.service.IdTableService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +82,7 @@ public class IdTableController extends BaseController {
         int total = (int) pageinfo.getTotal();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, total);
+        result.put(RESULT_TOTAL, total);
 
         return BaseResult.success(result);
     }

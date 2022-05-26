@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public abstract class BaseController {
     private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
     public static final String RESULT_ROWS = "rows";
-    public static final String RESULT_TOTLAL = "total";
+    public static final String RESULT_TOTAL = "total";
 
     public BaseController() {
     }

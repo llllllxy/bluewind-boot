@@ -1,17 +1,17 @@
 package com.bluewind.boot.module.system.job.controller;
 
+import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.config.quartz.CronUtils;
 import com.bluewind.boot.common.consts.ScheduleConst;
 import com.bluewind.boot.common.exception.TaskException;
-import com.bluewind.boot.common.config.quartz.CronUtils;
 import com.bluewind.boot.common.utils.DictUtils;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.system.job.entity.Job;
 import com.bluewind.boot.module.system.job.service.JobService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.bluewind.boot.common.base.BaseController;
-import com.bluewind.boot.common.base.BaseResult;
-import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import io.swagger.annotations.ApiOperation;
 import org.quartz.CronExpression;
 import org.quartz.SchedulerException;
@@ -101,7 +101,7 @@ public class JobController extends BaseController {
 
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, jobList);
-        result.put(RESULT_TOTLAL, pageinfo.getTotal());
+        result.put(RESULT_TOTAL, pageinfo.getTotal());
 
         return BaseResult.success(result);
     }

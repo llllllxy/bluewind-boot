@@ -1,9 +1,9 @@
 package com.bluewind.boot.module.system.joblog.controller;
 
-import com.bluewind.boot.module.system.joblog.entity.JobLog;
-import com.bluewind.boot.module.system.joblog.service.JobLogService;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.module.system.joblog.entity.JobLog;
+import com.bluewind.boot.module.system.joblog.service.JobLogService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class JobLogcontroller extends BaseController {
         List<JobLog> quartzLogList = jobLogService.getLogByJobId(jobId);
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, quartzLogList);
-        result.put(RESULT_TOTLAL, quartzLogList.size());
+        result.put(RESULT_TOTAL, quartzLogList.size());
         return BaseResult.success(result);
     }
 

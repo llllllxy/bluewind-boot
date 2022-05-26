@@ -93,7 +93,7 @@ public class LoginLogController extends BaseController {
         int total = (int) pageinfo.getTotal();
         Map<String, Object> result = new HashMap<>();
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, total);
+        result.put(RESULT_TOTAL, total);
 
         return BaseResult.success(result);
     }

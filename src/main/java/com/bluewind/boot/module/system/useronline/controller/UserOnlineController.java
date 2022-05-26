@@ -1,13 +1,13 @@
 package com.bluewind.boot.module.system.useronline.controller;
 
-import com.bluewind.boot.module.system.loginlog.service.LoginLogService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.utils.RedisUtil;
+import com.bluewind.boot.module.system.loginlog.service.LoginLogService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +101,7 @@ public class UserOnlineController extends BaseController {
         Map<String, Object> result = new HashMap<>();
 
         result.put(RESULT_ROWS, rows);
-        result.put(RESULT_TOTLAL, pageinfo.getTotal());
+        result.put(RESULT_TOTAL, pageinfo.getTotal());
 
         return BaseResult.success(result);
     }
