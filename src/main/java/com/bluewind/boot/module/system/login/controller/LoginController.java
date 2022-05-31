@@ -87,7 +87,7 @@ public class LoginController {
     @ApiOperation(value = "跳转到登陆页面")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
-        logger.info("LoginController -- login -- start");
+        logger.debug("LoginController -- login -- start");
         model.addAttribute("kaptcha_key", IdGenerate.uuid());
         return "system/login/login_v3";
     }

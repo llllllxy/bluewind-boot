@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL,如果设置为WARN,则低于WARN的信息都不会输出 -->
+<!-- scan:当此属性设置为true时,配置文档如果发生改变,将会被重新加载,默认值为true -->
+<!-- scanPeriod:设置监测配置文档是否有修改的时间间隔,如果没有给出时间单位,默认单位是毫秒.当scan为true时,此属性生效.默认的时间间隔为1分钟 -->
+<!-- debug:当此属性设置为true时,将打印出logback内部日志信息,实时查看logback运行状态.默认值为false -->
 <configuration>
-    <!--输出格式-->
-    <!-- 日志存放路径 -->
+    <!-- 日志文件的存放路径 -->
     <property name="log.path" value="./log"/>
 
+    <!-- 控制台输出配置 -->
     <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
@@ -14,6 +19,8 @@
 
     <!--输出error文件-->
     <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 临界值过滤器，过滤掉低于指定临界值的日志。当日志级别等于或高于临界值时，过滤器返回NEUTRAL；当日志级别低于临界值时，日志会被拒绝 -->
+        <!-- 只输出 ERROR 及以上级别 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
@@ -34,12 +41,17 @@
 
     <!--输出info文件-->
     <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- 过滤器，可以过滤掉不符合条件的日志，ERROR及以上的日志被处理，其它的拒绝 -->
+        <!-- 级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据onMath(用于配置符合过滤条件的操作) 和 onMismatch(用于配置不符合过滤条件的操作)接收或拒绝日志 -->
+        <!-- DENY：日志将立即被抛弃不再经过其他过滤器 -->
+        <!-- NEUTRAL：有序列表里的下个过滤器过接着处理日志 -->
+        <!-- ACCEPT：日志会被立即处理，不再经过剩余过滤器 -->
+        <!-- 按级别过滤日志，只输出 INFO 级别 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <!--过滤error日志-->
-            <level>ERROR</level>
-            <onMatch>DENY</onMatch>
-            <onMismatch>ACCEPT</onMismatch>
+            <level>INFO</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 不匹配时的操作：拒绝（不记录） -->
+            <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L- %msg%n</pattern>
@@ -55,10 +67,49 @@
         </rollingPolicy>
     </appender>
 
-    <!--全局应用该日志配置-->
+    <!--输出debug文件-->
+    <appender name="fileDebugLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据onMath(用于配置符合过滤条件的操作) 和 onMismatch(用于配置不符合过滤条件的操作)接收或拒绝日志 -->
+        <!-- DENY：日志将立即被抛弃不再经过其他过滤器 -->
+        <!-- NEUTRAL：有序列表里的下个过滤器过接着处理日志 -->
+        <!-- ACCEPT：日志会被立即处理，不再经过剩余过滤器 -->
+        <!-- 输出比 DEBUG 级别高(包括DEBUG级别)但除error级别外的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L- %msg%n</pattern>
+            <!-- 日志编码 -->
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/logdebug.%d{yyyy-MM-dd}.%i.log</fileNamePattern><!--路径-->
+            <maxFileSize>20MB</maxFileSize>  <!-- 日志文件过大会使的编辑器打开非常慢，因此设置日志最大50MB -->
+            <maxHistory>30</maxHistory>  <!-- 保存30天 -->
+            <totalSizeCap>10GB</totalSizeCap>  <!-- 总日志大小 -->
+        </rollingPolicy>
+    </appender>
+
+    <!-- 全局应用该日志配置，是所有logger的上级，其实它也是一个logger -->
     <root level="info">
         <appender-ref ref = "consoleLog"/>
         <appender-ref ref = "fileErrorLog"/>
         <appender-ref ref = "fileInfoLog"/>
     </root>
+
+    <!--
+        logger用来设置某一个包或者具体的某一个类的日志打印级别
+            name: 必填,用来指定受此loger约束的某一个包或者具体的某一个类
+            level: 可选,用来设置打印级别,大小写无关:TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF
+            addtivity: 可选,是否向上级logger传递打印信息。默认是true,会将信息输入到root配置指定的地方,可以包含多个appender-ref，标识这个appender会添加到这个logger
+    -->
+    <logger name="com.bluewind.boot" level="debug" additivity="false">
+        <appender-ref ref = "consoleLog"/>
+        <appender-ref ref = "fileErrorLog"/>
+        <appender-ref ref = "fileInfoLog"/>
+        <appender-ref ref = "fileDebugLog"/>
+    </logger>
 </configuration>
