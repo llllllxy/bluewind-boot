@@ -75,7 +75,7 @@ public class Snowflake {
      *
      * @return
      */
-    public static Snowflake getInstanceIdWorker() {
+    public static Snowflake getInstance() {
         if (snowflake == null) {
             synchronized (lock) {
                 if (snowflake == null) {

@@ -7,7 +7,7 @@ package com.bluewind.boot.common.utils.idgen;
  * @description 封装各种生成唯一性ID算法的工具类.
  **/
 public class IdGenerate {
-    private static final Snowflake snowflake = Snowflake.getInstanceIdWorker();
+    private static final Snowflake snowflake = Snowflake.getInstance();
 
     public IdGenerate() {
     }
@@ -44,15 +44,6 @@ public class IdGenerate {
      */
     public static String fastUUID() {
         return UUID.fastUUID().toString(true).toUpperCase();
-    }
-
-
-    /**
-     * 获取MongoDb ObjectId
-     * @return String
-     */
-    public static String objectId() {
-        return ObjectId.next();
     }
 
 
