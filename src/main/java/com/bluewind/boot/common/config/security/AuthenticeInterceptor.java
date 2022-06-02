@@ -1,5 +1,6 @@
 package com.bluewind.boot.common.config.security;
 
+import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.common.utils.RedisUtil;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.Set;
 
 /**
  * @author liuxingyu01
@@ -158,10 +159,10 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
      * @throws IOException
      */
     private void responseError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // 如果是ajax请求，直接返回302状态码
+        // 如果是ajax请求，则返回带401状态码的JSON串
         if (ServletUtils.isAjaxRequest(request)) {
-            // 返回302状态码；
-            response.setStatus(302);
+            // 返回401状态码
+            outWrite(response);
         } else {
             // 拦截后跳转到登陆页面
             response.sendRedirect(contextPath + "/admin/login");
@@ -169,13 +170,11 @@ public class AuthenticeInterceptor implements HandlerInterceptor {
     }
 
 
-    public void outWrite(HttpServletResponse response, String code, String message) throws IOException {
-        Map<String, String> data = new HashMap<>();
-        data.put("code", code);
-        data.put("message", message);
+    private void outWrite(HttpServletResponse response) throws IOException {
+        BaseResult baseResult = new BaseResult(BaseResult.UNAUTHORIZED, "未登录或会话已失效，请重新登录", null);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        out.write(JsonTool.toJsonString(data));
+        out.write(JsonTool.toJsonString(baseResult));
         out.close();
     }
 

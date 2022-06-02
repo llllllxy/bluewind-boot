@@ -14,6 +14,8 @@ public class BaseResult implements Serializable {
 	public static int CODE_LIMIT = -2; // 访问过快，限制
 	public static int CODE_KICKOUT = -3; // 账号在别处登陆，被顶下线
 	public static int CODE_NO_PERMISSION = 403; // 无权限访问
+	public static int UNAUTHORIZED = 401; // 未登录或会话已失效
+
 
 	public static String[] NOOP = new String[]{};
 

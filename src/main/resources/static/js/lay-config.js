@@ -111,7 +111,7 @@ $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox",
  */
 $.ajaxSetup({
     complete: function(XMLHttpRequest, textStatus){
-        if (XMLHttpRequest.status == 302) {
+        if (XMLHttpRequest.responseJSON.code === 401) {
             layer.alert('会话已过期，请重新登录', function(index){
                 layer.close(index);
                 window.location.href = Util.ctx + "admin/login";
