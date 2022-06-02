@@ -141,9 +141,8 @@ mybatis:
   type-aliases-package: com.bluewind.boot.**.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #这个是可以打印sql、参数、查询结果的
-    # log-impl: org.apache.ibatis.logging.log4j.Log4jImpl:这个不打印查询结果
-    map-underscore-to-camel-case: true #开启驼峰命名转换，这个只会对javabean有作用，而不会影响到Map值返回
-    cache-enabled: true
+    map-underscore-to-camel-case: true #开启驼峰命名转换，这个只会对实体类有作用，而不会影响到Map值返回
+    cache-enabled: false
     default-executor-type: reuse
 
 # pagehelper分页配置
