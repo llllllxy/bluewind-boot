@@ -5,7 +5,6 @@ import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.system.config.entity.Config;
 import com.bluewind.boot.module.system.config.service.ConfigService;
 import com.bluewind.boot.module.system.index.mapper.IndexMapper;
-import com.bluewind.boot.module.system.index.util.MenuTreeUtil;
 import com.bluewind.boot.module.system.index.vo.MenuVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author liuxingyu01
@@ -104,7 +104,7 @@ public class IndexService {
             menuInfo.add(menuVO);
         }
         // 将菜单转成树结构
-        map.put("menuInfo", MenuTreeUtil.toTree(menuInfo, "0"));
+        map.put("menuInfo", toTree(menuInfo, "0"));
 
         Config config = configService.getSysConfig();
 
@@ -119,6 +119,28 @@ public class IndexService {
         map.put("homeInfo", home);
         map.put("logoInfo", logo);
         return map;
+    }
+
+
+    /**
+     * 获取菜单的树状结构（双重遍历法list转tree）
+     * @param menuList 菜单列表
+     * @param topPid 顶级ID
+     * @return
+     */
+    private List<MenuVo> toTree(List<MenuVo> menuList, String topPid) {
+        Map<String, List<MenuVo>> menuMap = new HashMap<>();
+
+        menuList.forEach(node -> {
+            List<MenuVo> children = menuMap.getOrDefault(node.getParentId(), new ArrayList<>());
+            children.add(node);
+            menuMap.put(node.getParentId(), children);
+        });
+
+        menuList.forEach(node -> node.setChild(menuMap.get(node.getPermissionId())));
+
+        List<MenuVo> result = menuList.stream().filter(v -> v.getParentId().equals(topPid)).collect(Collectors.toList());
+        return result;
     }
 
 }
