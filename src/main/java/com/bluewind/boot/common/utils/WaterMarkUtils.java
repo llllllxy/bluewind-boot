@@ -1,5 +1,9 @@
 package com.bluewind.boot.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,10 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author liuxingyu01
@@ -72,7 +72,7 @@ public class WaterMarkUtils {
 
 
     public static byte[] waterMarkReturnByte(List<String> text, byte[] imageByte) {
-        byte[] base64 = new byte[8];
+        byte[] bytes = new byte[8];
         BufferedImage bImage = null;
         Graphics2D g = null;
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageByte)) {
@@ -106,7 +106,7 @@ public class WaterMarkUtils {
                     g.drawString(content, x, height - fontBlack * (size - i));//向画板上写字
                 }
             }
-            base64 = bufferedImageToByte(bImage);
+            bytes = bufferedImageToByte(bImage);
         } catch (Exception e) {
             log.error("WaterMarkUtils -- waterMarkReturnByte -- Exception: ", e);
         } finally {
@@ -117,7 +117,7 @@ public class WaterMarkUtils {
                 g.dispose();
             }
         }
-        return base64;
+        return bytes;
     }
 
 
