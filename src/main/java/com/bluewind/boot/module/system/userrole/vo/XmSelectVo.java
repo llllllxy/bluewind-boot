@@ -1,10 +1,10 @@
-package com.bluewind.boot.module.system.roleinfo.entity;
+package com.bluewind.boot.module.system.userrole.vo;
 
 /**
  * @author liuxingyu01
  * @date 2021-01-28-13:44
  **/
-public class XmSelect {
+public class XmSelectVo {
     private String value;
     private String name;
     // 是否选中

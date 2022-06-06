@@ -1,8 +1,6 @@
 package com.bluewind.boot.module.system.roleinfo.mapper;
 
 import com.bluewind.boot.module.system.roleinfo.entity.RoleInfo;
-import com.bluewind.boot.module.system.roleinfo.entity.XmSelect;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,12 +12,6 @@ import java.util.Map;
  **/
 @Repository
 public interface RoleInfoMapper {
-
-
-    /**
-     * 根据用户id查询角色，给xmselect赋值
-     */
-    List<XmSelect> listXmSelectPojo(@Param("userId") String userId);
 
 
     /**

@@ -1,20 +1,19 @@
 package com.bluewind.boot.module.system.userrole.service;
 
-import com.bluewind.boot.common.config.security.SecurityUtil;
-import com.bluewind.boot.module.system.userrole.entity.UserRole;
-import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.base.BaseResult;
+import com.bluewind.boot.common.config.security.SecurityUtil;
+import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.utils.RedisUtil;
+import com.bluewind.boot.module.system.userrole.entity.UserRole;
 import com.bluewind.boot.module.system.userrole.mapper.UserRoleMapper;
+import com.bluewind.boot.module.system.userrole.vo.XmSelectVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author liuxingyu01
@@ -25,7 +24,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     final static Logger logger = LoggerFactory.getLogger(UserRoleServiceImpl.class);
 
     @Autowired
-    UserRoleMapper userRoleMapper;
+    private UserRoleMapper userRoleMapper;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -43,7 +42,6 @@ public class UserRoleServiceImpl implements UserRoleService {
 
         return set;
     }
-
 
 
     /**
@@ -76,6 +74,20 @@ public class UserRoleServiceImpl implements UserRoleService {
         } else {
             return BaseResult.failure("角色信息为空！");
         }
+    }
+
+
+    /**
+     * 根据用户id查询角色，给xmselect赋值
+     * @param userId
+     * @return
+     */
+    @Override
+    public Map<String, Object> listRoleByUserId(String userId) {
+        List<XmSelectVo> list = userRoleMapper.listRoleByUserId(userId);
+        Map<String, Object> selectMap = new HashMap<>();
+        selectMap.put("data", list);
+        return selectMap;
     }
 
 }

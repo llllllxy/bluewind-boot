@@ -90,7 +90,7 @@
             <div style="height: 100px;width: 100px;position: relative;">
                 <input type="file" accept="image/*" id="pic-input"
                        style="position: absolute;left: 0;top: 0;opacity: 0;filter: alpha(opacity=0);height: 100%;width: 100%;z-index: 99">
-                <img th:src="${userInfo.avatar}" alt="" id="pic-img"
+                <img th:src="${userInfo.avatarPreUrl}" alt="" id="pic-img"
                      style="height: 100%;width: 100%;position: absolute;left: 0;top: 0;border: 1px solid #1E9FFF;">
             </div>
         </div>
@@ -133,7 +133,7 @@
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
             Util.get({
-                url: Util.ctx + 'userinfo/listPostForSelect?userId=' + $('input[name="userId"]').val(),
+                url: Util.ctx + 'userinfo/listPostByUserId?userId=' + $('input[name="userId"]').val(),
                 success: function (res) {
                     layer.close(index);
                     demo1 = xmSelect.render({

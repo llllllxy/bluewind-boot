@@ -1,6 +1,5 @@
 package com.bluewind.boot.module.system.userinfo.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,6 +29,8 @@ public class UserInfo implements Serializable {
     private String deptName;
 
     private String avatar;
+
+    private String avatarPreUrl;
 
     private String sex;
 
@@ -177,6 +178,14 @@ public class UserInfo implements Serializable {
         this.deptName = deptName;
     }
 
+    public String getAvatarPreUrl() {
+        return avatarPreUrl;
+    }
+
+    public void setAvatarPreUrl(String avatarPreUrl) {
+        this.avatarPreUrl = avatarPreUrl;
+    }
+
     @Override
     public String toString() {
         return "SysUserInfo{" +
@@ -189,6 +198,7 @@ public class UserInfo implements Serializable {
                 ", deptName='" + deptName + '\'' +
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", avatarPreUrl='" + avatarPreUrl + '\'' +
                 ", sex=" + sex + '\'' +
                 ", status=" + status + '\'' +
                 ", createUser=" + createUser +

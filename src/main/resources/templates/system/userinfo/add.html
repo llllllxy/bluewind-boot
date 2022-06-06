@@ -128,7 +128,7 @@
         var postSelect;
         var index1 = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
         Util.get({
-            url: Util.ctx + 'userinfo/listPostForSelect',
+            url: Util.ctx + 'userinfo/listPostByUserId',
             success: function (res) {
                 layer.close(index1);
                 postSelect = xmSelect.render({

@@ -64,7 +64,7 @@ public class IndexController extends BaseController {
     public String index(Model model) {
         String account = getSysUserAccount();
         UserInfo userInfo = userInfoService.getOne(account);
-        userInfo.setAvatar(storageService.getExpiryUrlById(userInfo.getAvatar(), 24));
+        userInfo.setAvatarPreUrl(storageService.getExpiryUrlById(userInfo.getAvatar(), 24));
         model.addAttribute("userInfo", userInfo);
         return "system/index/index";
     }
@@ -179,6 +179,8 @@ public class IndexController extends BaseController {
     public String userInfo(Model model) {
         String account = getSysUserAccount();
         UserInfo userInfo = userInfoService.getOne(account);
+        userInfo.setAvatarPreUrl(storageService.getExpiryUrlById(userInfo.getAvatar(), 24));
+
         model.addAttribute("userInfo", userInfo);
         return "system/index/user_info";
     }

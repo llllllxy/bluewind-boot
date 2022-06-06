@@ -15,19 +15,6 @@
         <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
     </resultMap>
 
-    <select id="listXmSelectPojo" resultType="com.bluewind.boot.module.system.roleinfo.entity.XmSelect" parameterType="string">
-        SELECT
-            a.role_id AS value,
-            a.name,
-            ( CASE WHEN b.user_id IS NULL THEN 0 ELSE 1 END ) AS selected
-        FROM
-            sys_role_info a
-            LEFT JOIN sys_user_role b ON ( a.role_id = b.role_id AND b.user_id = #{userId} )
-        WHERE
-            a.del_flag = '0'
-            AND a.status = '0'
-    </select>
-
     <!--查询所有角色-->
     <select id="getSysRoleInfoList" resultMap="SysRoleInfo" parameterType="map">
         select * from sys_role_info

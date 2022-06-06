@@ -1,8 +1,6 @@
 package com.bluewind.boot.module.system.postinfo.mapper;
 
 import com.bluewind.boot.module.system.postinfo.entity.PostInfo;
-import com.bluewind.boot.module.system.postinfo.entity.PostXmSelect;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,9 +23,5 @@ public interface PostInfoMapper {
     int updatePostInfo(PostInfo postInfo);
 
     int deleteOne(String postId);
-
-    List<PostXmSelect> listUserPostForSelect(@Param("userId") String userId);
-
-    List<PostXmSelect> listAllPostForSelect();
 
 }

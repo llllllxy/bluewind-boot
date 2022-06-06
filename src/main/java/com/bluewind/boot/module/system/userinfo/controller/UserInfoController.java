@@ -16,8 +16,6 @@ import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.common.utils.storage.api.StorageService;
 import com.bluewind.boot.module.system.deptinfo.entity.DeptInfo;
 import com.bluewind.boot.module.system.deptinfo.service.DeptInfoService;
-import com.bluewind.boot.module.system.postinfo.service.PostInfoService;
-import com.bluewind.boot.module.system.roleinfo.service.RoleInfoService;
 import com.bluewind.boot.module.system.userinfo.entity.UserInfo;
 import com.bluewind.boot.module.system.userinfo.service.UserInfoService;
 import com.bluewind.boot.module.system.userpost.service.UserPostService;
@@ -70,13 +68,7 @@ public class UserInfoController extends BaseController {
     private UserInfoService userInfoService;
 
     @Autowired
-    private RoleInfoService roleInfoService;
-
-    @Autowired
     private UserRoleService userRoleService;
-
-    @Autowired
-    private PostInfoService postInfoService;
 
     @Autowired
     private UserPostService userPostService;
@@ -292,8 +284,11 @@ public class UserInfoController extends BaseController {
     public String update(Model model, @PathVariable String userId) {
         // 获取下拉栏枚举值
         List<Map<String, String>> baseDictList = DictUtils.getDictList("user_status");
-        model.addAttribute("baseDictList", baseDictList);
         UserInfo userInfo = userInfoService.getOneById(userId);
+
+        userInfo.setAvatarPreUrl(storageService.getExpiryUrlById(userInfo.getAvatar(), 24));
+
+        model.addAttribute("baseDictList", baseDictList);
         model.addAttribute("userInfo", userInfo);
         return "system/userinfo/update";
     }
@@ -384,19 +379,19 @@ public class UserInfoController extends BaseController {
 
     @RequiresPermissions("system:user:authorize")
     @ApiOperation(value = "根据用户id查询用户角色", notes = "根据用户id查询用户角色")
-    @RequestMapping(value = "/listRoleForSelect/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/listRoleByUserId/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public String listRoleForSelect(@PathVariable String userId) {
-        return roleInfoService.listXmSelectPojo(userId);
+    public Object listRoleByUserId(@PathVariable String userId) {
+        return userRoleService.listRoleByUserId(userId);
     }
 
 
     @RequiresPermissions(value = {"system:user:add", "system:user:edit"}, logical = Logical.OR)
     @ApiOperation(value = "根据用户id查询岗位信息", notes = "根据用户id查询岗位信息")
-    @RequestMapping(value = "/listPostForSelect", method = RequestMethod.GET)
+    @RequestMapping(value = "/listPostByUserId", method = RequestMethod.GET)
     @ResponseBody
-    public String listPostForSelect(@RequestParam(required = false, defaultValue = "", value = "userId") String userId) {
-        return postInfoService.listPostForSelect(userId);
+    public Object listPostByUserId(@RequestParam(required = false, defaultValue = "", value = "userId") String userId) {
+        return userPostService.listPostByUserId(userId);
     }
 
 

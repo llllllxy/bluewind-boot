@@ -65,8 +65,8 @@
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
-                <li class="layui-nav-item" lay-unselect th:if="${not #strings.isEmpty(userInfo.avatar)}">
-                    <img class="avatar-index" th:src="${userInfo.avatar}">
+                <li class="layui-nav-item" lay-unselect th:if="${not #strings.isEmpty(userInfo.avatarPreUrl)}">
+                    <img class="avatar-index" th:src="${userInfo.avatarPreUrl}">
                 </li>
                 <li class="layui-nav-item layuimini-setting">
                     <a href="javascript:;" th:text="${userInfo.account}"></a>
@@ -145,7 +145,7 @@
     <form class="layui-form" action="" lay-filter="formLock">
         <div class="admin-header-lock" id="lock-box">
             <div class="admin-header-lock-img">
-                <img th:if="${not #strings.isEmpty(userInfo.avatar)}" th:src="${userInfo.avatar}"/>
+                <img th:if="${not #strings.isEmpty(userInfo.avatarPreUrl)}" th:src="${userInfo.avatarPreUrl}"/>
             </div>
             <div class="input_btn">
                 <input type="text" class="layui-input admin-header-lock-input" placeholder="请输入登录密码" name="password"

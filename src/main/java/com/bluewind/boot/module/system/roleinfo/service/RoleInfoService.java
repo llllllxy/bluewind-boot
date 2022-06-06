@@ -12,11 +12,6 @@ import java.util.Map;
 public interface RoleInfoService {
 
     /**
-     * 根据用户id查询用户所含角色，给xmselect赋值
-     */
-    String listXmSelectPojo(String userId);
-
-    /**
      * 获取角色列表
      * @param map
      * @return

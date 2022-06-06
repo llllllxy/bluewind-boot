@@ -16,4 +16,27 @@
         </foreach>
     </insert>
 
+
+    <!--获取用户岗位信息XmSelect列表-->
+    <select id="listPostByUserId" resultType="com.bluewind.boot.module.system.userpost.vo.PostXmSelect" parameterType="string">
+        SELECT
+            a.post_id AS value,
+            a.post_name AS name,
+            ( CASE WHEN b.user_id IS NULL THEN 0 ELSE 1 END ) AS selected
+        FROM
+            sys_post_info a
+            LEFT JOIN sys_user_post b ON ( a.post_id = b.post_id AND b.user_id = #{userId} )
+        WHERE a.status = '0'
+    </select>
+
+    <!--获取全部岗位信息XmSelect列表-->
+    <select id="listAllPost" resultType="com.bluewind.boot.module.system.userpost.vo.PostXmSelect" parameterType="string">
+        SELECT
+            a.post_id AS value,
+            a.post_name AS name,
+            0 AS selected
+        FROM sys_post_info a
+        WHERE a.status = '0'
+    </select>
+
 </mapper>

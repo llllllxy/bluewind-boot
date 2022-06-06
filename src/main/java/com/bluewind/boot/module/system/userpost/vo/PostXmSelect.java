@@ -1,4 +1,4 @@
-package com.bluewind.boot.module.system.postinfo.entity;
+package com.bluewind.boot.module.system.userpost.vo;
 
 import java.io.Serializable;
 

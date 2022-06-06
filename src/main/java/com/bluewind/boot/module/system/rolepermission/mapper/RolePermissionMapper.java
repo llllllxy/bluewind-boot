@@ -32,4 +32,6 @@ public interface RolePermissionMapper {
      * @return
      */
     int batchInsertRolePermission(List<RolePermission> list);
+
+
 }

@@ -1,13 +1,10 @@
 package com.bluewind.boot.module.system.roleinfo.service;
 
 import com.bluewind.boot.module.system.roleinfo.entity.RoleInfo;
-import com.bluewind.boot.module.system.roleinfo.entity.XmSelect;
-import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.module.system.roleinfo.mapper.RoleInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,17 +18,6 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     @Autowired
     RoleInfoMapper roleInfoMapper;
 
-
-    /**
-     * 根据用户id查询角色，给xmselect赋值
-     */
-    @Override
-    public String listXmSelectPojo(String userId) {
-        List<XmSelect> list = roleInfoMapper.listXmSelectPojo(userId);
-        Map<String, Object> selectMap = new HashMap<>();
-        selectMap.put("data", list);
-        return JsonTool.toJsonString(selectMap);
-    }
 
     /**
      * 获取角色列表

@@ -2,6 +2,7 @@ package com.bluewind.boot.module.system.userrole.service;
 
 import com.bluewind.boot.common.base.BaseResult;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,6 +15,7 @@ public interface UserRoleService {
      */
     Set<String> listUserRoleByUserId(String userId);
 
+
     /**
      * 用户授权
      * @param userId
@@ -21,4 +23,10 @@ public interface UserRoleService {
      * @return
      */
     BaseResult doAuthorize(String userId, String roles);
+
+
+    /**
+     * 根据用户id查询用户所含角色，给xmselect赋值
+     */
+    Map<String, Object> listRoleByUserId(String userId);
 }
