@@ -5,7 +5,6 @@ import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
-import com.bluewind.boot.module.system.permissioninfo.service.PermissionInfoService;
 import com.bluewind.boot.module.system.roleinfo.entity.RoleInfo;
 import com.bluewind.boot.module.system.roleinfo.service.RoleInfoService;
 import com.bluewind.boot.module.system.rolepermission.service.RolePermissionService;
@@ -33,9 +32,6 @@ public class RoleInfoController extends BaseController {
 
     @Autowired
     private RoleInfoService roleInfoService;
-
-    @Autowired
-    private PermissionInfoService permissionInfoService;
 
     @Autowired
     private RolePermissionService rolePermissionService;
@@ -238,10 +234,10 @@ public class RoleInfoController extends BaseController {
      * @param roleId
      * @return
      */
-    @RequestMapping(value = "listPermissionForTree/{roleId}", method = RequestMethod.GET)
+    @RequestMapping(value = "listPermissionByRoleId/{roleId}", method = RequestMethod.GET)
     @ResponseBody
-    public String listPermissionForTree(@PathVariable String roleId) {
-        return permissionInfoService.listPermissionForTree(roleId);
+    public Object listPermissionForTree(@PathVariable String roleId) {
+        return rolePermissionService.listPermissionByRoleId(roleId);
     }
 
 
@@ -257,7 +253,6 @@ public class RoleInfoController extends BaseController {
         model.addAttribute("roleInfo", roleInfo);
         return "system/roleinfo/auth";
     }
-
 
 
     /**
@@ -279,6 +274,5 @@ public class RoleInfoController extends BaseController {
             return BaseResult.failure("菜单权限更新失败!");
         }
     }
-
 
 }

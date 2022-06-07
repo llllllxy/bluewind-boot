@@ -13,13 +13,6 @@ import java.util.Map;
 public interface PermissionInfoService {
 
     /**
-     * 角色赋权，根据角色id获取权限树tree组件
-     * @param roleId 角色id
-     * @return
-     */
-    String listPermissionForTree(String roleId);
-
-    /**
      * 查询菜单列表
      */
     List<PermissionInfo> list();

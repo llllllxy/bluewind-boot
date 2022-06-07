@@ -1,6 +1,7 @@
 package com.bluewind.boot.module.system.rolepermission.mapper;
 
 import com.bluewind.boot.module.system.rolepermission.entity.RolePermission;
+import com.bluewind.boot.module.system.rolepermission.vo.LayuiTree;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -34,4 +35,10 @@ public interface RolePermissionMapper {
     int batchInsertRolePermission(List<RolePermission> list);
 
 
+    /**
+     * 角色赋权，根据角色id获取权限树tree组件
+     * @param roleId 角色id
+     * @return
+     */
+    List<LayuiTree> listPermissionByRoleId(String roleId);
 }

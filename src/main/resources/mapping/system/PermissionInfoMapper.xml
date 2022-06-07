@@ -21,27 +21,6 @@
         <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
     </resultMap>
 
-    <!-- 角色赋权，根据角色id获取权限树tree组件 -->
-    <select id="listPermissionForTree" parameterType="java.lang.String"
-            resultType="com.bluewind.boot.module.system.permissioninfo.entity.LayuiTree">
-        SELECT
-            a.permission_id as permissionId,
-            a.parent_id as parentId,
-            a.name as title,
-            a.type,
-            ( CASE WHEN LENGTH(b.role_id) > 0 THEN 1 ELSE 0 END ) AS checked
-        FROM
-            sys_permission_info a
-            LEFT JOIN sys_role_permission b ON ( a.permission_id = b.permission_id AND b.role_id = #{_parameter} )
-        WHERE
-            a.del_flag = '0'
-            AND a.status = '0'
-        ORDER BY
-            a.type,
-            a.parent_id,
-            a.sort
-    </select>
-
     <!-- 查询所有菜单列表 -->
     <select id="list" resultMap="SysPermissionInfo">
         select * from sys_permission_info
@@ -50,7 +29,7 @@
     </select>
 
     <!-- 启/禁用菜单前获取所有菜单列表 -->
-    <select id="listTree" resultType="com.bluewind.boot.module.system.permissioninfo.entity.LayuiTree">
+    <select id="listTree" resultType="com.bluewind.boot.module.system.rolepermission.vo.LayuiTree">
         select
             permission_id as permissionId,
             parent_id as parentId,

@@ -1,4 +1,4 @@
-package com.bluewind.boot.module.system.permissioninfo.entity;
+package com.bluewind.boot.module.system.rolepermission.vo;
 
 import java.util.List;
 

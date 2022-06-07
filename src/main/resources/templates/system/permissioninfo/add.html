@@ -37,7 +37,7 @@
             </div>
 
             <div class="layui-form-item" id="uppermenu_div">
-                <label class="layui-form-label">上级目录</label>
+                <label class="layui-form-label required">上级目录</label>
                 <div class="layui-input-block">
                     <!-- 如果需要指定初始值，添加：data-value="" -->
                     <ul id="menuTree" class="dtree" data-id="0"></ul>
@@ -52,7 +52,7 @@
             </div>
 
             <div class="layui-form-item" id="sign_div">
-                <label class="layui-form-label required">标识</label>
+                <label class="layui-form-label required">权限标识</label>
                 <div class="layui-input-block">
                     <input type="text" name="sign" id="sign" lay-verify="required" lay-reqtext="请输入权限标识" placeholder="请输入" class="layui-input">
                     <tip>权限标识作为唯一标识，请输入全英文</tip>
@@ -60,7 +60,7 @@
             </div>
 
             <div class="layui-form-item" id="href_div">
-                <label class="layui-form-label">路径</label>
+                <label class="layui-form-label required">路径</label>
                 <div class="layui-input-block">
                     <input type="text" name="href" id="href" placeholder="请输入" class="layui-input">
                 </div>

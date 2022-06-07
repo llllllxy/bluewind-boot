@@ -1,10 +1,8 @@
 package com.bluewind.boot.module.system.permissioninfo.service;
 
-import com.bluewind.boot.common.utils.JsonTool;
-import com.bluewind.boot.module.system.permissioninfo.entity.LayuiTree;
 import com.bluewind.boot.module.system.permissioninfo.entity.PermissionInfo;
 import com.bluewind.boot.module.system.permissioninfo.mapper.PermissionInfoMapper;
-import com.bluewind.boot.module.system.permissioninfo.util.PermissionTreeUtil;
+import com.bluewind.boot.module.system.rolepermission.vo.LayuiTree;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,29 +23,6 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
 
     @Autowired
     PermissionInfoMapper permissionInfoMapper;
-
-    /**
-     * 角色赋权，根据角色id获取权限树tree组件
-     * @param roleId
-     * @return
-     */
-    @Override
-    public String listPermissionForTree(String roleId) {
-        Map<String, Object> resultMap = new HashMap<>();
-        List<LayuiTree> list = permissionInfoMapper.listPermissionForTree(roleId);
-        if (null == list || list.isEmpty()) {
-            resultMap.put("data", null);
-            resultMap.put("code", 0);
-            resultMap.put("msg", "");
-            return JsonTool.toJsonString(resultMap);
-        }
-
-        List<LayuiTree> resultList = PermissionTreeUtil.toTree(list, "0");
-        resultMap.put("data", resultList);
-        resultMap.put("code", 0);
-        resultMap.put("msg", "");
-        return JsonTool.toJsonString(resultMap);
-    }
 
 
     /**
@@ -68,7 +42,7 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
     @Override
     public int forbid(String permissionId) {
         List<LayuiTree> list = permissionInfoMapper.listTree();
-        List<LayuiTree> childList = PermissionTreeUtil.findChildList(list, permissionId);
+        List<LayuiTree> childList = findChildList(list, permissionId);
 
         List<String> perIdStr = new ArrayList<>();
         perIdStr.add(permissionId);
@@ -94,7 +68,7 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
     @Override
     public int enable(String permissionId) {
         List<LayuiTree> list = permissionInfoMapper.listTree();
-        List<LayuiTree> childList = PermissionTreeUtil.findChildList(list, permissionId);
+        List<LayuiTree> childList = findChildList(list, permissionId);
 
         List<String> perIdStr = new ArrayList<>();
         perIdStr.add(permissionId);
@@ -120,7 +94,7 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
     @Override
     public int delete(String permissionId) {
         List<LayuiTree> list = permissionInfoMapper.listTree();
-        List<LayuiTree> childList = PermissionTreeUtil.findChildList(list, permissionId);
+        List<LayuiTree> childList = findChildList(list, permissionId);
 
         List<String> perIdStr = new ArrayList<>();
         perIdStr.add(permissionId);
@@ -139,8 +113,41 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
 
 
     /**
+     * 获取某个父节点下的所有子节点
+     *
+     * @param menuList 这里传入的是id、pid形式数据，即从菜单表里查出来的原始记录，没经过树化的数据
+     * @param pid 父节点
+     * @return
+     */
+    public static List<LayuiTree> findChildList(List<LayuiTree> menuList, String pid) {
+        // 子节点
+        List<LayuiTree> childMenu = new ArrayList<>();
+        return recursionChildList(menuList, pid, childMenu);
+    }
+
+
+    /**
+     * 获取子节点
+     *
+     * @param menuList 这里传入的是id、pid形式数据，即从菜单表里查出来的原始记录，没经过树化的数据
+     * @param pid 父节点
+     * @return
+     */
+    private static List<LayuiTree> recursionChildList(List<LayuiTree> menuList, String pid, List<LayuiTree> childMenu) {
+        for (LayuiTree mu : menuList) {
+            // 遍历出父id等于参数的id，add进子节点集合
+            if (mu.getParentId().equals(pid)) {
+                // 递归遍历下一级
+                recursionChildList(menuList, mu.getPermissionId(), childMenu);
+                childMenu.add(mu);
+            }
+        }
+        return childMenu;
+    }
+
+
+    /**
      * 获取权限列表
-     * @param type
      * @return
      */
     @Override

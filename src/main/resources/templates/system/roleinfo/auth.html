@@ -57,7 +57,7 @@
 
         var el = eleTree({
             el: '#test1',
-            url: Util.ctx + 'roleinfo/listPermissionForTree/' + $('input[name="roleId"]').val(),
+            url: Util.ctx + 'roleinfo/listPermissionByRoleId/' + $('input[name="roleId"]').val(),
             method: 'get',      // 接口http请求类型
             highlightCurrent: true,
             defaultExpandAll: false,

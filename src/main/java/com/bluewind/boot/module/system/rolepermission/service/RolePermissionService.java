@@ -1,5 +1,6 @@
 package com.bluewind.boot.module.system.rolepermission.service;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,4 +21,12 @@ public interface RolePermissionService {
      * @return
      */
     int doAuthorize(String roleId, String permIds);
+
+
+    /**
+     * 角色赋权，根据角色id获取权限树tree组件
+     * @param roleId 角色id
+     * @return
+     */
+    Map<String, Object> listPermissionByRoleId(String roleId);
 }

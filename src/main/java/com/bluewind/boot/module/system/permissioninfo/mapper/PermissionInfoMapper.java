@@ -1,7 +1,7 @@
 package com.bluewind.boot.module.system.permissioninfo.mapper;
 
-import com.bluewind.boot.module.system.permissioninfo.entity.LayuiTree;
 import com.bluewind.boot.module.system.permissioninfo.entity.PermissionInfo;
+import com.bluewind.boot.module.system.rolepermission.vo.LayuiTree;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,14 +13,6 @@ import java.util.Map;
  **/
 @Repository
 public interface PermissionInfoMapper {
-
-    /**
-     * 角色赋权，根据角色id获取权限树tree组件
-     * @param roleId 角色id
-     * @return
-     */
-    List<LayuiTree> listPermissionForTree(String roleId);
-
 
     /**
      * 查询菜单列表
@@ -92,7 +84,7 @@ public interface PermissionInfoMapper {
 
     /**
      * 修改菜单
-     * @param s
+     * @param
      * @return
      */
     int updatePermission(PermissionInfo permissionInfo);
