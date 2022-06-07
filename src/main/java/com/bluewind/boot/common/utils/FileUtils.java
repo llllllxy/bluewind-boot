@@ -121,7 +121,7 @@ public class FileUtils {
      *
      * @fileSuffix 文件后缀
      */
-    public static boolean isPicture(String fileName) {
+    public static boolean isImage(String fileName) {
         if (StringUtils.isBlank(fileName)) {
             return false;
         }
@@ -191,7 +191,7 @@ public class FileUtils {
      * @param imageBase64 图片Base64
      * @return
      */
-    public static String getFileExtensionByImageBase64(String imageBase64) {
+    public static String getFileExtensionByBase64(String imageBase64) {
         String extension = null;
         String type = StringUtils.substringBetween(imageBase64, "data:", ";base64,");
         if (StringUtils.inStringIgnoreCase(type, "image/jpeg")) {
@@ -219,6 +219,16 @@ public class FileUtils {
             out.write(buffer, 0, n);
         }
         return out.toByteArray();
+    }
+
+
+    /**
+     * byte数组转 InputStream 文件流
+     * @param bytes byte数组
+     * @return java.io.InputStream
+     */
+    public static InputStream byte2InputStream(byte[] bytes) {
+        return new ByteArrayInputStream(bytes);
     }
 
 
