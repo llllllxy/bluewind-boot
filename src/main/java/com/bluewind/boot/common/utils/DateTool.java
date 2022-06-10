@@ -16,12 +16,13 @@ public class DateTool {
 
 
     /**
-     * 获取当前时间 比如 DateTool.getCurrentTime("yyyy-MM-dd HH:mm:ss"); 返回值为 2012-05-15 23:44:20
+     * 获取当前时间，返回指定格式 <br>
+     * 比如 {@code DateTool.getCurrentTime("yyyy-MM-dd HH:mm:ss");} 返回值为 2012-05-15 23:44:20
      * <p>
      * 和下面的getNowTime方法一样的，为了方便迁移
      *
-     * @param format
-     * @return dateTimeStr
+     * @param format 格式字符串
+     * @return dateTimeStr 时间字符串
      */
     public static String getCurrentTime(String format) {
         LocalDateTime dateTime = LocalDateTime.now();
@@ -31,11 +32,12 @@ public class DateTool {
 
 
     /**
-     * 获取当前时间 比如 DateTool.getNowTime(); 返回值为 20120515234420
+     * 获取当前时间，返回固定格式yyyyMMddHHmmss <br>
+     * 比如 {@code DateTool.getCurrentTime();} 返回值为 20120515234420
      * <p>
      * 和下面的getNowTime方法一样的，为了方便迁移
      *
-     * @return dateTimeStr
+     * @return dateTimeStr 时间字符串
      */
     public static String getCurrentTime() {
         LocalDateTime dateTime = LocalDateTime.now();
@@ -45,9 +47,10 @@ public class DateTool {
 
 
     /**
-     * 获取当前日期，返回固定格式 yyyyMMdd
+     * 获取当前日期，返回固定格式yyyyMMdd <br>
+     * 比如 {@code DateTool.getCurrentDate();} 返回值为 20120515
      *
-     * @return
+     * @return dateTimeStr 时间字符串
      */
     public static String getCurrentDate() {
         LocalDate today = LocalDate.now();
@@ -57,9 +60,11 @@ public class DateTool {
 
 
     /**
-     * 获取当前日期，返回固定格式 yyyyMMdd
+     * 获取当前日期，返回指定格式 <br>
+     * 比如 {@code DateTool.getCurrentDate("yyyy-MM-dd");} 返回值为 2012-05-15
      *
-     * @return
+     * @param format 日期格式
+     * @return dateStr 日期字符串
      */
     public static String getCurrentDate(String format) {
         LocalDate today = LocalDate.now();
@@ -69,11 +74,11 @@ public class DateTool {
 
 
     /**
-     * 获取当前时间 比如 DateTool.getNowTime("yyyy-MM-dd HH:mm:ss"); 返回值为 2012-05-15
-     * 23:44:20
+     * 获取当前时间，返回指定格式 <br>
+     * 比如  {@code DateTool.getNowTime("yyyy-MM-dd HH:mm:ss");} 返回值为 2012-05-15 23:44:20
      *
-     * @param format
-     * @return
+     * @param format  时间日期格式
+     * @return dateStr 日期时间字符串
      */
     public static String getNowTime(String format) {
         LocalDateTime dateTime = LocalDateTime.now();
@@ -83,9 +88,10 @@ public class DateTool {
 
 
     /**
-     * 获取当前时间，返回固定格式 yyyy-MM-dd HH:mm:ss
+     * 获取当前时间，返回固定格式 <br>
+     * 比如  {@code DateTool.getNowTime();} 返回值为 2012-05-15 23:44:20
      *
-     * @return
+     * @return dateStr 日期时间字符串
      */
     public static String getNowTime() {
         LocalDateTime dateTime = LocalDateTime.now();
@@ -94,10 +100,11 @@ public class DateTool {
     }
 
     /**
-     * 获取当前日期 比如 DateTool.getToday("yyyyMMdd"); 返回值为 20120515
+     * 获取当前日期，返回指定格式 <br>
+     * 比如 {@code DateTool.getToday("yyyyMMdd"); } 返回值为 20120515
      *
-     * @param format
-     * @return
+     * @param format 日期格式
+     * @return dateStr 日期字符串
      */
     public static String getToday(String format) {
         LocalDate today = LocalDate.now();
@@ -106,9 +113,10 @@ public class DateTool {
     }
 
     /**
-     * 获取当前日期，返回固定格式 yyyy-MM-dd
+     * 获取当前日期，返回固定格式 yyyy-MM-dd <br>
+     * 比如 {@code DateTool.getToday(); } 返回值为 2012-05-15
      *
-     * @return
+     * @return dateStr 日期字符串
      */
     public static String getToday() {
         LocalDate today = LocalDate.now();
@@ -118,13 +126,13 @@ public class DateTool {
 
 
     /**
-     * 将一个日期时间字符串，由一个格式转换成另一个格式 比如:DateTool.timeFormat("20120506123344",
-     * "yyyyMMddHHmmss", "yyyy年M月d日 HH:mm") 返回值为2012年5月6日 12:33
+     * 将一个日期时间字符串，由一个格式转换成另一个格式  <br>
+     * 比如: {@code DateTool.timeFormat("20120506123344", "yyyyMMddHHmmss", "yyyy年M月d日 HH:mm") } 返回值为2012年5月6日 12:33
      *
-     * @param oldTime
-     * @param oldFormat
-     * @param newFormat
-     * @return
+     * @param oldTime 原始时间字符串
+     * @param oldFormat 原始时间格式
+     * @param newFormat 新的时间格式
+     * @return 日期时间字符串
      */
     public static String timeFormat(String oldTime, String oldFormat, String newFormat) {
         try {
@@ -139,13 +147,13 @@ public class DateTool {
     }
 
     /**
-     * 将一个日期时间字符串，由一个格式转换成另一个格式 比如:DateTool.timeFormat("20120506123344",
-     * "yyyyMMdd", "yyyy年M月d日") 返回值为2012年5月6日 12:33
+     * 将一个日期字符串，由一个格式转换成另一个格式 <br>
+     * 比如: {@code DateTool.timeFormat("20120506123344", "yyyyMMdd", "yyyy年M月d日")} 返回值为2012年5月6日 12:33
      *
-     * @param oldDate
-     * @param oldFormat
-     * @param newFormat
-     * @return
+     * @param oldDate 原始日期字符串
+     * @param oldFormat 原始日期格式
+     * @param newFormat 新的日期格式
+     * @return 日期字符串
      */
     public static String dateFormat(String oldDate, String oldFormat, String newFormat) {
         try {
