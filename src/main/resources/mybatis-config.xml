@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 全局配置 -->
+    <settings>
+        <!--    全局映射器关闭二级缓存   -->
+        <setting name="cacheEnabled" value="false"/>
+
+        <!--    允许 JDBC 支持自动生成主键    -->
+        <setting name="useGeneratedKeys" value="true"/>
+
+        <!--    配置默认的执行器，SIMPLE就是普通执行器;REUSE执行器会重用预处理语句(prepared statements);BATCH执行器将重用语句并执行批量更新   -->
+        <setting name="defaultExecutorType" value="REUSE"/>
+
+        <!--    指定 MyBatis 所用日志门面，配置成STDOUT_LOGGING时，会和自定义的SqlStatementInterceptor重复打印，所以这里使用SLF4J -->
+        <setting name="logImpl" value="SLF4J"/>
+        <!--   <setting name="logImpl" value="STDOUT_LOGGING"/> -->
+
+        <!--    mapper 驼峰式命名映射全局配置, 关闭后可以自行 resultMap 映射 , 这个只会对实体类有作用，而不会影响到Map值返回  -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+        <!--  返回resultType=”map”时，如果数据为空的字段，则该字段省略不显示，可以通过添加该配置，规定查询数据为空时则返回null  -->
+        <!--  <setting name="callSettersOnNulls" value="true"/> -->
+    </settings>
+
+    <!-- 自定义插件-->
+    <plugins>
+        <plugin interceptor="com.bluewind.boot.common.config.mybatis.MybatisSqlLogInterceptor">
+            <property name="isOpen" value="true"/>
+            <property name="maxTime" value="5000"/>
+            <property name="recordResult" value="false"/>
+        </plugin>
+    </plugins>
+
+</configuration>
