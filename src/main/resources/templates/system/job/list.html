@@ -231,9 +231,6 @@
                         currTable.reload();
                     }
                 });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
             }
         });
 
@@ -256,9 +253,6 @@
                         currTable.reload();
                     }
                 });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
                 return false;
             } else if (obj.event === 'record') {
                 var index = layer.open({
@@ -269,9 +263,6 @@
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
                     content: Util.ctx + 'joblog/init/' + data.jobId,
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
                 });
                 return false;
             } else if (obj.event === 'delete') {
