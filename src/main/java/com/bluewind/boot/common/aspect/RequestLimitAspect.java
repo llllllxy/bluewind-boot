@@ -72,7 +72,7 @@ public class RequestLimitAspect {
             token = JwtTokenUtil.parseJWT(token);
         }
 
-        if (token == null || "".equals(token)) {
+        if (StringUtils.isBlank(token)) {
             token = IPUtils.getIpAddress(request);
         }
 
