@@ -155,6 +155,7 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                 '<dd><a href="javascript:;" layuimini-tab-menu-close="current">关 闭 当 前</a></dd>\n' +
                 '<dd><a href="javascript:;" layuimini-tab-menu-close="other">关 闭 其 他</a></dd>\n' +
                 '<dd><a href="javascript:;" layuimini-tab-menu-close="all">关 闭 全 部</a></dd>\n' +
+                '<dd><a href="javascript:;" layuimini-tab-menu-close="divorced">脱 离 标 签</a></dd>\n' +
                 '</dl>\n' +
                 '</div>';
             var makeHtml = '<div class="layuimini-tab-make"></div>';
@@ -363,6 +364,8 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                                 return false;
                             } else if (closeType === 'other' && currentTabId !== tabId) {
                                 miniTab.delete(tabId);
+                            } else if (closeType === 'divorced' && currentTabId === tabId) {
+                                miniTab.divorced(tabId);
                             }
                         }
                     }
@@ -394,14 +397,17 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                 // 判断是否为新增窗口
                 if ($('.layuimini-menu-left').attr('layuimini-tab-tag') === 'add') {
                     $('.layuimini-menu-left').attr('layuimini-tab-tag', 'no')
-                } else {
-                    $("[layuimini-href]").parent().removeClass('layui-this');
-                    if (options.multiModule) {
-                        miniTab.listenSwitchMultiModule(tabId);
-                    } else {
-                        miniTab.listenSwitchSingleModule(tabId);
-                    }
                 }
+
+                $("div.layui-side ul li.layui-nav-itemed").removeClass("layui-nav-itemed");
+
+                $("[layuimini-href]").parent().removeClass('layui-this');
+                if (options.multiModule) {
+                    miniTab.listenSwitchMultiModule(tabId);
+                } else {
+                    miniTab.listenSwitchSingleModule(tabId);
+                }
+
                 miniTab.rollPosition();
             });
         },
@@ -588,6 +594,46 @@ layui.define(["element", "layer", "jquery"], function (exports) {
                     scrollLeft: left + 450
                 }, 200);
             }
+        },
+
+        /**
+         * 脱离标签栏
+         * @param tabId
+         */
+        divorced: function (tabId) {
+            let tabtitle = $("ul.layui-tab-title").children('li[lay-id="' + tabId + '"]');
+            let title = tabtitle.children("span").text();
+            let tab = $("div.layui-tab-item").children("iframe[src='" + tabId + "']");
+            let id = tabId.replace(/[^\u4e00-\u9fa5\w]/g, "");
+            //console.log(tabtitle, title, tab, id);
+            layer.open({
+                id: id,
+                title: title,
+                type: 1,
+                content: "",
+                shadeClose: false,
+                shade: 0,
+                maxmin: true,
+                area: ['50%', '80%'],
+                success: function (layero, index) {
+                    //layero tab
+                    tabtitle.hide();
+                    tabtitle.removeClass("layui-this");
+                    tab.parent("div.layui-tab-item").attr("layui-id", index);
+                    tab.appendTo($(layero).children("div#" + id));
+                    //$(layero).children("div#" + id)[0].addendChild(tab[0]);
+                },
+                cancel: function (index, layero) {
+                    let iframe = $(layero).children("div#" + id).children("iframe");
+                    iframe.appendTo($("div.layui-tab-item[layui-id=" + index + "]"));
+                    //$("div.layui-tab-item.layui-show")[0].addendChild(iframe[0]);
+                    tabtitle.addClass("layui-this");
+                    tabtitle.show();
+                },
+                end: function () {
+                    layer.msg("已关闭");
+                }
+            });
         }
 
     };
