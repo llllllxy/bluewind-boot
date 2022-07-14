@@ -573,15 +573,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
-     * object转String
+     * object转String类型，如果是null的话，则返回空字符串
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return String
      */
     public static String getString(Object object) {
         return getString(object, "");
     }
 
+
+    /**
+     * object转String类型，如果是null的话，则返回defaultValue
+     * @param object 对象
+     * @param defaultValue 默认值
+     * @return String
+     */
     public static String getString(Object object, String defaultValue) {
         if (null == object) {
             return defaultValue;
@@ -595,15 +602,21 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
-     * object转Integer
+     * object转Integer，如果是null的话，则返回-1
      *
-     * @param object
-     * @return
+     * @param object 对象
+     * @return int
      */
     public static int getInt(Object object) {
         return getInt(object, -1);
     }
 
+    /**
+     * object转Integer，如果是null的话，则返回defaultValue
+     * @param object 对象
+     * @param defaultValue 默认值
+     * @return int
+     */
     public static int getInt(Object object, Integer defaultValue) {
         if (null == object) {
             return defaultValue;
