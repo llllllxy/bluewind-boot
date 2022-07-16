@@ -66,7 +66,27 @@ spring:
       testWhileIdle: true
       testOnBorrow: false
       testOnReturn: false
-      filters: stat,wall,slf4j
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: admin
+        login-password: 123456
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+
   # Redis配置
   redis:
     host: 127.0.0.1 # Redis服务器地址
