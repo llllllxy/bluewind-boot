@@ -15,10 +15,6 @@ server:
   servlet:
     # 项目相对路径
     context-path: /bluewind
-  # 开启GZIP压缩
-  compression:
-    enabled: true
-    min-response-size: 2048
 
 # Spring相关配置
 spring:
@@ -44,21 +40,21 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://rm-das.mysql.rds.com:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(xxx+xxxxxxxxxxxxxxxx/g==)
-        password: ENC(xxsdweqdqwedqw)
+        url: jdbc:mysql://rm-bp1l6sit4p21x78608o.mysql.rds.aliyuncs.com:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        username: ENC(V9OLwE8IIO5oll+mdQuJkg==)
+        password: ENC(/+2QHTvv4OKz7PJ)
       # 辅数据源
       slave:
         # 辅数据源开关/默认关闭
         enabled: false
         url: jdbc:mysql://localhost:3306/meco-server2?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(xxxxxxxxxxxxxxx==)
-        password: ENC(xxxxxxxxxxxxxxxxxxxxx==)
+        username: ENC(kupP2V33DvyE5LQlfxHqOw==)
+        password: ENC(==)
       # quartz数据源(单独配置)
       quartz:
-        url: jdbc:mysql://rm-sa.mysql.rds.com:3306/bluewind-boot-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(zK28Jh4/sdaasdasdadasd==)
-        password: ENC(12esdsadsadasdsadasd)
+        url: jdbc:mysql://rm-bp1l6sit4p21x78608o.mysql.rds.aliyuncs.com:3306/bluewind-boot-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        username: ENC(V9OLwE8IIO5oll+mdQuJkg==)
+        password: ENC(/+2QHTvv4OKz7PJ)
       initialSize: 5
       minIdle: 10
       maxActive: 20
@@ -70,12 +66,32 @@ spring:
       testWhileIdle: true
       testOnBorrow: false
       testOnReturn: false
-      filters: stat,wall,slf4j
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: admin
+        login-password: 123456
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+
   # Redis配置
   redis:
     host: 127.0.0.1 # Redis服务器地址
     port: 6379 # Redis服务器连接端口
-    password: 12345678 # Redis服务器连接密码（默认为空）
+    password: Xing # Redis服务器连接密码（默认为空）
     database: 0 #Redis数据库索引（默认为0）
     timeout: 500 # 连接超时时间（毫秒）
     lettuce:
@@ -96,10 +112,10 @@ spring:
     cache: false
   # 邮箱配置信息
   mail:
-    host: smtp.666.com
+    host: smtp.111.com
     port: 25
-    username: leisure@666.com
-    password: dasdasdasdasdas
+    username: leisure@111.com
+    password: Muysav
     default-encoding: utf-8
     properties:
       mail:
@@ -141,14 +157,9 @@ spring:
 # mybatis配置信息
 mybatis:
   # xml文件路径
-  mapper-locations: classpath:mapping/*/*.xml
+  mapper-locations: classpath:mapping/**/*.xml
+  config-location: classpath:mybatis-config.xml
   type-aliases-package: com.bluewind.boot.**.entity
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #这个是可以打印sql、参数、查询结果的
-    # log-impl: org.apache.ibatis.logging.log4j.Log4jImpl:这个不打印查询结果
-    map-underscore-to-camel-case: true #开启驼峰命名转换，这个只会对javabean有作用，而不会影响到Map值返回
-    cache-enabled: true
-    default-executor-type: reuse
 
 # pagehelper分页配置
 pagehelper:
@@ -160,7 +171,8 @@ pagehelper:
 # 日志配置
 logging:
   level:
-    com.bluewind.boot: info
+    root: info
+    com.bluewind.boot: debug
     org.springframework: warn
 
 # Knife4j 配置
@@ -182,23 +194,23 @@ xss:
 
 # 用户密码加密的盐
 hash:
-  salt: ymp812345678$y5fM12345678ZcTEY
+  salt: ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY
 
 # jasypt配置
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES #指定解密算法
-    password: ${jasyptPassword:ymp812345678$y5fM12345678ZcTEY} #加密的密钥，自定义即可，必填项
+    password: ${jasyptPassword:ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY} #加密的密钥，自定义即可，必填项
 
 # 1、redisson单机模式配置
 redisson:
   address: redis://127.0.0.1:6379
-  password: 12345678
+  password: Xing
   timeout: 5000
 # 2、redisson哨兵模式配置
 #redisson:
 #  master-name: mymaster
-#  password: 12345678
+#  password: Xingxing9725
 #  sentinel-addresses: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
 
 # springboot异步线程配置
@@ -220,16 +232,16 @@ oss:
 
 # minio文件存储配置信息
 minio:
-  endpoint: http://101.0.9.1:9000
-  accesskey: minioadmin
-  secretKey: 12345678@
+  endpoint: http://11.4.9.251:9000
+  accessKey: minioadmin
+  secretKey: minio
   bucket: bluewind-boot
 
 qiniu:
-  endPoint: http://halo.xxxxx.top/
-  accessKey: xxxxxxxxxxxxx-jfX_XZuX85aPR
-  secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  bucketName: xxxxx-halo
+  endPoint: http://halo.XXXX.top/
+  accessKey: XXXXX-jfX_XZuX85aPR
+  secretKey:
+  bucketName: lxyccc-halo
 
 # aj-captcha行为验证码配置
 aj:
