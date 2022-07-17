@@ -2,5 +2,115 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bluewind.boot.module.system.ruleinfo.mapper.RuleInfoMapper">
 
+    <resultMap id="RuleInfo" type="com.bluewind.boot.module.system.ruleinfo.entity.RuleInfo">
+        <id column="rule_id" jdbcType="VARCHAR" property="ruleId"/>
+        <result column="rule_name" jdbcType="VARCHAR" property="ruleName"/>
+        <result column="rule_key" jdbcType="VARCHAR" property="ruleKey"/>
+        <result column="rule_value" jdbcType="VARCHAR" property="ruleValue"/>
+        <result column="rule_type" jdbcType="VARCHAR" property="ruleType"/>
+        <result column="descript" jdbcType="VARCHAR" property="descript"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
 
+    <sql id="selectRuleInfoVo">
+        select rule_id, rule_name, rule_key, rule_value, rule_type, descript, status, create_time, update_time, create_user, update_user
+        from sys_rule_info
+    </sql>
+
+    <!--查询一个业务规则-->
+    <select id="getOne" resultMap="RuleInfo" parameterType="string">
+        <include refid="selectRuleInfoVo"/>
+        where rule_id = #{_parameter}
+        order by create_time desc
+    </select>
+
+    <!--分页查询业务规则-->
+    <select id="getSysRuleInfoList" resultMap="RuleInfo" parameterType="map">
+        <include refid="selectRuleInfoVo"/>
+        <where>
+            <if test="ruleName != null and ruleName != ''">
+                and rule_name like CONCAT('%',#{ruleName},'%')
+            </if>
+            <if test="ruleKey != null and ruleKey != ''">
+                and rule_key like CONCAT('%',#{ruleKey},'%')
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="ruleType != null and ruleType != ''">
+                and rule_type = #{ruleType}
+            </if>
+        </where>
+        <choose>
+            <when test="sortName != null and sortName != '' and sortOrder != null and sortOrder != ''">
+                order by ${sortName} ${sortOrder}
+            </when>
+            <otherwise>
+                order by rule_id asc
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!--新增一个岗业务规则-->
+    <insert id="addRuleInfo" parameterType="com.bluewind.boot.module.system.ruleinfo.entity.RuleInfo">
+        insert into sys_rule_info(
+        <if test="ruleName != null and ruleName != ''">rule_name,</if>
+        <if test="ruleKey != null and ruleName != ''">rule_key,</if>
+        <if test="ruleValue != null and ruleValue != ''">rule_value,</if>
+        <if test="ruleType != null and ruleType != ''">rule_type,</if>
+        <if test="descript != null and descript != ''">descript,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="createUser != null and createUser != ''">create_user,</if>
+        rule_id
+        )values(
+        <if test="ruleName != null and ruleName != ''">#{ruleName},</if>
+        <if test="ruleKey != null and ruleKey != ''">#{ruleKey},</if>
+        <if test="ruleValue != null and ruleValue != ''">#{ruleValue},</if>
+        <if test="ruleType != null and ruleType != ''">#{ruleType},</if>
+        <if test="descript != null and descript != ''">#{descript},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="createUser != null and createUser != ''">#{createUser},</if>
+        #{ruleId}
+        )
+    </insert>
+
+    <!--更新一个业务规则-->
+    <update id="updateRuleInfo" parameterType="com.bluewind.boot.module.system.ruleinfo.entity.RuleInfo">
+        update sys_rule_info
+        <set>
+            <if test="ruleName != null and ruleName != ''">
+                rule_name = #{ruleName},
+            </if>
+            <if test="ruleKey != null and ruleKey != ''">
+                rule_key = #{ruleKey},
+            </if>
+            <if test="ruleValue != null and ruleValue != ''">
+                rule_value = #{ruleValue},
+            </if>
+            <if test="ruleType != null and ruleType != ''">
+                rule_type = #{ruleValue},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="descript != null and descript != ''">
+                descript = #{descript},
+            </if>
+            <if test="updateUser != null and updateUser != ''">
+                update_user = #{updateUser},
+            </if>
+            status = #{status}
+        </set>
+        where rule_id = #{ruleId}
+    </update>
+
+    <!--删除一个岗位-->
+    <delete id="deleteOne" parameterType="string">
+        delete from sys_rule_info where rule_id = #{_parameter}
+    </delete>
 </mapper>
