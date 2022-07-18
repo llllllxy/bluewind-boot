@@ -11,6 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ *
+ * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
+ *
  * @author liuxingyu01
  * @date 2021-05-07-11:02
  * @description 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
@@ -20,15 +23,15 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     private static final char SEPARATOR = '_';
     private static final String CHARSET_NAME = "UTF-8";
 
-    private static Pattern linePattern = Pattern.compile("_(\\w)");
-    private static Pattern humpPattern = Pattern.compile("[A-Z]");
+    private static final Pattern linePattern = Pattern.compile("_(\\w)");
+    private static final Pattern humpPattern = Pattern.compile("[A-Z]");
 
 
     /**
-     * 转换为字节数组
+     * 字符串转换为字节数组
      *
-     * @param str
-     * @return
+     * @param str 输入字符串
+     * @return byte[]
      */
     public static byte[] getBytes(String str) {
         if (str != null) {
@@ -43,10 +46,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 转换为字节数组
+     * 字节数组转换为字符串
      *
-     * @param bytes
-     * @return
+     * @param bytes 字节数组
+     * @return String
      */
     public static String toString(byte[] bytes) {
         try {
