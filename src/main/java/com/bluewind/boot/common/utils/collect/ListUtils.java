@@ -1,14 +1,16 @@
 package com.bluewind.boot.common.utils.collect;
 
 import com.bluewind.boot.common.utils.lang.StringUtils;
-
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * List工具类
+ *
  * @author liuxingyu01
  * @date 2021-06-29-19:46
  * @description List工具类
@@ -19,7 +21,7 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
      * 是否包含字符串
      *
      * @param str  验证字符串
-     * @param strs 字符串组
+     * @param strs 字符串数组
      * @return 包含返回true
      */
     public static boolean inString(String str, List<String> strs) {
@@ -33,10 +35,21 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
         return false;
     }
 
+    /**
+     * 新建一个ArrayList
+     * @return 空的ArrayList
+     * @param <E> 泛型类型
+     */
     public static <E> ArrayList<E> newArrayList() {
         return new ArrayList<E>();
     }
 
+    /**
+     * 新建一个ArrayList
+     * @param elements 初始化元素 ArrayList对象
+     * @return 新的ArrayList
+     * @param <E> 泛型类型
+     */
     @SafeVarargs
     public static <E> ArrayList<E> newArrayList(E... elements) {
         ArrayList<E> list = new ArrayList<E>(elements.length);
@@ -44,17 +57,34 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
         return list;
     }
 
+    /**
+     * 新建一个ArrayList
+     * @param elements
+     * @return
+     * @param <E>
+     */
     public static <E> ArrayList<E> newArrayList(Iterable<? extends E> elements) {
         return (elements instanceof Collection) ? new ArrayList<E>(cast(elements))
                 : newArrayList(elements.iterator());
     }
 
+    /**
+     * 新建一个ArrayList
+     * @param elements
+     * @return
+     * @param <E>
+     */
     public static <E> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
         ArrayList<E> list = newArrayList();
         addAll(list, elements);
         return list;
     }
 
+    /**
+     * 新建一个LinkedList
+     * @return 空的LinkedList
+     * @param <E> 泛型类型
+     */
     public static <E> LinkedList<E> newLinkedList() {
         return new LinkedList<E>();
     }
@@ -94,6 +124,20 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
         }
         return addAll(addTo, elementsToAdd.iterator());
     }
+
+
+    /**
+     * 数组转list集合
+     * @param array 数组
+     * @param <T> 泛型对象
+     * @return  ArrayList
+     */
+    public static <T> List<T> arrayToList(T[] array) {
+        List<T> resultList = new ArrayList<>(array.length);
+        Collections.addAll(resultList,array);
+        return resultList;
+    }
+
 
     /**
      * 提取集合中的对象的两个属性(通过Getter函数), 组合成Map.
@@ -281,7 +325,8 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
 
     /**
      * 获取两个ArrayList的交集
-     * @param firstArrayList 第一个ArrayList
+     *
+     * @param firstArrayList  第一个ArrayList
      * @param secondArrayList 第二个ArrayList
      * @return resultList 交集ArrayList
      */
@@ -292,12 +337,12 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
         HashSet<String> othHash = new HashSet<String>(secondArrayList);
         // 采用Iterator迭代器进行数据的操作
         Iterator<String> iter = result.iterator();
-        while(iter.hasNext()) {
-            if(!othHash.contains(iter.next())) {
+        while (iter.hasNext()) {
+            if (!othHash.contains(iter.next())) {
                 iter.remove();
             }
         }
-        return  new ArrayList<String>(result);
+        return new ArrayList<String>(result);
     }
 
 
@@ -342,4 +387,54 @@ public class ListUtils extends org.apache.commons.collections.ListUtils {
         return new RuntimeException(msg, e);
     }
 
+
+    /**
+     * 拆分集合(拆分一个大的List为多个小的List)
+     *
+     * @param <T>           泛型对象
+     * @param resList       需要拆分的集合
+     * @param subListLength 每个子集合的元素个数
+     * @return 返回拆分后的各个集合组成的列表
+     **/
+    public static <T> List<List<T>> split(List<T> resList, int subListLength) {
+        if (CollectionUtils.isEmpty(resList) || subListLength <= 0) {
+            return newArrayList();
+        }
+        List<List<T>> ret = newArrayList();
+        int size = resList.size();
+        if (size <= subListLength) {
+            // 数据量不足 subListLength 指定的大小
+            ret.add(resList);
+        } else {
+            int pre = size / subListLength;
+            int last = size % subListLength;
+            // 前面pre个集合，每个大小都是 subListLength 个元素
+            for (int i = 0; i < pre; i++) {
+                List<T> itemList = newArrayList();
+                for (int j = 0; j < subListLength; j++) {
+                    itemList.add(resList.get(i * subListLength + j));
+                }
+                ret.add(itemList);
+            }
+            // last的进行处理
+            if (last > 0) {
+                List<T> itemList = newArrayList();
+                for (int i = 0; i < last; i++) {
+                    itemList.add(resList.get(pre * subListLength + i));
+                }
+                ret.add(itemList);
+            }
+        }
+        return ret;
+    }
+
+
+    /**
+     * 测试
+     * @param args 参数
+     */
+    public static void main(String[] args) {
+        String[] array = {"a","b","c"};
+        System.out.println(arrayToList(array));
+    }
 }
