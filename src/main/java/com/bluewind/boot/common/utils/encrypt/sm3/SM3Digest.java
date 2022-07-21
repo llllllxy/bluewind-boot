@@ -119,24 +119,6 @@ public class SM3Digest {
         return BYTE_LENGTH;
     }
 
-    /**
-     * 测试加密算法
-     * @param args
-     */
-    public static void main(String[] args) {
-        // 加密盐
-        String salt = "{1#2$3%4(5)6@7!poeeww$3%4(5)djjkkldss}";
-
-        String str = "wl@2021" + salt;
-
-        byte[] msg2 = str.getBytes();
-        SM3Digest sm3 = new SM3Digest();
-        sm3.update(msg2, 0, msg2.length);
-        byte[] md2 = new byte[32];
-        sm3.doFinal(md2, 0);
-        String s2 = HexUtil.byte2HexStr(md2).toLowerCase();
-        System.out.println("加密后的字符串msg2: " + s2);
-    }
 
     /**
      * 国密3-加密字符串
@@ -169,6 +151,26 @@ public class SM3Digest {
         sm3.update(msg, 0, msg.length);
         sm3.doFinal(md, 0);
         return HexUtil.byte2HexStr(md).toLowerCase();
+    }
+
+
+    /**
+     * 测试加密算法
+     * @param args
+     */
+    public static void main(String[] args) {
+        // 加密盐
+        String salt = "{1#2$3%4(5)6@7!poeeww$3%4(5)djjkkldss}";
+
+        String str = "wl@2021" + salt;
+
+        byte[] msg2 = str.getBytes();
+        SM3Digest sm3 = new SM3Digest();
+        sm3.update(msg2, 0, msg2.length);
+        byte[] md2 = new byte[32];
+        sm3.doFinal(md2, 0);
+        String s2 = HexUtil.byte2HexStr(md2).toLowerCase();
+        System.out.println("加密后的字符串msg2: " + s2);
     }
 
 }
