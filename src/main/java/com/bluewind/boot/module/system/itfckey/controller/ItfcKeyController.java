@@ -8,6 +8,7 @@ import com.bluewind.boot.common.utils.DateTool;
 import com.bluewind.boot.common.utils.DictUtils;
 import com.bluewind.boot.common.utils.RedisUtil;
 import com.bluewind.boot.common.utils.idgen.IdGenerate;
+import com.bluewind.boot.common.utils.lang.StringUtils;
 import com.bluewind.boot.module.system.itfckey.entity.ItfcKey;
 import com.bluewind.boot.module.system.itfckey.service.ItfcKeyService;
 import com.github.pagehelper.PageHelper;
@@ -128,7 +129,11 @@ public class ItfcKeyController extends BaseController {
                           @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
         ItfcKey sysItfcKey = new ItfcKey();
         String itfcKey = IdGenerate.uuid();
+        String itfcId = IdGenerate.nextId();
+        String itfcKeySecret = StringUtils.getSecretStr(64);
         sysItfcKey.setItfcKey(itfcKey);
+        sysItfcKey.setItfcId(itfcId);
+        sysItfcKey.setItfcKeySecret(itfcKeySecret);
         sysItfcKey.setOwner(owner);
         validPeriod = DateTool.dateFormat(validPeriod,"yyyy-MM-dd", "yyyyMMdd");
         sysItfcKey.setValidPeriod(validPeriod);
@@ -152,9 +157,9 @@ public class ItfcKeyController extends BaseController {
      * @return
      */
     @ApiOperation(value = "修改页面初始化")
-    @GetMapping("/forUpdate/{id}")
-    public String forUpdate(Model model, @PathVariable Integer id) {
-        ItfcKey itfcKey = itfcKeyService.getOneSysItfcKey(id);
+    @GetMapping("/forUpdate/{itfcId}")
+    public String forUpdate(Model model, @PathVariable String itfcId) {
+        ItfcKey itfcKey = itfcKeyService.getOneSysItfcKey(itfcId);
         String validPeriod = DateTool.dateFormat(itfcKey.getValidPeriod(),"yyyyMMdd", "yyyy-MM-dd");
         itfcKey.setValidPeriod(validPeriod);
         model.addAttribute("itfcKey", itfcKey);
@@ -168,13 +173,13 @@ public class ItfcKeyController extends BaseController {
     @ApiOperation(value = "修改")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult update(@RequestParam("id") Integer id,
+    public BaseResult update(@RequestParam("itfcId") String itfcId,
                              @RequestParam("itfcKey") String itfcKey,
                              @RequestParam("owner") String owner,
                              @RequestParam("validPeriod") String validPeriod,
                              @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
         ItfcKey sysItfcKey = new ItfcKey();
-        sysItfcKey.setId(id);
+        sysItfcKey.setItfcId(itfcId);
         sysItfcKey.setOwner(owner);
         validPeriod = DateTool.dateFormat(validPeriod,"yyyy-MM-dd", "yyyyMMdd");
         sysItfcKey.setValidPeriod(validPeriod);
@@ -199,10 +204,10 @@ public class ItfcKeyController extends BaseController {
      */
     @ApiOperation(value = "删除", notes = "删除")
     @ResponseBody
-    @GetMapping("/delete/{id}/{itfcKey}")
-    public BaseResult delete(@PathVariable Integer id,
+    @GetMapping("/delete/{itfcId}/{itfcKey}")
+    public BaseResult delete(@PathVariable String itfcId,
                              @PathVariable String itfcKey) {
-        int num = itfcKeyService.deleteSysItfcKey(id);
+        int num = itfcKeyService.deleteSysItfcKey(itfcId);
         if (num > 0) {
             redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
 
@@ -220,10 +225,10 @@ public class ItfcKeyController extends BaseController {
      */
     @ApiOperation(value = "停用", notes = "停用")
     @ResponseBody
-    @GetMapping("/forbid/{id}/{itfcKey}")
-    public BaseResult forbid(@PathVariable Integer id,
+    @GetMapping("/forbid/{itfcId}/{itfcKey}")
+    public BaseResult forbid(@PathVariable String itfcId,
                              @PathVariable String itfcKey) {
-        int num = itfcKeyService.forbidSysItfcKey(id);
+        int num = itfcKeyService.forbidSysItfcKey(itfcId);
         if (num > 0) {
             redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
 
@@ -241,11 +246,11 @@ public class ItfcKeyController extends BaseController {
      */
     @ApiOperation(value = "启用", notes = "启用")
     @ResponseBody
-    @GetMapping("/enable/{id}/{itfcKey}/{validPeriod}")
-    public BaseResult enable(@PathVariable Integer id,
+    @GetMapping("/enable/{itfcId}/{itfcKey}/{validPeriod}")
+    public BaseResult enable(@PathVariable String itfcId,
                              @PathVariable String itfcKey,
                              @PathVariable String validPeriod) {
-        int num = itfcKeyService.enableSysItfcKey(id);
+        int num = itfcKeyService.enableSysItfcKey(itfcId);
         if (num > 0) {
 
             redisUtil.del(SystemConst.SYSTEM_ITFC_KEY + ":" + itfcKey);
@@ -262,9 +267,9 @@ public class ItfcKeyController extends BaseController {
      * @return
      */
     @ApiOperation(value = "权限配置页面初始化", notes = "权限配置页面初始化")
-    @GetMapping("/forAuthorize/{id}")
-    public String forAuthorize(Model model, @PathVariable Integer id) {
-        ItfcKey itfcKey = itfcKeyService.getOneSysItfcKey(id);
+    @GetMapping("/forAuthorize/{itfcId}")
+    public String forAuthorize(Model model, @PathVariable String itfcId) {
+        ItfcKey itfcKey = itfcKeyService.getOneSysItfcKey(itfcId);
         model.addAttribute("itfcKey", itfcKey);
         return "system/itfckey/auth";
     }

@@ -74,7 +74,6 @@ public class ItfcPermissionController extends BaseController {
     public BaseResult list(@RequestParam("page") Integer pageNum,
                            @RequestParam("limit") Integer pageSize,
                            @RequestParam(required = false, defaultValue = "", value = "permissionId") String permissionId) {
-        // 分页查询
         PageHelper.startPage(pageNum, pageSize);
         if (logger.isInfoEnabled()) {
             logger.info("list -- 页面大小：" + pageSize + "--页码:" + pageNum);

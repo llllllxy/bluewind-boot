@@ -3,8 +3,9 @@
 <mapper namespace="com.bluewind.boot.module.system.itfckey.mapper.ItfcKeyMapper">
 
     <resultMap id="SysItfcKey" type="com.bluewind.boot.module.system.itfckey.entity.ItfcKey">
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="itfc_id" jdbcType="VARCHAR" property="itfcId"/>
         <result column="itfc_key" jdbcType="VARCHAR" property="itfcKey"/>
+        <result column="itfc_key_secret" jdbcType="VARCHAR" property="itfcKeySecret"/>
         <result column="owner" jdbcType="VARCHAR" property="owner"/>
         <result column="descript" jdbcType="VARCHAR" property="descript"/>
         <result column="valid_period" jdbcType="CHAR" property="validPeriod"/>
@@ -34,20 +35,22 @@
                 order by ${sortName} ${sortOrder}
             </when>
             <otherwise>
-                order by id asc
+                order by itfc_id asc
             </otherwise>
         </choose>
     </select>
 
     <!-- 查询一个rest_key -->
-    <select id="getOneSysItfcKey" resultMap="SysItfcKey" parameterType="java.lang.Integer">
-        select * from sys_itfc_key where id = #{_parameter}
+    <select id="getOneSysItfcKey" resultMap="SysItfcKey" parameterType="java.lang.String">
+        select * from sys_itfc_key where itfc_id = #{_parameter}
     </select>
 
     <!-- 新增服务密钥 -->
     <insert id="addOneSysItfcKey" parameterType="com.bluewind.boot.module.system.itfckey.entity.ItfcKey">
         insert into sys_itfc_key (
+            itfc_id,
             itfc_key,
+            itfc_key_secret,
             owner,
             valid_period,
             descript,
@@ -55,7 +58,9 @@
             del_flag,
             create_user
         ) values (
+             #{itfcId},
              #{itfcKey},
+             #{itfcKeySecret},
              #{owner},
              #{validPeriod},
              #{descript},
@@ -71,25 +76,25 @@
         valid_period = #{validPeriod},
         descript = #{descript},
         update_user = #{updateUser}
-        where id = #{id}
+        where itfc_id = #{itfcId}
     </update>
 
-    <update id="deleteSysItfcKey" parameterType="java.lang.Integer">
+    <update id="deleteSysItfcKey" parameterType="java.lang.String">
         update sys_itfc_key set
         del_flag = '1'
-        where id = #{_parameter}
+        where itfc_id = #{_parameter}
     </update>
 
-    <update id="forbidSysItfcKey" parameterType="java.lang.Integer">
+    <update id="forbidSysItfcKey" parameterType="java.lang.String">
         update sys_itfc_key set
         status = '1'
-        where id = #{_parameter}
+        where itfc_id = #{_parameter}
     </update>
 
-    <update id="enableSysItfcKey" parameterType="java.lang.Integer">
+    <update id="enableSysItfcKey" parameterType="java.lang.String">
         update sys_itfc_key set
         status = '0'
-        where id = #{_parameter}
+        where itfc_id = #{_parameter}
     </update>
 
     <select id="listPermissionForTree" parameterType="java.lang.String"
@@ -97,7 +102,6 @@
         SELECT
             a.permission_id as permissionId,
             a.parent_id as parentId,
-            a.id,
             a.name as title,
             ( CASE WHEN LENGTH(b.itfc_key) > 0 THEN 1 ELSE 0 END ) AS checked
         FROM sys_itfc_permission a

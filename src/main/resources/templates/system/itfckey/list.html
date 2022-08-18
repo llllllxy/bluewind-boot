@@ -21,7 +21,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">key值：</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="itfcKey" name="restKey" autocomplete="off" class="layui-input"
+                                <input type="text" id="itfcKey" name="itfcKey" autocomplete="off" class="layui-input"
                                        placeholder="请输入key值">
                             </div>
                         </div>
@@ -111,7 +111,7 @@
             elem: '#currentTableId',
             url: Util.ctx + 'itfckey/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
-            where: {sortName: 'id', sortOrder: 'asc'}, // 初始化时带的参数
+            where: {sortName: 'itfc_id', sortOrder: 'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print'],
             cols: [
@@ -154,7 +154,7 @@
                     curr: 1 // 页码从1开始
                 },
                 where: {
-                    restKey: data.field.restKey,
+                    itfcKey: data.field.itfcKey,
                     owner: data.field.owner,
                     status: data.field.status
                 }
@@ -235,7 +235,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'itfckey/forUpdate/' + data.id,
+                    content: Util.ctx + 'itfckey/forUpdate/' + data.itfcId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -262,7 +262,7 @@
                                 maxmin: true,
                                 shadeClose: true,
                                 area: [layerwidth + 'px', layerheight + 'px'],
-                                content: Util.ctx + '/itfckey/forAuthorize/' + data.id,
+                                content: Util.ctx + '/itfckey/forAuthorize/' + data.itfcId,
                                 end: function (index) {
                                     // 重载表格
                                     currTable.reload();
@@ -274,7 +274,7 @@
                             layer.confirm('确定删除该密钥吗？', function (index) {
                                 layer.close(index);
                                 Util.get({
-                                    url: Util.ctx + "itfckey/delete/" + data.id + "/" + data.itfcKey,
+                                    url: Util.ctx + "itfckey/delete/" + data.itfcId + "/" + data.itfcKey,
                                     success: function (res) {
                                         // obj.del(); 删除该行
                                         if (res.code === 0) {
@@ -296,7 +296,7 @@
                 layer.confirm('确定停用该密钥吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "/itfckey/forbid/" + data.id + "/" + data.itfcKey,
+                        url: Util.ctx + "/itfckey/forbid/" + data.itfcId + "/" + data.itfcKey,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -313,7 +313,7 @@
                 layer.confirm('确定启用该密钥吗？', function (index) {
                     layer.close(index);
                     Util.get({
-                        url: Util.ctx + "/itfckey/enable/" + data.id + "/" + data.itfcKey + "/" + data.validPeriod,
+                        url: Util.ctx + "/itfckey/enable/" + data.itfcId + "/" + data.itfcKey + "/" + data.validPeriod,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

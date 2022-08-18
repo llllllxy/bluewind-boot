@@ -36,8 +36,8 @@ public class ItfcKeyServiceImpl implements ItfcKeyService {
     }
 
     @Override
-    public ItfcKey getOneSysItfcKey(Integer id) {
-        return itfcKeyMapper.getOneSysItfcKey(id);
+    public ItfcKey getOneSysItfcKey(String itfcId) {
+        return itfcKeyMapper.getOneSysItfcKey(itfcId);
     }
 
     @Override
@@ -46,18 +46,18 @@ public class ItfcKeyServiceImpl implements ItfcKeyService {
     }
 
     @Override
-    public int deleteSysItfcKey(Integer id) {
-        return itfcKeyMapper.deleteSysItfcKey(id);
+    public int deleteSysItfcKey(String itfcId) {
+        return itfcKeyMapper.deleteSysItfcKey(itfcId);
     }
 
     @Override
-    public int forbidSysItfcKey(Integer id) {
-        return itfcKeyMapper.forbidSysItfcKey(id);
+    public int forbidSysItfcKey(String itfcId) {
+        return itfcKeyMapper.forbidSysItfcKey(itfcId);
     }
 
     @Override
-    public int enableSysItfcKey(Integer id) {
-        return itfcKeyMapper.enableSysItfcKey(id);
+    public int enableSysItfcKey(String itfcId) {
+        return itfcKeyMapper.enableSysItfcKey(itfcId);
     }
 
     @Override

@@ -44,7 +44,6 @@ public class ItfcPermissionServiceImpl implements ItfcPermissionService {
         } else {
             num = itfcPermissionMapper.insert(itfcPermission);
         }
-
         return num;
     }
 

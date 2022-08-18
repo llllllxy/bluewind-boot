@@ -3,8 +3,7 @@
 <mapper namespace="com.bluewind.boot.module.system.itfcpermission.mapper.ItfcPermissionMapper">
 
     <resultMap id="SysItfcPermission" type="com.bluewind.boot.module.system.itfcpermission.entity.ItfcPermission">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
+        <id column="permission_id" jdbcType="VARCHAR" property="permissionId"/>
         <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
         <result column="type" jdbcType="CHAR" property="type"/>
         <result column="sign" jdbcType="VARCHAR" property="sign"/>
@@ -29,10 +28,9 @@
     </select>
 
     <select id="listTree" resultType="java.util.Map">
-        SELECT *
-        FROM sys_itfc_permission
+        select * from sys_itfc_permission
         where del_flag = '0'
-        ORDER BY type,parent_id
+        order by type,parent_id
     </select>
 
     <update id="update" parameterType="com.bluewind.boot.module.system.itfcpermission.entity.ItfcPermission">

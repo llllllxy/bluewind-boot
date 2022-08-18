@@ -12,8 +12,6 @@ import java.io.Serializable;
 public class ItfcPermission implements Serializable {
     private static final long serialVersionUID = 3425968827740713710L;
 
-    private Integer id;
-
     private String permissionId;
 
     private String parentId;
@@ -41,14 +39,6 @@ public class ItfcPermission implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getPermissionId() {
         return permissionId;
@@ -149,7 +139,6 @@ public class ItfcPermission implements Serializable {
     @Override
     public String toString() {
         return "SysRestPermission{" +
-                "id=" + id +
                 ", permissionId='" + permissionId + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", name='" + name + '\'' +

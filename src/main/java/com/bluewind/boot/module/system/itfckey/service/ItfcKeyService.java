@@ -15,15 +15,15 @@ public interface ItfcKeyService {
 
     int addOneSysItfcKey(ItfcKey itfcKey);
 
-    ItfcKey getOneSysItfcKey(Integer id);
+    ItfcKey getOneSysItfcKey(String itfcId);
 
     int updateSysItfcKey(ItfcKey itfcKey);
 
-    int deleteSysItfcKey(Integer id);
+    int deleteSysItfcKey(String itfcId);
 
-    int forbidSysItfcKey(Integer id);
+    int forbidSysItfcKey(String itfcId);
 
-    int enableSysItfcKey(Integer id);
+    int enableSysItfcKey(String itfcId);
 
     String listPermissionForTree(String itfcKey);
 

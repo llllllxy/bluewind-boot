@@ -13,13 +13,15 @@ import java.io.Serializable;
 public class ItfcKey implements Serializable {
     private static final long serialVersionUID = 1735583407421553598L;
 
-    private Integer id;
+    private String itfcId;
 
     private String status;
 
     private String delFlag;
 
     private String itfcKey;
+
+    private String itfcKeySecret;
 
     private String owner;
 
@@ -39,13 +41,12 @@ public class ItfcKey implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateTime;
 
-
-    public Integer getId() {
-        return id;
+    public String getItfcId() {
+        return itfcId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setItfcId(String itfcId) {
+        this.itfcId = itfcId;
     }
 
     public String getStatus() {
@@ -70,6 +71,15 @@ public class ItfcKey implements Serializable {
 
     public void setItfcKey(String itfcKey) {
         this.itfcKey = itfcKey;
+    }
+
+
+    public String getItfcKeySecret() {
+        return itfcKeySecret;
+    }
+
+    public void setItfcKeySecret(String itfcKeySecret) {
+        this.itfcKeySecret = itfcKeySecret;
     }
 
     public String getOwner() {
@@ -132,10 +142,11 @@ public class ItfcKey implements Serializable {
     @Override
     public String toString() {
         return "SysRestKey{" +
-                "id=" + id +
+                "itfcId=" + itfcId +
                 ", status=" + status + '\'' +
                 ", delFlag=" + delFlag + '\'' +
                 ", itfcKey='" + itfcKey + '\'' +
+                ", itfcKeySecret='" + itfcKeySecret + '\'' +
                 ", owner='" + owner + '\'' +
                 ", validPeriod='" + validPeriod + '\'' +
                 ", descript='" + descript + '\'' +
