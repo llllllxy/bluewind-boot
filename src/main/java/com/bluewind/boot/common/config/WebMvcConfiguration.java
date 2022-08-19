@@ -63,10 +63,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         excludePathList.add("/admin/doRegister"); // 注册接口
         excludePathList.add("/admin/sendEmail"); // 注册获取邮箱验证码的接口
 
-        excludePathList.add("/anon/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
-        excludePathList.add("/itfc/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
         excludePathList.add("/captcha/**"); // 开放获取行为验验证码接口
         excludePathList.add("/kaptcha/**");  // 开放获取文字验证码接口
+
+        excludePathList.add("/anon/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
+        excludePathList.add("/itfc/**");  // 开放itfc和anon接口（itfc和anon开头的可免认证访问）
+
         excludePathList.add("/static/**");//静态资源不拦截
 
         // 开放静态文件
@@ -76,7 +78,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         excludePathList.add("/lib/**");
         excludePathList.add("/api/**");
 
-        // 注册会话认证拦截器
+        // 注册会话拦截器
         registry.addInterceptor(getAuthenticeInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludePathList)
@@ -92,7 +94,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludePathList);
 
-        // 注册itfc服务拦截器，拦截itfc开头的url
+        // 注册itfc三方服务拦截器，只拦截itfc开头的url
         registry.addInterceptor(getItfcInterceptor())
                 .addPathPatterns("/itfc/**");
     }
