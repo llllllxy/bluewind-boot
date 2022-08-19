@@ -53,6 +53,11 @@ public final class SystemConst {
     public static final String SYSTEM_ITFC_KEY = "bluewind:itfckey";
 
     /**
+     * itfc-key-permission
+     */
+    public static final String SYSTEM_ITFC_KEY_PERMISSION = "bluewind:itfckeypermission";
+
+    /**
      * id-table业务流水号
      */
     public static final String SYSTEM_ID_TABLE = "bluewind:idtable";

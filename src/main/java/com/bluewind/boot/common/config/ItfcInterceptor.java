@@ -5,6 +5,7 @@ import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.utils.DateTool;
 import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.common.utils.RedisUtil;
+import com.bluewind.boot.common.utils.encrypt.MD5Utils;
 import com.bluewind.boot.common.utils.mybatis.MybatisSqlTool;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -22,16 +23,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+
 
 /**
  * @author liuxingyu01
  * @date 2020-03-22-11:23
- * @description: itfc服务拦截器
+ * @description: 三方itfc服务拦截器
  **/
 @Component
 public class ItfcInterceptor implements HandlerInterceptor {
     private final static Logger logger = LoggerFactory.getLogger(ItfcInterceptor.class);
+
+    private final static String TIME_FORMAT = "yyyyMMddHHmmss";
 
     @Autowired
     private RedisUtil redisUtil;
@@ -44,112 +51,141 @@ public class ItfcInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         if (!(handler instanceof HandlerMethod)) {
-            logger.info("RestInterceptor --> preHandle --> 不是HandlerMethod！");
             outWrite(response, "10106", "不是HandlerMethod！");
             return false;
         }
-
-        // 判断请求类型，如果是OPTIONS，直接返回
+        // 判断请求类型，如果是OPTIONS请求，则直接返回
         String options = HttpMethod.OPTIONS.toString();
-        logger.info("RestInterceptor -- preHandle -- httpMethod=" + options);
-        logger.info("RestInterceptor -- preHandle -- request.getMethod()=" + request.getMethod());
         if (options.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }
 
-        // 获取请求头信息authorization信息
-        String authorization = request.getHeader("Authorization");
+        // 从请求头或者url里获取itfckey等信息
+        String itfckey = request.getHeader("itfckey") == null ? request.getParameter("itfckey") : request.getHeader("itfckey");
+        String reqtime = request.getHeader("reqtime") == null ? request.getParameter("reqtime") : request.getHeader("reqtime");
+        // itfc_key + itfckey_secret + reqtime然后进行MD5加密(16进制的)
+        String signature = request.getHeader("signature") == null ? request.getParameter("signature") : request.getHeader("signature");
+
         if (logger.isInfoEnabled()) {
-            logger.info("RestInterceptor --> preHandle --> authorization= " + authorization);
+            logger.info("ItfcInterceptor preHandle itfckey : {}, signature: {}, reqtime: {}", itfckey, signature, reqtime);
         }
-        if (StringUtils.isBlank(authorization)) {
-            logger.info("RestInterceptor --> preHandle --> Authorization信息为空！");
-            outWrite(response, "10106", "Authorization信息为空，请设置Authorization后再访问！");
+
+        if (StringUtils.isBlank(itfckey)) {
+            outWrite(response, "10106", "itfckey不允许为空，认证未通过!");
             return false;
-        } else {
-            Map<String, Object> itfcConfigMap;
-            // 先尝试从redis里面取
-            itfcConfigMap = (Map<String, Object>) redisUtil.get(SystemConst.SYSTEM_ITFC_KEY + ":" + authorization);
-            if (itfcConfigMap == null || itfcConfigMap.isEmpty()) {
-                // redis里拿不到的话，就从数据库里查
-                String sql1 = "select itfc_key, valid_period from sys_itfc_key " +
-                        "where status = 0 and del_flag = 0 and itfc_key = '" + authorization + "'";
-                List<Map<String, Object>> keyList = MybatisSqlTool.selectAnySql(sql1);
-                if (CollectionUtils.isNotEmpty(keyList)) {
-                    String valid_period = (String) keyList.get(0).get("valid_period");
-                    // 如果过期时间为空的话，则默认为不做限制，所以设置到2050年
-                    if (StringUtils.isBlank(valid_period)) {
-                        valid_period = "20500625";
-                    }
+        }
 
-                    String sql2 = "select srp.sign from sys_itfc_permission srp " +
-                            "left join sys_itfc_key_permission srkp on srkp.itfc_permission = srp.permission_id " +
-                            "where srkp.itfc_key = '" + authorization + "'";
-                    List<Map<String, Object>> permissionList = MybatisSqlTool.selectAnySql(sql2);
-                    Set<String> set = new HashSet<>();
-                    if (CollectionUtils.isNotEmpty(permissionList)) {
-                        for (Map map : permissionList) {
-                            String sign = Optional.ofNullable(map.get("sign")).orElse("").toString();
-                            if (StringUtils.isNotBlank(sign)) {
-                                set.add(sign);
-                            }
-                        }
-                    }
+        if (StringUtils.isBlank(signature)) {
+            outWrite(response, "10106", "signature不允许为空，认证未通过!");
+            return false;
+        }
 
-                    itfcConfigMap = new HashMap<>();
-                    itfcConfigMap.put("valid_period", valid_period);
-                    itfcConfigMap.put("permission_set", set);
-                    // 缓存到redis中，减小数据库压力(3600秒)
-                    redisUtil.set(SystemConst.SYSTEM_ITFC_KEY + ":" + authorization, itfcConfigMap, 3600);
-                }
-            }
-
-            // itfcConfigMap不为空时，说明这个itfc-key存在，进入下一步处理
-            if (MapUtils.isNotEmpty(itfcConfigMap)) {
-                String validPeriod = (String) itfcConfigMap.get("valid_period");
-                // 判断key值有效期，如果超过有效期的话，则不允许访问
-                String today = DateTool.getToday("yyyyMMdd");
-                // 有效期小于今天，说明过期了，拉倒了，不让访问
-                if (validPeriod.compareTo(today) < 0) {
-                    logger.info("RestInterceptor --> preHandle --> validPeriod < today！");
-                    outWrite(response, "10106", "您的Authorization已过期！");
+        // 判断时间戳是否合格
+        if (StringUtils.isBlank(reqtime)) {
+            outWrite(response, "10106", "reqtime不允许为空，认证未通过!");
+            return false;
+        } else { // 判断时间戳是否是前后五分钟内
+            String nowTime = DateTool.getCurrentTime(TIME_FORMAT);
+            try {
+                long timeDiff = timeDiffSeconds(nowTime, reqtime);
+                // 超过五分钟的时间戳也不合格
+                if (timeDiff > 300) {
+                    outWrite(response, "10106", "reqtime时间戳只有在当前时间的前后5分钟内有效，认证未通过!");
                     return false;
-                } else {
-                    HandlerMethod handlerMethod = (HandlerMethod) handler;
-                    ItfcPermissions annotation = handlerMethod.getMethodAnnotation(ItfcPermissions.class);
-                    // 接口上没有注解，说明只要有key，就可以访问这个接口
-                    if (annotation == null) {
-                        logger.info("RestInterceptor --> preHandle --> 这个接口没有加注解，所以有key就可以访问");
-                        return true;
-                    } else {
-                        String permission = annotation.value();
-                        logger.info("RestInterceptor --> preHandle --> permission = " + permission);
-                        Set<String> permissionSet = (Set<String>) itfcConfigMap.get("permission_set");
-
-                        if (permissionSet == null) {
-                            logger.info("RestInterceptor --> preHandle --> permissionSet为空！");
-                            outWrite(response, "10106", "您的Authorization没有任何权限！");
-                            return false;
-                        } else {
-                            if (permissionSet.contains(permission)) {
-                                logger.info("RestInterceptor --> preHandle --> 有权限访问，通过！");
-                                return true;
-                            } else {
-                                logger.info("RestInterceptor --> preHandle --> permissionSet为空！");
-                                outWrite(response, "10106", "此接口您没有权限访问！");
-                                return false;
-                            }
-                        }
-                    }
                 }
-            } else {
-                logger.info("RestInterceptor --> preHandle --> 您的Authorization值在redis中不存在");
-                outWrite(response, "10106", "您的Authorization值不正确，请联系管理员！");
+            } catch (Exception e) {
+                logger.debug("ItfcInterceptor -- preHandle -- timeDiffSeconds - Exception = {e}", e);
+                outWrite(response, "10106", "reqtime格式不正确，认证未通过!");
                 return false;
             }
         }
 
+
+        Map<String, Object> itfcConfigMap;
+        // 先尝试从redis缓存里面取
+        itfcConfigMap = (Map<String, Object>) redisUtil.get(SystemConst.SYSTEM_ITFC_KEY + ":" + itfckey);
+        // redis里拿不到的话，就从数据库里查
+        if (MapUtils.isEmpty(itfcConfigMap)) {
+            String sql1 = "select itfc_key, itfc_key_secret, ifnull(valid_period, '20501231') valid_period from sys_itfc_key " +
+                    "where status = '0' and del_flag = '0' and itfc_key = '" + itfckey + "'";
+            List<Map<String, Object>> configList = MybatisSqlTool.selectAnySql(sql1);
+            if (CollectionUtils.isNotEmpty(configList)) {
+                itfcConfigMap = configList.get(0);
+                // 缓存到redis中，减小数据库压力(3600秒)
+                redisUtil.set(SystemConst.SYSTEM_ITFC_KEY + ":" + itfckey, itfcConfigMap, 3600);
+            }
+        }
+        if (MapUtils.isEmpty(itfcConfigMap)) {
+            outWrite(response, "10106", "itfckey不正确，认证未通过！");
+            return false;
+        }
+
+        String validPeriod = (String) itfcConfigMap.get("valid_period");
+        String itfcKeySecret = (String) itfcConfigMap.get("itfc_key_secret");
+
+        // 判断key值有效期，如果超过有效期的话，则不允许访问
+        String today = DateTool.getToday("yyyyMMdd");
+        if (validPeriod.compareTo(today) < 0) { // 有效期小于今天，说明过期了，拉倒了，不让访问
+            outWrite(response, "10106", "itfckey已过期，认证未通过！");
+            return false;
+        }
+
+        // 检验signature是否正确，规则是 ak + sk 然后进行MD5加密(16进制的)
+        String buildSignature = MD5Utils.MD5Encode(itfckey + itfcKeySecret + reqtime);
+        if (!signature.equalsIgnoreCase(buildSignature)) {
+            outWrite(response, "10106", "signature不正确，认证未通过!");
+            return false;
+        }
+
+        // 获取permission
+        Set<String> permissionSet = (Set<String>) redisUtil.get(SystemConst.SYSTEM_ITFC_KEY_PERMISSION + ":" + itfckey);
+
+        if (CollectionUtils.isEmpty(permissionSet)) {
+            String sql2 = "select srp.sign from sys_itfc_permission srp " +
+                    "left join sys_itfc_key_permission srkp on srkp.itfc_permission = srp.permission_id " +
+                    "where srkp.itfc_key = '" + itfckey + "'";
+            List<Map<String, Object>> permissionList = MybatisSqlTool.selectAnySql(sql2);
+            Set<String> set = new HashSet<>();
+            if (CollectionUtils.isNotEmpty(permissionList)) {
+                for (Map map : permissionList) {
+                    String sign = Optional.ofNullable(map.get("sign")).orElse("").toString();
+                    if (StringUtils.isNotBlank(sign)) {
+                        set.add(sign);
+                    }
+                }
+            }
+            permissionSet = set;
+            // 缓存到redis中，减小数据库压力(3600秒)
+            redisUtil.set(SystemConst.SYSTEM_ITFC_KEY_PERMISSION + ":" + itfckey, permissionSet, 3600);
+        }
+
+        // 下面进入到接口校验环节
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        ItfcPermissions annotation = handlerMethod.getMethodAnnotation(ItfcPermissions.class);
+        // 接口上没有注解，说明只要有key，就可以访问这个接口
+        if (annotation == null) {
+            logger.info("ItfcInterceptor --> preHandle --> 这个接口没有加注解，所以可以直接访问");
+            return true;
+        } else {
+            String annoValue = annotation.value();
+            logger.info("ItfcInterceptor --> preHandle --> annoValue = " + annoValue);
+
+            if (CollectionUtils.isEmpty(permissionSet)) {
+                logger.info("ItfcInterceptor --> preHandle --> permissionSet为空！");
+                outWrite(response, "10106", "您的itfckey没有任何权限！");
+                return false;
+            } else {
+                if (permissionSet.contains(annoValue)) {
+                    logger.info("ItfcInterceptor --> preHandle --> 有权限访问，通过！");
+                    return true;
+                } else {
+                    logger.info("ItfcInterceptor --> preHandle --> permissionSet为空！");
+                    outWrite(response, "10106", "此接口您没有权限访问！");
+                    return false;
+                }
+            }
+        }
     }
 
 
@@ -170,6 +206,13 @@ public class ItfcInterceptor implements HandlerInterceptor {
         //System.out.println("执行到了afterCompletion方法");
     }
 
+    /**
+     * 输出 JSON
+     * @param response
+     * @param code
+     * @param message
+     * @throws IOException
+     */
     public void outWrite(HttpServletResponse response, String code, String message) throws IOException {
         Map<String, String> data = new HashMap<>();
         data.put("code", code);
@@ -178,6 +221,28 @@ public class ItfcInterceptor implements HandlerInterceptor {
         PrintWriter out = response.getWriter();
         out.write(JsonTool.toJsonString(data));
         out.close();
+    }
+
+
+    /**
+     * 计量时间差 (time2 - time1)，返回秒数 比如 DateTool.timeDiffSeconds("2012-10-25
+     * 02:49:15","2012-10-25 02:50:30") 返回值为 75
+     *
+     * @param previousTime 之前的时间
+     * @param nextTime 之后的时间
+     * @return
+     */
+    public long timeDiffSeconds(String previousTime, String nextTime) {
+        DateTimeFormatter df1 = DateTimeFormatter.ofPattern(TIME_FORMAT);
+        LocalDateTime previousDateTime = LocalDateTime.parse(previousTime, df1);
+
+        DateTimeFormatter df2 = DateTimeFormatter.ofPattern(TIME_FORMAT);
+        LocalDateTime nextDateTime = LocalDateTime.parse(nextTime, df2);
+
+        Duration duration = Duration.between(previousDateTime, nextDateTime);
+        long millis = duration.toMillis(); // 相差毫秒数(所有的)
+
+        return Math.abs(Math.round(millis / 1000));
     }
 
 }
