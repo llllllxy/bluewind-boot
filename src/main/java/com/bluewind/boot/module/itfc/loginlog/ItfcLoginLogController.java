@@ -24,7 +24,7 @@ public class ItfcLoginLogController {
     final static Logger logger = LoggerFactory.getLogger(ItfcLoginLogController.class);
 
     @ItfcPermissions("itfc:loginlog:getAllLoginLog")
-    @RequestMapping(value = "/getAllLoginLog", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAllLoginLog", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public BaseResult getAllLoginLog() {
         Map<String, String> map = new HashMap<>();
@@ -34,7 +34,7 @@ public class ItfcLoginLogController {
 
 
     @ItfcPermissions("itfc:loginlog:getSomeLoginLog")
-    @RequestMapping(value = "/getSomeLoginLog", method = RequestMethod.GET)
+    @RequestMapping(value = "/getSomeLoginLog", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public BaseResult getSomeLoginLog() {
         Map<String, String> map = new HashMap<>();
