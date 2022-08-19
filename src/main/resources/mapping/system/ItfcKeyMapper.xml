@@ -74,6 +74,7 @@
         update sys_itfc_key set
         owner = #{owner},
         valid_period = #{validPeriod},
+        itfc_key_secret = #{itfcKeySecret},
         descript = #{descript},
         update_user = #{updateUser}
         where itfc_id = #{itfcId}

@@ -19,7 +19,7 @@
                 <form class="layui-form" action="" lay-filter="search-form">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">key值：</label>
+                            <label class="layui-form-label">Key值：</label>
                             <div class="layui-input-inline">
                                 <input type="text" id="itfcKey" name="itfcKey" autocomplete="off" class="layui-input"
                                        placeholder="请输入key值">
@@ -121,7 +121,7 @@
                             return d.LAY_TABLE_INDEX + 1;
                         }
                     },
-                    {field: 'itfcKey', width: '15%', title: 'key', align: 'center', templet: '#itfcKeyTpl'},
+                    {field: 'itfcKey', width: '15%', title: 'Key', align: 'center', templet: '#itfcKeyTpl'},
                     {field: 'owner', width: '10%', title: '使用方', sort: true, align: 'center'},
                     {field: 'validPeriod', width: '10%', title: '有效期', sort: true, align: 'center'},
                     {field: 'descript', width: '15%', title: '描述', minWidth: 80},
@@ -328,7 +328,8 @@
                 return false;
             } else if (obj.event === 'detail') {
                 var str = '<div>';
-                str += '<p>密钥：' + data.itfcKey + '</p>';
+                str += '<p>Key：' + data.itfcKey + '</p>';
+                str += '<p>Secret：' + data.itfcKeySecret + '</p>';
                 str += '<p>使用方：' + data.owner + '</p>';
                 str += '<p>有效期：' + data.validPeriod + '</p>';
                 str += '<p>状态：<b>' + (data.status == 0 ? '使用中' : '停用') + '</b></p>';

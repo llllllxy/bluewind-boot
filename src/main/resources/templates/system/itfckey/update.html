@@ -28,9 +28,19 @@
 <div class="layui-form layuimini-form">
 
     <div class="layui-form-item">
-        <label class="layui-form-label">KEY：</label>
+        <label class="layui-form-label">Key：</label>
         <div class="layui-input-block"><!-- 加上 style="border:none;" 是为了隐藏input输入框的边框-->
             <input type="text" name="itfcKey" th:value="${itfcKey.itfcKey}" readonly="readonly" class="layui-input" style="border:none;">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">Secret：</label>
+        <div class="layui-input-inline" style="width: 400px">
+            <input type="text" name="itfcKeySecret" th:value="${itfcKey.itfcKeySecret}" readonly="readonly" class="layui-input" style="border:none;">
+        </div>
+        <div class="layui-form-mid layui-word-aux">
+            <button class="layui-btn layui-btn-xs layui-btn-normal" lay-filter="reSet">重新生成</button>
         </div>
     </div>
 
@@ -118,9 +128,27 @@
 
 
         // 监听取消按钮
-        $("button[lay-filter='cancleBtn']").click(function(){
+        $("button[lay-filter='cancleBtn']").click(function() {
             var iframeIndex = parent.layer.getFrameIndex(window.name);
             parent.layer.close(iframeIndex);
+        });
+
+
+        // 监听`重新生成`按钮
+        $("button[lay-filter='reSet']").click(function() {
+            Util.get({
+                url: Util.ctx + "itfckey/generateSecret",
+                success: function (res) {
+                    if (res.code === 0) {
+                        $("input[name='itfcKeySecret']").val(res.data)
+                        layer.alert('生成成功，注意保存才会生效', {icon: 1});
+                    } else {
+                        Message.error(res.message, 1000);
+                    }
+                },
+                error: function (error) {
+                }
+            });
         });
     });
 </script>

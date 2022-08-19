@@ -130,7 +130,7 @@ public class ItfcKeyController extends BaseController {
         ItfcKey sysItfcKey = new ItfcKey();
         String itfcKey = IdGenerate.uuid();
         String itfcId = IdGenerate.nextId();
-        String itfcKeySecret = StringUtils.getSecretStr(64);
+        String itfcKeySecret = StringUtils.getSecretStr(36);
         sysItfcKey.setItfcKey(itfcKey);
         sysItfcKey.setItfcId(itfcId);
         sysItfcKey.setItfcKeySecret(itfcKeySecret);
@@ -167,6 +167,15 @@ public class ItfcKeyController extends BaseController {
     }
 
 
+    @ApiOperation(value = "生成itfcKeySecret")
+    @ResponseBody
+    @GetMapping("/generateSecret")
+    public BaseResult generateSecret() {
+        String itfcKeySecret = StringUtils.getSecretStr(36);
+        return BaseResult.success("生成KeySecret成功！", itfcKeySecret);
+    }
+
+
     /**
      * 修改
      */
@@ -175,12 +184,14 @@ public class ItfcKeyController extends BaseController {
     @ResponseBody
     public BaseResult update(@RequestParam("itfcId") String itfcId,
                              @RequestParam("itfcKey") String itfcKey,
+                             @RequestParam("itfcKeySecret") String itfcKeySecret,
                              @RequestParam("owner") String owner,
                              @RequestParam("validPeriod") String validPeriod,
                              @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
         ItfcKey sysItfcKey = new ItfcKey();
         sysItfcKey.setItfcId(itfcId);
         sysItfcKey.setOwner(owner);
+        sysItfcKey.setItfcKeySecret(itfcKeySecret);
         validPeriod = DateTool.dateFormat(validPeriod,"yyyy-MM-dd", "yyyyMMdd");
         sysItfcKey.setValidPeriod(validPeriod);
         sysItfcKey.setDescript(descript);
