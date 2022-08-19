@@ -1,17 +1,17 @@
 /*
- Navicat Premium Data Transfer
+ Navicat MySQL Data Transfer
 
  Source Server         : 阿里云RDS-MySQL
  Source Server Type    : MySQL
- Source Server Version : 50735
- Source Host           : rm.mysql.rds.aliyuncs.com:3306
+ Source Server Version : 50737
+ Source Host           : rm-bp1l6sit4p21x78608o.mysql.rds.aliyuncs.com:3306
  Source Schema         : bluewind-boot-main
 
  Target Server Type    : MySQL
- Target Server Version : 50735
+ Target Server Version : 50737
  File Encoding         : 65001
 
- Date: 26/04/2022 21:38:01
+ Date: 19/08/2022 11:21:10
 */
 
 SET NAMES utf8mb4;
@@ -36,10 +36,10 @@ CREATE TABLE `sys_configure`  (
   `homepage_href` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '系统首页链接',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_configure
@@ -47,11 +47,64 @@ CREATE TABLE `sys_configure`  (
 INSERT INTO `sys_configure` VALUES (1, '后台管理', 'SpringBoot后台管理模板', 'http://halo.lxyccc.top/logo/bluewind_logo.png', 'bluewind-boot 一个基于SpringBoot的通用后台管理系统', 'http://halo.lxyccc.top/1684bab905d9437ca77413860c29baa6.jpg', '管理系统,SpringBoot,解决方案,开发脚手架', '本项目本着避免重复造轮子的原则建立一套快速开发JavaWEB项目', '', 'Copyright© 1999-2020 SpringBoot 版权所有', 'http://upyun.lxyccc.top/halo/c7cfb930-269e-4239-bce0-1623af5146d5.jpg', '/admin/welcome', '1', '1', '2020-10-20 21:58:50', '2022-03-17 13:26:06');
 
 -- ----------------------------
+-- Table structure for sys_datasync_datasource
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_datasync_datasource`;
+CREATE TABLE `sys_datasync_datasource`  (
+  `datasource_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务主键',
+  `db_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'db2,oracle,mysql,sqlserver等  ',
+  `db_driver` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'com.ibm.db2.jcc.db2driver,com.mysql.cj.jdbc.driver,net.sourceforge.jtds.jdbc.driver等',
+  `db_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `db_user` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `db_pwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '存入时，存入加密数据，AES',
+  `descript` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`datasource_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据同步数据源配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_datasync_task
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_datasync_task`;
+CREATE TABLE `sys_datasync_task`  (
+  `task_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '同步任务编码，主键',
+  `task_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务名称',
+  `is_lock` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '0:否;1:是，任务执行时锁定，执行结束解锁，避免重复执行',
+  `task_type` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务类型，取自数据字典',
+  `descript` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '任务描述',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '新增人',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '新增时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`task_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据同步任务配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_datasync_task_script
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_datasync_task_script`;
+CREATE TABLE `sys_datasync_task_script`  (
+  `task_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `order_num` int(4) NOT NULL,
+  `script_type` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '11:select,12:delete,13:insert,14:update       delete,insert,update用上一个执行的select脚本执行结果作为数据集。  ',
+  `datasource_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '数据源ID',
+  `script_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '执行脚本',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`task_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据同步任务脚本配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for sys_dept_info
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept_info`;
 CREATE TABLE `sys_dept_info`  (
-  `dept_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+  `dept_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '部门ID（主键ID）',
   `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '父级ID',
   `ancestors` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '祖级列表',
   `dept_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '部门名称',
@@ -62,11 +115,11 @@ CREATE TABLE `sys_dept_info`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除标志（0--未删除1--已删除）',
   `create_user` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '部门信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dept_info
@@ -90,7 +143,7 @@ INSERT INTO `sys_dept_info` VALUES ('201', '200', '0,100,200', '测试子级部�
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dict_info`;
 CREATE TABLE `sys_dict_info`  (
-  `dict_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务主键',
+  `dict_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典ID（主键ID）',
   `dict_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典标识',
   `dict_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典名称',
   `dict_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '字典码',
@@ -99,12 +152,12 @@ CREATE TABLE `sys_dict_info`  (
   `order_num` int(4) NULL DEFAULT 0 COMMENT '排序',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--冻结）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--正常，1--已删除）',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统数据字典表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统数据字典表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_info
@@ -117,6 +170,10 @@ INSERT INTO `sys_dict_info` VALUES ('1515145333132898304', 'banner_type', '轮�
 INSERT INTO `sys_dict_info` VALUES ('1515146812689408000', 'notice_type', '公告类型', '0', '默认', '公告类型', 1, '0', '0', '2022-04-16 09:55:24', '2022-04-16 09:55:24', '1', NULL);
 INSERT INTO `sys_dict_info` VALUES ('1515146812697796608', 'notice_type', '公告类型', '1', '指定内容', '公告类型', 2, '0', '0', '2022-04-16 09:55:24', '2022-04-16 09:55:24', '1', NULL);
 INSERT INTO `sys_dict_info` VALUES ('1515146812701990912', 'notice_type', '公告类型', '2', '指定链接', '公告类型', 3, '0', '0', '2022-04-16 09:55:25', '2022-04-16 09:55:25', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1548655333098307584', 'sys_rule_info_rule_type', '业务规则类型', '1', '是', '是否系统内置（1是 0否），系统内置的禁止删除', 1, '0', '0', '2022-07-17 21:06:18', '2022-07-17 21:06:18', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1548655333115084800', 'sys_rule_info_rule_type', '业务规则类型', '0', '否', '是否系统内置（1是 0否），系统内置的禁止删除', 2, '0', '0', '2022-07-17 21:06:18', '2022-07-17 21:06:18', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1548657501037576192', 'sys_rule_info_status', '业务规则状态', '0', '正常', '状态（0--正常 1--停用）', 1, '0', '0', '2022-07-17 21:14:55', '2022-07-17 21:14:55', '1', NULL);
+INSERT INTO `sys_dict_info` VALUES ('1548657501050159104', 'sys_rule_info_status', '业务规则状态', '1', '停用', '状态（0--正常 1--停用）', 2, '0', '0', '2022-07-17 21:14:55', '2022-07-17 21:14:55', '1', NULL);
 INSERT INTO `sys_dict_info` VALUES ('32132132131', 'user_sex', '性别', '0', '未知', '用户性别', 1, '0', '0', '2022-04-15 15:41:52', '2022-04-15 15:42:17', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('32132132132', 'user_sex', '性别', '1', '男', '用户性别', 2, '0', '0', '2022-04-15 15:30:25', '2022-04-15 15:42:19', '0', NULL);
 INSERT INTO `sys_dict_info` VALUES ('32132132133', 'user_sex', '性别', '2', '女', '用户性别', 3, '0', '0', '2022-04-15 15:30:25', '2022-04-15 15:42:20', '0', NULL);
@@ -126,7 +183,7 @@ INSERT INTO `sys_dict_info` VALUES ('76763456334', 'menu_type', '菜单权限类
 INSERT INTO `sys_dict_info` VALUES ('76763456335', 'menu_type', '菜单权限类型', '1', '目录', '菜单权限类型', 2, '0', '0', '2022-04-15 15:31:05', '2022-04-15 15:37:02', '0', NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456336', 'menu_type', '菜单权限类型', '2', '菜单', '菜单权限类型', 3, '0', '0', '2022-04-15 15:31:05', '2022-04-15 15:37:03', '0', NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456337', 'menu_type', '菜单权限类型', '3', '按钮', '菜单权限类型', 4, '0', '0', '2022-04-15 15:31:05', '2022-04-15 15:37:05', '0', NULL);
-INSERT INTO `sys_dict_info` VALUES ('76763456339', 'login_status', '登录状态', '1', '失败', '登录日志的记录状态', 1, '0', '0', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456339', 'login_status', '登录状态', '1', '失败', '登录日志的记录状态', 1, '0', '0', '2022-05-04 18:11:59', '2022-05-04 18:12:04', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456340', 'login_status', '登录状态', '0', '成功', '登录日志的记录状态', 2, '0', '0', '2022-04-15 15:36:12', '2022-04-15 15:38:26', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456341', 'permission_target', '权限菜单打开方式', '_blank', '外链', '菜单是内链/外链', 2, '0', '0', '2022-04-15 15:39:24', '2022-04-15 15:40:11', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456342', 'permission_target', '权限菜单打开方式', '_self', '内链', '菜单是内链/外链', 1, '0', '0', '2022-04-15 15:38:59', '2022-04-15 15:43:16', NULL, NULL);
@@ -140,14 +197,14 @@ INSERT INTO `sys_dict_info` VALUES ('76763456349', 'role_status', '角色状态'
 INSERT INTO `sys_dict_info` VALUES ('76763456350', 'role_status', '角色状态', '1', '停用', '角色的禁/启用状态', 1, '0', '0', '2022-04-15 15:49:59', '2022-04-15 15:50:29', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456352', 'dict_status', '数据字典状态', '1', '停用', '数据字典的禁/启用状态', 2, '0', '0', '2022-04-15 15:51:45', '2022-04-15 15:54:46', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456353', 'dict_status', '数据字典状态', '0', '正常', '数据字典的禁/启用状态', 1, '0', '0', '2022-04-15 15:51:20', '2022-04-15 15:56:23', NULL, NULL);
-INSERT INTO `sys_dict_info` VALUES ('76763456354', 'syspostinfo_status', '岗位状态', '0', '正常', NULL, 1, '0', '0', '2022-04-15 15:55:13', '2022-04-15 15:57:15', NULL, NULL);
-INSERT INTO `sys_dict_info` VALUES ('76763456355', 'syspostinfo_status', '岗位状态', '1', '停用', NULL, 2, '0', '0', '2022-04-15 15:55:26', '2022-04-15 15:56:43', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456354', 'syspostinfo_status', '岗位状态', '0', '正常', '岗位的禁/启用状态', 1, '0', '0', '2022-04-15 15:55:13', '2022-08-04 10:53:54', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456355', 'syspostinfo_status', '岗位状态', '1', '停用', '岗位的禁/启用状态', 2, '0', '0', '2022-04-15 15:55:26', '2022-08-04 10:53:56', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456357', 'sys_job_group', '定时任务分组', 'SYSTEM', '系统', '定时任务分组', 2, '0', '0', '2022-04-15 22:50:46', '2022-04-15 22:51:09', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456358', 'sys_job_group', '定时任务分组', 'DEFAULT', '默认', '定时任务分组', 1, '0', '0', '2022-04-15 22:49:58', '2022-04-15 22:52:55', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456360', 'sys_job_status', '定时任务状态', '0', '正常', '定时任务状态', 0, '0', '0', '2022-04-15 22:53:11', '2022-04-15 22:55:21', NULL, NULL);
 INSERT INTO `sys_dict_info` VALUES ('76763456361', 'sys_job_status', '定时任务状态', '1', '暂停', '定时任务状态', 0, '0', '0', '2022-04-15 22:54:46', '2022-04-15 22:55:20', NULL, NULL);
-INSERT INTO `sys_dict_info` VALUES ('76763456390', 'sysdeptinfo_status', '部门状态', '0', '正常', NULL, 1, '0', '0', '2022-04-15 15:55:13', '2022-04-15 15:57:15', NULL, NULL);
-INSERT INTO `sys_dict_info` VALUES ('76763456391', 'sysdeptinfo_status', '部门状态', '1', '停用', NULL, 2, '0', '0', '2022-04-15 15:55:13', '2022-04-15 15:57:15', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456390', 'sysdeptinfo_status', '部门状态', '0', '正常', '部门的禁/启用状态', 1, '0', '0', '2022-04-15 15:55:13', '2022-08-04 10:54:07', NULL, NULL);
+INSERT INTO `sys_dict_info` VALUES ('76763456391', 'sysdeptinfo_status', '部门状态', '1', '停用', '部门的禁/启用状态', 2, '0', '0', '2022-04-15 15:55:13', '2022-08-04 10:54:09', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dim_city
@@ -158,7 +215,7 @@ CREATE TABLE `sys_dim_city`  (
   `city_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '城市名称',
   `province_code` int(11) NULL DEFAULT NULL COMMENT '省份编码',
   PRIMARY KEY (`city_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '城市' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '城市' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dim_city
@@ -518,7 +575,7 @@ CREATE TABLE `sys_dim_county`  (
   `city_code` int(11) NULL DEFAULT NULL COMMENT '城市编码',
   `province_code` int(11) NULL DEFAULT NULL COMMENT '省份编码',
   PRIMARY KEY (`county_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '区县' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '区县' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dim_county
@@ -3662,7 +3719,7 @@ CREATE TABLE `sys_dim_province`  (
   `province_code` int(11) NOT NULL COMMENT '省份编码',
   `province_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '省份名称',
   PRIMARY KEY (`province_code`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '省份' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '省份' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dim_province
@@ -3710,12 +3767,12 @@ CREATE TABLE `sys_email_log`  (
   `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型(0--文本,1--html,2--图片,3--附件,4--模板)',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发送状态(0--成功,1--失败)',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除,1--已删除）',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送日志记录表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送日志记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_email_log
@@ -3729,6 +3786,12 @@ INSERT INTO `sys_email_log` VALUES ('14', '184974699@qq.com', '8888', '0', '0', 
 INSERT INTO `sys_email_log` VALUES ('15', '184974699@qq.com', 'eqweqweqwewq', '1', '0', NULL, '2021-04-17 03:04:29', '0', '2021-04-17 03:04:29', '0');
 INSERT INTO `sys_email_log` VALUES ('1518518996698038272', '184974699@qq.com', '我又测试邮件了', '0', '0', '1', '2022-04-25 17:15:16', NULL, '2022-04-25 17:15:16', '0');
 INSERT INTO `sys_email_log` VALUES ('1518520581784240128', '184974699@qq.com', 'dd', '4', '0', '1', '2022-04-25 17:21:34', NULL, '2022-04-25 17:21:34', '0');
+INSERT INTO `sys_email_log` VALUES ('1521146220780888064', 'rwnbd@mfk.app', '注册邮件，请查收验证码', '0', '0', NULL, '2022-05-02 23:14:56', NULL, '2022-05-02 23:14:56', '0');
+INSERT INTO `sys_email_log` VALUES ('1521148690961702912', 'rwnbd@mfk.app', '注册邮件，请查收验证码', '0', '0', NULL, '2022-05-02 23:24:45', NULL, '2022-05-02 23:24:45', '0');
+INSERT INTO `sys_email_log` VALUES ('1521149004020359168', 'rwnbd@mfk.app', '注册邮件，请查收验证码', '0', '0', NULL, '2022-05-02 23:25:59', NULL, '2022-05-02 23:25:59', '0');
+INSERT INTO `sys_email_log` VALUES ('1521159352224546816', 'rwnbd@mfk.app', '注册邮件，请查收验证码', '0', '0', NULL, '2022-05-03 00:07:07', NULL, '2022-05-03 00:07:07', '0');
+INSERT INTO `sys_email_log` VALUES ('1521159749605539840', 'rwnbd@mfk.app', '注册邮件，请查收验证码', '0', '0', NULL, '2022-05-03 00:08:41', NULL, '2022-05-03 00:08:41', '0');
+INSERT INTO `sys_email_log` VALUES ('1521167109160701952', 'rwnbd@mfk.app', '注册邮件，请查收验证码', '0', '0', NULL, '2022-05-03 00:37:56', NULL, '2022-05-03 00:37:56', '0');
 INSERT INTO `sys_email_log` VALUES ('16', '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 03:05:15', '0', '2021-04-17 03:05:15', '0');
 INSERT INTO `sys_email_log` VALUES ('17', '184974699@qq.com', 'eqweqweqwewq', '0', '0', NULL, '2021-04-17 03:06:36', '0', '2021-04-17 03:06:36', '0');
 INSERT INTO `sys_email_log` VALUES ('18', '184974699@qq.com', '8888', '0', '0', NULL, '2021-04-17 03:11:10', '0', '2021-04-17 03:11:10', '0');
@@ -3758,10 +3821,10 @@ CREATE TABLE `sys_files`  (
   `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附件路径',
   `suffix` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件后缀（png、doc等）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统附件表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统附件表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_files
@@ -3777,7 +3840,7 @@ INSERT INTO `sys_files` VALUES (5, 'timg.png', 'default/20210111/e621c49b-fee5-4
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_id_table`;
 CREATE TABLE `sys_id_table`  (
-  `id_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+  `id_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流水号ID（主键ID）',
   `id_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务流水号编码',
   `id_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务流水号名称',
   `id_value` int(11) NOT NULL COMMENT '业务流水号当前值',
@@ -3787,12 +3850,12 @@ CREATE TABLE `sys_id_table`  (
   `has_suffix` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '是否有后缀 0有，1没有',
   `id_suffix` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '业务流水号后缀',
   `descript` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '详细描述',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统流水号表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统流水号表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_id_table
@@ -3805,98 +3868,103 @@ INSERT INTO `sys_id_table` VALUES ('1459791704598126594', 'id_test_1', '测试�
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_itfc_key`;
 CREATE TABLE `sys_itfc_key`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `itfc_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务主键',
   `itfc_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密钥',
-  `owner` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '使用方',
+  `itfc_key_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密钥-secret',
+  `owner` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '使用方(第三方厂商名称)',
   `descript` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--使用1--停用）',
   `valid_period` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'key的有效期',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务密钥信息表' ROW_FORMAT = DYNAMIC;
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`itfc_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务密钥信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_itfc_key
 -- ----------------------------
-INSERT INTO `sys_itfc_key` VALUES (1, 'dsasdutepwkwsdasd', '测试key', '测试key1', '0', '20210728', '0', '0', '2021-06-11 21:15:43', '1', '2021-07-10 22:53:48');
-INSERT INTO `sys_itfc_key` VALUES (71, 'ee81d86d98a845c1a390afdd27139fe0', '中正有限责任公司', '中正有限责任公司\n', '0', '20210831', '0', '1', '2021-06-25 22:50:48', '1', '2022-04-06 14:08:29');
-INSERT INTO `sys_itfc_key` VALUES (72, '95ba4c7b78bb46ca89e74b67e01bb0f4', 'dsa', 'sda', '0', '20210610', '1', '1', '2021-06-25 22:54:42', '0', '2021-06-26 11:22:43');
-INSERT INTO `sys_itfc_key` VALUES (73, '28a6fc8997be4fb293eff1434061eb12', 'XO软件技术公司', 'XO软件技术公司', '0', '20211023', '0', '1', '2021-07-18 22:44:21', '1', '2021-10-23 16:59:21');
-INSERT INTO `sys_itfc_key` VALUES (74, '2daf06fb0a6c4dd5897c784e17a700b0', '4444', '44444', '0', '20211117', '1', '1', '2021-11-17 22:17:03', '1', '2021-11-17 22:18:01');
+INSERT INTO `sys_itfc_key` VALUES ('1', '28a6fc8997be4fb293eff1434061eb12', '&EbiB!hQ1xU@hmhu2MfR!6obY4$BeMM0IwxM', 'XO软件技术公司', 'XO软件技术公司 描述', '0', '20211023', '0', '1', '2021-07-18 22:44:21', '1', '2022-08-19 09:03:15');
+INSERT INTO `sys_itfc_key` VALUES ('3', 'b2ec161d503d421fb6af256c298e7700', '789ujsnahjndy823', '浪潮软件股份有限公司济南分公司', '大大苏打实打实', '0', '20220422', '1', '1', '2022-04-29 19:57:13', NULL, '2022-08-18 22:25:08');
+INSERT INTO `sys_itfc_key` VALUES ('4', '95ba4c7b78bb46ca89e74b67e01bb0f4', 'dhuj93924d2nu23', 'dsa', 'sda', '0', '20210610', '1', '1', '2021-06-25 22:54:42', '0', '2022-08-18 22:25:11');
+INSERT INTO `sys_itfc_key` VALUES ('5', 'dsasdutepwkwsdasd', 'h89g34i9huni34gni4fg', '测试key', '测试key2', '0', '20210731', '0', '0', '2021-06-11 21:15:43', '1', '2022-08-18 22:45:30');
+INSERT INTO `sys_itfc_key` VALUES ('6', 'ee81d86d98a845c1a390afdd27139fe0', 'oie949mdnfcghdh', '中正股份有限责任公司', '中正股份有限责任公司', '0', '20210831', '0', '1', '2021-06-25 22:50:48', '1', '2022-08-18 22:45:57');
 
 -- ----------------------------
 -- Table structure for sys_itfc_key_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_itfc_key_permission`;
 CREATE TABLE `sys_itfc_key_permission`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `itfc_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密钥',
   `itfc_permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限id',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 122 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc密钥权限对照表' ROW_FORMAT = DYNAMIC;
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`itfc_key`, `itfc_permission`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc密钥权限对照表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_itfc_key_permission
 -- ----------------------------
-INSERT INTO `sys_itfc_key_permission` VALUES (103, 'ee81d86d98a845c1a390afdd27139fe0', '1403605968955363329', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (104, 'ee81d86d98a845c1a390afdd27139fe0', '1414451450911858688', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (105, 'ee81d86d98a845c1a390afdd27139fe0', '1403605968955363332', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (106, 'ee81d86d98a845c1a390afdd27139fe0', '1403605968955363328', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (107, 'ee81d86d98a845c1a390afdd27139fe0', '1403605968951169031', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (108, 'ee81d86d98a845c1a390afdd27139fe0', '1414451700946903040', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (109, 'ee81d86d98a845c1a390afdd27139fe0', '1414454980065243136', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
-INSERT INTO `sys_itfc_key_permission` VALUES (115, 'dsasdutepwkwsdasd', '1414451700946903040', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
-INSERT INTO `sys_itfc_key_permission` VALUES (116, 'dsasdutepwkwsdasd', '1414454980065243136', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
-INSERT INTO `sys_itfc_key_permission` VALUES (117, 'dsasdutepwkwsdasd', '1403605968955363329', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
-INSERT INTO `sys_itfc_key_permission` VALUES (118, 'dsasdutepwkwsdasd', '1414451450911858688', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
-INSERT INTO `sys_itfc_key_permission` VALUES (119, 'dsasdutepwkwsdasd', '1403605968955363332', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
-INSERT INTO `sys_itfc_key_permission` VALUES (120, 'dsasdutepwkwsdasd', '1403605968951169031', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
-INSERT INTO `sys_itfc_key_permission` VALUES (121, 'dsasdutepwkwsdasd', '1403605968955363328', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('28a6fc8997be4fb293eff1434061eb12', '1403605968951169031', '2022-08-18 22:46:22', '2022-08-18 22:46:22');
+INSERT INTO `sys_itfc_key_permission` VALUES ('28a6fc8997be4fb293eff1434061eb12', '1403605968955363328', '2022-08-18 22:46:22', '2022-08-18 22:46:22');
+INSERT INTO `sys_itfc_key_permission` VALUES ('28a6fc8997be4fb293eff1434061eb12', '1403605968955363329', '2022-08-18 22:46:22', '2022-08-18 22:46:22');
+INSERT INTO `sys_itfc_key_permission` VALUES ('28a6fc8997be4fb293eff1434061eb12', '1403605968955363332', '2022-08-18 22:46:22', '2022-08-18 22:46:22');
+INSERT INTO `sys_itfc_key_permission` VALUES ('28a6fc8997be4fb293eff1434061eb12', '1414451700946903040', '2022-08-18 22:46:22', '2022-08-18 22:46:22');
+INSERT INTO `sys_itfc_key_permission` VALUES ('28a6fc8997be4fb293eff1434061eb12', '1414454980065243136', '2022-08-18 22:46:22', '2022-08-18 22:46:22');
+INSERT INTO `sys_itfc_key_permission` VALUES ('dsasdutepwkwsdasd', '1403605968951169031', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('dsasdutepwkwsdasd', '1403605968955363328', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('dsasdutepwkwsdasd', '1403605968955363329', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('dsasdutepwkwsdasd', '1403605968955363332', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('dsasdutepwkwsdasd', '1414451450911858688', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('dsasdutepwkwsdasd', '1414451700946903040', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('dsasdutepwkwsdasd', '1414454980065243136', '2021-10-23 16:58:28', '2021-10-23 16:58:28');
+INSERT INTO `sys_itfc_key_permission` VALUES ('ee81d86d98a845c1a390afdd27139fe0', '1403605968951169031', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
+INSERT INTO `sys_itfc_key_permission` VALUES ('ee81d86d98a845c1a390afdd27139fe0', '1403605968955363328', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
+INSERT INTO `sys_itfc_key_permission` VALUES ('ee81d86d98a845c1a390afdd27139fe0', '1403605968955363329', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
+INSERT INTO `sys_itfc_key_permission` VALUES ('ee81d86d98a845c1a390afdd27139fe0', '1403605968955363332', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
+INSERT INTO `sys_itfc_key_permission` VALUES ('ee81d86d98a845c1a390afdd27139fe0', '1414451450911858688', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
+INSERT INTO `sys_itfc_key_permission` VALUES ('ee81d86d98a845c1a390afdd27139fe0', '1414451700946903040', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
+INSERT INTO `sys_itfc_key_permission` VALUES ('ee81d86d98a845c1a390afdd27139fe0', '1414454980065243136', '2021-07-18 22:43:48', '2021-07-18 22:43:48');
 
 -- ----------------------------
 -- Table structure for sys_itfc_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_itfc_permission`;
 CREATE TABLE `sys_itfc_permission`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限id',
-  `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '父级id',
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限名称',
+  `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '父级id',
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限名称',
   `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型（0是模块，1是具体接口）',
   `sign` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源值',
   `descript` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务权限信息表' ROW_FORMAT = DYNAMIC;
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`permission_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'itfc服务权限信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_itfc_permission
 -- ----------------------------
-INSERT INTO `sys_itfc_permission` VALUES (71, '1403605968955363329', '0', '登陆日志rest服务', '0', 'itfc:loginlog', '登陆日志rest服务', '0', '0', '0', '2021-06-12 14:53:33', '0', '2021-07-17 15:28:35');
-INSERT INTO `sys_itfc_permission` VALUES (72, '1403605968955363328', '1403605968955363329', 'getAllLoginLog', '1', 'itfc:loginlog:getAllLoginLog', '1', '0', '0', '0', '2021-06-12 14:55:46', '0', '2021-07-17 15:28:38');
-INSERT INTO `sys_itfc_permission` VALUES (73, '1403605968951169031', '1403605968955363329', 'getSomeLoginLog', '1', 'itfc:loginlog:getSomeLoginLog', '2', '0', '0', '0', '2021-06-12 14:56:19', '0', '2021-07-17 15:28:42');
-INSERT INTO `sys_itfc_permission` VALUES (74, '1403605968955363332', '1403605968955363329', 'updateLoginLog', '1', 'update:LoginLog', 'update:LoginLog3222', '0', '0', '0', '2021-07-01 20:01:17', '1', '2021-07-11 21:37:57');
-INSERT INTO `sys_itfc_permission` VALUES (75, '1414451450911858688', '1403605968955363329', 'insertLoginLog', '1', 'insert:LoginLog', 'weqweq326', '0', '0', '1', '2021-07-12 13:07:59', '1', '2021-10-23 17:09:59');
-INSERT INTO `sys_itfc_permission` VALUES (76, '1414451700946903040', '0', '操作日志rest服务', '0', 'getAll:operaLog', 'getAll:operaLog2', '0', '0', '1', '2021-07-12 13:08:59', '1', '2021-07-12 22:09:20');
-INSERT INTO `sys_itfc_permission` VALUES (77, '1414454980065243136', '1414451700946903040', '查询', '1', 'operatelog:list', '666', '0', '0', '1', '2021-07-12 13:22:01', '1', '2021-10-23 17:10:26');
+INSERT INTO `sys_itfc_permission` VALUES ('1403605968951169031', '1403605968955363329', 'getSomeLoginLog', '1', 'itfc:loginlog:getSomeLoginLog', '2', '0', '0', '0', '2021-06-12 14:56:19', '0', '2021-07-17 15:28:42');
+INSERT INTO `sys_itfc_permission` VALUES ('1403605968955363328', '1403605968955363329', 'getAllLoginLog', '1', 'itfc:loginlog:getAllLoginLog', '1', '0', '0', '0', '2021-06-12 14:55:46', '0', '2021-07-17 15:28:38');
+INSERT INTO `sys_itfc_permission` VALUES ('1403605968955363329', '0', '登陆日志rest服务', '0', 'itfc:loginlog', '登陆日志rest服务', '0', '0', '0', '2021-06-12 14:53:33', '0', '2021-07-17 15:28:35');
+INSERT INTO `sys_itfc_permission` VALUES ('1403605968955363332', '1403605968955363329', 'updateLoginLog', '1', 'update:LoginLog', 'update:LoginLog3222', '0', '0', '0', '2021-07-01 20:01:17', '1', '2021-07-11 21:37:57');
+INSERT INTO `sys_itfc_permission` VALUES ('1414451450911858688', '1403605968955363329', 'insertLoginLog', '1', 'insert:LoginLog', 'weqweq326', '0', '0', '1', '2021-07-12 13:07:59', '1', '2021-10-23 17:09:59');
+INSERT INTO `sys_itfc_permission` VALUES ('1414451700946903040', '0', '操作日志rest服务', '0', 'getAll:operaLog', 'getAll:operaLog2', '0', '0', '1', '2021-07-12 13:08:59', '1', '2021-07-12 22:09:20');
+INSERT INTO `sys_itfc_permission` VALUES ('1414454980065243136', '1414451700946903040', '查询', '1', 'operatelog:list', '666', '0', '0', '1', '2021-07-12 13:22:01', '1', '2021-10-23 17:10:26');
 
 -- ----------------------------
 -- Table structure for sys_job
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_job`;
 CREATE TABLE `sys_job`  (
-  `job_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务ID',
+  `job_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务ID（主键ID）',
   `job_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '任务名称',
   `job_group` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'DEFAULT' COMMENT '任务组名',
   `invoke_target` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '调用目标字符串',
@@ -3906,11 +3974,11 @@ CREATE TABLE `sys_job`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0正常 1暂停）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '创建者',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '更新人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注信息',
   PRIMARY KEY (`job_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_job
@@ -3924,7 +3992,7 @@ INSERT INTO `sys_job` VALUES ('d9b93921aafe45b7989edf305da704be', '测试定时�
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_job_log`;
 CREATE TABLE `sys_job_log`  (
-  `job_log_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务日志ID',
+  `job_log_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务日志ID（主键ID）',
   `job_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务ID',
   `job_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务名称',
   `job_group` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '任务组名',
@@ -3932,9 +4000,9 @@ CREATE TABLE `sys_job_log`  (
   `job_message` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '日志信息',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '异常信息',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -3959,16 +4027,16 @@ INSERT INTO `sys_job_log` VALUES ('1511714486437572608', '0432fdbbd21a4331aec44d
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_login_log`;
 CREATE TABLE `sys_login_log`  (
-  `log_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
+  `log_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志ID（主键ID）',
   `session_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `ip` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `descript` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '内容',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--成功1--失败）',
   `location` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '位置',
   `account` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '账号',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_login_log
@@ -4033,15 +4101,76 @@ INSERT INTO `sys_login_log` VALUES ('1517819259655626752', '217b7a44aceb4607b7ae
 INSERT INTO `sys_login_log` VALUES ('1517830684647866368', '093b4912e80540d2ac45a9cd3c77aa73', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2022-04-23 19:40:09');
 INSERT INTO `sys_login_log` VALUES ('1518250186870251520', 'ab45552b85d54c1aaba6290abbc561a9', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-24 23:27:07');
 INSERT INTO `sys_login_log` VALUES ('1518460054406361088', '4de84a079af0466e8c8bf0dadb5ee676', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-25 13:21:04');
-INSERT INTO `sys_login_log` VALUES ('1518460406442684416', 'fbcb625e5da945529bdf716a3f60910d', NULL, '用户登录成功！', '0', 'ip为空，无法获取位置', 'admin', '2022-04-25 13:22:27');
 INSERT INTO `sys_login_log` VALUES ('1518518830452604928', '0f5e333dbd59458f8e295aad34644408', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-25 17:14:37');
+INSERT INTO `sys_login_log` VALUES ('1518961928928743424', '2ff7543e7c6c4ef1b6ed9905550f8549', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-26 22:35:20');
+INSERT INTO `sys_login_log` VALUES ('1519699933185654784', 'a55257bc545545d69189f229ad2c08a8', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-28 23:27:54');
+INSERT INTO `sys_login_log` VALUES ('1519718273666879488', 'b87329330a4f4f159ac8a4582ee938b1', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-29 00:40:46');
+INSERT INTO `sys_login_log` VALUES ('1519933623822430208', '7ddf2880b881456db92d0acccacc24e6', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-29 14:56:30');
+INSERT INTO `sys_login_log` VALUES ('1519934278656925696', '', '0:0:0:0:0:0:0:1', '密码错误，请重新输入！', '1', '获取位置失败', 'admin', '2022-04-29 14:59:06');
+INSERT INTO `sys_login_log` VALUES ('1519934307094306816', '91810560a62c49e1be247e04fde2cc3d', '0:0:0:0:0:0:0:1', '用户登录成功！', '0', '获取位置失败', 'admin', '2022-04-29 14:59:12');
+INSERT INTO `sys_login_log` VALUES ('1519958975603740672', 'a3288955da314b2b947f0f8e40ecdc4d', '10.94.7.214', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-29 16:37:14');
+INSERT INTO `sys_login_log` VALUES ('1519999175958450176', 'cd1e9133bcf9424580eabc1b7d51097c', '10.94.7.214', '用户登录成功！', '0', '本地局域网', 'admin', '2022-04-29 19:16:59');
+INSERT INTO `sys_login_log` VALUES ('1521117544311889920', '0e00ae6c1b414e88a842f670b7535a6d', '192.168.0.106', '用户登录成功！', '0', '本地局域网', 'admin', '2022-05-02 21:20:59');
+INSERT INTO `sys_login_log` VALUES ('1521159871676563456', 'a1620081963347da8064f80e0d7a3b74', '192.168.0.106', '用户注册登录成功！', '0', '本地局域网', 'admin22', '2022-05-03 00:09:11');
+INSERT INTO `sys_login_log` VALUES ('1521162175540801536', '21cc772423004947a3b414d2b8959d47', '192.168.0.106', '用户登录成功！', '0', '本地局域网', 'admin22', '2022-05-03 00:18:20');
+INSERT INTO `sys_login_log` VALUES ('1521164488057729024', '4577e64e3611424a875c13feb041abfa', '192.168.0.106', '用户登录成功！', '0', '本地局域网', 'admin', '2022-05-03 00:27:31');
+INSERT INTO `sys_login_log` VALUES ('1523832212383576064', '99f2bea3d8ee443099502e87114dcdee', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-05-10 09:08:06');
+INSERT INTO `sys_login_log` VALUES ('1531642118384406528', '028a62fe70424e61a17cca0fbaed57c1', '192.168.0.101', '用户登录成功！', '0', '本地局域网', 'admin', '2022-05-31 22:21:53');
+INSERT INTO `sys_login_log` VALUES ('1532239555614871552', '5c721ad32604459aa3c5099a4e982e2d', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-02 13:55:52');
+INSERT INTO `sys_login_log` VALUES ('1532241467523915776', '06ae3d2ab99f427f95afbbbd8e22533f', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-02 14:03:28');
+INSERT INTO `sys_login_log` VALUES ('1533703138754322432', '8ec45272e9a546e6b1d1c727d973f0df', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-06 14:51:38');
+INSERT INTO `sys_login_log` VALUES ('1533714322664755200', 'af5fd593e6f640ebad9bb1a7dec8dece', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-06 15:36:04');
+INSERT INTO `sys_login_log` VALUES ('1533723458347425792', '5f2eeea20eb14d72854dbb9ffd1262aa', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-06 16:12:22');
+INSERT INTO `sys_login_log` VALUES ('1533724117272584192', 'b59ac71eff5940b798b7e341805af165', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-06 16:15:00');
+INSERT INTO `sys_login_log` VALUES ('1533724930018648064', '3bc7109367224829b916964d048d2fc0', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-06 16:18:13');
+INSERT INTO `sys_login_log` VALUES ('1534181625131352064', '3477c25749684fd4a4523fef4e89648a', '192.168.0.105', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-07 22:32:59');
+INSERT INTO `sys_login_log` VALUES ('1536628113645449216', '4cbed904f6ca44899ae25e0e5974391d', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-14 16:34:26');
+INSERT INTO `sys_login_log` VALUES ('1537245205609717760', '18e11f50f6f04b00b388a112a9e9b9fe', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-06-16 09:26:33');
+INSERT INTO `sys_login_log` VALUES ('1546384126806650880', 'ae4b3de6452346839252273c208d7ab0', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-07-11 14:41:21');
+INSERT INTO `sys_login_log` VALUES ('1548138709213003776', '496adabd4e704bafb8430f14592c0506', '10.49.12.236', '用户登录成功！', '0', '本地局域网', 'admin', '2022-07-16 10:53:26');
+INSERT INTO `sys_login_log` VALUES ('1548654674227675136', '47cc9e3a1095489991ff4412a87feb44', '10.94.1.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-07-17 21:03:42');
+INSERT INTO `sys_login_log` VALUES ('1548675437668253696', 'e49f6a131e18428f84444e2efad2385e', '10.94.1.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-07-17 22:26:12');
+INSERT INTO `sys_login_log` VALUES ('1548676428547407872', '9ce1f9b4ce3846bdaec375680a5bcade', '10.94.1.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-07-17 22:30:08');
+INSERT INTO `sys_login_log` VALUES ('1549984931128782848', '9b15ff25da2d4e0882c2b00bf8fad7a4', '10.49.12.120', '用户登录成功！', '0', '本地局域网', 'admin', '2022-07-21 13:09:40');
+INSERT INTO `sys_login_log` VALUES ('1560262553885106176', '8b42999476f54a5c905c1fcc81a561b4', '192.168.0.107', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-18 21:49:16');
+INSERT INTO `sys_login_log` VALUES ('1560275075996475392', 'cf3b19a46a0f427580891adc76998700', '192.168.0.107', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-18 22:39:01');
+INSERT INTO `sys_login_log` VALUES ('1560419516228628480', 'fde718d3ea9945e483ed967c09793940', '10.49.12.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-19 08:12:59');
+INSERT INTO `sys_login_log` VALUES ('1560423652325376000', 'c10fd90ea8c1488686996a5c6a4e529d', '10.49.12.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-19 08:29:25');
+
+-- ----------------------------
+-- Table structure for sys_notice
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_notice`;
+CREATE TABLE `sys_notice`  (
+  `notice_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公告编码（业务主键）',
+  `notice_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公告标题',
+  `summary` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '摘要',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '正文',
+  `notice_type` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '10' COMMENT '公告类型(10:通知,20:消息)',
+  `publish_scope` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '10' COMMENT '发布范围(10:全体用户,20:指定部门,30:指定用户)',
+  `effect_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生效时间',
+  `expire_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '过期时间',
+  `status` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '10' COMMENT '状态(10:草稿,20:发布,30:撤销,90:删除)',
+  `priority_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1' COMMENT '优先级(0:低,1:中,2:高)',
+  `is_top` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '是否置顶(1:是,0:否)',
+  `is_pop` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '是否弹出(1:是,0:否)',
+  `publish_user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发布人ID',
+  `publish_user_name` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发布人名称',
+  `publish_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发布时间',
+  `abolish_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '撤销时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`notice_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统公告表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_oper_log
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_oper_log`;
 CREATE TABLE `sys_oper_log`  (
-  `log_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `log_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '日志ID（主键ID）',
   `model` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作模块',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作类型',
   `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作方法',
@@ -4050,9 +4179,9 @@ CREATE TABLE `sys_oper_log`  (
   `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户ip',
   `spend_time` int(11) NULL DEFAULT 0 COMMENT '耗时',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统操作日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统操作日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -4191,13 +4320,58 @@ INSERT INTO `sys_oper_log` VALUES ('1515171242608136192', '数据字典', '分�
 INSERT INTO `sys_oper_log` VALUES ('1515171257040736256', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '127.0.0.1', 58, '1', '2022-04-16 11:32:32');
 INSERT INTO `sys_oper_log` VALUES ('1515626380256194560', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '0:0:0:0:0:0:0:1', 40, '1', '2022-04-17 17:41:02');
 INSERT INTO `sys_oper_log` VALUES ('1515626383146070016', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '0:0:0:0:0:0:0:1', 325, '1', '2022-04-17 17:41:03');
+INSERT INTO `sys_oper_log` VALUES ('1519999241930657792', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '10.94.7.214', 32, '1', '2022-04-29 19:17:14');
+INSERT INTO `sys_oper_log` VALUES ('1519999243864231936', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.7.214', 156, '1', '2022-04-29 19:17:14');
+INSERT INTO `sys_oper_log` VALUES ('1520002756895821824', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '10.94.7.214', 38, '1', '2022-04-29 19:31:12');
+INSERT INTO `sys_oper_log` VALUES ('1520002759605342208', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.7.214', 108, '1', '2022-04-29 19:31:12');
+INSERT INTO `sys_oper_log` VALUES ('1534182715369373696', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '192.168.0.105', 60, '1', '2022-06-07 22:37:18');
+INSERT INTO `sys_oper_log` VALUES ('1534182721547583488', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.105', 229, '1', '2022-06-07 22:37:19');
+INSERT INTO `sys_oper_log` VALUES ('1534182894298382336', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.105', 90, '1', '2022-06-07 22:38:01');
+INSERT INTO `sys_oper_log` VALUES ('1548654723133259776', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '10.94.1.129', 47, '1', '2022-07-17 21:03:53');
+INSERT INTO `sys_oper_log` VALUES ('1548654726580977664', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 338, '1', '2022-07-17 21:03:54');
+INSERT INTO `sys_oper_log` VALUES ('1548654765441204224', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 86, '1', '2022-07-17 21:04:03');
+INSERT INTO `sys_oper_log` VALUES ('1548654772923842560', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 87, '1', '2022-07-17 21:04:05');
+INSERT INTO `sys_oper_log` VALUES ('1548655341705019392', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 71, '1', '2022-07-17 21:06:20');
+INSERT INTO `sys_oper_log` VALUES ('1548655428195762176', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 68, '1', '2022-07-17 21:06:41');
+INSERT INTO `sys_oper_log` VALUES ('1548656990490116096', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '10.94.1.129', 54, '1', '2022-07-17 21:12:53');
+INSERT INTO `sys_oper_log` VALUES ('1548656992562102272', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 73, '1', '2022-07-17 21:12:54');
+INSERT INTO `sys_oper_log` VALUES ('1548657509552013312', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 63, '1', '2022-07-17 21:14:57');
+INSERT INTO `sys_oper_log` VALUES ('1548658261116764160', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '10.94.1.129', 72, '1', '2022-07-17 21:17:56');
+INSERT INTO `sys_oper_log` VALUES ('1560275321426173952', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '192.168.0.107', 40, '1', '2022-08-18 22:39:59');
+INSERT INTO `sys_oper_log` VALUES ('1560275323036786688', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.107', 88, '1', '2022-08-18 22:40:00');
+INSERT INTO `sys_oper_log` VALUES ('1560275342489968640', '数据字典', '分页查询页面', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.init', '/bluewind/dict/init', '分页查询页面初始化', '192.168.0.107', 40, '1', '2022-08-18 22:40:04');
+INSERT INTO `sys_oper_log` VALUES ('1560275343899254784', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.107', 72, '1', '2022-08-18 22:40:05');
+INSERT INTO `sys_oper_log` VALUES ('1560275385854877696', '数据字典', '分页查询', 'com.bluewind.boot.module.system.basedict.controller.BaseDictController.list', '/bluewind/dict/list', '分页查询', '192.168.0.107', 80, '1', '2022-08-18 22:40:15');
+
+-- ----------------------------
+-- Table structure for sys_password_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_password_rule`;
+CREATE TABLE `sys_password_rule`  (
+  `rule_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键',
+  `pwd_min_length` int(11) NULL DEFAULT NULL COMMENT '密码最小长度',
+  `pwd_max_length` int(11) NULL DEFAULT NULL COMMENT '密码最大长度',
+  `is_upcase` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否包含大写字母，0是，1否',
+  `is_lowercase` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否包含小写字母，0是，1否',
+  `is_num` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '是否包含数字，0是，1否',
+  `is_specialchar` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '是否包含特殊字符，0是，1否',
+  `pwd_life_time` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码有效期时间，用于提醒修改密码（sys_user表里得加字段，记录最新一次密码修改的时间，根据这个时间进行提醒）',
+  `is_pwd_life` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '是否检查密码有效期时间，0是，1否',
+  `login_attempts` int(11) NOT NULL COMMENT '用户登录失败次数',
+  `is_login_attempts` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '是否检查用户登录失败次数，0是，1否',
+  `login_session_num` int(11) NOT NULL COMMENT '最大会话数',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`rule_id`) USING BTREE,
+  UNIQUE INDEX `sys_password_rule`(`rule_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户密码规则表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for sys_permission_info
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission_info`;
 CREATE TABLE `sys_permission_info`  (
-  `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
+  `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限ID（主键ID）',
   `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '父级ID',
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
   `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '类型（0是模块，1是目录，2是菜单，3是按钮）',
@@ -4210,11 +4384,11 @@ CREATE TABLE `sys_permission_info`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单权限信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统菜单权限信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission_info
@@ -4256,35 +4430,35 @@ INSERT INTO `sys_permission_info` VALUES ('1356624071998570498', '13566239054460
 INSERT INTO `sys_permission_info` VALUES ('1356624071998570499', '1356623905446047745', '弹出层', '2', NULL, '/components/layer', 2, 'fa fa-shield', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 15:22:23');
 INSERT INTO `sys_permission_info` VALUES ('1356624071998570500', '1356622216053755904', '权限管理', '1', NULL, '', 2, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1356624071998570501', '1356624071998570500', '用户管理', '2', 'system:user:init', '/userinfo/init', 1, 'fa fa-gears', '_self', NULL, '0', '0', NULL, NULL, NULL, '2022-04-06 22:02:30');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570502', '1356624071998570500', '角色管理', '2', 'system:role:init', '/roleinfo/init', 2, 'fa fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2022-04-06 22:08:49');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570503', '1356624071998570500', '菜单管理', '2', 'system:permission:init', '/permission/init', 3, 'fa fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2022-04-06 22:12:54');
-INSERT INTO `sys_permission_info` VALUES ('1356624071998570504', '1356622216053755904', '系统监控', '1', NULL, NULL, 1, 'fa fa-gears', '_self', NULL, '0', '0', '0', '2021-02-19 13:07:13', '0', '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES ('1362630867860459520', '1356624071998570504', '登陆日志', '2', 'system:loginlog:init', '/loginlog/init', 0, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-02-19 13:11:30', '1', '2022-04-06 22:16:26');
-INSERT INTO `sys_permission_info` VALUES ('1363385220818423808', '1356624071998570504', '服务器监控', '2', 'system:serverlook:init', '/serverinfo/init', 2, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-02-21 15:09:02', '1', '2022-04-06 22:00:21');
-INSERT INTO `sys_permission_info` VALUES ('1363856602749427712', '1356622216053755904', '系统设置', '1', 'base:info', '', 0, 'fa fa-bookmark', '_self', '', '0', '0', '1', '2021-02-22 22:22:08', '0', '2021-03-01 14:56:43');
-INSERT INTO `sys_permission_info` VALUES ('1363856859898011648', '1363856602749427712', '数据字典', '2', 'sys:basedict:init', '/dict/init', 0, 'fa fa fa-adjust', '_self', '', '0', '0', '1', '2021-02-22 22:23:10', '1', '2022-04-06 22:29:40');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570502', '1356624071998570500', '角色管理', '2', 'system:role:init', '/roleinfo/init', 2, 'fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2022-04-29 00:02:27');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570503', '1356624071998570500', '菜单管理', '2', 'system:permission:init', '/permission/init', 3, 'fa fa-gears', '_self', '', '0', '0', '0', '2021-01-31 22:58:51', '1', '2022-04-29 00:02:31');
+INSERT INTO `sys_permission_info` VALUES ('1356624071998570504', '1356622216053755904', '系统监控', '1', NULL, NULL, 1, 'fa fa-dashboard', '_self', NULL, '0', '0', '0', '2021-02-19 13:07:13', '0', '2022-04-29 00:02:33');
+INSERT INTO `sys_permission_info` VALUES ('1362630867860459520', '1356624071998570504', '登陆日志', '2', 'system:loginlog:init', '/loginlog/init', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-02-19 13:11:30', '1', '2022-04-29 00:02:35');
+INSERT INTO `sys_permission_info` VALUES ('1363385220818423808', '1356624071998570504', '服务器监控', '2', 'system:serverlook:init', '/serverinfo/init', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-02-21 15:09:02', '1', '2022-04-29 00:02:38');
+INSERT INTO `sys_permission_info` VALUES ('1363856602749427712', '1356622216053755904', '系统设置', '1', 'base:info', '', 0, 'fa fa-cog', '_self', '', '0', '0', '1', '2021-02-22 22:22:08', '0', '2022-04-28 23:59:49');
+INSERT INTO `sys_permission_info` VALUES ('1363856859898011648', '1363856602749427712', '数据字典', '2', 'sys:basedict:init', '/dict/init', 0, 'fa fa-adjust', '_self', '', '0', '0', '1', '2021-02-22 22:23:10', '1', '2022-04-29 00:05:16');
 INSERT INTO `sys_permission_info` VALUES ('1366257271839412224', '1356624071998570501', '新增', '3', 'system:user:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-01 13:21:32', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405056', '1356624071998570501', '删除', '3', 'system:user:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-01 13:32:32', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405057', '1356624071998570501', '编辑', '3', 'system:user:edit', NULL, 2, 'fa fa-home', '_self', NULL, '0', '0', '0', '2021-03-01 13:53:13', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405058', '1356624071998570501', '角色', '3', 'system:user:authorize', NULL, 3, 'fa fa-home', '_self', NULL, '0', '0', '0', '2021-03-01 13:54:16', '0', '2021-03-01 14:56:43');
 INSERT INTO `sys_permission_info` VALUES ('1366260043151405059', '1356624071998570501', '修改密码', '3', 'system:user:editpassword', NULL, 4, 'fa fa-home', '_self', NULL, '0', '0', '0', '2021-03-01 13:54:56', '0', '2021-03-01 14:59:17');
-INSERT INTO `sys_permission_info` VALUES ('1367001277164482560', '1356624071998570504', 'druid监控', '2', 'system:druidadmin:init', '/druid', 3, 'fa fa fa-adn', '_self', '', '0', '0', '1', '2021-03-03 14:37:56', '1', '2021-08-13 13:23:06');
-INSERT INTO `sys_permission_info` VALUES ('1367765397289906176', '1356624071998570504', '操作日志', '2', 'system:operlog:init', '/operlog/init', 1, 'fa fa fa-calendar', '_self', '', '0', '0', '1', '2021-03-05 09:14:17', '1', '2022-04-06 22:15:09');
+INSERT INTO `sys_permission_info` VALUES ('1367001277164482560', '1356624071998570504', 'druid监控', '2', 'system:druidadmin:init', '/druid', 3, 'fa fa-adn', '_self', '', '0', '0', '1', '2021-03-03 14:37:56', '1', '2022-04-29 00:04:57');
+INSERT INTO `sys_permission_info` VALUES ('1367765397289906176', '1356624071998570504', '操作日志', '2', 'system:operlog:init', '/operlog/init', 1, 'fa fa-calendar', '_self', '', '0', '0', '1', '2021-03-05 09:14:17', '1', '2022-04-29 00:04:53');
 INSERT INTO `sys_permission_info` VALUES ('1374747437312167936', '1356624071998570504', 'Websocket测试', '2', 'websocket:init', '/websocket/init', 5, 'fa fa-adjust', '_self', '', '0', '0', '1', '2021-03-24 15:38:27', '0', '2021-03-24 15:38:27');
 INSERT INTO `sys_permission_info` VALUES ('1375651227775606784', '1356624071998570502', '新增', '3', 'system:role:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:29:46', '0', '2021-03-27 03:29:46');
 INSERT INTO `sys_permission_info` VALUES ('1375651443106979840', '1356624071998570502', '删除', '3', 'system:role:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:30:37', '0', '2021-03-27 03:30:37');
 INSERT INTO `sys_permission_info` VALUES ('1375651585042227200', '1356624071998570502', '编辑', '3', 'system:role:update', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:31:10', '0', '2021-03-27 03:31:10');
 INSERT INTO `sys_permission_info` VALUES ('1375651784099700736', '1356624071998570502', '禁用启用', '3', 'system:role:enableordisable', '', 3, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:31:58', '1', '2021-03-27 03:48:41');
 INSERT INTO `sys_permission_info` VALUES ('1375651939947454464', '1356624071998570502', '授权', '3', 'system:role:auth', '', 4, 'fa fa-home', '_self', '', '0', '0', '1', '2021-03-27 03:32:35', '0', '2021-03-27 03:32:35');
-INSERT INTO `sys_permission_info` VALUES ('1379079117025284096', '1363856602749427712', '业务流水号', '2', 'system:idtable:init', '/idtable/init', 2, 'fa fa fa-database', '_self', '业务流水号', '0', '0', '1', '2021-04-05 14:31:02', '1', '2022-04-06 22:24:54');
+INSERT INTO `sys_permission_info` VALUES ('1379079117025284096', '1363856602749427712', '业务流水号', '2', 'system:idtable:init', '/idtable/init', 2, 'fa fa-database', '_self', '业务流水号', '0', '0', '1', '2021-04-05 14:31:02', '1', '2022-04-29 00:05:02');
 INSERT INTO `sys_permission_info` VALUES ('1383248198383104000', '1356622216053755904', '邮件服务', '1', 'email_service', '', 4, 'fa fa-address-book-o', '_self', '', '0', '0', '1', '2021-04-17 02:37:24', '0', '2021-04-17 02:37:24');
-INSERT INTO `sys_permission_info` VALUES ('1383248448330067968', '1383248198383104000', '邮件发送', '2', 'email_send', '/sysmail/email/init', 0, 'fa fa-address-book', '_self', '', '0', '0', '1', '2021-04-17 02:38:23', '0', '2021-04-17 02:38:23');
-INSERT INTO `sys_permission_info` VALUES ('1384741066913136640', '1363856602749427712', '网站配置', '2', 'system:config:init', '/config/init', 4, 'fa fa fa fa-android', '_self', '', '0', '0', '1', '2021-04-21 05:29:32', '1', '2022-04-06 22:27:57');
+INSERT INTO `sys_permission_info` VALUES ('1383248448330067968', '1383248198383104000', '邮件发送', '2', 'system:email:init', '/sysmail/email/init', 0, 'fa fa-address-book', '_self', '', '0', '0', '1', '2021-04-17 02:38:23', '1', '2022-04-29 00:04:42');
+INSERT INTO `sys_permission_info` VALUES ('1384741066913136640', '1363856602749427712', '网站配置', '2', 'system:config:init', '/config/init', 4, 'fa fa-android', '_self', '', '0', '0', '1', '2021-04-21 05:29:32', '1', '2022-04-29 00:04:50');
 INSERT INTO `sys_permission_info` VALUES ('1385520263748186112', '1384741066913136640', '保存', '3', 'system:config:save', '', 0, 'fa fa-home', '_self', '网页配置保存', '0', '0', '1', '2021-04-23 17:05:47', '0', '2021-04-23 17:05:47');
 INSERT INTO `sys_permission_info` VALUES ('1401046812895322112', '1356624071998570501', '导出pdf', '3', 'system:user:downloadPdf', '', 5, 'fa fa-home', '_self', '导出pdf', '0', '0', '1', '2021-06-05 13:22:45', '0', '2021-06-05 13:22:45');
 INSERT INTO `sys_permission_info` VALUES ('1403617442299260928', '1356622216053755904', '服务管理', '1', 'system:itfc:', '', 5, 'fa fa fa-bookmark', '_self', '服务管理', '0', '0', '1', '2021-06-12 15:37:31', '1', '2021-08-13 13:13:24');
 INSERT INTO `sys_permission_info` VALUES ('1403617991660810240', '1403617442299260928', '服务密钥', '2', 'system:itfckey:init', '/itfckey/init', 1, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-06-12 15:39:42', '1', '2022-04-06 22:23:01');
-INSERT INTO `sys_permission_info` VALUES ('1403618360277217280', '1403617442299260928', '服务权限', '2', 'system:itfcpermission:init', '/itfcpermission/init', 2, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-06-12 15:41:10', '1', '2022-04-06 22:21:33');
+INSERT INTO `sys_permission_info` VALUES ('1403618360277217280', '1403617442299260928', '服务权限', '2', 'system:itfcpermission:init', '/itfcpermission/init', 2, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-06-12 15:41:10', '1', '2022-06-07 22:39:45');
 INSERT INTO `sys_permission_info` VALUES ('1420386404618768384', '1356624071998570504', '在线用户', '2', 'system:useronline:init', '/useronline/init', 6, 'fa fa fa-codepen', '_self', '', '0', '0', '1', '2021-07-28 22:11:23', '1', '2022-04-06 21:58:13');
 INSERT INTO `sys_permission_info` VALUES ('1426048058156847104', '1356624071998570503', '删除', '3', 'system:permission:delete', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:08:46', '0', '2021-08-13 13:08:46');
 INSERT INTO `sys_permission_info` VALUES ('1426048592427290624', '1356624071998570503', '新增', '3', 'system:permission:add', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:10:53', '0', '2021-08-13 13:10:53');
@@ -4295,9 +4469,9 @@ INSERT INTO `sys_permission_info` VALUES ('1426049723656245248', '14036179916608
 INSERT INTO `sys_permission_info` VALUES ('1426049867319545856', '1403617991660810240', '编辑', '3', 'system:itfckey:edit', '', 3, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:15:57', '0', '2021-08-13 13:15:57');
 INSERT INTO `sys_permission_info` VALUES ('1426050015730798592', '1403617991660810240', '禁用启用', '3', 'system:itfckey:disoren', '', 4, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:16:33', '0', '2021-08-13 13:16:33');
 INSERT INTO `sys_permission_info` VALUES ('1426050236284080128', '1403617991660810240', '授权', '3', 'system:itfckey:authorize', '', 5, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:17:25', '0', '2021-08-13 13:17:25');
-INSERT INTO `sys_permission_info` VALUES ('1426050733669814272', '1403618360277217280', '新增', '3', 'system:itfcpermission:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:19:24', '0', '2021-08-13 13:19:24');
-INSERT INTO `sys_permission_info` VALUES ('1426050819334279168', '1403618360277217280', '编辑', '3', 'system:itfcpermission:edit', '', 1, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:19:44', '1', '2021-08-13 13:20:41');
-INSERT INTO `sys_permission_info` VALUES ('1426050917795565568', '1403618360277217280', '删除', '3', 'system:itfcpermission:delete', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:20:08', '0', '2021-08-13 13:20:19');
+INSERT INTO `sys_permission_info` VALUES ('1426050733669814272', '1403618360277217280', '新增', '3', 'system:itfcpermission:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:19:24', '0', '2022-06-07 22:39:36');
+INSERT INTO `sys_permission_info` VALUES ('1426050819334279168', '1403618360277217280', '编辑', '3', 'system:itfcpermission:edit', '', 1, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:19:44', '1', '2022-06-07 22:39:45');
+INSERT INTO `sys_permission_info` VALUES ('1426050917795565568', '1403618360277217280', '删除', '3', 'system:itfcpermission:delete', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:20:08', '0', '2022-06-07 22:39:45');
 INSERT INTO `sys_permission_info` VALUES ('1426052156788772864', '1379079117025284096', '新增', '3', 'system:idtable:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:25:03', '0', '2021-08-13 13:25:03');
 INSERT INTO `sys_permission_info` VALUES ('1426052217211916288', '1379079117025284096', '删除', '3', 'system:idtable:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:25:18', '0', '2021-08-13 13:25:18');
 INSERT INTO `sys_permission_info` VALUES ('1426052294944952320', '1379079117025284096', '编辑', '3', 'system:idtable:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:25:36', '0', '2021-08-13 13:25:36');
@@ -4306,40 +4480,45 @@ INSERT INTO `sys_permission_info` VALUES ('1426053263602683904', '13638568598980
 INSERT INTO `sys_permission_info` VALUES ('1426053344749883392', '1363856859898011648', '编辑', '3', 'sys:basedict:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:29:46', '0', '2021-08-13 13:29:46');
 INSERT INTO `sys_permission_info` VALUES ('1426053449271939072', '1363856859898011648', '禁用启用', '3', 'sys:basedict:disoren', '', 3, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:30:11', '0', '2021-08-13 13:30:11');
 INSERT INTO `sys_permission_info` VALUES ('1426053589923729408', '1363856859898011648', '配置', '3', 'sys:basedict:configuration', '', 4, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-13 13:30:45', '0', '2021-08-13 13:30:45');
-INSERT INTO `sys_permission_info` VALUES ('1431230594149711872', '1363856602749427712', '定时任务', '2', 'system:job:init', '/job/init', 5, 'fa fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-27 20:22:19', '1', '2022-04-06 22:17:44');
-INSERT INTO `sys_permission_info` VALUES ('1431538412783583232', '1431230594149711872', '新增', '3', 'sys:job:add', '', 0, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:45:29', '1', '2021-08-28 16:47:14');
-INSERT INTO `sys_permission_info` VALUES ('1431538557407379456', '1431230594149711872', '删除', '3', 'sys:job:delete', '', 1, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:03', '1', '2021-08-28 16:47:33');
-INSERT INTO `sys_permission_info` VALUES ('1431538629335498752', '1431230594149711872', '编辑', '3', 'sys:job:edit', '', 2, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:20', '1', '2021-08-28 16:47:46');
+INSERT INTO `sys_permission_info` VALUES ('1431230594149711872', '1363856602749427712', '定时任务', '2', 'system:job:init', '/job/init', 5, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-27 20:22:19', '1', '2022-04-29 00:04:18');
+INSERT INTO `sys_permission_info` VALUES ('1431538412783583232', '1431230594149711872', '新增', '3', 'sys:job:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:45:29', '1', '2022-04-29 00:04:21');
+INSERT INTO `sys_permission_info` VALUES ('1431538557407379456', '1431230594149711872', '删除', '3', 'sys:job:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:03', '1', '2022-04-29 00:04:23');
+INSERT INTO `sys_permission_info` VALUES ('1431538629335498752', '1431230594149711872', '编辑', '3', 'sys:job:edit', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:20', '1', '2022-04-29 00:04:34');
 INSERT INTO `sys_permission_info` VALUES ('1431538723468263424', '1431230594149711872', '执行一次', '3', 'sys:job:executeonce', '', 3, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:46:43', '0', '2021-08-28 16:46:43');
 INSERT INTO `sys_permission_info` VALUES ('1431538808277090304', '1431230594149711872', '执行日志', '3', 'sys:job:record', '', 4, 'fa fa-home', '_self', '', '0', '0', '1', '2021-08-28 16:47:03', '0', '2021-08-28 16:47:03');
 INSERT INTO `sys_permission_info` VALUES ('1458664123436806144', '1356624071998570501', '导出excel', '3', 'system:user:exportExcel', '', 8, 'fa fa fa-home', '_self', '', '0', '0', '1', '2021-11-11 13:13:22', '1', '2021-11-17 22:40:55');
-INSERT INTO `sys_permission_info` VALUES ('1466067936934129664', '1356624071998570500', '岗位管理', '2', 'system:post:init', '/postinfo/init', 3, 'fa fa-home', '_self', '', '0', '0', '1', '2021-12-01 23:33:29', NULL, '2022-04-06 22:11:13');
+INSERT INTO `sys_permission_info` VALUES ('1466067936934129664', '1356624071998570500', '岗位管理', '2', 'system:post:init', '/postinfo/init', 3, 'fa fa-address-book-o', '_self', '', '0', '0', '1', '2021-12-01 23:33:29', '1', '2022-04-29 00:03:29');
 INSERT INTO `sys_permission_info` VALUES ('1466068282603499520', '1466067936934129664', '新增', '3', 'system:post:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2021-12-01 23:34:51', NULL, '2021-12-01 23:34:51');
 INSERT INTO `sys_permission_info` VALUES ('1477474786258567168', '1466067936934129664', '删除', '3', 'system:post:delete', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2022-01-02 11:00:13', NULL, '2022-01-02 11:00:13');
 INSERT INTO `sys_permission_info` VALUES ('1477474891283939328', '1466067936934129664', '修改', '3', 'system:post:update', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2022-01-02 11:00:38', NULL, '2022-01-02 11:00:38');
 INSERT INTO `sys_permission_info` VALUES ('1511330246660317184', '1356624071998570500', '部门管理', '2', 'sysdeptinfo:init', '/deptinfo/init', 0, 'fa fa-cogs', '_self', '', '0', '0', '1', '2022-04-05 21:09:46', NULL, '2022-04-06 22:26:13');
-INSERT INTO `sys_permission_info` VALUES ('1511330456019001344', '1511330246660317184', '新增', '3', 'system:dept:add', '', 0, 'fa fa fa-home', '_self', '', '0', '0', '1', '2022-04-05 21:10:36', '1', '2022-04-13 23:53:07');
-INSERT INTO `sys_permission_info` VALUES ('1511583410945138688', '1511330246660317184', '修改', '3', 'system:dept:update', '', 1, 'fa fa fa-home', '_self', '', '0', '0', '1', '2022-04-06 13:55:43', '1', '2022-04-13 23:52:41');
+INSERT INTO `sys_permission_info` VALUES ('1511330456019001344', '1511330246660317184', '新增', '3', 'system:dept:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2022-04-05 21:10:36', '1', '2022-04-29 00:03:57');
+INSERT INTO `sys_permission_info` VALUES ('1511583410945138688', '1511330246660317184', '修改', '3', 'system:dept:update', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2022-04-06 13:55:43', '1', '2022-04-29 00:04:01');
 INSERT INTO `sys_permission_info` VALUES ('1514269497674051584', '1511330246660317184', '删除', '3', 'system:dept:delete', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2022-04-13 23:49:16', NULL, '2022-04-13 23:49:16');
 INSERT INTO `sys_permission_info` VALUES ('1518460292667994112', '1356624071998570504', '缓存监控', '2', 'system:cacheinfo:edit', '/cacheinfo/init', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2022-04-25 13:22:00', NULL, '2022-04-25 13:22:00');
+INSERT INTO `sys_permission_info` VALUES ('1519704127353208832', '1383248448330067968', '发送', '3', 'system:email:send', '', 0, 'fa fa-address-book', '_self', '', '0', '0', '1', '2022-04-28 23:44:33', '1', '2022-04-29 00:04:14');
+INSERT INTO `sys_permission_info` VALUES ('1548675697006264320', '1363856602749427712', '业务规则管理', '2', 'system:ruleinfo:init', '/ruleinfo/init', 5, 'fa fa-home', '_self', '', '0', '0', '1', '2022-07-17 22:27:13', '1', '2022-07-17 22:28:17');
+INSERT INTO `sys_permission_info` VALUES ('1548676030004641792', '1548675697006264320', '新增', '3', 'system:ruleinfo:add', '', 0, 'fa fa-home', '_self', '', '0', '0', '1', '2022-07-17 22:28:33', NULL, '2022-07-17 22:28:33');
+INSERT INTO `sys_permission_info` VALUES ('1548676124925935616', '1548675697006264320', '编辑', '3', 'system:ruleinfo:edit', '', 1, 'fa fa-home', '_self', '', '0', '0', '1', '2022-07-17 22:28:55', NULL, '2022-07-17 22:28:55');
+INSERT INTO `sys_permission_info` VALUES ('1548676231071186944', '1548675697006264320', '删除', '3', 'system:ruleinfo:delete', '', 2, 'fa fa-home', '_self', '', '0', '0', '1', '2022-07-17 22:29:21', NULL, '2022-07-17 22:29:21');
 
 -- ----------------------------
 -- Table structure for sys_post_info
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_post_info`;
 CREATE TABLE `sys_post_info`  (
-  `post_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务主键',
+  `post_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位ID（主键ID）',
   `post_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
   `post_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位名称',
   `post_sort` int(4) NOT NULL COMMENT '显示顺序',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态（0正常 1停用）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `descript` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '岗位信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_post_info
@@ -4352,18 +4531,18 @@ INSERT INTO `sys_post_info` VALUES ('31415358687', 'ceo', '董事长', 2, '0', '
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_info`;
 CREATE TABLE `sys_role_info`  (
-  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色ID',
+  `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色ID（主键ID）',
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称',
   `sign` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色标志',
   `descript` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0--正常1--停用）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统角色信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统角色信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_info
@@ -4387,24 +4566,25 @@ DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE `sys_role_permission`  (
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '角色id',
   `permission_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '权限id',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`role_id`, `permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色-权限关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色-权限关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_permission
 -- ----------------------------
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1356622216053755904', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1363856602749427712', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1363856859898011648', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1379079117025284096', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426052156788772864', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426052217211916288', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053204626575360', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053263602683904', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053344749883392', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053449271939072', '2021-11-14 18:56:31', '2021-11-14 18:56:31');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1356622216053755904', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1363856602749427712', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1363856859898011648', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1379079117025284096', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426052156788772864', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426052217211916288', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426052294944952320', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053204626575360', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053263602683904', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053344749883392', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487222', '1426053449271939072', '2022-06-07 22:38:28', '2022-06-07 22:38:28');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1356622216053755904', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1356624071998570500', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1356624071998570501', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
@@ -4425,108 +4605,114 @@ INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '14260480581568
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1426048592427290624', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1426048692151062528', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487291', '1426048926205808640', '2021-08-30 18:11:35', '2021-08-30 18:11:35');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622216053755904', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622327209861120', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622373770813440', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622845051572224', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622944976826368', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623034781810688', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623193826586624', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623247861440512', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623355334021120', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623395763740672', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623422948618240', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623540277268480', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774272', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774273', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774274', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774275', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774276', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774277', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774278', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774279', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774280', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774281', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047744', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047745', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047746', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047747', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047748', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047749', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047750', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047751', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047752', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047753', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570497', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570498', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570499', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570500', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570501', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570502', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570503', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570504', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1362630867860459520', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363385220818423808', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856602749427712', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856859898011648', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366257271839412224', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405056', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405057', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405058', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405059', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367001277164482560', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367765397289906176', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1374747437312167936', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651227775606784', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651443106979840', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651585042227200', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651784099700736', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651939947454464', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1379079117025284096', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248198383104000', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248448330067968', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1384741066913136640', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1385520263748186112', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1401046812895322112', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617442299260928', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617991660810240', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403618360277217280', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1420386404618768384', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048058156847104', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048592427290624', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048692151062528', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048926205808640', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049544312000512', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049723656245248', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049867319545856', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050015730798592', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050236284080128', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050733669814272', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050819334279168', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050917795565568', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052156788772864', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052217211916288', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052294944952320', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053204626575360', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053263602683904', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053344749883392', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053449271939072', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053589923729408', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431230594149711872', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538412783583232', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538557407379456', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538629335498752', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538723468263424', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538808277090304', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1458664123436806144', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1466067936934129664', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1466068282603499520', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1477474786258567168', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1477474891283939328', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511330246660317184', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511330456019001344', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511583410945138688', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
-INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1518460292667994112', '2022-04-25 13:22:19', '2022-04-25 13:22:19');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622216053755904', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622327209861120', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622373770813440', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622845051572224', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356622944976826368', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623034781810688', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623193826586624', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623247861440512', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623355334021120', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623395763740672', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623422948618240', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623540277268480', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774272', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774273', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774274', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774275', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774276', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774277', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774278', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774279', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774280', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623692622774281', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047744', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047745', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047746', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047747', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047748', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047749', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047750', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047751', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047752', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356623905446047753', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570497', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570498', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570499', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570500', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570501', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570502', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570503', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1356624071998570504', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1362630867860459520', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363385220818423808', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856602749427712', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1363856859898011648', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366257271839412224', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405056', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405057', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405058', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1366260043151405059', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367001277164482560', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1367765397289906176', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1374747437312167936', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651227775606784', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651443106979840', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651585042227200', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651784099700736', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1375651939947454464', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1379079117025284096', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248198383104000', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1383248448330067968', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1384741066913136640', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1385520263748186112', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1401046812895322112', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617442299260928', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403617991660810240', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1403618360277217280', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1420386404618768384', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048058156847104', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048592427290624', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048692151062528', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426048926205808640', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049544312000512', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049723656245248', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426049867319545856', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050015730798592', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050236284080128', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050733669814272', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050819334279168', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426050917795565568', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052156788772864', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052217211916288', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426052294944952320', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053204626575360', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053263602683904', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053344749883392', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053449271939072', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1426053589923729408', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431230594149711872', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538412783583232', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538557407379456', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538629335498752', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538723468263424', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1431538808277090304', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1458664123436806144', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1466067936934129664', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1466068282603499520', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1477474786258567168', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1477474891283939328', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511330246660317184', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511330456019001344', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1511583410945138688', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1514269497674051584', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1518460292667994112', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1519704127353208832', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1548675697006264320', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1548676030004641792', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1548676124925935616', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
+INSERT INTO `sys_role_permission` VALUES ('1263999628210487296', '1548676231071186944', '2022-07-17 22:29:59', '2022-07-17 22:29:59');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487297', '1356622216053755904', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487297', '1356624071998570500', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487297', '1356624071998570501', '2021-10-23 14:51:01', '2021-10-23 14:51:01');
@@ -4563,25 +4749,28 @@ INSERT INTO `sys_role_permission` VALUES ('1263999628210487298', '14315387234682
 INSERT INTO `sys_role_permission` VALUES ('1263999628210487298', '1431538808277090304', '2021-08-30 18:11:16', '2021-08-30 18:11:16');
 
 -- ----------------------------
--- Table structure for sys_rule
+-- Table structure for sys_rule_info
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_rule`;
-CREATE TABLE `sys_rule`  (
+DROP TABLE IF EXISTS `sys_rule_info`;
+CREATE TABLE `sys_rule_info`  (
   `rule_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键ID',
-  `rule_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规则内码',
+  `rule_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规则名称',
+  `rule_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规则键',
   `rule_value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规则值',
-  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '状态（0--正常 1--停用）',
+  `rule_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否系统内置（1是 0否），系统内置的禁止删除',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '状态（0--正常 1--停用）',
   `descript` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '规则描述',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`rule_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统业务规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统规则参数表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_rule
+-- Records of sys_rule_info
 -- ----------------------------
+INSERT INTO `sys_rule_info` VALUES ('1521146220780888064', '测试业务规则', 'test_rule', '1', '0', '0', '测试业务规则', '1', NULL, '2022-07-17 22:37:58', '2022-07-17 22:40:17');
 
 -- ----------------------------
 -- Table structure for sys_user_info
@@ -4600,33 +4789,34 @@ CREATE TABLE `sys_user_info`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '状态（0--正常 1--冻结）',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0--未删除1--已删除）',
   `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_info
 -- ----------------------------
-INSERT INTO `sys_user_info` VALUES ('1', 'admin', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '超级管理员', '100', '17862719592', '111@qq.com', 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', '0', '2020-09-06 19:40:49', '1', '2022-04-23 20:15:24');
-INSERT INTO `sys_user_info` VALUES ('10', 'xiaolan', 'c6fbfcf124670417dc0b8485171d6bb9', '小兰', '103', '15286776337', '15286776337@163.com', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '1', '2022-04-21 19:17:23');
-INSERT INTO `sys_user_info` VALUES ('11', 'xiaozi', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小紫', '101', '13288990099', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:28');
-INSERT INTO `sys_user_info` VALUES ('12', 'xiaoqing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小青', '101', '15286776337', '15286776337@163.com', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '1', '2022-04-23 20:15:28');
-INSERT INTO `sys_user_info` VALUES ('13', 'liuxing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '流星雨', '101', '15286776337', 'jqcgj@mfk.app', 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '1', '2022-04-23 20:15:29');
-INSERT INTO `sys_user_info` VALUES ('14', 'huangzai', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '黄二郎', '101', '1', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2022-04-23 20:15:30');
-INSERT INTO `sys_user_info` VALUES ('15', 'superadmin', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '超级管理员', '101', '17899999999', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2022-04-23 20:15:32');
-INSERT INTO `sys_user_info` VALUES ('1516084831123689472', 'ceshiceshi', '28741572107c094aa0794a472a1cf73c4e60df301fd835bd056065e97b39a097', '测试测试', '101', '17862719591', '184974699@qq.com', '', '1', '0', '0', '1', '2022-04-19 00:02:45', NULL, '2022-04-19 00:02:45');
-INSERT INTO `sys_user_info` VALUES ('17', 'liuxingyu01', 'c6fbfcf124670417dc0b8485171d6bb9', '黑呵呵', '104', '15286779077', NULL, 'http://halo.lxyccc.top/车.png', '2', '1', '0', '1', '2021-01-25 13:06:22', '0', '2022-04-23 20:15:49');
-INSERT INTO `sys_user_info` VALUES ('18', '测试上传头像', '31a326b90dee28fad25e4e3b653cd7ea', 'avatar', '104', '15286779044', NULL, 'http://halo.lxyccc.top/44dsdsdsds4.jpg', '1', '0', '0', '1', '2021-03-27 08:35:47', '0', '2022-04-23 20:15:49');
-INSERT INTO `sys_user_info` VALUES ('2', '13888888888', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '测试账号', '104', '13888888886', '123456798@qq.com', 'http://halo.lxyccc.top/头像.jpg', '1', '0', '0', '1', '2020-09-30 09:35:28', '1', '2022-04-23 20:15:49');
-INSERT INTO `sys_user_info` VALUES ('3', 'zhangsan', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '张三', '104', '13244444444', NULL, 'http://halo.lxyccc.top/导航标注_16.png', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:49');
-INSERT INTO `sys_user_info` VALUES ('4', 'lisi', 'df3db4b61f6d08899d10f5beb578a3699373b24841d9cb43ae123a688168ad2e', '李四', '104', '13067395515', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:49');
-INSERT INTO `sys_user_info` VALUES ('5', 'wangwu', 'c6fbfcf124670417dc0b8485171d6bb9', '王五', '104', '13888888886', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:49');
-INSERT INTO `sys_user_info` VALUES ('6', 'zhaoliu', 'c6fbfcf124670417dc0b8485171d6bb9', '赵六', '105', '18888888888', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:50');
-INSERT INTO `sys_user_info` VALUES ('7', 'xiaohong', 'c6fbfcf124670417dc0b8485171d6bb9', '小红', '105', '13255667980', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:51');
-INSERT INTO `sys_user_info` VALUES ('8', 'xiaohuang', 'c6fbfcf124670417dc0b8485171d6bb9', '小黄', '105', '15286779044', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:52');
-INSERT INTO `sys_user_info` VALUES ('9', 'xiaolv', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '大绿', '105', '17862719592', NULL, 'http://halo.lxyccc.top/f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-23 20:15:53');
+INSERT INTO `sys_user_info` VALUES ('1', 'admin', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '超级管理员', '100', '17862719592', '111@qq.com', 'dsdassdas8212o1oo1o11.jpg', '1', '0', '0', '0', '2020-09-06 19:40:49', '1', '2022-04-26 22:29:06');
+INSERT INTO `sys_user_info` VALUES ('10', 'xiaolan', 'c6fbfcf124670417dc0b8485171d6bb9', '小兰', '103', '15286776337', '15286776337@163.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '1', '2022-06-06 16:02:27');
+INSERT INTO `sys_user_info` VALUES ('11', 'xiaozi', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小紫', '101', '13288990099', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('12', 'xiaoqing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '小青', '101', '15286776337', '15286776337@163.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '1', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('13', 'liuxing', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '流星雨', '101', '15286776337', 'jqcgj@mfk.app', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '1', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('14', 'huangzai', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '黄二郎', '101', '15286779077', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('15', 'superadmin', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '超级管理员', '101', '17899999999', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:28:30', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('1516084831123689472', 'ceshiceshi', '28741572107c094aa0794a472a1cf73c4e60df301fd835bd056065e97b39a097', '测试测试', '101', '17862719591', '184974699@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '1', '2022-04-19 00:02:45', NULL, '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('1521159871135498240', 'admin22', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', NULL, NULL, NULL, 'rwnbd@mfk.app', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '0', '0', '0', '1521159871135498240', '2022-05-03 00:09:10', NULL, '2022-06-06 16:02:22');
+INSERT INTO `sys_user_info` VALUES ('17', 'liuxingyu01', 'c6fbfcf124670417dc0b8485171d6bb9', '黑呵呵', '104', '15286779077', NULL, 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '1', '0', '1', '2021-01-25 13:06:22', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('18', '测试上传头像', '31a326b90dee28fad25e4e3b653cd7ea', 'avatar', '104', '15286779044', NULL, 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '1', '2021-03-27 08:35:47', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('2', '13888888888', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '测试账号', '104', '13888888886', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '1', '2020-09-30 09:35:28', '1', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('3', 'zhangsan', '0e1f05509d6dd6b14d7a8458fea8b5714fac365d45ad99678a5cd561158a90c4', '张三', '104', '13244444444', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('4', 'lisi', 'df3db4b61f6d08899d10f5beb578a3699373b24841d9cb43ae123a688168ad2e', '李四', '104', '13067395515', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('5', 'wangwu', 'c6fbfcf124670417dc0b8485171d6bb9', '王五', '104', '13888888886', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('6', 'zhaoliu', 'c6fbfcf124670417dc0b8485171d6bb9', '赵六', '105', '18888888888', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('7', 'xiaohong', 'c6fbfcf124670417dc0b8485171d6bb9', '小红', '105', '13255667980', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('8', 'xiaohuang', 'c6fbfcf124670417dc0b8485171d6bb9', '小黄', '105', '15286779044', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '2', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
+INSERT INTO `sys_user_info` VALUES ('9', 'xiaolv', '99B26BE5F5F7AF4A576DFB6DF0DD38FF', '大绿', '105', '17862719592', '123456798@qq.com', 'f778738c-e4f8-4870-b634-56703b4acafe_1608734603765.gif', '1', '0', '0', '0', '2021-01-07 15:26:01', '0', '2022-04-26 22:29:30');
 
 -- ----------------------------
 -- Table structure for sys_user_post
@@ -4635,17 +4825,17 @@ DROP TABLE IF EXISTS `sys_user_post`;
 CREATE TABLE `sys_user_post`  (
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
   `post_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`user_id`, `post_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户岗位关联表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户岗位关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_post
 -- ----------------------------
-INSERT INTO `sys_user_post` VALUES ('1', '23466322432', '2022-04-08 22:29:13', '2022-04-08 22:29:13');
-INSERT INTO `sys_user_post` VALUES ('1', '31415358687', '2022-04-08 22:29:13', '2022-04-08 22:29:13');
-INSERT INTO `sys_user_post` VALUES ('10', '23466322432', '2022-04-21 19:17:24', '2022-04-21 19:17:24');
+INSERT INTO `sys_user_post` VALUES ('1', '23466322432', '2022-06-06 16:07:35', '2022-06-06 16:07:35');
+INSERT INTO `sys_user_post` VALUES ('1', '31415358687', '2022-06-06 16:07:35', '2022-06-06 16:07:35');
+INSERT INTO `sys_user_post` VALUES ('10', '23466322432', '2022-06-06 16:07:46', '2022-06-06 16:07:46');
 INSERT INTO `sys_user_post` VALUES ('1477483060669382656', '23466322432', '2022-01-02 14:38:28', '2022-01-02 14:38:28');
 INSERT INTO `sys_user_post` VALUES ('1477483060669382656', '31415358687', '2022-01-02 14:38:28', '2022-01-02 14:38:28');
 INSERT INTO `sys_user_post` VALUES ('1516084831123689472', '23466322432', '2022-04-19 00:02:45', '2022-04-19 00:02:45');
@@ -4657,15 +4847,15 @@ DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`  (
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '用户id',
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '角色id',
-  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户-角色关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户-角色关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
-INSERT INTO `sys_user_role` VALUES ('1', '1263999628210487296', '2022-04-06 13:51:07', '2022-04-06 13:51:07');
+INSERT INTO `sys_user_role` VALUES ('1', '1263999628210487296', '2022-06-06 15:07:15', '2022-06-06 15:07:15');
 INSERT INTO `sys_user_role` VALUES ('10', '1263999628210287296', '2022-04-20 09:42:36', '2022-04-20 09:42:36');
 INSERT INTO `sys_user_role` VALUES ('10', '1263999628210487291', '2022-04-20 09:42:36', '2022-04-20 09:42:36');
 INSERT INTO `sys_user_role` VALUES ('17', '1263999628210287296', '2021-11-17 22:14:48', '2021-11-17 22:14:48');
