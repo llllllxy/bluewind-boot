@@ -48,14 +48,18 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">前缀<i class="layui-icon layui-icon-about" id="layui-icon-about1"></i></label>
+        <label class="layui-form-label">前缀
+            <i class="layui-icon layui-icon-tips" id="layui-icon-about1"></i>
+        </label>
         <div class="layui-input-block">
             <input type="text" name="idPrefix" placeholder="请输入流水号前缀" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">后缀<i class="layui-icon layui-icon-about" id="layui-icon-about2"></i></label>
+        <label class="layui-form-label">后缀
+            <i class="layui-icon layui-icon-tips" id="layui-icon-about2"></i>
+        </label>
         <div class="layui-input-block">
             <input type="text" name="idSuffix" placeholder="请输入流水号后缀" class="layui-input">
         </div>
@@ -99,10 +103,17 @@
             "<p>以上日期时间字符，yyyyMMddHHmmss，区分大小写</p>";
 
         var tipsIndex;
-        $("#layui-icon-about1, #layui-icon-about2").on("mouseover", function() {
-            tipsIndex = layer.tips(tipStr, "#layui-icon-about", {tips: [1, '#4BB2FF'], time: 50000});
+        $("#layui-icon-about1").on("mouseover", function() {
+            tipsIndex = layer.tips(tipStr, "#layui-icon-about1", {tips: [2, '#4BB2FF'], time: 50000});
         }).on("mouseout", function() {
             layer.close(tipsIndex);
+        });
+
+        var tipsIndex2;
+        $("#layui-icon-about2").on("mouseover", function() {
+            tipsIndex2 = layer.tips(tipStr, "#layui-icon-about2", {tips: [2, '#4BB2FF'], time: 50000});
+        }).on("mouseout", function() {
+            layer.close(tipsIndex2);
         });
 
         //监听提交
