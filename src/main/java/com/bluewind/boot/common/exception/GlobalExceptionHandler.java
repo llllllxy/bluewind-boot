@@ -1,4 +1,4 @@
-package com.bluewind.boot.common.config;
+package com.bluewind.boot.common.exception;
 
 
 import org.slf4j.Logger;
