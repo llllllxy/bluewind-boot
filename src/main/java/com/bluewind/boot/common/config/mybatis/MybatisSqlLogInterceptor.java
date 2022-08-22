@@ -78,8 +78,8 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
             // 获取到最终的sql语句
             String sql = getSql(configuration, boundSql, sqlId, time, returnValue);
-            logger.info(sql);
 
+            // 根据sql执行时间，确定日志级别
             if (time >= maxTime) {
                 logger.warn(sql);
             } else {
@@ -100,10 +100,10 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         String sql = showSql(configuration, boundSql);
         StringBuilder str = new StringBuilder();
         str.append("\n---------------------------begin--------------------------------\n");
-        str.append("【sqlId】: ").append(sqlId).append("\n");
+        str.append("【SQL_ID】: ").append(sqlId).append("\n");
         str.append("【SQL】: ").append(sql).append("\n");
         str.append("【SQL耗时】: ").append(time).append("毫秒").append("\n");
-        if (recordResult){
+        if (recordResult) {
             str.append("【SQL结果】: ").append(returnValue).append("\n");
         }
         str.append("-----------------------------end--------------------------------\n");
