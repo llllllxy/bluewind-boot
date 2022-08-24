@@ -8,6 +8,7 @@ import com.bluewind.boot.module.system.idtable.entity.IdTable;
 import com.bluewind.boot.module.system.idtable.service.IdTableService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping("/idtable")
+@Api(value = "业务流水号控制器", tags = "业务流水号控制器")
 public class IdTableController extends BaseController {
     final static Logger logger = LoggerFactory.getLogger(IdTableController.class);
 

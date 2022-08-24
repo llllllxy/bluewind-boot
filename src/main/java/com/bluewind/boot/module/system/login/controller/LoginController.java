@@ -45,7 +45,7 @@ import java.util.Map;
  **/
 @Controller
 @RequestMapping("/admin")
-@Api(value = "系统登录控制器", description = "登陆管理")
+@Api(value = "系统登录控制器", tags = "系统登录控制器")
 public class LoginController {
     final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
