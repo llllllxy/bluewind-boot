@@ -30,6 +30,7 @@
     <plugins>
         <plugin interceptor="com.bluewind.boot.common.config.mybatis.MybatisSqlLogInterceptor">
             <property name="isOpen" value="true"/>
+            <property name="isOpenSqlMonitor" value="true"/>
             <property name="maxTime" value="5000"/>
             <property name="recordResult" value="false"/>
         </plugin>

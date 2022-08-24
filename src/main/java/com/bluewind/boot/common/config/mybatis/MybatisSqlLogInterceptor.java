@@ -1,5 +1,9 @@
 package com.bluewind.boot.common.config.mybatis;
 
+import com.bluewind.boot.common.config.security.SecurityUtil;
+import com.bluewind.boot.common.consts.SystemConst;
+import com.bluewind.boot.common.utils.RedisUtil;
+import com.bluewind.boot.common.utils.spring.SpringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
@@ -14,6 +18,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.text.DateFormat;
 import java.util.*;
@@ -41,6 +46,28 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
     // 是否打开此拦截器
     private static boolean isOpen = false;
+
+    // 是否打开SQL在线监控页
+    private static boolean isOpenSqlMonitor = false;
+
+    private static RedisUtil redisUtil;
+
+    private static RedisUtil getRedisUtil() {
+        if (redisUtil == null) {
+            redisUtil = SpringUtil.getBean("redisUtil");
+        }
+        return redisUtil;
+    }
+
+    private static ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    private static ThreadPoolTaskExecutor getThreadPoolTaskExecutor() {
+        if (threadPoolTaskExecutor == null) {
+            threadPoolTaskExecutor = SpringUtil.getBean("asyncServiceExecutor");
+        }
+        return threadPoolTaskExecutor;
+    }
+
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -96,7 +123,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
     /**
      * 封装了一下sql语句，使得结果返回完整xml路径下的sql语句节点id + sql语句
      */
-    public static String getSql(Configuration configuration, BoundSql boundSql, String sqlId, long time, Object returnValue) {
+    public String getSql(Configuration configuration, BoundSql boundSql, String sqlId, long time, Object returnValue) {
         String sql = showSql(configuration, boundSql);
         StringBuilder str = new StringBuilder();
         str.append("\n---------------------------begin--------------------------------\n");
@@ -107,14 +134,43 @@ public class MybatisSqlLogInterceptor implements Interceptor {
             str.append("【SQL结果】: ").append(returnValue).append("\n");
         }
         str.append("-----------------------------end--------------------------------\n");
+
+        if (isOpenSqlMonitor) {
+            redisSave(sqlId, sql, time);
+        }
         return str.toString();
     }
+
+
+    /**
+     * 保存 sql 执行日志（到redis里）
+     * @param sqlId
+     * @param sql
+     * @param time
+     */
+    private void redisSave(String sqlId, String sql, long time) {
+        String token = SecurityUtil.getUserKey();
+
+        if (StringUtils.isNotBlank(token)) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("sqlId", sqlId);
+            map.put("sql", sql);
+            map.put("time", time);
+
+            // 异步执行，不能影响主线程业务
+            getThreadPoolTaskExecutor().execute(() -> {
+                String redisKey = SystemConst.SYSTEM_SQLMONITOR + ":" + token;
+                getRedisUtil().lRightPush(redisKey, map, 300);
+            });
+        }
+    }
+
 
     /**
      * <br>
      * *如果参数是String，则添加单引号， 如果是日期，则转换为时间格式器并加单引号； 对参数是null和不是null的情况作了处理<br>
      */
-    private static String getParameterValue(Object obj) {
+    private String getParameterValue(Object obj) {
         String value = null;
         if (obj instanceof String) {
             value = "'" + obj.toString() + "'";
@@ -134,7 +190,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
     }
 
     // 进行？的替换
-    public static String showSql(Configuration configuration, BoundSql boundSql) {
+    public String showSql(Configuration configuration, BoundSql boundSql) {
         // 获取参数
         Object parameterObject = boundSql.getParameterObject();
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
@@ -187,6 +243,9 @@ public class MybatisSqlLogInterceptor implements Interceptor {
                 properties.setProperty(key, value);
                 if (key.equals("isOpen")) {
                     isOpen = Boolean.parseBoolean(value);
+                }
+                if (key.equals("isOpenSqlMonitor")) {
+                    isOpenSqlMonitor = Boolean.parseBoolean(value);
                 }
                 if (key.equals("maxTime")) {
                     maxTime = Long.parseLong(value);

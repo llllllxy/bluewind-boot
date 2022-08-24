@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sqlmonitor监控</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+
+    <style>
+        #fix {
+            width: 30px;
+            height: 80px;
+            position: fixed;
+            right: 30px;
+            bottom: 50px;
+            background-color: #BFFFBF;
+        }
+
+        span {
+            color: #660066;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <div id="result" class="example" style="padding: 10px 10px 10px 10px;">
+
+        </div>
+
+        <div id="fix">
+            <p id="top" style="margin-bottom: 10px; cursor: pointer;">顶部</p>
+            <p id="clear" style="margin-bottom: 10px; cursor: pointer;">清屏</p>
+            <p id="bottom" style="cursor: pointer;">底部</p>
+        </div>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script th:inline="javascript" type="text/javascript">
+    Util.ctx = /*[[@{/}]]*/'';
+
+    $(document).ready(function() {
+        if (!window.EventSource) {
+            $("#result").append("<h2>旧版浏览器不支持服务器监听事件，请使用较新内核的浏览器访问!</h2>");
+        } else {
+            $("#result").append("<blockquote class='layui-elem-quote'>点击功能后，返回本页面可查看sql跟踪效果</blockquote>");
+        }
+
+        if (window.EventSource) {
+            // 原生的EventSource默认不支持带参数，
+            // 如果需要带参数的话，可以使用EventSourcePolyfill包，参考https://blog.csdn.net/lx1996082566/article/details/116004768
+            var source = new EventSource(Util.ctx + "sqlmonitor/getWithSse");
+
+            /**
+             * 连接一旦建立，就会触发open事件
+             * 另一种写法：source.onopen = function (event) {}
+             */
+            source.addEventListener('open', function (e) {
+                console.log('open successfully')
+
+            }, false);
+
+            /**
+             * 客户端收到服务器发来的数据
+             * 另一种写法：source.onmessage = function (event) {}
+             */
+            source.addEventListener('message', function (e) {
+                console.log('message successfully ', new Date)
+                console.log(e.data)
+
+                let dataList = JSON.parse(e.data);
+                if (dataList && dataList.length > 0) {
+                    for (let item of dataList) {
+
+                        let html = "<blockquote class='layui-elem-quote'>"
+                            +  "<span>执行sqlId: </span>" + item.sqlId + "<br>"
+                            + "<span>sql语句: </span>" + item.sql + "<br>"
+                            + "<span>耗时: </span>" + item.time + "ms"
+                            + "</blockquote>";
+
+                        $("#result").append(html);
+                    }
+                }
+            });
+
+            /**
+             * 如果发生通信错误（比如连接中断），就会触发error事件
+             * 或者：
+             * 另一种写法：source.onerror = function (event) {}
+             */
+            source.addEventListener('error', function (e) {
+                if (e.readyState === EventSource.CLOSED) {
+                    console.log('连接关闭');
+                } else {
+                    console.log(e);
+                }
+            }, false);
+        }
+
+
+        $("#top").click(function () {
+            $('body,html').animate({scrollTop: 0}, 1000);
+        });
+
+        $("#clear").click(function () {
+            $("#result").html("");
+        });
+
+        $("#bottom").click(function () {
+            $('body,html').animate({scrollTop: $(document).height()}, 1000);
+        });
+    });
+</script>
+</body>
+</html>

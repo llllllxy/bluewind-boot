@@ -86,4 +86,9 @@ public final class SystemConst {
      * 注册邮箱验证码信息
      */
     public static final String SYSTEM_REGISTER_EMAILCODE = "bluewind:register:code";
+
+    /**
+     * sql监控
+     */
+    public static final String SYSTEM_SQLMONITOR = "bluewind:sqlmonitor";
 }
