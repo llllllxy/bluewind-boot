@@ -4,14 +4,14 @@
  Source Server         : 阿里云RDS-MySQL
  Source Server Type    : MySQL
  Source Server Version : 50737
- Source Host           : rm-bp1l6sit4p21x78608o.mysql.rds.aliyuncs.com:3306
+ Source Host           : rm-.mysql.rds.aliyuncs.com:3306
  Source Schema         : bluewind-boot-main
 
  Target Server Type    : MySQL
  Target Server Version : 50737
  File Encoding         : 65001
 
- Date: 19/08/2022 11:21:10
+ Date: 24/08/2022 15:59:40
 */
 
 SET NAMES utf8mb4;
@@ -3812,30 +3812,6 @@ INSERT INTO `sys_email_log` VALUES ('8', '184974699@qq.com', '菜单', '0', '0',
 INSERT INTO `sys_email_log` VALUES ('9', '184974699@qq.com', '我是测试的', '0', '0', '1', '2021-04-15 23:52:42', '0', '2021-04-15 23:52:42', '0');
 
 -- ----------------------------
--- Table structure for sys_files
--- ----------------------------
-DROP TABLE IF EXISTS `sys_files`;
-CREATE TABLE `sys_files`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附件名称',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附件路径',
-  `suffix` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件后缀（png、doc等）',
-  `create_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '删除状态（0--未删除1--已删除）',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统附件表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_files
--- ----------------------------
-INSERT INTO `sys_files` VALUES (1, '66666.png', '66666.png', 'png', '1', '2021-01-11 17:35:03', '1');
-INSERT INTO `sys_files` VALUES (2, '张伟-请坐.jpg', 'business/20210111/325b66c0-8f00-4e81-ac5d-62093c17e5e4.jpg', 'jpg', '0', '2021-01-11 20:09:50', '1');
-INSERT INTO `sys_files` VALUES (3, '张伟-专业团队.jpg', 'business/20210111/ec5d63fb-6e28-4f8f-ac0c-56446f75fc12.jpg', 'jpg', '0', '2021-01-11 20:10:34', '1');
-INSERT INTO `sys_files` VALUES (4, 'cat.jpg', 'default/20210111/39c6083d-2348-4cb2-9b9f-1ed289f5d333.jpg', 'jpg', '0', '2021-01-11 20:47:37', '0');
-INSERT INTO `sys_files` VALUES (5, 'timg.png', 'default/20210111/e621c49b-fee5-46fa-a0aa-f1812479d4ac.png', 'png', '0', '2021-01-11 20:50:11', '0');
-
--- ----------------------------
 -- Table structure for sys_id_table
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_id_table`;
@@ -3886,7 +3862,7 @@ CREATE TABLE `sys_itfc_key`  (
 -- ----------------------------
 -- Records of sys_itfc_key
 -- ----------------------------
-INSERT INTO `sys_itfc_key` VALUES ('1', '28a6fc8997be4fb293eff1434061eb12', '&EbiB!hQ1xU@hmhu2MfR!6obY4$BeMM0IwxM', 'XO软件技术公司', 'XO软件技术公司 描述', '0', '20211023', '0', '1', '2021-07-18 22:44:21', '1', '2022-08-19 09:03:15');
+INSERT INTO `sys_itfc_key` VALUES ('1', '28a6fc8997be4fb293eff1434061eb12', '&EbiB!hQ1xU@hmhu2MfR!6obY4$BeMM0IwxM', 'XO软件技术公司', 'XO软件技术公司 描述', '0', '20221023', '0', '1', '2021-07-18 22:44:21', '1', '2022-08-19 14:49:52');
 INSERT INTO `sys_itfc_key` VALUES ('3', 'b2ec161d503d421fb6af256c298e7700', '789ujsnahjndy823', '浪潮软件股份有限公司济南分公司', '大大苏打实打实', '0', '20220422', '1', '1', '2022-04-29 19:57:13', NULL, '2022-08-18 22:25:08');
 INSERT INTO `sys_itfc_key` VALUES ('4', '95ba4c7b78bb46ca89e74b67e01bb0f4', 'dhuj93924d2nu23', 'dsa', 'sda', '0', '20210610', '1', '1', '2021-06-25 22:54:42', '0', '2022-08-18 22:25:11');
 INSERT INTO `sys_itfc_key` VALUES ('5', 'dsasdutepwkwsdasd', 'h89g34i9huni34gni4fg', '测试key', '测试key2', '0', '20210731', '0', '0', '2021-06-11 21:15:43', '1', '2022-08-18 22:45:30');
@@ -4136,6 +4112,8 @@ INSERT INTO `sys_login_log` VALUES ('1560262553885106176', '8b42999476f54a5c905c
 INSERT INTO `sys_login_log` VALUES ('1560275075996475392', 'cf3b19a46a0f427580891adc76998700', '192.168.0.107', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-18 22:39:01');
 INSERT INTO `sys_login_log` VALUES ('1560419516228628480', 'fde718d3ea9945e483ed967c09793940', '10.49.12.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-19 08:12:59');
 INSERT INTO `sys_login_log` VALUES ('1560423652325376000', 'c10fd90ea8c1488686996a5c6a4e529d', '10.49.12.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-19 08:29:25');
+INSERT INTO `sys_login_log` VALUES ('1560860963187912704', 'dd72913fcc0a4d6fb6e52f65161ddfb3', '10.49.12.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-20 13:27:08');
+INSERT INTO `sys_login_log` VALUES ('1561627823042781184', 'cec3dea08d494e989c57bb52c3f2b9af', '10.49.12.129', '用户登录成功！', '0', '本地局域网', 'admin', '2022-08-22 16:14:22');
 
 -- ----------------------------
 -- Table structure for sys_notice
