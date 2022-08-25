@@ -40,7 +40,7 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://rm-bp1l6sit4p21x78608o.mysql.rds.aliyuncs.com:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        url: jdbc:mysql://rm-.mysql.rds.aliyuncs.com:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
         username: ENC(V9OLwE8IIO5oll+mdQuJkg==)
         password: ENC(/+2QHTvv4OKz7PJ)
       # 辅数据源
@@ -52,7 +52,7 @@ spring:
         password: ENC(==)
       # quartz数据源(单独配置)
       quartz:
-        url: jdbc:mysql://rm-bp1l6sit4p21x78608o.mysql.rds.aliyuncs.com:3306/bluewind-boot-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        url: jdbc:mysql://rm-.mysql.rds.aliyuncs.com:3306/bluewind-boot-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
         username: ENC(V9OLwE8IIO5oll+mdQuJkg==)
         password: ENC(/+2QHTvv4OKz7PJ)
       initialSize: 5
@@ -91,7 +91,7 @@ spring:
   redis:
     host: 127.0.0.1 # Redis服务器地址
     port: 6379 # Redis服务器连接端口
-    password: Xing # Redis服务器连接密码（默认为空）
+    password: 123456 # Redis服务器连接密码（默认为空）
     database: 0 #Redis数据库索引（默认为0）
     timeout: 500 # 连接超时时间（毫秒）
     lettuce:
@@ -114,8 +114,8 @@ spring:
   mail:
     host: smtp.111.com
     port: 25
-    username: leisure@111.com
-    password: Muysav
+    username: 123456@111.com
+    password: 123456
     default-encoding: utf-8
     properties:
       mail:
@@ -161,13 +161,6 @@ mybatis:
   config-location: classpath:mybatis-config.xml
   type-aliases-package: com.bluewind.boot.**.entity
 
-# pagehelper分页配置
-pagehelper:
-  helper-dialect: mysql
-  reasonable: true
-  support-methods-arguments: true
-  params: count=countSql
-
 # 日志配置
 logging:
   level:
@@ -205,7 +198,7 @@ jasypt:
 # 1、redisson单机模式配置
 redisson:
   address: redis://127.0.0.1:6379
-  password: Xing
+  password: 123456
   timeout: 5000
 # 2、redisson哨兵模式配置
 #redisson:
@@ -232,16 +225,16 @@ oss:
 
 # minio文件存储配置信息
 minio:
-  endpoint: http://11.4.9.251:9000
+  endpoint: http://101.43.9.251:9000
   accessKey: minioadmin
-  secretKey: minio
+  secretKey: 123456@
   bucket: bluewind-boot
 
 qiniu:
-  endPoint: http://halo.XXXX.top/
-  accessKey: XXXXX-jfX_XZuX85aPR
-  secretKey:
-  bucketName: lxyccc-halo
+  endPoint: http://halo.123456.top/
+  accessKey: C1NmaTFfBCjx6rlhhP1my4gbJk-jfX_XZuX85aPR
+  secretKey: 123456
+  bucketName: 123456-halo
 
 # aj-captcha行为验证码配置
 aj:
