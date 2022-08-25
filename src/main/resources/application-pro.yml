@@ -161,13 +161,6 @@ mybatis:
   config-location: classpath:mybatis-config.xml
   type-aliases-package: com.bluewind.boot.**.entity
 
-# pagehelper分页配置
-pagehelper:
-  helper-dialect: mysql
-  reasonable: true
-  support-methods-arguments: true
-  params: count=countSql
-
 # 日志配置
 logging:
   level:

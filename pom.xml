@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <mybatis.version>2.2.0</mybatis.version>
-        <pagehelper.version>1.4.0</pagehelper.version>
+        <pagehelper.version>5.3.0</pagehelper.version>
         <druid.version>1.2.8</druid.version>
         <knife4j.version>2.0.5</knife4j.version>
         <swagger-ui>2.9.2</swagger-ui>
@@ -141,14 +141,8 @@
         <!-- mybatis pagehelper分页插件 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <artifactId>pagehelper</artifactId>
             <version>${pagehelper.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>mybatis-spring-boot-starter</artifactId>
-                    <groupId>org.mybatis.spring.boot</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- druid数据库连接池 -->
