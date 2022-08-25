@@ -144,12 +144,19 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
     /**
      * 保存 sql 执行日志（到redis里）
+     *
      * @param sqlId
      * @param sql
      * @param time
      */
     private void redisSave(String sqlId, String sql, long time) {
-        String token = SecurityUtil.getUserKey();
+        String token = "";
+        // 有可能取不到会话，所以这里需要这么处理一下
+        try {
+            token = SecurityUtil.getUserKey();
+        } catch (Exception e) {
+            return;
+        }
 
         if (StringUtils.isNotBlank(token)) {
             Map<String, Object> map = new HashMap<>();
@@ -158,9 +165,13 @@ public class MybatisSqlLogInterceptor implements Interceptor {
             map.put("time", time);
 
             // 异步执行，不能影响主线程业务
+            String finalToken = token;
             getThreadPoolTaskExecutor().execute(() -> {
-                String redisKey = SystemConst.SYSTEM_SQLMONITOR + ":" + token;
-                getRedisUtil().lRightPush(redisKey, map, 300);
+                boolean openmonitor = getRedisUtil().hasKey(SystemConst.SYSTEM_SQLMONITOR + ":openmonitor:"  + finalToken);
+                if (openmonitor) {
+                    String redisKey = SystemConst.SYSTEM_SQLMONITOR + ":data:" + finalToken;
+                    getRedisUtil().lRightPush(redisKey, map, 200);
+                }
             });
         }
     }

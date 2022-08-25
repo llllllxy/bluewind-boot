@@ -40,8 +40,10 @@ public class SqlMonitorController extends BaseController {
     @GetMapping(value = "/getWithSse", produces = "text/event-stream;charset=UTF-8")
     @ResponseBody
     public String getWithSse() throws Exception {
-        String redisKey = SystemConst.SYSTEM_SQLMONITOR + ":" + getUserKey();
+        String userKey = getUserKey();
+        openMonitor(userKey);
 
+        String redisKey = SystemConst.SYSTEM_SQLMONITOR + ":data:" + userKey;
         List<Object> list = new ArrayList<>();
         Long size = redisUtil.lGetListSize(redisKey);
         if (size != null && size > 0) {
@@ -67,6 +69,17 @@ public class SqlMonitorController extends BaseController {
                 + "\n\n"; // 消息结束
 
         return result;
+    }
+
+
+    public void openMonitor(String userKey) {
+        String redisKey = SystemConst.SYSTEM_SQLMONITOR + ":openmonitor:" +userKey;
+        boolean openmonitor = redisUtil.hasKey(redisKey);
+        if (!openmonitor) {
+            redisUtil.set(redisKey, "true", 300);
+        } else {
+            redisUtil.expire(redisKey, 300);
+        }
     }
 
 
