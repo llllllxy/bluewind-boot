@@ -29,6 +29,9 @@ public class RedisUtil {
         this.redisTemplate = redisTemplate;
     }
 
+
+
+    /*============================Common Start=============================*/
     /**
      * 指定缓存失效时间
      *
@@ -140,13 +143,15 @@ public class RedisUtil {
         return redisTemplate.keys(pattern.concat("*"));
     }
 
+    /*============================Common End=============================*/
+
 
     /*============================String Start=============================*/
     /**
      * 普通缓存获取
      *
      * @param key 键
-     * @return 值
+     * @return 值 Object
      */
     public Object get(final String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
@@ -178,7 +183,6 @@ public class RedisUtil {
     public boolean set(final String key, final Object value) {
         try {
             redisTemplate.opsForValue().set(key, value);
-            log.info("RedisUtil - set - 存入redis成功，key：{}，value：{}", key, value);
             return true;
         } catch (Exception e) {
             log.error("RedisUtil - set - 存入redis失败，Exception：{e}", e);
@@ -232,7 +236,6 @@ public class RedisUtil {
             } else {
                 set(key, value);
             }
-            log.info("RedisUtil - set - 存入redis成功，key：{}，value：{}", key, value);
             return true;
         } catch (Exception e) {
             log.error("RedisUtil - set - 存入redis失败，Exception：{e}", e);
@@ -252,7 +255,6 @@ public class RedisUtil {
         }
         try {
             redisTemplate.opsForValue().multiSet(map);
-            log.info("批量存入redis成功，map：{}", map);
             return true;
         } catch (Exception e) {
             log.error("RedisUtil - multiSet - 批量存入redis失败，Exception：{e}", e);
@@ -282,9 +284,9 @@ public class RedisUtil {
 
 
     /**
-     * 递增
+     * 递增（将key所储存的值加上增量 increment；如果key不存在，那么key的值会先被初始化为0）
      *
-     * @param key   键
+     * @param key  键
      * @param delta 要增加几(大于0)
      * @return
      */
