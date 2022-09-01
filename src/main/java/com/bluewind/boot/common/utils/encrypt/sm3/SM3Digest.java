@@ -7,22 +7,34 @@ package com.bluewind.boot.common.utils.encrypt.sm3;
  * @description 国密3加密算法工具类
  **/
 public class SM3Digest {
-    /** SM3值的长度 */
+    /**
+     * SM3值的长度
+     */
     private static final int BYTE_LENGTH = 32;
 
-    /** SM3分组长度 */
+    /**
+     * SM3分组长度
+     */
     private static final int BLOCK_LENGTH = 64;
 
-    /** 缓冲区长度 */
+    /**
+     * 缓冲区长度
+     */
     private static final int BUFFER_LENGTH = BLOCK_LENGTH * 1;
 
-    /** 缓冲区 */
+    /**
+     * 缓冲区
+     */
     private byte[] xBuf = new byte[BUFFER_LENGTH];
 
-    /** 缓冲区偏移量 */
+    /**
+     * 缓冲区偏移量
+     */
     private int xBufOff;
 
-    /** 初始向量 */
+    /**
+     * 初始向量
+     */
     private byte[] V = SM3.iv.clone();
 
     private int cntBlock = 0;
@@ -111,7 +123,7 @@ public class SM3Digest {
     }
 
     public void update(byte in) {
-        byte[] buffer = new byte[] { in };
+        byte[] buffer = new byte[]{in};
         update(buffer, 0, 1);
     }
 
@@ -122,15 +134,16 @@ public class SM3Digest {
 
     /**
      * 国密3-加密字符串
-     * @param str 待加密字符串
+     *
+     * @param content 待加密字符串
      * @return 加密后的字符串
      */
-    public static String encode(String str) {
-        // 加密盐（公共）
+    public static String encode(String content) {
+        // 加密盐（使用公共盐）
         String salt = "{1#2$3%4(5)6@7!poeeww$3%4(5)djjkkldss}";
-        str = str + salt;
+        content = content + salt;
         byte[] md = new byte[32];
-        byte[] msg = str.getBytes();
+        byte[] msg = content.getBytes();
         SM3Digest sm3 = new SM3Digest();
         sm3.update(msg, 0, msg.length);
         sm3.doFinal(md, 0);
@@ -140,13 +153,14 @@ public class SM3Digest {
 
     /**
      * 国密3-加密字符串
-     * @param str 待加密字符串
-     * @param salt 盐
+     *
+     * @param content  待加密字符串
+     * @param salt 自定义盐
      * @return 加密后的字符串
      */
-    public static String encode(String str, String salt) {
+    public static String encode(String content, String salt) {
         byte[] md = new byte[32];
-        byte[] msg = (str + salt).getBytes();
+        byte[] msg = (content + salt).getBytes();
         SM3Digest sm3 = new SM3Digest();
         sm3.update(msg, 0, msg.length);
         sm3.doFinal(md, 0);
@@ -156,20 +170,16 @@ public class SM3Digest {
 
     /**
      * 测试加密算法
+     *
      * @param args
      */
     public static void main(String[] args) {
         // 加密盐
         String salt = "{1#2$3%4(5)6@7!poeeww$3%4(5)djjkkldss}";
+        // 加密内容
+        String content = "wl@2021";
 
-        String str = "wl@2021" + salt;
-
-        byte[] msg2 = str.getBytes();
-        SM3Digest sm3 = new SM3Digest();
-        sm3.update(msg2, 0, msg2.length);
-        byte[] md2 = new byte[32];
-        sm3.doFinal(md2, 0);
-        String s2 = HexUtil.byte2HexStr(md2).toLowerCase();
+        String s2 = SM3Digest.encode(content, salt);
         System.out.println("加密后的字符串msg2: " + s2);
     }
 
