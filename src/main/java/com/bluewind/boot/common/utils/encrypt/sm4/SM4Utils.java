@@ -1,9 +1,9 @@
 package com.bluewind.boot.common.utils.encrypt.sm4;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Base64;
 
 /**
  * @author liuxingyu01
@@ -406,6 +406,7 @@ public class SM4Utils {
 
         // 设置加密密钥
         String secretKey = "Ber3z8TK96xrg@e2";
+
         // 偏移量（CBC模式使用）
         String iv = "E%BJuDUTvXfwSuGQ";
 
