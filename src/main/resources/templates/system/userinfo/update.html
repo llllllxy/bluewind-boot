@@ -236,7 +236,7 @@
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
             Util.upload({
-                url: Util.ctx + 'fileupload/uploadWithAjax',
+                url: Util.ctx + 'fileupload/put',
                 data: formData,
                 success: function (res) {
                     layer.close(index);

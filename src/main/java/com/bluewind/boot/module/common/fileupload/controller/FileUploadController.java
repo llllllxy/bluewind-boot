@@ -37,19 +37,15 @@ public class FileUploadController extends BaseController {
     @Autowired
     private StorageService storageService;
 
-    /**
-     *文件上传-ajax方式
-     *
-     * @return
-     */
-    @LogAround("文件上传-ajax方式")
-    @ApiOperation(value = "文件上传-ajax方式", notes = "文件上传-ajax方式")
-    @RequestMapping(value = "/uploadWithAjax", method = RequestMethod.POST)
+
+    @LogAround("上传文件")
+    @ApiOperation(value = "上传文件", notes = "上传文件")
+    @RequestMapping(value = "/put", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult uploadFileAjax(@RequestParam("files") MultipartFile file,
-                                     @RequestParam(required = false, defaultValue = "", value = "fileName") String fileName) throws IOException {
+    public BaseResult put(@RequestParam("files") MultipartFile file,
+                          @RequestParam(required = false, defaultValue = "", value = "fileName") String fileName) throws IOException {
         if (logger.isInfoEnabled()) {
-            logger.info("FileUploadController -- uploadFileAjax -- fileName = {}", fileName);
+            logger.info("FileUploadController -- put -- fileName = {}", fileName);
         }
         if (StringUtils.isEmpty(fileName)) {
             fileName = IdGenerate.uuid() + ".jpg";
@@ -57,9 +53,9 @@ public class FileUploadController extends BaseController {
 
         StorageFile storageFile = storageService.store(file.getInputStream(), fileName);
         if (logger.isInfoEnabled()) {
-            logger.info("FileUploadController -- uploadFileAjax -- storageFile = {}", storageFile);
+            logger.info("FileUploadController -- put -- storageFile = {}", storageFile);
         }
-
+        // 上传成功后，获取回显的url
         if (storageFile != null && storageFile.getFileId() != null) {
             // 获取回显previewUrl
             String previewUrl = storageService.getExpiryUrlById(storageFile.getFileId());
