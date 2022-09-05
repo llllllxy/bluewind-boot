@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
+ * 地理位置坐标转换工具类
+ *
  * @author liuxingyu01
  * @date 2021-03-07-19:18
- * @description 地理位置坐标转换工具类
+ * @description 在线经纬度计算网址：https://www.hhlink.com/%E7%BB%8F%E7%BA%AC%E5%BA%A6/
  **/
 public class CoordinateUtil {
 
@@ -383,7 +385,7 @@ public class CoordinateUtil {
     }
 
     /**
-     * 计算两坐标点之间的球面距离
+     * 计算两坐标点之间的球面距离（单位公里）
      *
      * @param lng1 坐标点1经度 - 角度值
      * @param lat1 坐标点1纬度 - 角度值
@@ -407,7 +409,7 @@ public class CoordinateUtil {
     }
 
     /**
-     * 计算两坐标点之间的球面距离
+     * 计算两坐标点之间的球面距离（单位公里）
      *
      * @param coo1 坐标点1 [latitude1, longitude1] - 角度值
      * @param coo2 坐标点2 [latitude2, longitude2] - 角度值
