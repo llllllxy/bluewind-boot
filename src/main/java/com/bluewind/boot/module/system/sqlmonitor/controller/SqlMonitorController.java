@@ -2,6 +2,7 @@ package com.bluewind.boot.module.system.sqlmonitor.controller;
 
 import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
+import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.consts.SystemConst;
 import com.bluewind.boot.common.utils.JsonTool;
 import com.bluewind.boot.common.utils.RedisUtil;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -69,6 +71,33 @@ public class SqlMonitorController extends BaseController {
                 + "\n\n"; // 消息结束
 
         return result;
+    }
+
+
+    @ApiOperation(value = "轮询请求获取执行sql数据")
+    @RequestMapping(value = "/getWithPolling", method = RequestMethod.GET)
+    @LogAround("轮询请求获取执行sql数据")
+    public BaseResult getWithPolling() {
+        String userKey = getUserKey();
+        // 开启sql会话监控
+        openMonitor(userKey);
+
+        String redisKey = SystemConst.SYSTEM_SQLMONITOR + ":data:" + userKey;
+
+        List<Object> list = new ArrayList<>();
+        Long size = redisUtil.lGetListSize(redisKey);
+        if (size != null && size > 0) {
+            // 循环出栈，一次取出多条
+            for (int i = 0; i < size; i++) {
+                Object result = redisUtil.lLeftPop(redisKey);
+                if (!Objects.isNull(result)) {
+                    Map<String, Object> resultMap = JsonTool.parseMap(result.toString());
+                    list.add(resultMap);
+                }
+            }
+        }
+
+        return BaseResult.success(list);
     }
 
 
