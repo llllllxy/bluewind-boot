@@ -56,14 +56,14 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'laydate'], function () {
         var form = layui.form,
             table = layui.table;
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'useronline/list',
+            url: AjaxUtil.ctx + 'useronline/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName:'sll.id', sortOrder:'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -154,8 +154,8 @@
             if (obj.event === 'forceLogout') {
                 layer.confirm('确定强退该用户吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url: Util.ctx + "useronline/forceLogout/" + data.session_id,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + "useronline/forceLogout/" + data.session_id,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, data.name + '强退成功', function () {

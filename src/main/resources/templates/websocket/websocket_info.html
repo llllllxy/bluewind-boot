@@ -72,7 +72,7 @@
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layNotify'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -125,8 +125,8 @@
         form.on('submit(saveBtn1)', function (res) {
             var data = res.field;
 
-            Util.post({
-                url: Util.ctx + "websocket/sendMessage",
+            AjaxUtil.post({
+                url: AjaxUtil.ctx + "websocket/sendMessage",
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function (res) {

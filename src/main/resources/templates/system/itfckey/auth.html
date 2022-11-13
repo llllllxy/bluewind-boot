@@ -57,7 +57,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layer', 'eleTree'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -65,7 +65,7 @@
 
         var el = eleTree({
             el: '#test1',
-            url: Util.ctx + 'itfckey/listPermissionForTree/' + $('input[name="itfcKey"]').val(),
+            url: AjaxUtil.ctx + 'itfckey/listPermissionForTree/' + $('input[name="itfcKey"]').val(),
             method: 'get',      // 接口http请求类型
             highlightCurrent: true,
             defaultExpandAll: false,
@@ -107,8 +107,8 @@
             console.log("permIds = " , permIds);
             var data = res.field;
             var index = layer.load(0, {shade: 0.1});
-            Util.post({
-                url:  Util.ctx + 'itfckey/authorize',
+            AjaxUtil.post({
+                url:  AjaxUtil.ctx + 'itfckey/authorize',
                 data: {
                     "itfcKey": data.itfcKey,
                     "permIds": permIds.toString()

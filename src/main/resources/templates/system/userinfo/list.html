@@ -166,7 +166,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'tree'], function () {
         var form = layui.form,
             table = layui.table,
@@ -174,8 +174,8 @@
 
         // 初始化部门树
         var indexDept = layer.load(0, {shade: 0.1});
-        Util.get({
-            url: Util.ctx + 'userinfo/listDeptForSelect',
+        AjaxUtil.get({
+            url: AjaxUtil.ctx + 'userinfo/listDeptForSelect',
             success: function (res) {
                 layer.close(indexDept);
 
@@ -216,7 +216,7 @@
         // 初始化人员列表表格
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'userinfo/list',
+            url: AjaxUtil.ctx + 'userinfo/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName:'user_id', sortOrder:'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -326,7 +326,7 @@
                     shade: 0.3,
                     maxmin: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'userinfo/add',
+                    content: AjaxUtil.ctx + 'userinfo/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -341,8 +341,8 @@
                 }
                 layer.confirm('确定批量删除用户吗？', function (index) {
                     layer.close(index);
-                    Util.post({
-                        url: Util.ctx + "userinfo/batchDelete",
+                    AjaxUtil.post({
+                        url: AjaxUtil.ctx + "userinfo/batchDelete",
                         contentType: "application/json",
                         data: JSON.stringify(data),
                         success: function (res) {
@@ -365,11 +365,11 @@
                 console.log("点击下载pdf");
                 // 下面的href模式也是可以的，也是没问题的，
                 // let a = document.createElement('a');
-                // a.href = Util.ctx + 'sysuser/downloadPdf';
+                // a.href = AjaxUtil.ctx + 'sysuser/downloadPdf';
                 // a.click()
 
-                // 改为ajax下载文件，这样方便设置header，适配前后端分离的情况（$.ajax不支持blob类型，所以用原生的）
-                var url = Util.ctx + 'userinfo/downloadPdf';
+                // 改为ajax下载文件，这样方便设置header，适配前后端分离的情况（$.ajax不支持blob类型，所以这里用原生的XMLHttpRequest）
+                var url = AjaxUtil.ctx + 'userinfo/downloadPdf';
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', url, true);    // 也可以使用POST方式，根据接口
                 xhr.responseType = "blob";    // 返回类型blob
@@ -407,13 +407,13 @@
             } else if (obj.event === 'exportExcel') {
                 console.log("点击导出excel");
                 let a = document.createElement('a');
-                a.href = Util.ctx + 'userinfo/exportExcel';
+                a.href = AjaxUtil.ctx + 'userinfo/exportExcel';
                 a.click();
                 a.parentNode.removeChild(a);
             } else if (obj.event === 'downloadTemplate') {
                 console.log("点击下载excel模板");
                 let a = document.createElement('a');
-                a.href = Util.ctx + 'userinfo/downloadTemplate';
+                a.href = AjaxUtil.ctx + 'userinfo/downloadTemplate';
                 a.click();
                 a.parentNode.removeChild(a);
             } else if (obj.event === 'excelUpload') {
@@ -439,7 +439,7 @@
                     shade: 0.2,
                     maxmin: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'userinfo/update/' + data.userId,
+                    content: AjaxUtil.ctx + 'userinfo/update/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -449,8 +449,8 @@
             } else if (obj.event === 'delete') {
                 layer.confirm('确定删除该用户吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url: Util.ctx + "userinfo/delete/" + data.userId,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + "userinfo/delete/" + data.userId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, res.message, function () {
@@ -473,7 +473,7 @@
                     shade: 0.2,
                     maxmin: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'userinfo/authorize/' + data.userId,
+                    content: AjaxUtil.ctx + 'userinfo/authorize/' + data.userId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -498,8 +498,8 @@
 
                     var index = layer.load(0, {shade: 0.1});
                     value = md5.MD5('' + value);
-                    Util.get({
-                        url: Util.ctx + 'userinfo/updatePassword/' + data.userId + "/" + value,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + 'userinfo/updatePassword/' + data.userId + "/" + value,
                         success: function (res) {
                             if (0 === res.code) {
                                 layer.closeAll('dialog');
@@ -543,8 +543,8 @@
             formData.append("fileName", $("#excelFile")[0].files[0].name); // 文件名字
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
-            Util.upload({
-                url: Util.ctx + 'userinfo/excelUpload',
+            AjaxUtil.upload({
+                url: AjaxUtil.ctx + 'userinfo/excelUpload',
                 data: formData,
                 success: function (res) {
                     layer.close(index);

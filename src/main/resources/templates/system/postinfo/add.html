@@ -69,7 +69,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = layui.layer;
@@ -78,8 +78,8 @@
         form.on('submit(saveBtn)', function (data) {
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
-                Util.post({
-                    url: Util.ctx + "postinfo/add",
+                AjaxUtil.post({
+                    url: AjaxUtil.ctx + "postinfo/add",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {

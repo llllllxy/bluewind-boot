@@ -107,7 +107,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
 
     // 从js里直接获取model变量的值
     var dictListJson = [[${dictList}]];
@@ -280,8 +280,8 @@
                 var loading = layer.load(0, {shade: 0.1});
 
                 data.field.detailData = JSON.stringify(tableData);
-                Util.post({
-                    url: Util.ctx + "dict/update",
+                AjaxUtil.post({
+                    url: AjaxUtil.ctx + "dict/update",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {

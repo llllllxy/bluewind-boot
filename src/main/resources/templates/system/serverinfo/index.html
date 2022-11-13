@@ -240,15 +240,15 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'layer'], function () {
         var form = layui.form,
             table = layui.table,
             layer = layui.layer;
 
         var index = layer.load(0, {shade: 0.1});
-        Util.get({
-            url: Util.ctx + 'serverinfo/list',
+        AjaxUtil.get({
+            url: AjaxUtil.ctx + 'serverinfo/list',
             timeout: 25000,
             success: function (res) {
                 layer.close(index);

@@ -352,7 +352,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layNotify'], function () {
         var form = layui.form,
             layNotify = layui.layNotify;
@@ -437,9 +437,9 @@
             // 设置按钮为登陆中，此时禁止点击
             logining();
 
-            Util.post({
+            AjaxUtil.post({
                 contentType: "application/x-www-form-urlencoded", // 默认就是这个
-                url: Util.ctx + "admin/doLogin",
+                url: AjaxUtil.ctx + "admin/doLogin",
                 data: {
                     "username": formdata.username,
                     "password": password,
@@ -454,7 +454,7 @@
                             message: res.message
                         });
                         setTimeout(function () {
-                            window.location.href = Util.ctx + "admin/index";
+                            window.location.href = AjaxUtil.ctx + "admin/index";
                         }, 1500);
                     } else {
                         loginend();
@@ -505,8 +505,8 @@
         }
 
         function getKaptcha(kaptcha_key) {
-            Util.get({
-                url: Util.ctx + "kaptcha/getImage?kaptcha_key=" + kaptcha_key,
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + "kaptcha/getImage?kaptcha_key=" + kaptcha_key,
                 dataType: "text",
                 success: function (result) {
                     $("#ver_btn").attr("src", result);

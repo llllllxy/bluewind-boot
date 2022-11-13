@@ -30,7 +30,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table'], function () {
         var form = layui.form,
             table = layui.table;
@@ -39,7 +39,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'joblog/list',
+            url: AjaxUtil.ctx + 'joblog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {'jobId': jobId}, // 初始化时带的参数
             cols: [

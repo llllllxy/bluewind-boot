@@ -84,7 +84,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layer', 'laydate'], function () {
         var form = layui.form,
             laydate = layui.laydate,
@@ -101,8 +101,8 @@
         form.on('submit(saveBtn)', function (data) {
             var index = layer.confirm('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1});
-                Util.post({
-                    url: Util.ctx + "itfckey/update",
+                AjaxUtil.post({
+                    url: AjaxUtil.ctx + "itfckey/update",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
@@ -136,8 +136,8 @@
 
         // 监听`重新生成`按钮
         $("button[lay-filter='reSet']").click(function() {
-            Util.get({
-                url: Util.ctx + "itfckey/generateSecret",
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + "itfckey/generateSecret",
                 success: function (res) {
                     if (res.code === 0) {
                         $("input[name='itfcKeySecret']").val(res.data)

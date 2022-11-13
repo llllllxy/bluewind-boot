@@ -120,7 +120,7 @@
 <script th:src="@{/lib/xm-select-v1.2.2/xm-select.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layCascader'], function () {
         var form = layui.form,
             layCascader = layui.layCascader,
@@ -132,8 +132,8 @@
         function redenXmSelect() {
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
-            Util.get({
-                url: Util.ctx + 'userinfo/listPostByUserId?userId=' + $('input[name="userId"]').val(),
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + 'userinfo/listPostByUserId?userId=' + $('input[name="userId"]').val(),
                 success: function (res) {
                     layer.close(index);
                     demo1 = xmSelect.render({
@@ -154,8 +154,8 @@
 
         // 初始化cascader所属部门选择
         var index2 = layer.load(0, {shade: 0.1});
-        Util.get({
-            url: Util.ctx + 'userinfo/listDeptForSelect',
+        AjaxUtil.get({
+            url: AjaxUtil.ctx + 'userinfo/listDeptForSelect',
             success: function (res) {
                 layer.close(index2);
 
@@ -203,8 +203,8 @@
             data.field.postStr = selectArr;
             var index = layer.alert('确认提交吗？', function () {
                 var loading = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
-                Util.post({
-                    url: Util.ctx + 'userinfo/doUpdate',
+                AjaxUtil.post({
+                    url: AjaxUtil.ctx + 'userinfo/doUpdate',
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
@@ -235,8 +235,8 @@
             formData.append("fileName", $("#pic-input")[0].files[0].name); // 文件名字
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
-            Util.upload({
-                url: Util.ctx + 'fileupload/put',
+            AjaxUtil.upload({
+                url: AjaxUtil.ctx + 'fileupload/put',
                 data: formData,
                 success: function (res) {
                     layer.close(index);

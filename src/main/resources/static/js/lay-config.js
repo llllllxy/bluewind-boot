@@ -114,7 +114,7 @@ $.ajaxSetup({
         if (XMLHttpRequest.responseJSON.code === 401) {
             layer.alert('会话已过期，请重新登录', function(index){
                 layer.close(index);
-                window.location.href = Util.ctx + "admin/login";
+                window.location.href = AjaxUtil.ctx + "admin/login";
             });
         }
     }
@@ -129,7 +129,7 @@ const layerheight = ($(window).height() - 50);
 /**
  * Ajax请求封装
  */
-const Util = {
+const AjaxUtil = {
     ctx: /*[[@{/}]]*/'',
 
     /**

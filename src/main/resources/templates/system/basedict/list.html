@@ -93,7 +93,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'miniTab'], function () {
         var form = layui.form,
             miniTab = layui.miniTab,
@@ -101,7 +101,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'dict/list',
+            url: AjaxUtil.ctx + 'dict/list',
             method: 'post',
             where: {sortName:'dict_id', sortOrder:'asc'},
             toolbar: '#toolbarDemo',
@@ -196,7 +196,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content:  Util.ctx + 'dict/add',
+                    content:  AjaxUtil.ctx + 'dict/add',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -218,7 +218,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content:  Util.ctx + 'dict/forUpdate/' + data.dictCode,
+                    content:  AjaxUtil.ctx + 'dict/forUpdate/' + data.dictCode,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -228,8 +228,8 @@
             } else if (obj.event === 'delete') {
                 layer.confirm('确定删除该字典吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url:  Util.ctx + "dict/delete/" + data.dictCode,
+                    AjaxUtil.get({
+                        url:  AjaxUtil.ctx + "dict/delete/" + data.dictCode,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -248,8 +248,8 @@
             } else if (obj.event === 'forbid') {
                 layer.confirm('确定禁用该字典吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url:  Util.ctx + "dict/forbid/" + data.dictCode,
+                    AjaxUtil.get({
+                        url:  AjaxUtil.ctx + "dict/forbid/" + data.dictCode,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -268,8 +268,8 @@
             } else if (obj.event === 'enable') {
                 layer.confirm('确定启用该字典吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url:  Util.ctx + "dict/enable/" + data.dictCode,
+                    AjaxUtil.get({
+                        url:  AjaxUtil.ctx + "dict/enable/" + data.dictCode,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

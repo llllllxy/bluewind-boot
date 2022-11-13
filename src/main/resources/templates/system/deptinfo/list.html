@@ -39,7 +39,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'treeTable'], function () {
         var form = layui.form,
             treeTable = layui.treeTable;
@@ -48,7 +48,7 @@
 
         var insTb = treeTable.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'deptinfo/list',
+            url: AjaxUtil.ctx + 'deptinfo/list',
             skin: 'line',
             tree: {
                 treeColIndex: 1,
@@ -95,8 +95,8 @@
                 return false;
             }
             var index = layer.load(2, {shade: 0.1});
-            Util.get({
-                url: Util.ctx + 'deptinfo/updateSort/' + data.deptId + '/' + value,
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + 'deptinfo/updateSort/' + data.deptId + '/' + value,
                 success: function (res) {
                     layer.close(index);
                     if (0 === res.code) {
@@ -124,7 +124,7 @@
                     maxmin: true,
                     shade: 0.2,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'deptinfo/forAdd',
+                    content: AjaxUtil.ctx + 'deptinfo/forAdd',
                     end: function(index){
                         insTb.refresh();
                     }
@@ -148,7 +148,7 @@
                     title: '修改部门',
                     maxmin: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'deptinfo/forUpdate/' + data.deptId,
+                    content: AjaxUtil.ctx + 'deptinfo/forUpdate/' + data.deptId,
                     end: function(index) {
                         insTb.refresh();
                     }
@@ -159,8 +159,8 @@
                     title: '提示'
                 }, function(){
                     var index = layer.load(0, {shade: 0.1});
-                    Util.get({
-                        url: Util.ctx + 'deptinfo/delete/' + data.deptId,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + 'deptinfo/delete/' + data.deptId,
                         success: function (res) {
                             layer.close(index);
                             if (0 === res.code) {

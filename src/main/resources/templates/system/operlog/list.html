@@ -88,7 +88,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'laydate'], function () {
         var form = layui.form,
             laydate = layui.laydate,
@@ -103,7 +103,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'operlog/list',
+            url: AjaxUtil.ctx + 'operlog/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName: 'create_time', sortOrder: 'desc'},
             toolbar: '#toolbarLeft',
@@ -201,8 +201,8 @@
             if (obj.event === 'emptyLog') {  // 监听清空日志操作
                 layer.confirm('确定清空操作日志吗？', function (index) {
                     layer.close(index);
-                    Util.post({
-                        url: Util.ctx + "operlog/emptyLog",
+                    AjaxUtil.post({
+                        url: AjaxUtil.ctx + "operlog/emptyLog",
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1500, res.message, function () {
@@ -229,8 +229,8 @@
                 }
                 layer.confirm('确定批量删除操作日志吗？', function (index) {
                     layer.close(index);
-                    Util.post({
-                        url: Util.ctx + "operlog/batchDelete",
+                    AjaxUtil.post({
+                        url: AjaxUtil.ctx + "operlog/batchDelete",
                         contentType: "application/json",
                         data: JSON.stringify(logIds),
                         success: function (res) {

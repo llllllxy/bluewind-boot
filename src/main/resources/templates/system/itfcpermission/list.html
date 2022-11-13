@@ -123,7 +123,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table'], function () {
         var form = layui.form,
             table = layui.table;
@@ -194,7 +194,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'itfcpermission/list',
+            url: AjaxUtil.ctx + 'itfcpermission/list',
             method: 'get', //如果无需自定义HTTP类型，可不加该参数
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print'],
@@ -285,8 +285,8 @@
                     title: '提示'
                 }, function() {
                     var index = layer.load(0, {shade: 0.1});
-                    Util.get({
-                        url: Util.ctx + 'itfcpermission/delete/' + data.permissionId,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + 'itfcpermission/delete/' + data.permissionId,
                         success: function (res) {
                             layer.close(index);
                             if (0 === res.code) {
@@ -331,8 +331,8 @@
             var index = layer.confirm('确认提交吗？', function () {
                 console.log("data.field = " + JSON.stringify(data.field));
                 var loading = layer.load(0, {shade: 0.1});
-                Util.post({
-                    url: Util.ctx + "itfcpermission/update",
+                AjaxUtil.post({
+                    url: AjaxUtil.ctx + "itfcpermission/update",
                     data: data.field,
                     success: function (res) {
                         if (res.code === 0) {
@@ -380,8 +380,8 @@
 
         function loadTree() {
             var loading = layer.load(0, {shade: 0.1});
-            Util.get({
-                url: Util.ctx + "itfcpermission/listTree",
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + "itfcpermission/listTree",
                 success: function (res) {
                     if (res.code === 0) {
                         layer.close(loading);

@@ -69,7 +69,7 @@
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script>
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -137,7 +137,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'components/tableAdd',
+                    content: AjaxUtil.ctx + 'components/tableAdd',
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -165,7 +165,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: ['100%', '100%'],
-                    content: Util.ctx + 'components/tableEdit',
+                    content: AjaxUtil.ctx + 'components/tableEdit',
                 });
                 $(window).on("resize", function () {
                     layer.full(index);

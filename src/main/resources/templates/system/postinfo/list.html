@@ -90,14 +90,14 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script th:inline="javascript" type="text/javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table'], function () {
         var form = layui.form,
             table = layui.table;
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'postinfo/list',
+            url: AjaxUtil.ctx + 'postinfo/list',
             method: 'post',
             where: {sortName:'post_sort', sortOrder:'asc'},
             toolbar: '#toolbarDemo',
@@ -186,7 +186,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'postinfo/forAdd',
+                    content: AjaxUtil.ctx + 'postinfo/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -205,8 +205,8 @@
                 }
                 layer.confirm('确定批量删除所选择岗位信息吗？', function (index) {
                     layer.close(index);
-                    Util.post({
-                        url: Util.ctx + "postinfo/batchDelete",
+                    AjaxUtil.post({
+                        url: AjaxUtil.ctx + "postinfo/batchDelete",
                         contentType: "application/json",
                         data: JSON.stringify(postIds),
                         success: function (res) {
@@ -238,7 +238,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'postinfo/forUpdate/' + data.postId,
+                    content: AjaxUtil.ctx + 'postinfo/forUpdate/' + data.postId,
                     end: function (index) {
                         currTable.reload();
                     }
@@ -247,8 +247,8 @@
             } else if (obj.event === 'delete') {
                 layer.confirm('确定删除该岗位吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url: Util.ctx + "postinfo/delete/" + data.postId + "/" + data.postName,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + "postinfo/delete/" + data.postId + "/" + data.postName,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

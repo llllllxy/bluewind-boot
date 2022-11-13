@@ -129,7 +129,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = layui.layer;
@@ -141,8 +141,8 @@
             var formData = new FormData();
             formData.append("files", $("#pic-input")[0].files[0]);
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
-            Util.upload({
-                url: Util.ctx + 'fileupload/put',
+            AjaxUtil.upload({
+                url: AjaxUtil.ctx + 'fileupload/put',
                 data: formData,
                 success: function (res) {
                     layer.close(index);
@@ -165,8 +165,8 @@
             var formData = new FormData();
             formData.append("files", $("#pic-input1")[0].files[0]);
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
-            Util.upload({
-                url: Util.ctx + 'fileupload/put',
+            AjaxUtil.upload({
+                url: AjaxUtil.ctx + 'fileupload/put',
                 data: formData,
                 success: function (res) {
                     layer.close(index);
@@ -190,8 +190,8 @@
             var formData = new FormData();
             formData.append("files", $("#pic-input2")[0].files[0]);
             var index = layer.load(0, {shade: 0.1});
-            Util.upload({
-                url: Util.ctx + 'fileupload/put',
+            AjaxUtil.upload({
+                url: AjaxUtil.ctx + 'fileupload/put',
                 data: formData,
                 success: function (res) {
                     layer.close(index);
@@ -216,9 +216,9 @@
             var index = layer.confirm('确认提交吗？', function () {
                 layer.close(index);
                 var loading = layer.load(0, {shade: 0.1});
-                Util.post({
+                AjaxUtil.post({
                     contentType: "application/json",
-                    url: Util.ctx + "config/update",
+                    url: AjaxUtil.ctx + "config/update",
                     data: JSON.stringify(data.field),
                     success: function (res) {
                         if (res.code === 0) {

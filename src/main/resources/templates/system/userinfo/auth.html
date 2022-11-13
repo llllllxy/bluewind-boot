@@ -46,7 +46,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer;
@@ -57,8 +57,8 @@
         function redenXmSelect() {
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
 
-            Util.get({
-                url: Util.ctx + 'userinfo/listRoleByUserId/' + $('input[name="userId"]').val(),
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + 'userinfo/listRoleByUserId/' + $('input[name="userId"]').val(),
                 success: function (res) {
                     layer.close(index);
                     demo1 = xmSelect.render({
@@ -87,8 +87,8 @@
             var index = layer.load(0, {shade: 0.1});
 
             data.field.roles = selectArr;
-            Util.post({
-                url: Util.ctx + 'userinfo/doAuthorize',
+            AjaxUtil.post({
+                url: AjaxUtil.ctx + 'userinfo/doAuthorize',
                 data: data.field,
                 success: function (res) {
                     layer.close(index);

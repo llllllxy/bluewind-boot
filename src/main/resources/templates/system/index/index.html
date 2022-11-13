@@ -161,7 +161,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script th:src="@{/lib/md5/md5.min.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['layer', 'miniAdmin', 'miniTongji', 'form'], function () {
         var layer = layui.layer,
             form = layui.form,
@@ -169,8 +169,8 @@
             miniTongji = layui.miniTongji;
 
         var options = {
-            iniUrl: Util.ctx + "admin/menuInit",    // 初始化接口
-            clearUrl: Util.ctx + "api/clear.json", // 缓存清理接口
+            iniUrl: AjaxUtil.ctx + "admin/menuInit",    // 初始化接口
+            clearUrl: AjaxUtil.ctx + "api/clear.json", // 缓存清理接口
             urlHashLocation: false,      // 是否打开hash定位
             bgColorDefault: false,      // 主题默认配置
             multiModule: true,          // 是否开启多模块
@@ -197,13 +197,13 @@
 
 
         // 动态修改layuimini-content-href
-        $("#userInfo").attr("layuimini-content-href", Util.ctx + 'admin/userInfo');
-        $("#updatePassword").attr("layuimini-content-href",  Util.ctx + 'admin/updatePassword');
+        $("#userInfo").attr("layuimini-content-href", AjaxUtil.ctx + 'admin/userInfo');
+        $("#updatePassword").attr("layuimini-content-href",  AjaxUtil.ctx + 'admin/updatePassword');
 
 
         $('.login-out').on("click", function () {
             layer.msg('退出登录成功', function () {
-                window.location.href = Util.ctx + 'admin/outLogin';
+                window.location.href = AjaxUtil.ctx + 'admin/outLogin';
             });
         });
 
@@ -237,8 +237,8 @@
             }
 
             var index = layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
-            Util.post({
-                url: Util.ctx + 'admin/unlock',
+            AjaxUtil.post({
+                url: AjaxUtil.ctx + 'admin/unlock',
                 data: {
                     "account": account,
                     "password": password

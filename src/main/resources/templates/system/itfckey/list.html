@@ -100,7 +100,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'dropdown'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -109,7 +109,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'itfckey/list',
+            url: AjaxUtil.ctx + 'itfckey/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName: 'itfc_id', sortOrder: 'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -209,7 +209,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'itfckey/forAdd',
+                    content: AjaxUtil.ctx + 'itfckey/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -235,7 +235,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'itfckey/forUpdate/' + data.itfcId,
+                    content: AjaxUtil.ctx + 'itfckey/forUpdate/' + data.itfcId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -262,7 +262,7 @@
                                 maxmin: true,
                                 shadeClose: true,
                                 area: [layerwidth + 'px', layerheight + 'px'],
-                                content: Util.ctx + '/itfckey/forAuthorize/' + data.itfcId,
+                                content: AjaxUtil.ctx + '/itfckey/forAuthorize/' + data.itfcId,
                                 end: function (index) {
                                     // 重载表格
                                     currTable.reload();
@@ -273,8 +273,8 @@
                         else if (d.id === 'delete') {
                             layer.confirm('确定删除该密钥吗？', function (index) {
                                 layer.close(index);
-                                Util.get({
-                                    url: Util.ctx + "itfckey/delete/" + data.itfcId + "/" + data.itfcKey,
+                                AjaxUtil.get({
+                                    url: AjaxUtil.ctx + "itfckey/delete/" + data.itfcId + "/" + data.itfcKey,
                                     success: function (res) {
                                         // obj.del(); 删除该行
                                         if (res.code === 0) {
@@ -295,8 +295,8 @@
             } else if (obj.event === 'forbid') {
                 layer.confirm('确定停用该密钥吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url: Util.ctx + "/itfckey/forbid/" + data.itfcId + "/" + data.itfcKey,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + "/itfckey/forbid/" + data.itfcId + "/" + data.itfcKey,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
@@ -312,8 +312,8 @@
             } else if (obj.event === 'enable') {
                 layer.confirm('确定启用该密钥吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url: Util.ctx + "/itfckey/enable/" + data.itfcId + "/" + data.itfcKey + "/" + data.validPeriod,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + "/itfckey/enable/" + data.itfcId + "/" + data.itfcKey + "/" + data.validPeriod,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {

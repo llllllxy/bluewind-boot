@@ -92,7 +92,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layCascader'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -100,8 +100,8 @@
 
         var cascader;
         var index = layer.load(0, {shade: 0.1});
-        Util.get({
-            url: Util.ctx + 'deptinfo/list',
+        AjaxUtil.get({
+            url: AjaxUtil.ctx + 'deptinfo/list',
             success: function (res) {
                 layer.close(index);
 
@@ -144,8 +144,8 @@
             var data = res.field;
 
             var index = layer.load(0, {shade: 0.1});
-            Util.post({
-                url: Util.ctx + "deptinfo/add",
+            AjaxUtil.post({
+                url: AjaxUtil.ctx + "deptinfo/add",
                 data: data,
                 success: function (res) {
                     layer.close(index);

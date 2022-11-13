@@ -49,7 +49,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
 
     $(document).ready(function() {
         if (!window.EventSource) {
@@ -61,7 +61,7 @@
         if (window.EventSource) {
             // 原生的EventSource默认不支持带参数，
             // 如果需要带参数的话，可以使用EventSourcePolyfill包，参考https://blog.csdn.net/lx1996082566/article/details/116004768
-            var source = new EventSource(Util.ctx + "sqlmonitor/getWithSse");
+            var source = new EventSource(AjaxUtil.ctx + "sqlmonitor/getWithSse");
 
             /**
              * 连接一旦建立，就会触发open事件

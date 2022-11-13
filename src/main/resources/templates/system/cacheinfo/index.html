@@ -88,7 +88,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'echarts'], function () {
         var form = layui.form,
             echarts = layui.echarts;
@@ -112,8 +112,8 @@
          * 刷新数据
          */
         function refreshData() {
-            Util.get({
-                url: Util.ctx + 'cacheinfo/getInfo',
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + 'cacheinfo/getInfo',
                 timeout: 25000,
                 success: function (res) {
                     if (0 === res.code) {

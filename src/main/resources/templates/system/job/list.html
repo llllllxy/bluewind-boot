@@ -99,14 +99,14 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table'], function () {
         var form = layui.form,
             table = layui.table;
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'job/list',
+            url: AjaxUtil.ctx + 'job/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -181,8 +181,8 @@
         form.on('switch(quartzStatusDemo)', function (obj) {
             console.log(this.value + ' ：' + this.name + '：' + obj.elem.checked);
             if (obj.elem.checked == true) {
-                Util.get({
-                    url: Util.ctx + "job/start/" + this.value,
+                AjaxUtil.get({
+                    url: AjaxUtil.ctx + "job/start/" + this.value,
                     success: function (res) {
                         if (res.code === 0) {
                             Message.success(1500, res.message, function () {
@@ -196,8 +196,8 @@
                     }
                 });
             } else {
-                Util.get({
-                    url: Util.ctx + "job/stop/" + this.value,
+                AjaxUtil.get({
+                    url: AjaxUtil.ctx + "job/stop/" + this.value,
                     success: function (res) {
                         if (res.code === 0) {
                             Message.success(1500, res.message, function () {
@@ -225,7 +225,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'job/forAdd',
+                    content: AjaxUtil.ctx + 'job/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -247,7 +247,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'job/forUpdate/' + data.jobId,
+                    content: AjaxUtil.ctx + 'job/forUpdate/' + data.jobId,
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -262,15 +262,15 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'joblog/init/' + data.jobId,
+                    content: AjaxUtil.ctx + 'joblog/init/' + data.jobId,
                 });
                 return false;
             } else if (obj.event === 'delete') {
 
                 layer.confirm('确定删除此定时任务吗？', function (index) {
                     var loading = layer.load(0, {shade: 0.1});
-                    Util.get({
-                        url: Util.ctx + "job/delete/" + data.jobId,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + "job/delete/" + data.jobId,
                         success: function (res) {
                             if (res.code === 0) {
                                 layer.close(index);
@@ -291,8 +291,8 @@
                 return false;
             } else if (obj.event === 'executeonce') {
                 var loading = layer.load(0, {shade: 0.1});
-                Util.get({
-                    url: Util.ctx + "job/executeonce/" + data.jobId,
+                AjaxUtil.get({
+                    url: AjaxUtil.ctx + "job/executeonce/" + data.jobId,
                     success: function (res) {
                         if (res.code === 0) {
                             layer.close(loading);

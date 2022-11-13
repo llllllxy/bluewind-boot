@@ -118,7 +118,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'iconPickerFa', 'dtree'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -188,7 +188,7 @@
             elem: "#menuTree",              // 绑定的菜单
             width: "100%",                  // 宽度百分百
             select: true,                   // 指定下拉树模式
-            url: Util.ctx + "permission/listPermission",   // 请求的URL
+            url: AjaxUtil.ctx + "permission/listPermission",   // 请求的URL
             none: "请选择菜单类型",
             method: "GET",                  // 请求方式
             dataStyle: "layuiStyle",        // 使用layui风格的数据格式
@@ -211,7 +211,7 @@
         // 渲染图标模块
         iconPickerFa.render({
             elem: '#iconPicker',
-            url: Util.ctx + "lib/font-awesome-4.7.0/less/variables.less",
+            url: AjaxUtil.ctx + "lib/font-awesome-4.7.0/less/variables.less",
             search: true,
             page: true,
             limit: 20,
@@ -263,8 +263,8 @@
             }
 
             var index = layer.load(0, {shade: 0.1});
-            Util.post({
-                url: Util.ctx + "permission/doAdd",
+            AjaxUtil.post({
+                url: AjaxUtil.ctx + "permission/doAdd",
                 data: data,
                 success: function (res) {
                     layer.close(index);

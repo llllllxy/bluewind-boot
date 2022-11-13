@@ -133,7 +133,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layer', 'iconPickerFa'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -195,7 +195,7 @@
         // 渲染图标模块
         iconPickerFa.render({
             elem: '#iconPicker',
-            url: Util.ctx + "lib/font-awesome-4.7.0/less/variables.less",
+            url: AjaxUtil.ctx + "lib/font-awesome-4.7.0/less/variables.less",
             search: true,
             page: true,
             limit: 20,
@@ -250,8 +250,8 @@
             }
 
             var index = layer.load(0, {shade: 0.1});
-            Util.post({
-                url: Util.ctx + "permission/doUpdate",
+            AjaxUtil.post({
+                url: AjaxUtil.ctx + "permission/doUpdate",
                 data: data,
                 success: function (res) {
                     layer.close(index);

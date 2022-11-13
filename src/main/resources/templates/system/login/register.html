@@ -95,7 +95,7 @@
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'layNotify', 'util'], function () {
         var form = layui.form,
             util = layui.util,
@@ -134,9 +134,9 @@
                 "kaptchaKey": [[${kaptcha_key}]],
                 "email": emailInput
             }
-            Util.post({
+            AjaxUtil.post({
                 contentType: "application/x-www-form-urlencoded", // 默认就是这个
-                url: Util.ctx + "admin/sendEmail",
+                url: AjaxUtil.ctx + "admin/sendEmail",
                 data: data,
                 success: function (res) {
                     if (res.code === 0) {
@@ -217,9 +217,9 @@
                 "emailKey": email_key
             }
 
-            Util.post({
+            AjaxUtil.post({
                 contentType: "application/x-www-form-urlencoded", // 默认就是这个
-                url: Util.ctx + "admin/doRegister",
+                url: AjaxUtil.ctx + "admin/doRegister",
                 data: submitdata,
                 success: function (res) {
                     if (res.code === 0) {
@@ -229,7 +229,7 @@
                             message: res.message
                         });
                         setTimeout(function () {
-                            window.location.href = Util.ctx + "admin/index";
+                            window.location.href = AjaxUtil.ctx + "admin/index";
                         }, 1000);
                     } else {
                         loginend();
@@ -299,8 +299,8 @@
         });
         // 获取图形验证码（邮箱登陆）
         function getKaptcha(kaptcha_key) {
-            Util.get({
-                url: Util.ctx + "kaptcha/getImage?kaptcha_key=" + kaptcha_key,
+            AjaxUtil.get({
+                url: AjaxUtil.ctx + "kaptcha/getImage?kaptcha_key=" + kaptcha_key,
                 dataType: "text",
                 success: function (res) {
                     $(".codeimg").attr("src", res);

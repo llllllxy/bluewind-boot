@@ -97,7 +97,7 @@ public class SqlMonitorController extends BaseController {
             }
         }
 
-        return BaseResult.success(list);
+        return BaseResult.success("获取sql执行日志成功", list);
     }
 
 

@@ -92,7 +92,7 @@
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
 <script type="text/javascript" th:inline="javascript">
-    Util.ctx = /*[[@{/}]]*/'';
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
     layui.use(['form', 'table', 'laydate'], function () {
         var form = layui.form,
             table = layui.table,
@@ -107,7 +107,7 @@
 
         var currTable = table.render({
             elem: '#currentTableId',
-            url: Util.ctx + 'idtable/list',
+            url: AjaxUtil.ctx + 'idtable/list',
             method: 'post', //如果无需自定义HTTP类型，可不加该参数
             where: {sortName: 'id_id', sortOrder: 'asc'}, // 初始化时带的参数
             toolbar: '#toolbarDemo',
@@ -207,7 +207,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'idtable/forAdd',
+                    content: AjaxUtil.ctx + 'idtable/forAdd',
                     end: function (index) {
                         // 重载表格
                         currTable.reload();
@@ -229,7 +229,7 @@
                     maxmin: true,
                     shadeClose: true,
                     area: [layerwidth + 'px', layerheight + 'px'],
-                    content: Util.ctx + 'idtable/forUpdate/' + data.idId,
+                    content: AjaxUtil.ctx + 'idtable/forUpdate/' + data.idId,
                     end: function (index) {
                         currTable.reload();
                     }
@@ -238,8 +238,8 @@
             } else if (obj.event === 'delete') {
                 layer.confirm('确定删除此流水号吗？', function (index) {
                     layer.close(index);
-                    Util.get({
-                        url: Util.ctx + "idtable/delete/" + data.idId,
+                    AjaxUtil.get({
+                        url: AjaxUtil.ctx + "idtable/delete/" + data.idId,
                         success: function (res) {
                             if (res.code === 0) {
                                 Message.success(1000, res.message, function () {
