@@ -42,11 +42,13 @@
         </div>
     </div>
 </div>
+
 <script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
 <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
 <script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
 <script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
-<script th:inline="javascript" type="text/javascript">
+
+<script type="text/javascript" th:inline="javascript">
     Util.ctx = /*[[@{/}]]*/'';
 
     $(document).ready(function() {
