@@ -56,7 +56,7 @@
     </select>
 
 
-    <!--新增一个岗业务规则-->
+    <!--新增一个业务规则-->
     <insert id="addRuleInfo" parameterType="com.bluewind.boot.module.system.ruleinfo.entity.RuleInfo">
         insert into sys_rule_info(
         <if test="ruleName != null and ruleName != ''">rule_name,</if>
@@ -93,7 +93,7 @@
                 rule_value = #{ruleValue},
             </if>
             <if test="ruleType != null and ruleType != ''">
-                rule_type = #{ruleValue},
+                rule_type = #{ruleType},
             </if>
             <if test="status != null and status != ''">
                 status = #{status},
@@ -112,5 +112,13 @@
     <!--删除一个岗位-->
     <delete id="deleteOne" parameterType="string">
         delete from sys_rule_info where rule_id = #{_parameter}
+    </delete>
+
+    <delete id="batchDelete" parameterType="java.util.ArrayList">
+        delete from sys_rule_info
+        where rule_id in
+        <foreach item="item" index="index" collection="list" open = "(" separator = "," close = ")">
+            #{item}
+        </foreach>
     </delete>
 </mapper>

@@ -1,10 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>业务规则修改</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">规则名称</label>
+        <div class="layui-input-block">
+            <input type="hidden" name="ruleId" th:value="${ruleInfo.ruleId}">
+            <input type="text" name="ruleName" lay-verify="required" lay-reqtext="规则名称不能为空"
+                   placeholder="请输入规则名称" class="layui-input" th:value="${ruleInfo.ruleName}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">规则键名</label>
+        <div class="layui-input-block">
+            <input type="text" name="ruleKey" lay-verify="required" lay-reqtext="规则键名不能为空"
+                   placeholder="请输入规则键名" class="layui-input" th:value="${ruleInfo.ruleKey}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">规则键值</label>
+        <div class="layui-input-block">
+            <input type="text" name="ruleValue" lay-verify="required" lay-reqtext="规则键值不能为空"
+                   placeholder="请输入规则键值" class="layui-input" th:value="${ruleInfo.ruleValue}">
+        </div>
+    </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label required">是否系统内置</label>
+        <div class="layui-input-block">
+            <input type="radio" name="ruleType" th:each="item, itemStat: ${ruleTypeDictList}" th:value="${item.code}"
+                   th:title="${item.name}" th:checked="${ruleInfo.ruleType eq item.code}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" th:each="item, itemStat: ${statusDictList}" th:value="${item.code}"
+                   th:title="${item.name}" th:checked="${ruleInfo.status eq item.code}">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="descript" class="layui-textarea" placeholder="请输入备注信息" th:text="${ruleInfo.descript}"></textarea>
+        </div>
+    </div>
+
+    <!-- 右侧悬浮按钮 -->
+    <div class="right-bottom-btn">
+        <button class="layui-btn" lay-submit lay-filter="saveBtn">
+            <i class="layui-icon layui-icon-ok"></i>确认
+        </button>
+        <button class="layui-btn" lay-filter="cancleBtn">
+            <i class="layui-icon layui-icon-close"></i>取消
+        </button>
+    </div>
+</div>
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+<script type="text/javascript" th:inline="javascript">
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        // 监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var index = layer.alert('确认提交吗？', function () {
+                var loading = layer.load(0, {shade: 0.1});
+                AjaxUtil.post({
+                    url: AjaxUtil.ctx + "ruleinfo/update",
+                    data: data.field,
+                    success: function (res) {
+                        if (res.code === 0) {
+                            layer.close(index);
+                            layer.close(loading);
+                            Message.success(1500, res.message, function () {
+                                // 重载表格
+                                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                                parent.layer.close(iframeIndex);
+                            });
+                        } else {
+                            layer.close(loading);
+                            Message.error(res.message, 1000);
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            });
+            return false;
+        });
+
+
+        // 监听取消按钮
+        $("button[lay-filter='cancleBtn']").click(function(){
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
+        });
+
+    });
+</script>
 </body>
 </html>

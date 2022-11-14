@@ -23,4 +23,6 @@ public interface RuleInfoMapper {
     int addRuleInfo(RuleInfo ruleInfo);
 
     int updateRuleInfo(RuleInfo ruleInfo);
+
+    int batchDelete(List<String> idList);
 }

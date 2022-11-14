@@ -4,6 +4,8 @@ import com.bluewind.boot.common.annotation.LogAround;
 import com.bluewind.boot.common.base.BaseController;
 import com.bluewind.boot.common.base.BaseResult;
 import com.bluewind.boot.common.utils.DictUtils;
+import com.bluewind.boot.common.utils.JsonTool;
+import com.bluewind.boot.common.utils.idgen.IdGenerate;
 import com.bluewind.boot.module.system.ruleinfo.entity.RuleInfo;
 import com.bluewind.boot.module.system.ruleinfo.service.RuleInfoService;
 import com.github.pagehelper.PageHelper;
@@ -15,10 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -92,13 +91,113 @@ public class RuleInfoController extends BaseController {
     public String forAdd(Model model) {
         // 获取下拉栏枚举值
         List<Map<String,String>> ruleTypeDictList = DictUtils.getDictList("sys_rule_info_rule_type");
-        List<Map<String,String>> statusDictList = DictUtils.getDictList("sys_rule_info_status");
         model.addAttribute("ruleTypeDictList", ruleTypeDictList);
-        model.addAttribute("statusDictList", statusDictList);
+
         return "system/ruleinfo/add";
     }
 
 
+    @ApiOperation(value = "业务规则管理修改页面", notes = "业务规则管理修改页面")
+    @RequestMapping(value = "/forUpdate/{ruleId}", method = RequestMethod.GET)
+    public String forUpdate(Model model,@PathVariable String ruleId) {
+        // 获取下拉栏枚举值
+        List<Map<String,String>> ruleTypeDictList = DictUtils.getDictList("sys_rule_info_rule_type");
+        List<Map<String,String>> statusDictList = DictUtils.getDictList("sys_rule_info_status");
+        RuleInfo ruleInfo = ruleInfoService.getOne(ruleId);
+
+        model.addAttribute("ruleTypeDictList", ruleTypeDictList);
+        model.addAttribute("statusDictList", statusDictList);
+        model.addAttribute("ruleInfo", ruleInfo);
+        return "system/ruleinfo/update";
+    }
+
+
+    @ApiOperation(value = "业务规则新增", notes = "业务规则新增")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult add(@RequestParam("ruleName") String ruleName,
+                          @RequestParam("ruleKey") String ruleKey,
+                          @RequestParam("ruleValue") String ruleValue,
+                          @RequestParam("ruleType") String ruleType,
+                          @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
+        RuleInfo ruleInfo = new RuleInfo();
+        ruleInfo.setRuleId(IdGenerate.nextId());
+        ruleInfo.setRuleType(ruleType);
+        ruleInfo.setRuleKey(ruleKey);
+        ruleInfo.setRuleName(ruleName);
+        ruleInfo.setRuleValue(ruleValue);
+        ruleInfo.setDescript(descript);
+        ruleInfo.setCreateUser(getSysUserId());
+
+        int num = ruleInfoService.add(ruleInfo);
+        if (num > 0) {
+            return BaseResult.success("新增规则信息'" + ruleName + "'成功！");
+        } else {
+            return BaseResult.failure("新增规则信息失败，请联系后台管理员！");
+        }
+    }
+
+
+    @ApiOperation(value = "业务规则修改", notes = "业务规则修改")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult update(@RequestParam("ruleId") String ruleId,
+                             @RequestParam("ruleName") String ruleName,
+                             @RequestParam("ruleKey") String ruleKey,
+                             @RequestParam("ruleValue") String ruleValue,
+                             @RequestParam("ruleType") String ruleType,
+                             @RequestParam("status") String status,
+                             @RequestParam(required = false, defaultValue = "", value = "descript") String descript) {
+        RuleInfo ruleInfo = new RuleInfo();
+        ruleInfo.setRuleId(ruleId);
+        ruleInfo.setRuleType(ruleType);
+        ruleInfo.setRuleKey(ruleKey);
+        ruleInfo.setStatus(status);
+        ruleInfo.setRuleName(ruleName);
+        ruleInfo.setRuleValue(ruleValue);
+        ruleInfo.setDescript(descript);
+        ruleInfo.setUpdateUser(getSysUserId());
+
+        int num = ruleInfoService.update(ruleInfo);
+        if (num > 0) {
+            return BaseResult.success("更新规则信息'" + ruleName + "'成功！");
+        } else {
+            return BaseResult.failure("更新规则信息失败，请联系后台管理员！");
+        }
+    }
+
+    @ApiOperation(value = "业务规则信息删除", notes = "业务规则信息删除")
+    @RequestMapping(value = "/delete/{ruleId}/{ruleName}", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult delete(@PathVariable String ruleId, @PathVariable String ruleName) {
+        int num = ruleInfoService.delete(ruleId);
+        if (num > 0) {
+            return BaseResult.success("删除规则信息'" + ruleName + "'成功！");
+        } else {
+            return BaseResult.failure("杀出岗位信息，请联系后台管理员！");
+        }
+    }
+
+
+    @ApiOperation(value = "业务规则信息批量删除", notes = "业务规则信息批量删除")
+    @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult batchDelete(@RequestBody String data) {
+        if (logger.isInfoEnabled()) {
+            logger.info("batchDelete -- data：" + data);
+        }
+        List<String> idList = JsonTool.parseArray(data, String.class);
+        if (logger.isInfoEnabled()) {
+            logger.info("batchDelete -- idList：{}", idList);
+        }
+
+        int num = ruleInfoService.batchDelete(idList);
+        if (num > 0) {
+            return BaseResult.success("批量删除成功!");
+        } else {
+            return BaseResult.failure("批量删除失败!");
+        }
+    }
 
 
 }

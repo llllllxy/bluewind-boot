@@ -14,4 +14,14 @@ import java.util.Map;
 public interface RuleInfoService {
 
     List<RuleInfo>  getSysRuleInfoList(Map<String, String> map);
+
+    RuleInfo getOne(String ruleId);
+
+    int delete(String ruleId);
+
+    int add(RuleInfo ruleInfo);
+
+    int update(RuleInfo ruleInfo);
+
+    int batchDelete(List<String> idList);
 }
