@@ -199,7 +199,7 @@ public class PostInfoController extends BaseController {
         if (num > 0) {
             return BaseResult.success("删除岗位信息'" + postName + "'成功！");
         } else {
-            return BaseResult.failure("杀出岗位信息，请联系后台管理员！");
+            return BaseResult.failure("删除岗位信息失败，请联系后台管理员！");
         }
     }
 
