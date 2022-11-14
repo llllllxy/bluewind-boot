@@ -81,12 +81,6 @@
             transition: all 80ms ease-out;
             background-color: rgba(0, 0, 0, 0.2);
         }
-
-        .github {
-            font-weight: 600;
-            text-align: center;
-            margin-top: 100px;
-        }
     </style>
 </head>
 <body>
@@ -121,6 +115,7 @@
     function example(n) {
         switch (n) {
             case 0:
+                // 3秒后自动关闭，并且回调
                 Message.info(3000, "请先登录！", function () {
                     console.log("close");
                 });
