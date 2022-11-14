@@ -85,9 +85,10 @@
                     for (let item of dataList) {
 
                         let html = "<blockquote class='layui-elem-quote'>"
-                            +  "<span>执行sqlId: </span>" + item.sqlId + "<br>"
-                            + "<span>sql语句: </span>" + item.sql + "<br>"
-                            + "<span>耗时: </span>" + item.time + "ms"
+                            + "<span>执行sqlId: </span>" + item.sqlId
+                            + "<br><span>sql语句: </span>" + item.sql
+                            + "&nbsp;&nbsp;" + "<a class='layui-btn layui-btn-xs' onclick='copy(\"" + item.sql + "\")'>复制</a>"
+                            + "<br><span>耗时: </span>" + item.time + "ms"
                             + "</blockquote>";
 
                         $("#result").append(html);
@@ -122,6 +123,27 @@
             $('body,html').animate({scrollTop: $(document).height()}, 1000);
         });
     });
+
+    // 复制到粘贴板
+    function copy (text) {
+        // text是复制文本
+        // 创建input元素
+        const el = document.createElement('input')
+        // 给input元素赋值需要复制的文本
+        el.setAttribute('readonly', 'readonly')
+        el.setAttribute('value', text)
+        // 将input元素插入页面
+        document.body.appendChild(el)
+        // 解决在ios系统里无法复制的问题
+        el.setSelectionRange(0, 9999)
+        // 选中input元素的文本
+        el.select()
+        // 复制内容到剪贴板
+        document.execCommand('copy')
+        // 删除input元素
+        document.body.removeChild(el)
+        Message.success(1000, '已复制到粘贴板')
+    }
 </script>
 </body>
 </html>
