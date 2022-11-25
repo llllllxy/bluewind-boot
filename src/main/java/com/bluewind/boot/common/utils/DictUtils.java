@@ -1,7 +1,7 @@
 package com.bluewind.boot.common.utils;
 
-import com.bluewind.boot.module.system.basedict.mapper.BaseDictMapper;
 import com.bluewind.boot.common.utils.spring.SpringUtil;
+import com.bluewind.boot.module.system.basedict.mapper.BaseDictMapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +33,8 @@ public class DictUtils {
 
     /**
      * 根据字典id和key获取对应的值
-     * @param dictCode
-     * @param key
+     * @param dictCode 字典编码
+     * @param key 字典键
      * @return
      */
     public static String getDictValue(String dictCode, String key) {
@@ -47,10 +47,10 @@ public class DictUtils {
         String dictValue = "";
         List<Map<String, String>> dictList = getBaseDictService().getDictByCode(dictCode);
         if (CollectionUtils.isNotEmpty(dictList)) {
-            for (Map tempMap : dictList) {
+            for (Map<String, String> tempMap : dictList) {
                 if (!MapUtils.isEmpty(tempMap)) {
-                    if (key.equals((String) tempMap.get("code"))) {
-                        dictValue = (String) tempMap.get("name");
+                    if (key.equals(tempMap.get("code"))) {
+                        dictValue = tempMap.get("name");
                         break;
                     }
                 }
@@ -63,7 +63,7 @@ public class DictUtils {
     /**
      * 获取指定的枚举列表
      *
-     * @param dictCode
+     * @param dictCode 字典编码
      * @return
      */
     public static List<Map<String, String>> getDictList(String dictCode) {
@@ -80,7 +80,7 @@ public class DictUtils {
 
     /**
      * 获取指定的枚举Map
-     * @param dictCode
+     * @param dictCode 字典编码
      * @return
      */
     public static Map<String, String> getDictMap(String dictCode) {
@@ -102,7 +102,7 @@ public class DictUtils {
 
     /**
      * 获取指定的枚举JSON
-     * @param dictCode
+     * @param dictCode 字典编码
      * @return
      */
     public static String getDictJson(String dictCode) {
