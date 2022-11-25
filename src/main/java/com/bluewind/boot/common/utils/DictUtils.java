@@ -33,6 +33,7 @@ public class DictUtils {
 
     /**
      * 根据字典id和key获取对应的值
+     *
      * @param dictCode 字典编码
      * @param key 字典键
      * @return
@@ -80,6 +81,7 @@ public class DictUtils {
 
     /**
      * 获取指定的枚举Map
+     *
      * @param dictCode 字典编码
      * @return
      */
@@ -102,6 +104,7 @@ public class DictUtils {
 
     /**
      * 获取指定的枚举JSON
+     *
      * @param dictCode 字典编码
      * @return
      */

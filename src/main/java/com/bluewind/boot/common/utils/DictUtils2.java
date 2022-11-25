@@ -35,8 +35,9 @@ public class DictUtils2 {
 
     /**
      * 根据字典id和key获取对应的值
-     * @param dictCode
-     * @param key
+     *
+     * @param dictCode 字典编码
+     * @param key 字典键
      * @return
      */
     public static String getDictValue(String dictCode, String key) {
@@ -49,10 +50,10 @@ public class DictUtils2 {
         String dictValue = "";
         List<Map<String, String>> dictList = dictUtils2.baseDictMapper.getDictByCode(dictCode);
         if (CollectionUtils.isNotEmpty(dictList)) {
-            for (Map tempMap : dictList) {
+            for (Map<String, String> tempMap : dictList) {
                 if (!MapUtils.isEmpty(tempMap)) {
-                    if (key.equals((String) tempMap.get("code"))) {
-                        dictValue = (String) tempMap.get("name");
+                    if (key.equals(tempMap.get("code"))) {
+                        dictValue = tempMap.get("name");
                         break;
                     }
                 }
@@ -65,7 +66,7 @@ public class DictUtils2 {
     /**
      * 获取指定的枚举列表
      *
-     * @param dictCode
+     * @param dictCode 字典编码
      * @return
      */
     public static List<Map<String, String>> getDictList(String dictCode) {
@@ -82,7 +83,8 @@ public class DictUtils2 {
 
     /**
      * 获取指定的枚举Map
-     * @param dictCode
+     *
+     * @param dictCode 字典编码
      * @return
      */
     public static Map<String, String> getDictMap(String dictCode) {
@@ -104,7 +106,8 @@ public class DictUtils2 {
 
     /**
      * 获取指定的枚举JSON
-     * @param dictCode
+     *
+     * @param dictCode 字典编码
      * @return
      */
     public static String getDictJson(String dictCode) {
