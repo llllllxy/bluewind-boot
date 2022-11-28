@@ -160,6 +160,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
         if (StringUtils.isNotBlank(token)) {
             Map<String, Object> map = new HashMap<>();
+            map.put("logId", UUID.randomUUID().toString().replace("-", ""));
             map.put("sqlId", sqlId);
             map.put("sql", sql);
             map.put("time", time);

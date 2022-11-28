@@ -50,6 +50,7 @@
 
 <script type="text/javascript" th:inline="javascript">
     AjaxUtil.ctx = /*[[@{/}]]*/'';
+    var logList = [];
 
     $(document).ready(function() {
         if (!window.EventSource) {
@@ -83,11 +84,12 @@
                 let dataList = JSON.parse(e.data);
                 if (dataList && dataList.length > 0) {
                     for (let item of dataList) {
+                        logList.push(item);
 
                         let html = "<blockquote class='layui-elem-quote'>"
                             + "<span>执行sqlId: </span>" + item.sqlId
                             + "<br><span>sql语句: </span>" + item.sql
-                            + "&nbsp;&nbsp;" + "<a class='layui-btn layui-btn-xs' onclick='copy(\"" + item.sql + "\")'>复制</a>"
+                            + "&nbsp;&nbsp;" + "<a class='layui-btn layui-btn-xs' onclick='copy(\"" + item.logId + "\")'>复制</a>"
                             + "<br><span>耗时: </span>" + item.time + "ms"
                             + "</blockquote>";
 
@@ -117,6 +119,8 @@
 
         $("#clear").click(function () {
             $("#result").html("");
+            // 清空页面的同时，把缓存中的数据也清除了
+            logList = [];
         });
 
         $("#bottom").click(function () {
@@ -125,13 +129,17 @@
     });
 
     // 复制到粘贴板
-    function copy (text) {
+    function copy (logId) {
+        let obj = logList.find((item) => {
+            return item.logId === logId;
+        });
+
         // text是复制文本
         // 创建input元素
         const el = document.createElement('input')
         // 给input元素赋值需要复制的文本
         el.setAttribute('readonly', 'readonly')
-        el.setAttribute('value', text)
+        el.setAttribute('value', obj.sql)
         // 将input元素插入页面
         document.body.appendChild(el)
         // 解决在ios系统里无法复制的问题
