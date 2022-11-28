@@ -134,12 +134,13 @@
             return item.logId === logId;
         });
 
-        // text是复制文本
+        // text是待复制的文本
+        let text = obj.sql;
         // 创建input元素
         const el = document.createElement('input')
         // 给input元素赋值需要复制的文本
         el.setAttribute('readonly', 'readonly')
-        el.setAttribute('value', obj.sql)
+        el.setAttribute('value', text)
         // 将input元素插入页面
         document.body.appendChild(el)
         // 解决在ios系统里无法复制的问题
