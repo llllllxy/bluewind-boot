@@ -1,5 +1,6 @@
 package com.bluewind.boot.common.config;
 
+import com.bluewind.boot.common.config.itfc.ItfcInterceptor;
 import com.bluewind.boot.common.config.security.AuthenticeInterceptor;
 import com.bluewind.boot.common.config.security.PermissionInterceptor;
 import com.bluewind.boot.common.config.security.RoleInterceptor;
