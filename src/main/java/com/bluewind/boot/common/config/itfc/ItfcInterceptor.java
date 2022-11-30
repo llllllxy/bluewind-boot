@@ -1,4 +1,4 @@
-package com.bluewind.boot.common.config;
+package com.bluewind.boot.common.config.itfc;
 
 import com.bluewind.boot.common.annotation.ItfcPermissions;
 import com.bluewind.boot.common.consts.SystemConst;
@@ -131,7 +131,7 @@ public class ItfcInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        // 检验signature是否正确，规则是 ak + sk 然后进行MD5加密(16进制的)
+        // 检验signature是否正确，规则是itfc_key + itfckey_secret + reqtime然后进行MD5加密(16进制的)
         String buildSignature = MD5Utils.MD5Encode(itfckey + itfcKeySecret + reqtime);
         if (!signature.equalsIgnoreCase(buildSignature)) {
             outWrite(response, "10106", "signature不正确，认证未通过!");
