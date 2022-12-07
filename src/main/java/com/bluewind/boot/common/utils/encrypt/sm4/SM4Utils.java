@@ -78,7 +78,7 @@ public class SM4Utils {
 
 
     /**
-     * AESUtilsBuilder
+     * SM4Builder
      */
     public static final class SM4Builder {
         private String secretKey = "G78Av#yej%WZJ3ui";
