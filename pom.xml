@@ -44,6 +44,7 @@
         <redisson.version>3.15.4</redisson.version>
         <captcha.version>1.3.0</captcha.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <caffeine.version>3.1.2</caffeine.version>
     </properties>
 
     <profiles>
@@ -315,6 +316,13 @@
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
+        </dependency>
+
+        <!-- 本地jvm级别缓存 -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
         </dependency>
     </dependencies>
 
