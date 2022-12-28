@@ -44,7 +44,7 @@
         <redisson.version>3.15.4</redisson.version>
         <captcha.version>1.3.0</captcha.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <caffeine.version>3.1.2</caffeine.version>
+        <caffeine.version>2.9.1</caffeine.version>
     </properties>
 
     <profiles>
@@ -119,6 +119,7 @@
             </exclusions>
         </dependency>
 
+        <!-- 配置文件加密组件 -->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
@@ -168,42 +169,42 @@
             <version>${swagger-ui}</version>
         </dependency>
 
-        <!-- commons-text (这个包包含了commons-lang3，所以不需要单独再引lang3了)-->
+        <!-- commons-text工具包 (这个包包含了commons-lang3，所以不需要单独再引lang3了)-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>${commons-text.version}</version>
         </dependency>
 
-        <!-- commons-collections4 -->
+        <!-- commons-collections4工具包 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>${commons-collections4.version}</version>
         </dependency>
 
-        <!-- commons-pool2 -->
+        <!-- commons-pool2池化工具包 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
             <version>${commons-pool2.version}</version>
         </dependency>
 
-        <!-- 上传工具包commons-fileupload -->
+        <!-- commons-fileupload上传工具包 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>${commons-fileupload.version}</version>
         </dependency>
 
-        <!-- bean工具包commons-beanutils -->
+        <!-- commons-beanutils工具包 -->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>${commons-beanutils.version}</version>
         </dependency>
 
-        <!-- poi -->
+        <!-- poi工具包 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -215,7 +216,7 @@
             <version>${poi.version}</version>
         </dependency>
 
-        <!-- httpclient -->
+        <!-- httpclient网络请求工具包 -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -237,7 +238,7 @@
         </dependency>
         <!-- 七牛云OSS所需依赖结束 -->
 
-        <!-- 获取系统信息开始 -->
+        <!-- 获取系统信息相关依赖开始 -->
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
@@ -253,9 +254,9 @@
             <artifactId>jna-platform</artifactId>
             <version>${jna.version}</version>
         </dependency>
-        <!-- 获取系统信息结束 -->
+        <!-- 获取系统信息相关依赖结束 -->
 
-        <!-- UserAgent 获取浏览器信息-->
+        <!-- UserAgent获取浏览器信息-->
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
