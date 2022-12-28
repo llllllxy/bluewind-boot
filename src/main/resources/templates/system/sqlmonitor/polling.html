@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sqlmonitor监控(轮询)</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/lib/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/public.css}" media="all">
+
+    <style>
+        #fix {
+            width: 30px;
+            height: 80px;
+            position: fixed;
+            right: 30px;
+            bottom: 50px;
+            background-color: #BFFFBF;
+        }
+
+        span {
+            color: #660066;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <div id="result" class="example" style="padding: 10px 10px 10px 10px;">
+
+        </div>
+
+        <div id="fix">
+            <p id="top" style="margin-bottom: 10px; cursor: pointer;">顶部</p>
+            <p id="clear" style="margin-bottom: 10px; cursor: pointer;">清屏</p>
+            <p id="bottom" style="cursor: pointer;">底部</p>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/lib/jquery-3.4.1/jquery-3.4.1.min.js}" charset="utf-8"></script>
+<script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+<script th:src="@{/lib/coco-message/coco-message.js}" charset="utf-8"></script>
+<script th:src="@{/js/lay-config.js}" charset="utf-8"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    AjaxUtil.ctx = /*[[@{/}]]*/'';
+    var logList = [];
+
+    $(document).ready(function() {
+        // 每3秒重新获取一遍（定时轮询）
+        const timer = setInterval(function () {
+            setTimeout(function () {
+                refreshData();
+            }, 0)
+        }, 3000);
+
+        $("#top").click(function () {
+            $('body,html').animate({scrollTop: 0}, 1000);
+        });
+
+        $("#clear").click(function () {
+            $("#result").html("");
+            // 清空页面的同时，把缓存中的数据也清除了
+            logList = [];
+        });
+
+        $("#bottom").click(function () {
+            $('body,html').animate({scrollTop: $(document).height()}, 1000);
+        });
+    });
+
+
+    function refreshData() {
+        AjaxUtil.get({
+            url: AjaxUtil.ctx + "sqlmonitor/getWithPolling",
+            success: function (res) {
+                if (res.code === 0) {
+                    let dataList = res.data;
+                    if (dataList && dataList.length > 0) {
+                        for (let item of dataList) {
+                            logList.push(item);
+
+                            let html = "<blockquote class='layui-elem-quote'>"
+                                + "<span>执行sqlId: </span>" + item.sqlId
+                                + "<br><span>sql语句: </span>" + item.sql
+                                + "&nbsp;&nbsp;" + "<a class='layui-btn layui-btn-xs' onclick='copy(\"" + item.logId + "\")'>复制</a>"
+                                + "<br><span>耗时: </span>" + item.time + "ms"
+                                + "</blockquote>";
+
+                            $("#result").append(html);
+                        }
+                    }
+
+                } else {
+                    Message.error(res.message, 1000);
+                }
+            },
+            error: function (error) {
+            }
+        });
+    }
+
+    // 复制到粘贴板
+    function copy (logId) {
+        let obj = logList.find((item) => {
+            return item.logId === logId;
+        });
+
+        // text是待复制的文本
+        let text = obj.sql;
+        // 创建input元素
+        const el = document.createElement('input')
+        // 给input元素赋值需要复制的文本
+        el.setAttribute('readonly', 'readonly')
+        el.setAttribute('value', text)
+        // 将input元素插入页面
+        document.body.appendChild(el)
+        // 解决在ios系统里无法复制的问题
+        el.setSelectionRange(0, 9999)
+        // 选中input元素的文本
+        el.select()
+        // 复制内容到剪贴板
+        document.execCommand('copy')
+        // 删除input元素
+        document.body.removeChild(el)
+        Message.success(1000, '已复制到粘贴板')
+    }
+</script>
+</body>
+</html>

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -77,6 +76,7 @@ public class SqlMonitorController extends BaseController {
     @ApiOperation(value = "轮询请求获取执行sql数据")
     @RequestMapping(value = "/getWithPolling", method = RequestMethod.GET)
     @LogAround("轮询请求获取执行sql数据")
+    @ResponseBody
     public BaseResult getWithPolling() {
         String userKey = getUserKey();
         // 开启sql会话监控
@@ -91,8 +91,7 @@ public class SqlMonitorController extends BaseController {
             for (int i = 0; i < size; i++) {
                 Object result = redisUtil.lLeftPop(redisKey);
                 if (!Objects.isNull(result)) {
-                    Map<String, Object> resultMap = JsonTool.parseMap(result.toString());
-                    list.add(resultMap);
+                    list.add(result);
                 }
             }
         }
