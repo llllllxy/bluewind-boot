@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewind.boot.module.tool.dataset.generalexport.mapper.GeneralExportMapper">
+
+    <resultMap id="Dataset" type="com.bluewind.boot.module.tool.dataset.generalexport.entity.Dataset">
+        <id column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="data_title" jdbcType="VARCHAR" property="dataTitle"/>
+        <result column="is_mrb" jdbcType="VARCHAR" property="isMrb"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="DatasetLine" type="com.bluewind.boot.module.tool.dataset.generalexport.entity.DatasetLine">
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="line_no" jdbcType="INTEGER" property="lineNo"/>
+        <result column="line_name" jdbcType="VARCHAR" property="lineName"/>
+        <result column="line_note" jdbcType="VARCHAR" property="lineNote"/>
+        <result column="data_pattern" jdbcType="VARCHAR" property="dataPattern"/>
+        <result column="data_source" jdbcType="VARCHAR" property="dataSource"/>
+        <result column="sql_info" jdbcType="VARCHAR" property="sqlInfo"/>
+        <result column="bean_info" jdbcType="VARCHAR" property="beanInfo"/>
+    </resultMap>
+
+    <resultMap id="DatasetLineSqlColumn" type="com.bluewind.boot.module.tool.dataset.generalexport.entity.DatasetLineSqlColumn">
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="line_no" jdbcType="INTEGER" property="lineNo"/>
+        <result column="col_id" jdbcType="VARCHAR" property="colId"/>
+        <result column="col_key" jdbcType="VARCHAR" property="colKey"/>
+        <result column="col_name" jdbcType="VARCHAR" property="colName"/>
+        <result column="seq" jdbcType="INTEGER" property="seq"/>
+        <result column="col_data_type" jdbcType="VARCHAR" property="colDataType"/>
+        <result column="decimal_cnt" jdbcType="INTEGER" property="decimalCnt"/>
+        <result column="is_dict" jdbcType="VARCHAR" property="isDict"/>
+        <result column="dict_info" jdbcType="VARCHAR" property="dictInfo"/>
+        <result column="is_organ" jdbcType="VARCHAR" property="isOrgan"/>
+        <result column="organ_info" jdbcType="VARCHAR" property="organInfo"/>
+    </resultMap>
+
+    <sql id="selectDatasetVo">
+        select data_id, data_title, is_mrb, note, create_time, update_time
+        from sys_dataset
+    </sql>
+
+    <sql id="selectDatasetLineVo">
+        select data_id, line_no, line_name, line_note, data_pattern, create_time, update_time, data_source, sql_info, bean_info
+        from sys_dataset_line
+    </sql>
+
+    <sql id="selectDatasetLineSqlColumnVo">
+        select data_id, line_no, col_id, col_key, col_name, create_time, update_time,
+               seq, col_data_type, decimal_cnt, is_dict, dict_info, is_organ, organ_info
+        from sys_dataset_line_sql_column
+    </sql>
+
+    <!--根据dataId查询数据集配置信息-->
+    <select id="getDatasetByDataId" resultMap="Dataset" parameterType="string">
+        <include refid="selectDatasetVo"/>
+        where data_id = #{_parameter} and is_mrb = '1'
+    </select>
+
+    <!--根据dataId查询数据集明细表信息-->
+    <select id="getDatasetLineByDataId" resultMap="DatasetLine" parameterType="string">
+        <include refid="selectDatasetLineVo"/>
+        where data_id = #{_parameter}
+        order by line_no
+    </select>
+
+    <!--根据dataId查询数据集明细表信息-->
+    <select id="getDatasetLineSqlColumnByDataIdAndLineNo" resultMap="DatasetLineSqlColumn"
+            parameterType="com.bluewind.boot.module.tool.dataset.generalexport.entity.DatasetLine">
+        <include refid="selectDatasetLineSqlColumnVo"/>
+        where data_id = #{dataId} and line_no = #{lineNo}
+        order by seq
+    </select>
+
+    <select id="executeSQL" parameterType="string" resultType="map">
+        ${value}
+    </select>
+
+</mapper>

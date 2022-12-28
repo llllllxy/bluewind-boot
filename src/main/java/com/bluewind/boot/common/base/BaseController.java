@@ -8,15 +8,17 @@ import org.slf4j.LoggerFactory;
 /**
  * @author liuxingyu01
  * @date 2021-01-14-13:29
+ * @description 基础控制器，所有的业务控制器要继承于此抽象类
  **/
 public abstract class BaseController {
     private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
+
     public static final String RESULT_ROWS = "rows";
+
     public static final String RESULT_TOTAL = "total";
 
     public BaseController() {
     }
-
 
     /**
      * 获取登录用户
