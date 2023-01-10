@@ -62,9 +62,10 @@ public class PermissionInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }
-        // 获取RequiresPermissions注解
+        // 获取RequiresPermissions注解（先获取方法上的注解）
         RequiresPermissions annotation = ((HandlerMethod) handler).getMethodAnnotation(RequiresPermissions.class);
         if (annotation == null) {
+            // 方法上的注解获取不到，再获取类上的注解
             annotation = ((HandlerMethod) handler).getBeanType().getAnnotation(RequiresPermissions.class);
         }
         // 接口上没有注解，说明这个接口无权限控制，直接通过
