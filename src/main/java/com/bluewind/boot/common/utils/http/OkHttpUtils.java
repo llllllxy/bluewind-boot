@@ -1,5 +1,6 @@
 package com.bluewind.boot.common.utils.http;
 
+import com.bluewind.boot.common.utils.JsonTool;
 import okhttp3.*;
 import okio.BufferedSink;
 import okio.Okio;
@@ -8,8 +9,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,6 +38,7 @@ public class OkHttpUtils {
 
     /**
      * 获取单例的线程池对象（懒汉式单例，有线程安全问题，所以加锁）
+     *
      * @return
      */
     public static OkHttpClient getInstance() {
@@ -90,7 +98,7 @@ public class OkHttpUtils {
             OkHttpClient okHttpClient = OkHttpUtils.getInstance();
             FormBody.Builder formBodyBuilder = new FormBody.Builder();
             // 添加参数
-            log.info("Post - params：{}", params);
+            //log.info("Post - params：{}", params);
             for (Map.Entry<String, String> map : params.entrySet()) {
                 String key = map.getKey();
                 String value;
@@ -107,7 +115,7 @@ public class OkHttpUtils {
             if (response.body() != null && response.isSuccessful()) {
                 result = response.body().string();
             }
-            log.info("Post请求返回：{}", result);
+            //log.info("Post请求返回：{}", result);
             return result;
         } catch (Exception e) {
             log.error("OkHttp[Post]请求异常", e);
@@ -193,6 +201,19 @@ public class OkHttpUtils {
             OkHttpClient okHttpClient = OkHttpUtils.getInstance();
             Request request = new Request.Builder().url(url).build();
             Response response = okHttpClient.newCall(request).execute();
+
+            String dispositionHeader = response.header("Content-Disposition");
+            try {
+                dispositionHeader = java.net.URLDecoder.decode(dispositionHeader, "UTF-8");
+                dispositionHeader = dispositionHeader.split("\"")[1];
+                dispositionHeader = dispositionHeader.replace("*", "&");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            // dispositionHeader = "123456.pdf";
+            savePath = savePath + dispositionHeader;
+
             File file = new File(savePath);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
@@ -213,7 +234,6 @@ public class OkHttpUtils {
     }
 
 
-
     /**
      * Get请求（异步请求示例，暂时）
      *
@@ -228,16 +248,17 @@ public class OkHttpUtils {
                     .url(url)
                     .build();
 
-            okHttpClient.newCall(request).enqueue(new Callback(){
+            okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
-                public void onResponse(Call call,Response response) throws IOException {
+                public void onResponse(Call call, Response response) throws IOException {
                     if (response.body() != null && response.isSuccessful()) {
                         String result = response.body().string();
                         log.info("OkHttp[asyncGet]请求结果：{}", result);
                     }
                 }
+
                 @Override
-                public void onFailure(Call call, IOException e){
+                public void onFailure(Call call, IOException e) {
 
                 }
             });
@@ -248,25 +269,58 @@ public class OkHttpUtils {
     }
 
 
-
     public static void main(String[] args) {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("password", "1");
-        map.put("username", "superadmin");
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+        // 测试爬取下载巨潮资讯网上的财报
+        String url1 = "http://www.cninfo.com.cn/new/hisAnnouncement/query";
+        Map<String, String> params = new HashMap<>();
+        params.put("pageNum", "1");
+        params.put("pageSize", "30");
+        params.put("column", "szse");
+        params.put("tabName", "fulltext");
+        params.put("category", "category_ndbg_szsh");
+        params.put("searchkey", "2019年");
 
-        String get = get("http://10.110.34.64:18098/ldm-lnode-server/sso/local/login?password=1&username=superadmin");
-        log.info("get请求调用成功，返回数据是：" + get);
-        String post = post("http://10.110.34.64:18098/ldm-lnode-server/sso/local/login", map);
-        log.info("post调用成功，返回数据是：" + post);
-        String json = postJson("http://10.110.34.64:18098/ldm-lnode-server/sso/local/login", "{\"name\":\"David\"}");
-        log.info("json发送成功，返回数据是：" + json);
+        params.put("trade", "制造业");
+        params.put("seDate", "2020-01-01~2021-11-24");
+        params.put("isHLtitle", "true");
+        String resutl1 = post(url1, params);
 
-//        String ueueueu = get("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=ww18ca1c72a196320c&corpsecret=3yUH3k2I87x6strRkRlXA5qVXUwNgQ3TW2O64epMtqk");
-//        log.info("返回结果ueueueu：" + ueueueu);
-//
-//        String sss = download("http://upyun.lxyccc.top/halo/article_bg_26_civilization2_4k.jpg", "D:/44dsdsdsds4.jpg");
+        Map resutl1Map = JsonTool.parseMap(resutl1);
+        int totalAnnouncement = Integer.parseInt(resutl1Map.get("totalAnnouncement").toString());
 
+        int pageCounts = totalAnnouncement / 30 + 1;
+
+        try {
+            for (int i = 1; i <= pageCounts; i++) {
+                params.put("pageNum", i + "");
+                String resutl2 = post(url1, params);
+                Map resutl1Ma2 = JsonTool.parseMap(resutl2);
+                List<Map> announcements = (List<Map>) resutl1Ma2.get("announcements");
+                for (Map announcement : announcements) {
+                    String adjunctUrl = announcement.get("adjunctUrl").toString();
+                    String announcementId = announcement.get("announcementId").toString();
+                    String announcementTitle = announcement.get("announcementTitle").toString();
+
+                    if (announcementTitle != null && announcementTitle.contains("2019") && !announcementTitle.contains("摘要")) {
+                        String[] adjunctUrls = adjunctUrl.split("/");
+                        String dateStr = adjunctUrls[1];
+                        String downloadUrl = "http://www.cninfo.com.cn/new/announcement/download?bulletinId=" + announcementId + "&announceTime=" + dateStr;
+                        System.out.println(downloadUrl);
+                        fixedThreadPool.execute(() -> {
+                            // 开启下载
+                            download(downloadUrl, "D:/caibao/");
+                        });
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            log.error("OkHttp[main]运行异常Exception", e);
+        }
+        log.info("OkHttp[asyncGet]分页页数：{}", pageCounts);
+
+        // String sss = download("http://www.cninfo.com.cn/new/announcement/download?bulletinId=1210778491&announceTime=2021-08-19", "D:/caibao/");
     }
-
 
 }
