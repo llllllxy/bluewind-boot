@@ -1,6 +1,7 @@
 package com.bluewind.boot.common.utils;
 
 import com.bluewind.boot.common.utils.lang.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.Base64;
@@ -202,6 +203,30 @@ public class FileUtils {
             extension = "png";
         }
         return extension;
+    }
+
+
+    /**
+     * 判断文件大小是否合法，超过指定大小返回false
+     *
+     * @param file MultipartFile 文件类
+     * @param size 限制大小
+     * @param unit 限制单位（B,K,M,G）
+     */
+    public static boolean fileSizeCheck(MultipartFile file, int size, String unit) {
+        // 获取文件实际大小
+        long len = file.getSize();
+        double fileSize = 0;
+        if ("B".equalsIgnoreCase(unit)) {
+            fileSize = (double) len;
+        } else if ("K".equalsIgnoreCase(unit)) {
+            fileSize = (double) len / 1024;
+        } else if ("M".equalsIgnoreCase(unit)) {
+            fileSize = (double) len / 1048576;
+        } else if ("G".equalsIgnoreCase(unit)) {
+            fileSize = (double) len / 1073741824;
+        }
+        return !(fileSize > size);
     }
 
 
