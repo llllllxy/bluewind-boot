@@ -12,7 +12,7 @@ import java.util.Base64;
 /**
  * @author liuxingyu01
  * @date 2021-09-09-9:43
- * @description AESUtils工具类，使用Builder模式构造
+ * @description AESUtils工具类，使用Builder模式构造（CBC模式，256位密钥）
  **/
 public class AESUtils {
     final static Logger logger = LoggerFactory.getLogger(AESUtils.class);
@@ -20,7 +20,7 @@ public class AESUtils {
     /**
      * 算法/加密模式/填充方式
      */
-    private final static String ALGORITHMSTR = "AES/CBC/PKCS5Padding";
+    private final static String TRANSFORMATION = "AES/CBC/PKCS5Padding";
 
     /**
      * 密钥key（可以16或32字节）（128位密钥/256位密钥，设置256位密钥更难破解）
@@ -87,7 +87,7 @@ public class AESUtils {
         try {
             byte[] raw = sKey.getBytes(StandardCharsets.UTF_8);
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-            Cipher cipher = Cipher.getInstance(ALGORITHMSTR);
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             // 使用CBC模式，需要一个向量iv，可增加加密算法的强度
             IvParameterSpec ips = new IvParameterSpec(ivParameter.getBytes(StandardCharsets.UTF_8));
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ips);
@@ -100,7 +100,7 @@ public class AESUtils {
             }
         } catch (Exception e) {
             logger.error("AESUtils -- encrypt -- Exception=", e);
-            return "";
+            return null;
         }
     }
 
@@ -113,7 +113,7 @@ public class AESUtils {
      */
     public String decrypt(String content) {
         try {
-            Cipher cipher = Cipher.getInstance(ALGORITHMSTR);
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             byte[] raw = sKey.getBytes(StandardCharsets.UTF_8);
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             // 使用CBC模式，需要一个向量iv，可增加加密算法的强度
@@ -128,7 +128,7 @@ public class AESUtils {
             return new String(result, StandardCharsets.UTF_8);
         } catch (Exception e) {
             logger.error("AESUtils -- decrypt -- Exception=", e);
-            return "";
+            return null;
         }
     }
 
@@ -232,18 +232,18 @@ public class AESUtils {
     public static void main(String[] args) throws Exception {
         // 原文:
         String message = "Helloworld!";
-        System.out.println("Message: " + message);
+        System.out.println("原文: " + message);
 
-        // 使用方法
+        // 使用builder构建AESUtils方法
         AESUtils aesUtils = AESUtils.builder().sKey("1G78Av#yej%WZJ3uiSZRz9oy%UAv4AAA").ivParameter("E%BAAAUTvXfwSuGQ").build();
 
         // 加密:
         String encrypted = aesUtils.encrypt(message);
-        System.out.println("加密: " + encrypted);
+        System.out.println("加密后: " + encrypted);
 
         // 解密:
         String decrypted = aesUtils.decrypt(encrypted);
-        System.out.println("解密: " + decrypted);
+        System.out.println("解密后: " + decrypted);
     }
 }
 
