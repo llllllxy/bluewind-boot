@@ -27,8 +27,8 @@ spring:
   # 设置上传文件大小
   servlet:
     multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
+      max-file-size: 200MB
+      max-request-size: 200MB
   # 设置jackson的默认时区
   jackson:
     time-zone: GMT+8
@@ -38,23 +38,23 @@ spring:
     # 该项可以不配置, druid可以通过url自动识别, 如果有多个不同类型的数据源的话此项要省略
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
-      # 主库数据源
+      # 主数据源
       master:
         url: jdbc:mysql://localhost:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(pfmgAA+Eqayq6cs0HUCV/g==)
-        password: ENC(31ptOxoKowtcXsoGKLJhBEnQ==)
+        username: root
+        password: 123654
       # 辅数据源
       slave:
         # 辅数据源开关/默认关闭
         enabled: false
         url: jdbc:mysql://localhost:3306/bluewind-boot-main2?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(kupP2V33DvyE5LQlfxHqOw==)
-        password: ENC(31ptzOxoKsoUfGKLJhBEnQ==)
+        username: root
+        password: 123654
       # quartz数据源(单独配置)
       quartz:
         url: jdbc:mysql://localhost:3306/bluewind-boot-quartz?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-        username: ENC(zK28Jh4/wN3Vww164kkdDw==)
-        password: ENC(3ptzOxoKsouiwlThBEnQ==)
+        username: root
+        password: 123654
       initialSize: 5
       minIdle: 5
       maxActive: 20
@@ -191,7 +191,7 @@ hash:
 # 1、redisson单机模式配置
 redisson:
   address: redis://127.0.0.1:6379
-  password: 123456
+  password: 123654
   timeout: 5000
 # 2、redisson哨兵模式配置
 #redisson:
