@@ -4,7 +4,7 @@
  Source Server         : 个人-阿里云-RDS
  Source Server Type    : MySQL
  Source Server Version : 50738
- Source Host           : rm-bp1l6sit4p21x78608o.mysql.rds.aliyuncs.com:3306
+ Source Host           : rm-.mysql.rds.aliyuncs.com:3306
  Source Schema         : bluewind-boot-main
 
  Target Server Type    : MySQL
