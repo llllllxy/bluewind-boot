@@ -189,12 +189,6 @@ xss:
 hash:
   salt: ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY
 
-# jasypt配置
-jasypt:
-  encryptor:
-    algorithm: PBEWithMD5AndDES #指定解密算法
-    password: ${jasyptPassword:ymp8R3Vg7Kv5$y5fM3*xl&ins7SZcTEY} #加密的密钥，自定义即可，必填项
-
 # 1、redisson单机模式配置
 redisson:
   address: redis://127.0.0.1:6379

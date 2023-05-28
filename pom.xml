@@ -23,7 +23,6 @@
         <druid.version>1.2.8</druid.version>
         <knife4j.version>2.0.5</knife4j.version>
         <swagger-ui>2.9.2</swagger-ui>
-        <jasypt.version>2.1.1</jasypt.version>
         <commons-text.version>1.9</commons-text.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-pool2.version>2.6.0</commons-pool2.version>
@@ -117,13 +116,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- 配置文件加密组件 -->
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.version}</version>
         </dependency>
 
         <!-- mybatis -->
