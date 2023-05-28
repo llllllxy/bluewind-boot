@@ -7300,7 +7300,7 @@ $(function() {
         btnFan();
         $.ajax({
             type: "get",
-            url: baseURL + "sysjob/getNextExecTime",
+            url: baseURL + "job/getNextExecTime",
             dataType: "json",
             data: {
                 CronExpression: $("#cron").val()
