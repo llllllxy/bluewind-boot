@@ -19,7 +19,6 @@
 - mybatis 持久层框架
 - pagehelper mybatis分页插件
 - knife4j swagger-ui接口文档美化方案
-- jasypt 配置文件加密的解决方案
 - itextpdf pdf处理工具包
 - redisson redis分布式锁工具包
 - anji-plus anji-plus行为验证码工具包
@@ -35,11 +34,8 @@
 ### 启动教程
 
 01.  新建数据库并导入sql文件夹下的数据库脚本到MySQL
-02.  如果你不需要使用jasypt加密数据库用户名密码，则直接修改application-dev.yml中MySQL数据库的连接信息即可（ENC部分也替换掉）
-03.  如需加密数据库用户名密码，请使用工具类com.bluewind.boot.common.utils.JasyptUtils进行加密后再配置连接信息（替换掉ENC包裹的部分），
-  然后在application-dev.yml的jasypt.encryptor.password配置处替换为你的私人密钥。
-  jasypt插件的具体使用可参考文章：https://juejin.cn/post/6844904137423847438
-04.  修改配置文件中application-dev.yml中Redis的连接信息
+02.  修改application-dev.yml中MySQL数据库的连接信息
+04.  修改application-dev.yml中Redis（包括redisson）的连接信息
 05.  运行启动类BluewindBootApplication，即可正常启动项目
 
 ### 内置功能
@@ -57,6 +53,7 @@
 02.  业务流水号：配置生成指定规则的业务流水号
 03.  网站配置：配置网站信息
 04.  定时任务调度：基于Qurtaz 在线（添加、修改、删除)任务调度包含执行结果日志
+04.  业务规则管理：管理系统业务规则信息(通用配置)
 
 系统监控
 01.  Druid监控：通过Druid监视当前系统数据库连接池状态
@@ -68,7 +65,7 @@
 邮件服务
 01.  邮件发送：邮件发送共有五种方式，文本、HTML、图片、附件、模板
 
-Itfc服务管理
+itfc服务管理
 01.  服务秘钥：给itfc服务使用方颁发秘钥，用于访问服务时鉴权
 02.  服务权限：给不同的秘钥分配不同的接口权限，保证接口的安全性
 
