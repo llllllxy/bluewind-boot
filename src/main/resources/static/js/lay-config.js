@@ -106,25 +106,74 @@ $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox",
 
 
 /**
- * 设置AJAX的全局默认选项，
- * 当AJAX请求会话过期时，跳转到登陆页面
- */
-$.ajaxSetup({
-    complete: function(XMLHttpRequest, textStatus){
-        if (XMLHttpRequest.responseJSON.code === 401) {
-            layer.alert('会话已过期，请重新登录', function(index){
-                layer.close(index);
-                window.location.href = AjaxUtil.ctx + "admin/login";
-            });
-        }
-    }
-} );
-
-/**
  * 配置layer.open的宽度和高度
  */
 const layerwidth = 800;
 const layerheight = ($(window).height() - 50);
+
+
+/**
+ * 封装AJAX，设置AJAX的全局默认选项，
+ * 当AJAX请求会话过期时，跳转到登录页面
+ */
+var _ajax = $.ajax;
+$.ajax = function (opt) {
+    var fn = {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        },
+        success: function (data, textStatus) {
+        },
+        beforeSend: function (XHR) {
+        },
+        complete: function (XHR, TS) {
+        }
+    };
+    if (opt.error) {
+        fn.error = opt.error;
+    }
+    if (opt.success) {
+        fn.success = opt.success;
+    }
+    if (opt.beforeSend) {
+        fn.beforeSend = opt.beforeSend;
+    }
+    if (opt.complete) {
+        fn.complete = opt.complete;
+    }
+    //扩展增强处理
+    var _opt = $.extend(opt, {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            // 错误方法增强处理
+            fn.error(XMLHttpRequest, textStatus, errorThrown);
+        },
+        // 只有 HTTP 状态码为 200（包括 200-299 范围内）的 Ajax 请求才会触发 success 回调函数
+        // 其他状态码将触发 error 回调函数
+        success: function (res, textStatus) {
+            if (res.code === 401) {
+                layer.alert('会话已过期，请重新登录', function(index){
+                    layer.close(index);
+                    window.location.href = AjaxUtil.ctx + "admin/login";
+                });
+            } else {
+                // 其他返回码不是401的请求，都由各页面自行处理
+                // 成功回调方法增强处理
+                fn.success(res, textStatus);
+            }
+        },
+        beforeSend: function (XHR) {
+            // 设置token
+            // XMLHttpRequest.setRequestHeader("Authorization", sessionStorage.getItem('token'));
+            XHR.setRequestHeader("Powered-By", 'XXX');
+            // 提交前回调方法
+            fn.beforeSend(XHR);
+        },
+        complete: function (XHR, TS) {
+            // 完成后回调方法
+            fn.complete(XHR, TS);
+        }
+    });
+    return _ajax(_opt);
+};
 
 /**
  * Ajax请求封装
