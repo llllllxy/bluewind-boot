@@ -162,8 +162,8 @@ $.ajax = function (opt) {
         },
         beforeSend: function (XHR) {
             // 设置token
-            // XMLHttpRequest.setRequestHeader("Authorization", sessionStorage.getItem('token'));
-            XHR.setRequestHeader("Powered-By", 'XXX');
+            // XHR.setRequestHeader("Authorization", sessionStorage.getItem('token'));
+            XHR.setRequestHeader("Powered-By", 'bluewind-boot');
             // 提交前回调方法
             fn.beforeSend(XHR);
         },
