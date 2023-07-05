@@ -68,16 +68,15 @@
              * 连接一旦建立，就会触发open事件
              * 另一种写法：source.onopen = function (event) {}
              */
-            source.addEventListener('open', function (e) {
-                console.log('open successfully')
-
-            }, false);
+            source.onopen = function (e) {
+                console.log('open successfully');
+            };
 
             /**
              * 客户端收到服务器发来的数据
              * 另一种写法：source.onmessage = function (event) {}
              */
-            source.addEventListener('message', function (e) {
+            source.onmessage = function (e) {
                 console.log('message successfully ', new Date)
                 console.log(e.data)
 
@@ -96,20 +95,20 @@
                         $("#result").append(html);
                     }
                 }
-            });
+            };
 
             /**
              * 如果发生通信错误（比如连接中断），就会触发error事件
              * 或者：
              * 另一种写法：source.onerror = function (event) {}
              */
-            source.addEventListener('error', function (e) {
+            source.onerror = function (e) {
                 if (e.readyState === EventSource.CLOSED) {
                     console.log('连接关闭');
                 } else {
                     console.log(e);
                 }
-            }, false);
+            };
         }
 
 
