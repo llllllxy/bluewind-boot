@@ -159,7 +159,7 @@ public class MapUtils extends org.apache.commons.collections.MapUtils {
     }
 
     /**
-     * 转换为Collection<Map<K, V>>
+     * Collection<T>转换为Collection<Map<K, V>>
      *
      * @param collection 待转换对象集合
      * @return 转换后的Collection<Map<K, V>>
@@ -180,7 +180,7 @@ public class MapUtils extends org.apache.commons.collections.MapUtils {
     }
 
     /**
-     * 转换为Collection,同时为字段做驼峰转换<Map<K, V>>
+     * Collection<T>转换为Collection<Map<K, V>>, 同时为字段做驼峰转换
      *
      * @param collection 待转换对象集合
      * @return 转换后的Collection<Map<K, V>>
@@ -242,5 +242,4 @@ public class MapUtils extends org.apache.commons.collections.MapUtils {
         }
         return newMap;
     }
-
 }
