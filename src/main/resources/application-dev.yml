@@ -40,7 +40,7 @@ spring:
     druid:
       # 主数据源
       master:
-        url: jdbc:mysql://rm-.mysql.rds.aliyuncs.com:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+        url: jdbc:mysql://127.0.0.1:3306/bluewind-boot-main?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
         username: root
         password: 123654
       # 辅数据源
@@ -191,14 +191,16 @@ hash:
 
 # 1、redisson单机模式配置
 redisson:
+  mode: single
   address: redis://127.0.0.1:6379
   password: 123654
   timeout: 5000
 # 2、redisson哨兵模式配置
 #redisson:
-#  master-name: mymaster
+#  mode: sentinel
+#  masterName: mymaster
 #  password: 123654
-#  sentinel-addresses: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
+#  sentinelAddresses: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
 
 # springboot异步线程配置
 async:

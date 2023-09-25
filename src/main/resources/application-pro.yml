@@ -190,14 +190,17 @@ hash:
 
 # 1、redisson单机模式配置
 redisson:
+  mode: single
   address: redis://127.0.0.1:6379
   password: 123654
   timeout: 5000
 # 2、redisson哨兵模式配置
 #redisson:
-#  master-name: mymaster
-#  password: 123456
-#  sentinel-addresses: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
+#  mode: sentinel
+#  masterName: mymaster
+#  password: 123654
+#  sentinelAddresses: 127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381
+
 
 # springboot异步线程配置
 async:
