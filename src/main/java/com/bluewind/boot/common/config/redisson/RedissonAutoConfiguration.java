@@ -84,7 +84,6 @@ public class RedissonAutoConfiguration {
 
 
     /**
-     * 可以直接使用RedissLockUtil工具类，也可以自己在业务层注入，如下所示
      * 下面是使用示例代码块，请不要放开注释
      */
 //    @Autowired
