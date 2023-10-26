@@ -1,5 +1,11 @@
 # bluewind-boot
 
+![SpringBoot](https://img.shields.io/badge/springboot-2.2.12.RELEASE-green.svg?style=flat-square)
+<a href="https://github.com/llllllxy/bluewind-boot/stargazers"><img src="https://img.shields.io/github/stars/llllllxy/bluewind-boot?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/bluewind-boot/network/members"><img src="https://img.shields.io/github/forks/llllllxy/bluewind-boot?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/bluewind-boot/watchers"><img src="https://img.shields.io/github/watchers/llllllxy/bluewind-boot?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/bluewind-boot/issues"><img src="https://img.shields.io/github/issues/llllllxy/bluewind-boot.svg?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/bluewind-boot/blob/master/LICENSE"><img src="https://img.shields.io/github/license/llllllxy/bluewind-boot.svg?style=flat-square"></a>
 <a href='https://gitee.com/leisureLXY/bluewind-boot/stargazers'><img src='https://gitee.com/leisureLXY/bluewind-boot/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/leisureLXY/bluewind-boot/members'><img src='https://gitee.com/leisureLXY/bluewind-boot/badge/fork.svg?theme=dark' alt='fork'></img></a>
 
@@ -86,7 +92,3 @@ itfc服务管理
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194808_fc3af25b_5304908.png "Druid监控20210928190607.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194821_57606555_5304908.png "服务秘钥20210928190345.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0928/194834_97216cc4_5304908.png "服务权限20210928190403.png")
-### bluewind-boot
-
-[![leisureLXY/bluewind-boot](https://gitee.com/leisureLXY/bluewind-boot/widgets/widget_card.svg?colors=ffffff,1e252b,323d47,455059,d7deea,99a0ae)](https://gitee.com/leisureLXY/bluewind-boot)
-
