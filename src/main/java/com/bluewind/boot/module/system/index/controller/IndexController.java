@@ -77,6 +77,7 @@ public class IndexController extends BaseController {
     @RequestMapping(value = "/menuInit", method = RequestMethod.GET)
     @ResponseBody
     public Object menuInit() {
+        // 这里使用的是用户的token做的缓存，所以修改菜单后，需要用户重新登录
         String userKey = SecurityUtil.getUserKey();
 
         // 先从redis里面拿出菜单信息，拿不到的话，再去手动查询
