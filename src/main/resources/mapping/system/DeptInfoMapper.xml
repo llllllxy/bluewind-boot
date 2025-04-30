@@ -43,8 +43,8 @@
             <if test="deptName != null and deptName != ''">dept_name,</if>
             <if test="leader != null and leader != ''">leader,</if>
             <if test="orderNum != null">order_num,</if>
-            <if test="phone != null and leader != ''">phone,</if>
-            <if test="email != null and leader != ''">email,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="email != null and email != ''">email,</if>
             <if test="status != null and status != ''">status,</if>
             <if test="delFlag != null and delFlag != ''">del_flag,</if>
             <if test="createUser != null and createUser != ''">create_user,</if>
